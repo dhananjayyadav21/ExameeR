@@ -14,8 +14,8 @@ const Home = () => {
                 academic success</p>
                 <input className='p-2 rounded-4 col-8' type="text" placeholder="Search for Notes..."/>
                 <div className='d-flex gap-3 justify-content-center mt-3'>
-                <button type="button" className="btn btn-warning px-4 rounded-3"><Link className='nav-link' to="/login">Login</Link></button>
-                <button type="button" className="btn btn-warning px-4 rounded-3"><Link className='nav-link' to="/register">Register</Link></button>
+                <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
+                <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>
                 </div> 
               </div>
 

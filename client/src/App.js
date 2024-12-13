@@ -5,8 +5,10 @@ import Notes from "./components/Notes";
 import QPaper from "./components/QPaper";
 import Video from "./components/Video";
 import Home from "./pages/Home";
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Auth from "./pages/Auth";
+
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           <Route path="/notes" element={<Notes />} />
           <Route path="/Q-paper" element={<QPaper />} />
           <Route path="/video" element={<Video />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>

@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+.btn-green{
+   background: #04bd20;
+   color: white;
+   font-weight: 700;
+}
 /*======================================================== scrollBar ===========================================================*/
 
 .scrollable {
@@ -90,7 +95,6 @@ code {
 }
 
 /*============================================================== video section  ==================================================*/
-
 .sidebar-VideoSection{
   background: #e1e1e1;
   height: 90.8vh;
@@ -100,6 +104,11 @@ code {
   background: #f3f3f3;
   height: 90.8vh;
   overflow: auto;
+}
+
+/*============================================================== Auth section  ==================================================*/
+.Auth-header{
+   background: #f0f0f0;
 }
 
 @media only screen and (max-width: 400px) {
