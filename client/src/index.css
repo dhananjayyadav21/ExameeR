@@ -52,6 +52,12 @@ form label{
   color: black;
 }
 
+.profile-img{
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgb(203, 203, 203);
+}
+
 .MobileBar{
   position: relative;
   top:0.5vh;

@@ -19,24 +19,39 @@ const Navbar = () => {
         <div className="container-fluid fs-6">
                 
             <Link className="nav-text navbar-brand mt-0" to="/"><img src="assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
-            <span><i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none`} onClick={openMobileBar} ></i></span>
+            <span><i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none`} onClick={openMobileBar} ></i>
+            </span>
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item dropdown">  
-                    <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i className="fa-solid fa-layer-group m-2"></i>Category
-                    </a>
-                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
-                        <li><a className="dropdown-item" href="/">Commerce</a></li>
-                        <li><a className="dropdown-item" href="/">Arts & civils</a></li>
-                    </ul>
+                   <li className="nav-item dropdown">  
+                        <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i className="fa-solid fa-layer-group m-2"></i>Category
+                        </a>
+                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
+                            <li><a className="dropdown-item" href="/">Commerce</a></li>
+                            <li><a className="dropdown-item" href="/">Arts & civils</a></li>
+                        </ul>
                     </li>
                 </ul>
 
-                <div className="d-flex">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
+                <div>
+                    <ul className="navbar-nav me-auto d-flex align-items-center">
+
+                        <li className="nav-item dropdown">  
+                            <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div><img  className='profile-img rounded-circle' src="assets/img/Front.png" alt="" /></div>
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a className="dropdown-item" href="/">My Learning</a></li>
+                                <li><a className="dropdown-item" href="/">Edit Profile</a></li>
+                                <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                                <li><hr className="dropdown-divider"/></li>
+                                <li><a className="dropdown-item" href="/"><button className='btn btn-dark w-100'>Dashboard</button></a></li>
+                            </ul>
+                        </li>
+
                         <li className="nav-item">
                         <Link className="nav-text nav-link " to="/notes">Notes</Link>
                         </li>
@@ -56,21 +71,34 @@ const Navbar = () => {
     </nav>    
 
     {/*====================================================== mobilebar =======================================================*/}
-    <div className={` MobileBar p-4 d-flex d-${display}`}>
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ">
+    <div className={` MobileBar p-2 d-flex d-${display}`}>
+        <div className="navbar-nav me-auto mb-2 mb-lg-0 ">
             
-            <div className='d-flex justify-content-between'style={{width:"90vw"}}>
-                <li className="nav-item dropdown">  
-                <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i className="fa-solid fa-layer-group mx-2"></i>Category
+            <div className='d-flex justify-content-between align-items-center'style={{width:"90vw"}}>
+                <div className="nav-item dropdown">  
+                    <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i className="fa-solid fa-layer-group mx-2"></i>Category
+                    </a>
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
+                        <li><a className="dropdown-item" href="/">Commerce</a></li>
+                        <li><a className="dropdown-item" href="/">Arts & civils</a></li>
+                    </ul>
+                </div>
+                <i className="fa-solid fa-xmark" onClick={closeMobileBar}></i>
+            </div>
+
+            <div className="nav-item dropdown">  
+                <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div><a className="dropdown-item" href="/"><button className='btn btn-dark w-100'>Manage Acount</button></a></div>
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
-                    <li><a className="dropdown-item" href="/">Commerce</a></li>
-                    <li><a className="dropdown-item" href="/">Arts & civils</a></li>
+                    <li><a className="dropdown-item" href="/">My Learning</a></li>
+                    <li><a className="dropdown-item" href="/">Edit Profile</a></li>
+                    <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                    <li><hr className="dropdown-divider"/></li>
+                    <li><a className="dropdown-item" href="/"><button className='btn btn-dark w-100'>Dashboard</button></a></li>
                 </ul>
-                </li>
-                <i className="fa-regular fa-circle-xmark align-self-center" onClick={closeMobileBar}></i>
             </div>
 
              <div onClick={closeMobileBar}>
@@ -87,7 +115,7 @@ const Navbar = () => {
                 <Link className="nav-text nav-link" to="/Q-paper"><i className="fa-regular fa-paste mx-2"></i> Q-Paper</Link>
                 </li>
              </div>
-        </ul>
+        </div>
     </div>
 
     </>
