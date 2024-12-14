@@ -12,7 +12,7 @@ const Home = () => {
                 <p>We provide a comprehensive collection of notes, previous year question papers, and specialized courses to
                 enhance your exam preparation. Our resources are designed to assist all college students in achieving
                 academic success</p>
-                <input className='p-2 rounded-4 col-8' type="text" placeholder="Search for Notes..."/>
+                <input className='p-2 rounded-4 col-11 col-md-8' type="text" placeholder="Search for Notes..."/>
                 <div className='d-flex gap-3 justify-content-center mt-3'>
                 <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
                 <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>

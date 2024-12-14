@@ -70,21 +70,21 @@ const Navbar = () => {
                     <li><a className="dropdown-item" href="/">Arts & civils</a></li>
                 </ul>
                 </li>
-                <i class="fa-regular fa-circle-xmark align-self-center" onClick={closeMobileBar}></i>
+                <i className="fa-regular fa-circle-xmark align-self-center" onClick={closeMobileBar}></i>
             </div>
 
              <div onClick={closeMobileBar}>
                 <li className="nav-item">
-                <Link className="nav-text nav-link " to="/notes"><i class="fa-solid fa-note-sticky mx-2"></i> Notes</Link>
+                <Link className="nav-text nav-link " to="/notes"><i className="fa-solid fa-note-sticky mx-2"></i> Notes</Link>
                 </li>
                 <li className="nav-item">
-                <Link className="nav-text nav-link " to="/cources"><i class="fa-solid fa-tv mx-2"></i> Cources</Link>
+                <Link className="nav-text nav-link " to="/cources"><i className="fa-solid fa-tv mx-2"></i> Cources</Link>
                 </li>
                 <li className="nav-item">
-                <Link className="nav-text nav-link " to="/video"><i class="fa-solid fa-photo-film mx-2"></i> Video</Link>
+                <Link className="nav-text nav-link " to="/video"><i className="fa-solid fa-photo-film mx-2"></i> Video</Link>
                 </li>
                 <li className="nav-item">
-                <Link className="nav-text nav-link" to="/Q-paper"><i class="fa-regular fa-paste mx-2"></i> Q-Paper</Link>
+                <Link className="nav-text nav-link" to="/Q-paper"><i className="fa-regular fa-paste mx-2"></i> Q-Paper</Link>
                 </li>
              </div>
         </ul>

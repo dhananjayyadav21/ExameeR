@@ -17,6 +17,10 @@ code {
    color: white;
    font-weight: 700;
 }
+
+form label{
+  font-weight:600;
+}
 /*======================================================== scrollBar ===========================================================*/
 
 .scrollable {
@@ -123,7 +127,7 @@ code {
   }
 
   .notes-heroSection h2{
-    font-size: medium;
+    font-size: large;
   }
 
   .sidebar-Qpaper{

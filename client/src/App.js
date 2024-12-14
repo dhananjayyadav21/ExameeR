@@ -7,6 +7,8 @@ import Video from "./components/Video";
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ForgotPassword from "./components/ForgotPassword";
+import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
 
 
@@ -23,6 +25,8 @@ function App() {
           <Route path="/auth" element={<Auth />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/verifyEmail" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>
     </>
