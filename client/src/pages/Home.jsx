@@ -29,16 +29,11 @@ const Home = () => {
                 <img className='front-img' src="assets/img/Front.png" alt="Front Examee" />
             </div>
         </div> 
-      </section>
-
-     <div className='container col-11 my-5'>
-      <hr className='home-banner-section'/>
-     </div>
-    
+      </section>    
 
       {/*========================================== New And Latest Cources Section============================================*/}
       <section className='container my-5'>
-        <div className='text-center'>
+        <div className='text-center home-banner-section'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
           <h1 className='fw-bolder'>Our Latest Featured Cources</h1>
           <p>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br/>
