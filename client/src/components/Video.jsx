@@ -3,28 +3,7 @@ import VideoItem from "./VideoItem"
 
 const Video = () => {
 
-    let Aarr = [
-
-        {
-    
-        },
-        {
-    
-        },
-        {
-    
-        },
-    
-        {
-    
-        },
-        {
-    
-        },
-        {
-    
-        }
-      ]
+    let Aarr = [ {},{},{},{},{},{},]
 
   return (
     <>

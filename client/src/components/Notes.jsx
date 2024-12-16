@@ -3,28 +3,7 @@ import NotesIteam from "./NotesItem.jsx"
 
 const Notes = () => {
 
-  let Aarr = [
-
-    {
-
-    },
-    {
-
-    },
-    {
-
-    },
-
-    {
-
-    },
-    {
-
-    },
-    {
-
-    }
-  ]
+  let Aarr = [ {},{},{},{},{},{},]
 
   console.log(Aarr);
 

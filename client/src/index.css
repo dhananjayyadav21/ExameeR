@@ -18,9 +18,43 @@ code {
    font-weight: 700;
 }
 
+.purple{
+  color: #7b08a8;
+}
+
+.green{
+  background: #49c402;
+  color: white;
+}
+
+.Home-Products-Section{
+  background: #6101af;
+  color: white;
+}
+
+.Home-Products-Section h1{
+  font-weight: bold;
+}
+
+.home-banner-section{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.Qp-get-cources-btn-container{
+  position: relative;
+}
+
+.Qp-get-cources-btn{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+}
+
 form label{
   font-weight:600;
 }
+
 /*======================================================== scrollBar ===========================================================*/
 
 .scrollable {
@@ -121,9 +155,17 @@ form label{
    background: #f0f0f0;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
   .front-img{
     width: 200px;
+  }
+
+  .mobile-h{
+    font-size: medium;
+  }
+  
+  .mobile-btn-fs{
+    font-size:x-small
   }
 }
 

@@ -3,28 +3,7 @@ import QPaperItem from "./QPaperItem.jsx"
 
 const QPaper = () => {
 
-    let Aarr = [
-
-        {
-    
-        },
-        {
-    
-        },
-        {
-    
-        },
-    
-        {
-    
-        },
-        {
-    
-        },
-        {
-    
-        }
-      ]
+    let Aarr = [ {},{},{},{},{},{},]
 
   return (
     <>
@@ -32,8 +11,9 @@ const QPaper = () => {
             <div className="row g-4">
 
                 {/*=========================================== left container ===========================================*/}
-                <div className="col-12 col-md-3 sidebar-Qpaper">
-                    <div>
+                <div className="col-12 col-md-3 sidebar-Qpaper Qp-get-cources-btn-container">
+                    <div className="container Qp-get-cources-btn">
+                    <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><a className='nav-link' href="/">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></a></button>
                     </div>
                 </div>
 
