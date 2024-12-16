@@ -32,8 +32,8 @@ const Home = () => {
       </section>    
 
       {/*========================================== New And Latest Cources Section============================================*/}
-      <section className='container my-5'>
-        <div className='text-center home-banner-section'>
+      <section className='container my-5 home-banner-section'>
+        <div className='text-center'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
           <h1 className='fw-bolder'>Our Latest Featured Cources</h1>
           <p>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br/>
