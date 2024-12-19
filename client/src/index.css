@@ -1,0 +1,245 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.btn-green{
+   background: #04bd20;
+   color: white;
+   font-weight: 700;
+}
+
+.purple{
+  color: #7b08a8;
+}
+
+.green{
+  background: #49c402;
+  color: white;
+}
+
+.p-gray{
+  color: rgb(91, 91, 91);
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.card-transition{
+  transition: transform 0.3s ease;
+}
+
+.card-transition:hover {
+  transform: scale(1.05);
+}
+
+/*======================================================== home pages ================================================*/
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #06121c, #271a31);
+  color: white;
+}
+
+
+.Home-Products-Section{
+  background: #6101af;
+  color: white;
+}
+
+.Home-Products-Section h1{
+  font-weight: bold;
+}
+
+.home-banner-section{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.Qp-get-cources-btn-container{
+  position: relative;
+}
+
+.Qp-get-cources-btn{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+}
+
+form label{
+  font-weight:600;
+}
+
+/*======================================================== scrollBar ===========================================================*/
+
+.scrollable {
+  overflow-y: scroll;
+}
+
+/* Slim scrollbar styling for WebKit browsers */
+.scrollable::-webkit-scrollbar {
+  width: 2px; /* Slim width */
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb hover color */
+}
+
+/* Slim scrollbar styling for Firefox */
+.scrollable {
+  scrollbar-width: thin; /* Slim width */
+  scrollbar-color: #888 #e0e0e0; /* Thumb and track colors */
+}
+
+
+/*=====================================================  navbar custom css ======================================================*/
+.nav-color{
+  background-color:rgb(255, 255, 255);
+}
+
+.nav-text{
+  color: black;
+}
+
+.profile-img{
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgb(203, 203, 203);
+}
+
+.MobileBar{
+  position: relative;
+  top:0.5vh;
+  right: 0;
+  height: 90vh;
+  width: 100vw;
+  background: #e7e7e7;
+}
+
+
+/*=========================================================== notes component css ==============================================*/
+.notes-heroSection{
+  background: #e58fff;
+}
+.notes-span-section{
+  color: rgb(255, 255, 255);
+}
+.notes-item{
+  background: #fafcfd;
+}
+
+
+/*============================================================= Q-paper css ===================================================*/
+.sidebar-Qpaper{
+  background: #e1e1e1;
+  height: 90.8vh;
+}
+
+.main-Qpaper{
+  background: #f3f3f3;
+  height: 90.8vh;
+  overflow: auto;
+}
+
+.Qpaper-heroSection{
+  background: #e58fff;
+}
+
+.Qpaper-span-section{
+  color: rgb(255, 255, 255);
+}
+
+.qp-item{
+  background: #fafcfd;
+}
+
+/*============================================================== video section  ==================================================*/
+.sidebar-VideoSection{
+  background: #e1e1e1;
+  height: 90.8vh;
+}
+
+.main-VideoSection{
+  background: #f3f3f3;
+  height: 90.8vh;
+  overflow: auto;
+}
+
+/*============================================================== Auth section  ==================================================*/
+.Auth-header{
+   background: #f0f0f0;
+}
+
+@media only screen and (max-width: 500px) {
+  .front-img{
+    width: 200px;
+  }
+
+  .mobile-h{
+    font-size: medium;
+  }
+  
+  .mobile-btn-fs{
+    font-size:x-small
+  }
+}
+
+
+/*========================================================== footer section ============================================*/
+.footer{
+  background:#06121c;
+  color: rgb(255, 255, 255);
+}
+
+.footer a:hover {
+  color: #06b621;
+}
+
+
+
+/*=========================================================== media Queri ===============================================*/
+@media only screen and (max-width: 770px) {
+  .notes-heroSection{
+    font-size: x-small;
+  }
+
+  .notes-heroSection h2{
+    font-size: large;
+  }
+
+  .sidebar-Qpaper{
+   display: none;
+  }
+
+  .Qpaper-heroSection{
+    font-size: x-small;
+  }
+
+  .Qpaper-heroSection h2{
+     font-size: medium;
+  }
+
+  .Qpaper-heroSection  button{
+    font-size: x-small;
+ }
+
+  .sidebar-VideoSection{
+    height: auto;
+    background: #f3f3f3;
+  }
+  
+}
+
