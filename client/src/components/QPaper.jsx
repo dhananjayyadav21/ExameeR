@@ -1,5 +1,6 @@
 import React from "react";
 import QPaperItem from "./QPaperItem.jsx"
+import Footer from "./Footer.jsx";
 
 const QPaper = () => {
 
@@ -64,6 +65,11 @@ const QPaper = () => {
 
             </div>
         </div>
+
+        {/* ====================================== footer ================================================================= */}
+        <footer className="footer text-center py-4">
+            <Footer/>
+        </footer>
     </>
   );
 };

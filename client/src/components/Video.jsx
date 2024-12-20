@@ -1,5 +1,6 @@
 import React from 'react'
 import VideoItem from "./VideoItem"
+import Footer from './Footer'
 
 const Video = () => {
 
@@ -7,7 +8,7 @@ const Video = () => {
 
   return (
     <>
-         <div className="container-fluid">
+        <div className="container-fluid">
             <div className="row g-4">
 
                 {/*=========================================== left container ===========================================*/}
@@ -58,6 +59,11 @@ const Video = () => {
 
             </div>
         </div>
+
+        {/* ====================================== footer ================================================================= */}
+        <footer className="footer text-center py-4">
+            <Footer/>
+        </footer>
     </>
   )
 }
