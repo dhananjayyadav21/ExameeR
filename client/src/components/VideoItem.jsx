@@ -4,7 +4,7 @@ const VideoItem = () => {
   return (
     <>
      <div className="col-12 col-sm-6 col-md-4">
-       <div className="card card-transition">
+       <div className="card card-transition shadow-sm">
             <img className="card-img-top" src="assets/img/DSA.jpg" alt="Cardcap" style={{width:"100%"}}/>
             <div className="card-body">
                 <h5 className="card-title">Card title</h5>
