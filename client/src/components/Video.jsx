@@ -26,10 +26,10 @@ const Video = () => {
 
                 {/*=========================================== right container ===========================================*/}
                 <div className="col-12 col-md-9 main-VideoSection scrollable">
-                   <div className="container p-4">
+                   <div className="p-4">
                         {/*========= video Section =============*/}
                         <div>
-                            <div className="container mt-2 d-flex justify-content-end">
+                            <div className="mt-2 d-flex justify-content-end">
                                 <div className="col-4 col-sm-3 col-md-4 col-lg-2 text-center">
                                     <a className="nav-text nav-link p-1 border border-dark border-1 rounded-2 " href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort By <i className="fa-solid fa-sort"></i>
@@ -47,7 +47,7 @@ const Video = () => {
                                 </div>
                             </div> 
 
-                            <div className="container mt-2">
+                            <div className="mt-2">
                                 <div className="row g-4">
                                 {Aarr.map((e,index)=> <VideoItem key={index}/>)}
                                 </div>
