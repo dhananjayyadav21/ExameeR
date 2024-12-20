@@ -54,7 +54,7 @@ const QPaper = () => {
 
                             <div className="container mt-2">
                                 <div className="row g-4">
-                                {Aarr.map((e)=> <QPaperItem/>)}
+                                {Aarr.map((e,index)=> <QPaperItem key={index}/>)}
                                 </div>
                             </div>
 

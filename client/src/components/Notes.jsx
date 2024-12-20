@@ -42,7 +42,7 @@ const Notes = () => {
 
           <div className="container mt-2">
             <div className="row g-4">
-              {Aarr.map((e)=> <NotesIteam/>)}
+              {Aarr.map((e,index)=> <NotesIteam key={index}/>)}
             </div>
           </div>
       </div>   
