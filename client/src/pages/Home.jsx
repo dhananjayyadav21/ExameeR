@@ -78,7 +78,7 @@ const Home = () => {
           Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
         <div className='container align-items-center'>
-            <div className="container row g-4 mt-4">{arr.map((e)=> <VideoIteam/>)}</div>
+            <div className="container row g-4 mt-4">{arr.map((e,index)=> <VideoIteam key={index}/>)}</div>
         </div>
       </section>
 
@@ -114,7 +114,7 @@ const Home = () => {
           Examee's has been designing and developing s Study Material from more than 2 years</p>
         </div>
         <div className='container align-items-center mt-5'>
-            <div className="container row g-4">{arr.map((e)=> <NotesIteam/>)}</div>
+            <div className="container row g-4">{arr.map((e,index)=> <NotesIteam key={index}/>)}</div>
         </div>
       </section>
 
@@ -129,19 +129,19 @@ const Home = () => {
 
 
       {/*==================================================== Testimonial Card 3 ==============================================*/}
-      <div class="container my-5">
-        <h2 class="fw-bolder text-center my-3">Our Testimonials</h2>
+      <div className="container my-5">
+        <h2 className="fw-bolder text-center my-3">Our Testimonials</h2>
         <p className='text-center p-gray mb-5'>Trusted By Thousands  ||  Why People Love Us  ||  Your Feedback, Our Pride</p>
-        <div class="row justify-content-center g-4">
+        <div className="row justify-content-center g-4">
          
-         {testimonals.map((user)=>
-             <TestimonialCard  img={user.img} name={user.name} role={user.role} description={user.description}/>)}
+         {testimonals.map((user,index)=>
+             <TestimonialCard key={index} img={user.img} name={user.name} role={user.role} description={user.description}/>)}
         </div>
       </div>
 
 
       {/* ====================================== footer ================================================================= */}
-      <footer class="footer text-center py-4">
+      <footer className="footer text-center py-4">
          <Footer/>
       </footer>
 

@@ -6,13 +6,13 @@ const TestimonialCard = (props) => {
 
   return (
     <>
-        <div class="col-md-4">
-            <div class="card card-transition shadow-sm text-center">
-                <img src={img} class="rounded-circle mx-auto mt-3 shadow border border-3" alt="Emily Johnson" style={{width:"100px", height:"100px"}}/>
-                <div class="card-body">
-                <h5 class="card-title">{name}</h5>
-                <p class="text-muted">{role}</p>
-                <p class="card-text">{description}</p>
+        <div className="col-md-4">
+            <div className="card card-transition shadow-sm text-center">
+                <img src={img} className="rounded-circle mx-auto mt-3 shadow border border-3" alt="Emily Johnson" style={{width:"100px", height:"100px"}}/>
+                <div className="card-body">
+                <h5 className="card-title">{name}</h5>
+                <p className="text-muted">{role}</p>
+                <p className="card-text">{description}</p>
                 </div>
             </div>
         </div>

@@ -48,7 +48,7 @@ const Video = () => {
 
                             <div className="container mt-2">
                                 <div className="row g-4">
-                                {Aarr.map((e)=> <VideoItem/>)}
+                                {Aarr.map((e,index)=> <VideoItem key={index}/>)}
                                 </div>
                             </div>
 
