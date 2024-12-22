@@ -50,8 +50,8 @@ code {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, #06121c, #271a31);
-  color: white;
+  /* background: linear-gradient(135deg, #06121c, #271a31); */
+  /* color: white; */
 }
 
 
@@ -176,6 +176,10 @@ form label{
   background: #f3f3f3;
   height: 90.8vh;
   overflow: auto;
+}
+
+.video-item{
+  background: #fafcfd;
 }
 
 /*============================================================== Auth section  ==================================================*/

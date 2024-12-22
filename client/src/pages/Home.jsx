@@ -76,7 +76,7 @@ const Home = () => {
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br/>
           Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
-        <div className='mt-5'>
+        <div className='mt-2 mt-md-5'>
             <div className="row g-4 mt-4">{arr.map((e,index)=> <VideoIteam key={index}/>)}</div>
         </div>
       </section>
@@ -131,8 +131,7 @@ const Home = () => {
       <div className="container my-5">
         <h2 className="fw-bolder text-center my-3">Our Testimonials</h2>
         <p className='text-center p-gray mb-5'>Trusted By Thousands  ||  Why People Love Us  ||  Your Feedback, Our Pride</p>
-        <div className="row justify-content-center g-4">
-  
+        <div className="row justify-content-center g-4 px-3">
          {testimonals.map((user,index)=>
              <TestimonialCard key={index} img={user.img} name={user.name} role={user.role} description={user.description}/>)}
         </div>
