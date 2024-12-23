@@ -186,6 +186,24 @@ form label{
   background: #fafcfd;
 }
 
+/*============================================================== Cources section  ==================================================*/
+.Play-btn{
+  background: #cc0000;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.Play-btn i{
+  color: rgb(0, 0, 0);
+}
+
 /*============================================================== Auth section  ==================================================*/
 .Auth-header{
    background: #f0f0f0;
