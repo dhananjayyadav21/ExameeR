@@ -25,13 +25,13 @@ const Navbar = () => {
              {/* Brand-Logo For App */}
             <Link className="nav-text navbar-brand mt-0" to="/"><img src="assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
      
-            {/* Hamburger and profile icon for MobileBar */}
             <span className='d-flex gap-3'>
+                {/* profile icon for MobileBar */}
                 <div className="nav-item dropdown d-lg-none">  
                     <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <div><img  className='profile-img rounded-circle' src="assets/img/Front.png" alt="" /></div>
                     </a>
-                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul className="dropdown-menu mt-5" style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                         <li><a className="dropdown-item" href="/">My Learning</a></li>
                         <li><a className="dropdown-item" href="/">Edit Profile</a></li>
                         <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
@@ -46,7 +46,6 @@ const Navbar = () => {
             
              {/* Colaps item Below Lg Screen */}
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-
                 {/* category filter for diffrent streems */}
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                    <li className="nav-item dropdown">  
@@ -60,7 +59,6 @@ const Navbar = () => {
                         </ul>
                     </li>
                 </ul>
-                
                 {/* profile, Notes, Cource, Videos, Q-paper */}
                 <div>
                     <ul className="navbar-nav me-auto d-flex align-items-center">
@@ -107,7 +105,6 @@ const Navbar = () => {
                     <li><a className="dropdown-item" href="/">Arts & civils</a></li>
                 </ul>
             </div>
-
             {/* Notes, Cource, Videos, Q-paper */}
             <div onClick={closeMobileBar}>
                 <li className="nav-item">

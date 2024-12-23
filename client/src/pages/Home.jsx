@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import VideoIteam from '../components/VideoItem'
+import CourceIteam from '../components/CourceIteam'
 import NotesIteam from '../components/NotesItem'
 import Footer from '../components/Footer'
 import TestimonialCard from '../components/TestimonialCard'
@@ -47,7 +47,7 @@ const Home = () => {
           
       {/*================================================ home-main-section =================================================*/}
       <section className='hero'>
-        <section className='container-lg mx-md-3 mt-md-5'>
+        <section className='container-lg mx-md-3 my-md-5'>
           <div className='row rounded-4 p-md-4 bg-light'>
               <div className='col-12 col-md-6 text-md-start px-lg-4 my-5'>
                   <h1 className='fw-bold'>Discover Your <span className='green'>Notes & Cources</span></h1>
@@ -83,8 +83,8 @@ const Home = () => {
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br/>
           Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
-        <div className='mt-2 mt-md-5'>
-            <div className="row g-4 mt-4">{arr.map((e,index)=> <VideoIteam key={index}/>)}</div>
+        <div className='mt-2 mt-md-3'>
+            <div className="row g-4 mt-4">{arr.map((e,index)=> <CourceIteam key={index}/>)}</div>
         </div>
       </section>
 
