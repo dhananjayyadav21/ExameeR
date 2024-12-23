@@ -4,6 +4,7 @@ import VideoIteam from '../components/VideoItem'
 import NotesIteam from '../components/NotesItem'
 import Footer from '../components/Footer'
 import TestimonialCard from '../components/TestimonialCard'
+import { ReactTyped } from "react-typed";
 
 const Home = () => {
 
@@ -40,28 +41,34 @@ const Home = () => {
       "img": "https://th.bing.com/th/id/OIP.q-B2ThvnC9isZGodVyFKCAHaHZ?rs=1&pid=ImgDetMain"
     }
   ]
-  
 
   return (
     <div>
-      
+          
       {/*================================================ home-main-section =================================================*/}
       <section className='hero'>
-        <section className='container-md'>
-          <div className='row text-center my-5'>
-              <div className='col-12 col-md-6 py-4'>
-                  <h2>Discover Your <span style={{color:"green"}}>Notes & Cources</span></h2>
+        <section className='container-lg mx-md-3 mt-md-5'>
+          <div className='row rounded-4 p-md-4 bg-light'>
+              <div className='col-12 col-md-6 text-md-start px-lg-4 my-5'>
+                  <h1 className='fw-bold'>Discover Your <span className='green'>Notes & Cources</span></h1>
+                  <h3>Search Our <span className='green'>
+                  <ReactTyped strings={[
+                    "Notes",
+                    "Q-Paper",
+                    "Lectures",
+                    "Cources", ]} typeSpeed={40} backSpeed={50} loop/></span>
+                  </h3>
                   <p>We provide a comprehensive collection of notes, previous year question papers, and specialized courses to
                   enhance your exam preparation. Our resources are designed to assist all college students in achieving
                   academic success</p>
-                  <input className='p-2 rounded-4 col-11 col-md-8 mt-0 my-3' type="text" placeholder="Search for Notes..."/>
-                  <div className='d-flex gap-3 justify-content-center'>
+                  <input className='p-2 rounded-5 col-11 col-md-8 mt-0 my-3' type="text" placeholder="Search for Notes..."/>
+                  <div className='d-flex gap-2 justify-content-center justify-content-md-start'>
                   <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
                   <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>
                   </div> 
                 </div>
 
-              <div className='col-12 col-md-6 py-4'>
+              <div className='col-12 col-md-6 rounded-4 my-4'>
                   <img className='front-img' src="assets/img/Front.png" alt="Front Examee" />
               </div>
           </div> 
@@ -120,7 +127,7 @@ const Home = () => {
 
        {/*=============================================== Get Offers Section ============================================*/}
        <section className='container-fluid'>
-        <div className='p-md-5 p-4 rounded-2 d-sm-flex justify-content-between align-items-center green text-center home-banner-section'>
+        <div className='p-md-5 p-4 rounded-2 d-sm-flex justify-content-between align-items-center green-bg text-center home-banner-section'>
           <h1 className='fw-bolder mb-2 my-sm-0'>Try With Latest Offers</h1>
           <button className='btn btn-warning mt-2 my-sm-0'> <a className='nav-link' href="/">Get New Offesrs<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></a></button>
         </div>
@@ -142,7 +149,7 @@ const Home = () => {
       <footer className="footer text-center py-4">
          <Footer/>
       </footer>
-
+      
 
     </div>
   )

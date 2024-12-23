@@ -23,6 +23,10 @@ code {
 }
 
 .green{
+  color: #44af06;
+}
+
+.green-bg{
   background: #49c402;
   color: white;
 }
@@ -45,15 +49,15 @@ code {
 
 /*======================================================== home pages ================================================*/
 .hero {
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  /* background: linear-gradient(135deg, #06121c, #271a31); */
-  /* color: white; */
 }
 
+.hero input{
+  border: 2px solid #740388;
+}
 
 .Home-Products-Section{
   background: #6101af;
