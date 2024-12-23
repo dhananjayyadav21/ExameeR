@@ -42,10 +42,10 @@ const Cource = () => {
 
                 {/*=========================================== right container ===========================================*/}
                 <div className="col-12 col-md-9 main-CoursesSection">
-                   <div className="px-2">
+                   <div className="px-2 py-4">
                         {/*========= Cource Section =============*/}
                             <div className="my-md-4 d-sm-flex justify-content-between">
-                                <div className='my-4 my-sm-0'><h5>Explore the Web Development Course Catalog</h5> </div> 
+                                <div className='my-4 my-sm-0'><h5>Explore the Web Development Courses</h5> </div> 
                                 <div className="col-3 col-sm-2 text-center">
                                     <a className="nav-text nav-link p-1 border border-dark border-1 rounded-2 " href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort By <i className="fa-solid fa-sort"></i>
