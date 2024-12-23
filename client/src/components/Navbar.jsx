@@ -79,7 +79,7 @@ const Navbar = () => {
                             <Link className="nav-text nav-link " to="/notes">Notes</Link>
                             </li>
                             <li className="nav-item">
-                            <Link className="nav-text nav-link " to="/cource">Cource</Link>
+                            <Link className="nav-text nav-link " to="/cource">Course</Link>
                             </li>
                             <li className="nav-item">
                             <Link className="nav-text nav-link " to="/video">Video</Link>
@@ -115,7 +115,7 @@ const Navbar = () => {
                     <Link className="nav-text nav-link " to="/notes"><i className="fa-solid fa-note-sticky mx-2"></i>Notes</Link>
                     </li>
                     <li className="nav-item">
-                    <Link className="nav-text nav-link " to="/cource"><i class="fa-solid fa-laptop mx-2"></i>Cource</Link>
+                    <Link className="nav-text nav-link " to="/cource"><i className="fa-solid fa-laptop mx-2"></i>Course</Link>
                     </li>
                     <li className="nav-item">
                     <Link className="nav-text nav-link " to="/video"><i className="fa-solid fa-photo-film mx-2"></i>Video</Link>

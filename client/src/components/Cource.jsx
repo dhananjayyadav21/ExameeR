@@ -9,38 +9,44 @@ const Cource = () => {
   return (
     <>
       
-      <div className='bg-light'>
+      <div className='Course-header'>
         <div className='container-md p-3'>
-            <h5 className='my-3'> Free Cources</h5>
-            <h5 className='my-3'>Discover Development Courses Online</h5>
+            <p className='my-3'> Your Cources   <span><i className="fa-solid fa-laptop-code"></i> Enroll Courses</span></p>
+            <h5 className='my-3'>Discover Your Courses online</h5>
             <p>Explore Web Development courses that cover skills in HTML, CSS, JavaScript, and responsive design. Build expertise for careers in front-end development, full-stack development, and web design.</p>
         </div>
       </div>
      
-      <div className="container-fluid">
+      <div className="container-fluid mt-md-4">
             <div className="row g-4">
-
                 {/*=========================================== left container ===========================================*/}
                 <div className="col-12 col-md-3 sidebar-CoursesSection">
-                  <div className='p-4 my-3 rounded-3'>
-                    <h4 className='text-center'>Filter Course</h4>
-                    <div className='row g-2 p-2 mt-3 rounded-3' >
-                        <button className="btn btn-light">Free Lectures</button>
-                        <button className='btn btn-light'> Enrolled Lectures</button>
+                  <div className='px-2 my-4 rounded-3'>
+                    <h5>Filter Courses</h5>
+                    <div className='row g-2 px-2 rounded-3' >
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="FreeCourses"/>
+                        <label className="form-check-label" htmlFor="FreeCourses">
+                          Free Courses
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="" id="PaidCourses"/>
+                        <label className="form-check-label" htmlFor="PaidCourses">
+                          Paid Courses
+                        </label>
+                      </div>
                     </div>
                   </div> 
                 </div>
 
                 {/*=========================================== right container ===========================================*/}
-                <div className="col-12 col-md-9 main-CoursesSection scrollable">
-                   <div className="p-4">
+                <div className="col-12 col-md-9 main-CoursesSection">
+                   <div className="px-2">
                         {/*========= Cource Section =============*/}
-                        <div>
-                            <div className="my-4 d-flex justify-content-between">
-
-                                <div><h5>Explore the Web Development Course Catalog</h5> </div> 
-
-                                <div className="col-4 col-sm-3 col-md-4 col-lg-2 text-center">
+                            <div className="my-md-4 d-sm-flex justify-content-between">
+                                <div className='my-4 my-sm-0'><h5>Explore the Web Development Course Catalog</h5> </div> 
+                                <div className="col-3 col-sm-2 text-center">
                                     <a className="nav-text nav-link p-1 border border-dark border-1 rounded-2 " href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort By <i className="fa-solid fa-sort"></i>
                                     </a>
@@ -63,7 +69,7 @@ const Cource = () => {
                                 </div>
                             </div>
 
-                        </div>
+                        
                    </div>
                 </div>
 
