@@ -8,7 +8,7 @@ const VideoItem = () => {
             <div className='position-relative'>
               <img className="card-img-top rounded-4" src="assets/img/DSA.jpg" alt="Cardcap" style={{width:"100%"}}/>
               <div className="Play-btn bg-danger">
-                <i class="fa-solid fa-play"></i>
+                <i className="fa-solid fa-play"></i>
               </div>
             </div>
             <div className="card-body">

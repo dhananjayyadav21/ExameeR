@@ -39,52 +39,29 @@ code {
   cursor: pointer;
 }
 
+.Play-btn{
+  background: #dc0000;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.Play-btn i{
+  color: rgb(0, 0, 0);
+}
+
 .card-transition{
   transition: transform 0.3s ease;
 }
 
 .card-transition:hover {
   transform: scale(1.05);
-}
-
-/*======================================================== home pages ================================================*/
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero input{
-  border: 2px solid #740388;
-}
-
-.Home-Products-Section{
-  background: #6101af;
-  color: white;
-}
-
-.Home-Products-Section h1{
-  font-weight: bold;
-}
-
-.home-banner-section{
-  margin-top: 100px;
-  margin-bottom: 100px;
-}
-
-.Qp-get-cources-btn-container{
-  position: relative;
-}
-
-.Qp-get-cources-btn{
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-}
-
-form label{
-  font-weight:600;
 }
 
 /*======================================================== scrollBar ===========================================================*/
@@ -129,6 +106,37 @@ form label{
   background: #faf9f9f0;
 }
 
+/*======================================================== home pages ================================================*/
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero input{
+  border: 2px solid #740388;
+}
+
+.Home-Products-Section{
+  background: #6101af;
+  color: white;
+}
+
+.Home-Products-Section h1{
+  font-weight: bold;
+}
+
+.home-banner-section{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+form label{
+  font-weight:600;
+}
+
+
 /*=========================================================== notes component css ==============================================*/
 .notes-heroSection{
   background: #e58fff;
@@ -165,6 +173,16 @@ form label{
   background: #fafcfd;
 }
 
+.Qp-get-cources-btn-container{
+  position: relative;
+}
+
+.Qp-get-cources-btn{
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+}
+
 /*============================================================== video section  ==================================================*/
 .sidebar-VideoSection{
   background: #e1e1e1;
@@ -178,59 +196,22 @@ form label{
 }
 
 .video-item{
-
   background: #fafcfd;
 }
 
 /*============================================================== Cources section  ==================================================*/
-/* .sidebar-CoursesSection{
-  height: 90.8vh;
-} */
-
-/*
-.main-CoursesSection{
-  height: 90.8vh;
-  overflow: auto;
-} */
-
 .Courses-item{
   background: #fafcfd;
 }
 
-.Play-btn{
-  background: #dc0000;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+.Course-header{
+  background: #e3ffff;
 }
 
-.Play-btn i{
-  color: rgb(0, 0, 0);
-}
 
 /*============================================================== Auth section  ==================================================*/
 .Auth-header{
    background: #f0f0f0;
-}
-
-@media only screen and (max-width: 500px) {
-  .front-img{
-    width: 200px;
-  }
-
-  .mobile-h{
-    font-size: medium;
-  }
-  
-  .mobile-btn-fs{
-    font-size:x-small
-  }
 }
 
 
@@ -248,6 +229,8 @@ form label{
 
 /*=========================================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
+
+  /* Notes section */
   .notes-heroSection{
     font-size: x-small;
   }
@@ -256,6 +239,7 @@ form label{
     font-size: large;
   }
 
+  /* Q-paper Section */
   .sidebar-Qpaper{
    display: none;
   }
@@ -272,10 +256,26 @@ form label{
     font-size: x-small;
  }
 
+  /* Video section */
   .sidebar-VideoSection{
     height: auto;
     background: #f3f3f3;
   }
   
 }
+
+@media only screen and (max-width: 500px) {
+  .front-img{
+    width: 200px;
+  }
+
+  .mobile-h{
+    font-size: medium;
+  }
+  
+  .mobile-btn-fs{
+    font-size:x-small
+  }
+}
+
 

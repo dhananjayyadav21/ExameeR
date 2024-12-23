@@ -8,7 +8,7 @@ const CourceIteam = () => {
                 <div className='position-relative'>
                 <img className="card-img-top rounded-4" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>
                 <div className="Play-btn bg-danger">
-                    <i class="fa-solid fa-play"></i>
+                    <i className="fa-solid fa-play"></i>
                 </div>
                 </div>
                 {/* <img className="card-img-top rounded-4" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/> */}
@@ -19,7 +19,7 @@ const CourceIteam = () => {
                     </div>
                     <h5 className="card-title">C Programing<span> </span></h5>
                     <p className="card-text mb-2"><span className='fw-bold'>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
-                    <span class="badge bg-info">Beginer</span>
+                    <span className="badge bg-info">Beginer</span>
                 </div>
             </div>
         </div>  
