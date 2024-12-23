@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <>
-    <nav className="navbar navbar-expand-lg shadow-sm nav-color">
+    <nav className="navbar navbar-expand-lg sticky-top shadow nav-color">
         <div className="container-fluid fs-6">
                 
             <Link className="nav-text navbar-brand mt-0" to="/"><img src="assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
