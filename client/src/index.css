@@ -1,3 +1,17 @@
+:root{
+  --primary-white: #ffffff;
+  --card-item-bg: #fafcfd;
+  
+
+  --primary-color: #04bd20;
+  --primary-contrast-1:  #039419;
+  --primary-input-focus:  #04c02051;
+
+  --primary-2-color: #e58fff;
+  --primary-2-contrast: #7b08a8;
+  
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,22 +27,31 @@ code {
 }
 
 .btn-green{
-   background: #04bd20;
-   color: white;
+   background-color: var(--primary-color);
+   color: var(--primary-white) ;
    font-weight: 700;
 }
 
+.btn-green:hover,
+.btn-green:focus,
+.btn-green:focus-visible,
+.btn-green:active{
+  background-color: var(--primary-contrast-1) !important;
+  color: var(--primary-white)  !important;
+  box-shadow: 0 0 0 .25rem var(--primary-input-focus) !important;
+}
+
 .purple{
-  color: #7b08a8;
+  color: var(--primary-2-contrast);
 }
 
 .green{
-  color: #44af06;
+  color: var(--primary-color);
 }
 
 .green-bg{
-  background: #04bd20;
-  color: white;
+  background: var(--primary-color);
+  color: var(--primary-white) ;
 }
 
 .p-gray{
@@ -88,7 +111,7 @@ code {
 
 /*=====================================================  navbar custom css ======================================================*/
 .nav-color{
-  background-color:rgb(255, 255, 255);
+  background-color:var(--primary-white) ;
 }
 
 .nav-text{
@@ -114,13 +137,13 @@ code {
   text-align: center;
 }
 
-.hero input{
-  border: 2px solid #740388;
+.hero .form-control{
+  border: 2px solid var(--primary-2-contrast);
 }
 
 .Home-Products-Section{
   background: #6101af;
-  color: white;
+  color: var(--primary-white) ;
 }
 
 .Home-Products-Section h1{
@@ -139,13 +162,13 @@ form label{
 
 /*=========================================================== notes component css ==============================================*/
 .notes-heroSection{
-  background: #e58fff;
+  background: var(--primary-2-color);
 }
 .notes-span-section{
-  color: rgb(255, 255, 255);
+  color: var(--primary-white) ;
 }
 .notes-item{
-  background: #fafcfd;
+  background: var(--card-item-bg) ;
 }
 
 
@@ -162,15 +185,15 @@ form label{
 }
 
 .Qpaper-heroSection{
-  background: #e58fff;
+  background: var(--primary-2-color);
 }
 
 .Qpaper-span-section{
-  color: rgb(255, 255, 255);
+  color: var(--primary-white) ;
 }
 
 .qp-item{
-  background: #fafcfd;
+  background: var(--card-item-bg) ;
 }
 
 .Qp-get-cources-btn-container{
@@ -196,12 +219,12 @@ form label{
 }
 
 .video-item{
-  background: #fafcfd;
+  background: var(--card-item-bg) ;
 }
 
 /*============================================================== Cources section  ==================================================*/
 .Courses-item{
-  background: #fafcfd;
+  background: var(--card-item-bg) ;
 }
 
 .Course-header{
@@ -210,19 +233,39 @@ form label{
 
 
 /*============================================================== Auth section  ==================================================*/
-.Auth-header{
-   background: #f0f0f0;
+.Auth-header .btn:hover,
+.Auth-header .btn:focus-visible,
+.Auth-header .btn:focus,
+.Auth-header .btn-green:active{
+  background-color: #f8f9fa;
+  color: black ;
+  border: none;
+}
+
+.Register .form-control, 
+.Login .form-control,
+.VerifyEmail .form-control{
+   border: 1px solid rgb(202, 201, 201);
+}
+
+.Register .form-control:focus,
+.Login .form-control:focus,
+.Login .form-control:focus,
+.ForgotPass .form-control:focus,
+.VerifyEmail .form-control:focus{
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 .25rem var(--primary-input-focus) !important;
 }
 
 
 /*========================================================== footer section ============================================*/
 .footer{
   background:#06121c;
-  color: rgb(255, 255, 255);
+  color: var(--primary-white) ;
 }
 
 .footer a:hover {
-  color: #04bd20;
+  color: var(--primary-color);
 }
 
 
