@@ -68,7 +68,7 @@ const Home = () => {
                   </div> 
                 </div>
 
-              <div className='col-12 col-md-6 rounded-4 my-4'>
+              <div className='col-12 col-md-6 rounded-4 mb-4'>
                   <img className='front-img' src="assets/img/Front.png" alt="Front Examee" />
               </div>
           </div> 
