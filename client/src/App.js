@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
+import Cource from "./components/Cource";
 import QPaper from "./components/QPaper";
 import Video from "./components/Video";
 import Home from "./pages/Home";
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/notes" element={<Notes />} />
+          <Route path="/cource" element={<Cource />} />
           <Route path="/Q-paper" element={<QPaper />} />
           <Route path="/video" element={<Video />} />
           <Route path="/auth" element={<Auth />} />

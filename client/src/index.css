@@ -27,7 +27,7 @@ code {
 }
 
 .green-bg{
-  background: #49c402;
+  background: #04bd20;
   color: white;
 }
 
@@ -124,15 +124,10 @@ form label{
   border: 2px solid rgb(203, 203, 203);
 }
 
-.MobileBar{
-  position: relative;
-  top:0.5vh;
-  right: 0;
-  height: 90vh;
-  width: 100vw;
-  background: #e7e7e7;
+.MobileBar-container{
+  top: 57px;
+  background: #faf9f9f0;
 }
-
 
 /*=========================================================== notes component css ==============================================*/
 .notes-heroSection{
@@ -183,12 +178,27 @@ form label{
 }
 
 .video-item{
+
   background: #fafcfd;
 }
 
 /*============================================================== Cources section  ==================================================*/
+/* .sidebar-CoursesSection{
+  height: 90.8vh;
+} */
+
+/*
+.main-CoursesSection{
+  height: 90.8vh;
+  overflow: auto;
+} */
+
+.Courses-item{
+  background: #fafcfd;
+}
+
 .Play-btn{
-  background: #cc0000;
+  background: #dc0000;
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -231,7 +241,7 @@ form label{
 }
 
 .footer a:hover {
-  color: #06b621;
+  color: #04bd20;
 }
 
 
