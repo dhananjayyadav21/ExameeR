@@ -2,7 +2,7 @@
 Examee is a modern, feature-rich web application built for students and administrators to streamline the process of learning, 
 teaching, and managing exams. It combines an intuitive interface with powerful tools to make studying and exam preparation more effective.
 
-### Why Choose ExamEase?
+### Why Choose Examee?
 Centralized Learning: All study materials in one place.
 
 Empowers Educators: Easy-to-use tools for creating and managing resources.
