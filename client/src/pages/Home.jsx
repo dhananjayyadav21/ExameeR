@@ -76,7 +76,7 @@ const Home = () => {
       </section>  
 
       {/*========================================== New And Latest Cources Section============================================*/}
-      <section className='container-md px-4 my-5 home-banner-section'>
+      <section className='container-lg px-4 my-5 home-banner-section'>
         <div className='text-center'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
           <h1 className='fw-bolder'>Our Latest Featured Cources</h1>
@@ -112,7 +112,7 @@ const Home = () => {
 
 
       {/*================================= New And Latest Devlopmemnt Notes Section ==========================================*/}
-      <section className='container-md px-4 my-5'>
+      <section className='container-lg px-4 my-5'>
         <div className='text-center'>
           <h5 className='fw-bolder purple'>Devlopment Cources We Deliver</h5>
           <h1 className='fw-bolder my-4'>We Provide Notes & Cources</h1>
@@ -135,7 +135,7 @@ const Home = () => {
 
 
       {/*==================================================== Testimonial Card 3 ==============================================*/}
-      <div className="container my-5">
+      <div className="container-lg my-5">
         <h2 className="fw-bolder text-center my-3">Our Testimonials</h2>
         <p className='text-center p-gray mb-5'>Trusted By Thousands  ||  Why People Love Us  ||  Your Feedback, Our Pride</p>
         <div className="row justify-content-center g-4 px-3">

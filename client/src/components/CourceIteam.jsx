@@ -3,7 +3,7 @@ import React from 'react'
 const CourceIteam = () => {
   return (
     <>
-        <div className="col-12 col-sm-6 col-md-4 rounded-3">
+        <div className="col-12 col-sm-6 col-lg-4 rounded-3">
             <div className="card card-transition shadow-sm Courses-item p-2 rounded-4">
                 <div className='position-relative'>
                 <img className="card-img-top rounded-4" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>

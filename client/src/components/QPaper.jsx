@@ -20,7 +20,7 @@ const QPaper = () => {
 
                 {/*=========================================== right container ===========================================*/}
                 <div className="col-12 col-md-9 main-Qpaper scrollable">
-                   <div className="container p-md-4 py-4">
+                   <div className="container-lg p-lg-4 py-4">
                         {/*========= heroSection ============== */}
                         <div className="Qpaper-heroSection p-4 rounded-4 text-center ">
                                 <h2>Previous Year <span className="Qpaper-span-section"> Question Paper </span></h2>
@@ -35,7 +35,7 @@ const QPaper = () => {
 
                         {/*========= Q-p Section =============*/}
                         <div>
-                            <div className="container mt-5 d-flex justify-content-end">
+                            <div className="container-lg mt-5 d-flex justify-content-end">
                                 <div className="col-6 col-sm-3 col-md-2 col-lg-1 text-center">
                                     <a className="nav-text nav-link p-1 border border-dark border-1 rounded-2 " href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Sort By <i className="fa-solid fa-sort"></i>
@@ -53,7 +53,7 @@ const QPaper = () => {
                                 </div>
                             </div> 
 
-                            <div className="container mt-2">
+                            <div className="container-lg mt-2">
                                 <div className="row g-4">
                                 {Aarr.map((e,index)=> <QPaperItem key={index}/>)}
                                 </div>

@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <>
      <div className="container d-flex justify-content-center align-self-center px-3 mt-2 mb-3">
-        <div className="form-containe col-12 col-md-5 shadow rounded-4 py-4 px-4 p-md-5 mt-3 Login">
+        <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 mt-3 Login">
 
             {/* <!-- Login Heading --> */}
             <div className='mb-4'>
