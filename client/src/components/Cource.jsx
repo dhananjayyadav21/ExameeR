@@ -75,7 +75,7 @@ const Cource = () => {
         </div>
 
         {/* ====================================== footer ================================================================= */}
-        <footer className="footer text-center py-4">
+        <footer className="footer text-center py-4 bottom-0">
             <Footer/>
         </footer>
 
