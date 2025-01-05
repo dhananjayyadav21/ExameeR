@@ -12,6 +12,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
+import Dashboard from "./Dashbord/pages/Dashboard";
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
           <Route path="/video" element={<Video />} />
 
           <Route path="/contact" element={<Contact />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+
 
           <Route path="/auth" element={<Auth />} />
           <Route path="/login" element={<Login />} />

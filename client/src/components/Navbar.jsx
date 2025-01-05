@@ -36,7 +36,7 @@ const Navbar = () => {
                             <li><a className="dropdown-item" href="/">Edit Profile</a></li>
                             <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                             <li><hr className="dropdown-divider"/></li>
-                            <li><a className="dropdown-item" href="/"><button className='btn btn-dark w-100'>Dashboard</button></a></li>
+                            <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
                         </ul>
                     </div>
                     {/* Hamburger icon for MobileBar */}
@@ -71,7 +71,7 @@ const Navbar = () => {
                                     <li><a className="dropdown-item" href="/">Edit Profile</a></li>
                                     <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                                     <li><hr className="dropdown-divider"/></li>
-                                    <li><a className="dropdown-item" href="/"><button className='btn btn-dark w-100'>Dashboard</button></a></li>
+                                    <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li>
                                 </ul>
                             </li>
 
