@@ -43,12 +43,11 @@ const Home = () => {
   ]
 
   return (
-    <div>
-          
+    <div>    
       {/*================================================ home-main-section =================================================*/}
-      <section className='hero'>
+      <section className='hero bg-light'>
         <section className='container-lg mx-md-3 my-md-5'>
-          <div className='row rounded-4 p-md-4 bg-light'>
+          <section className='row rounded-4 p-md-4'>
               <div className='col-12 col-md-6 text-md-start px-lg-4 my-5'>
                   <h1 className='fw-bold'>Discover Your <span className='green'>Notes & Cources</span></h1>
                   <h3>Search Our <span className='green'>
@@ -58,10 +57,14 @@ const Home = () => {
                     "Lectures",
                     "Cources", ]} typeSpeed={40} backSpeed={50} loop/></span>
                   </h3>
-                  <p>We provide a comprehensive collection of notes, previous year question papers, and specialized courses to
+                  <p className='text-secondary'>We provide a comprehensive collection of notes, previous year question papers, and specialized courses to
                   enhance your exam preparation. Our resources are designed to assist all college students in achieving
                   academic success</p>
-                  <input className='p-2 rounded-5 col-11 col-md-8 mt-0 my-3 form-control' type="text" placeholder="Search for Notes..."/>
+                  <div className='hero-search'>
+                    <input className='rounded-5 col-11 col-md-8 mt-0 my-3 form-control' type="text" placeholder="Search for Notes..."/>
+                    <button className='btn btn-purple rounded-5 px-4 py-2 hero-btn'>Search</button>
+                  </div>
+                  
                   <div className='d-flex gap-2 justify-content-center justify-content-md-start'>
                   <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
                   <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>
@@ -71,9 +74,43 @@ const Home = () => {
               <div className='col-12 col-md-6 rounded-4 mb-4'>
                   <img className='front-img' src="assets/img/Front.png" alt="Front Examee" />
               </div>
-          </div> 
+          </section> 
+
+          <section className='hero-showcase mt-5 text-secondary'>
+            <div className='container-lg mb-4 mb-lg-0'>
+              <div className='row g-3'>
+                <div className='col-6 col-md-3'>
+                  <div className=' shadow-sm border text-center p-3 rounded-3 bg-white'>
+                    <h3 className='m-0 p-0 fw-bolder fs-2 text-primary'>4+</h3>
+                    <p className='m-0 p-0 fw-bold'>Development Notes</p>  
+                  </div>
+                </div>
+                <div className='col-6 col-md-3'>
+                  <div className='shadow-sm border text-center p-3 rounded-3 bg-white'>
+                    <h3 className='m-0 p-0 fw-bolder fs-2 text-info'>3+</h3>
+                    <p className='m-0 p-0 fw-bold'>Development Courses</p>  
+                  </div>
+                </div>
+                <div className='col-6 col-md-3'>
+                  <div className='shadow-sm border text-center p-3 rounded-3 bg-white'>
+                    <h3 className='m-0 p-0 fw-bolder fs-2 text-warning'>150+</h3>
+                    <p className='m-0 p-0 fw-bold'>Hours Lectures</p>  
+                  </div>
+                </div>
+                <div className='col-6 col-md-3'>
+                  <div className='shadow-sm border text-center p-3 rounded-3 bg-white'>
+                    <h3 className='m-0 p-0 fw-bolder fs-2 text-danger'>2+</h3>
+                    <p className='m-0 p-0 fw-bold'>Previous Year QP</p>  
+                  </div>
+                </div>
+              </div>
+            </div>    
+          </section>
         </section>  
       </section>  
+
+     
+      
 
       {/*========================================== New And Latest Cources Section============================================*/}
       <section className='container-lg px-4 my-5 home-banner-section'>
