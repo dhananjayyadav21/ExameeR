@@ -3,23 +3,22 @@ import React from 'react'
 const CourceIteam = () => {
   return (
     <>
-        <div className="col-12 col-sm-6 col-lg-4 rounded-3">
-            <div className="card card-transition shadow-sm Courses-item p-2 rounded-4">
+        <div className="col-12 col-sm-6 col-lg-3">
+            <div className="card card-transition shadow-sm Courses-item p-2 rounded-3">
                 <div className='position-relative'>
-                <img className="card-img-top rounded-4" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>
+                <img className="card-img-top rounded-3" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>
                 <div className="Play-btn bg-danger">
                     <i className="fa-solid fa-play"></i>
                 </div>
                 </div>
-                {/* <img className="card-img-top rounded-4" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/> */}
-                <div className="card-body">
-                    <div className='d-flex gap-2'>
-                     <img  className='profile-img rounded-circle' src="assets/img/Front.png" alt="" />
-                      <p> Lorem ipsum dolor</p>
+                <div className="card-body mx-0 px-1">
+                    <div className='d-flex justify-content-between align-items-center py-2'>
+                      <span className="badge-blue px-3 py-1 rounded-2">Beginer</span>
+                      <span>Duration: 10 weeks</span>
                     </div>
-                    <h5 className="card-title">C Programing<span> </span></h5>
-                    <p className="card-text mb-2"><span>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
-                    <span className="badge bg-info">Beginer</span>
+                    <h5 className="card-title px-0">C Programing<span> </span></h5>
+                    <p className="card-text px-0"><span>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
+                    <button className='btn btn-primary text-white fw-bold col-12 m-0'>Enroll Now</button>
                 </div>
             </div>
         </div>  
