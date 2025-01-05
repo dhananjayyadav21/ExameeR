@@ -244,12 +244,12 @@ form label{
 
 .Register .form-control, 
 .Login .form-control,
-.VerifyEmail .form-control{
+.VerifyEmail .form-control
+.footer .form-control{
    border: 1px solid rgb(202, 201, 201);
 }
 
 .Register .form-control:focus,
-.Login .form-control:focus,
 .Login .form-control:focus,
 .ForgotPass .form-control:focus,
 .VerifyEmail .form-control:focus{
@@ -266,6 +266,11 @@ form label{
 
 .footer a:hover {
   color: var(--primary-color);
+}
+
+.footer p,
+.footer li{
+  color: rgb(180, 180, 180);
 }
 
 
