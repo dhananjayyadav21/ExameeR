@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
+import Contact from "./pages/Contact";
 
 
 function App() {
@@ -24,21 +25,15 @@ function App() {
           <Route path="/cource" element={<Cource />} />
           <Route path="/Q-paper" element={<QPaper />} />
           <Route path="/video" element={<Video />} />
+
+          <Route path="/contact" element={<Contact />} />
+
           <Route path="/auth" element={<Auth />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/verifyEmail" element={<VerifyEmail />} />
 
-          <Route path="/" element={<Home />} />
-          <Route path="/notes/" element={<Notes />} />
-          <Route path="/Q-paper/" element={<QPaper />} />
-          <Route path="/video/" element={<Video />} />
-          <Route path="/auth/" element={<Auth />} />
-          <Route path="/login/" element={<Login />} />
-          <Route path="/register/" element={<Register />} />
-          <Route path="/forgotPassword/" element={<ForgotPassword />} />
-          <Route path="/verifyEmail/" element={<VerifyEmail />} />
         </Routes>
       </BrowserRouter>
     </>
