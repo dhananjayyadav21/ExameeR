@@ -49,8 +49,8 @@ const Notes = () => {
       </div>   
 
       {/* ====================================== footer ================================================================= */}
-      <footer className="footer text-center py-4 bottom-0">
-        <Footer/>
+      <footer className="footer bottom-0">
+         <Footer/>
       </footer>
 
     </>
