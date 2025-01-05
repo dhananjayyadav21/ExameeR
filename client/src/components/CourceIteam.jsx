@@ -18,7 +18,7 @@ const CourceIteam = () => {
                       <p> Lorem ipsum dolor</p>
                     </div>
                     <h5 className="card-title">C Programing<span> </span></h5>
-                    <p className="card-text mb-2"><span className='fw-bold'>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
+                    <p className="card-text mb-2"><span>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
                     <span className="badge bg-info">Beginer</span>
                 </div>
             </div>

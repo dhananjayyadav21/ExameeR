@@ -45,6 +45,11 @@ code {
   color: var(--primary-2-contrast);
 }
 
+.btn-purple{
+  background-color: var(--primary-2-contrast);
+  color: white;
+}
+
 .green{
   color: var(--primary-color);
 }
@@ -139,6 +144,17 @@ code {
 
 .hero .form-control{
   border: 2px solid var(--primary-2-contrast);
+  padding: 12px;
+}
+
+.hero-search{
+  position: relative;
+}
+
+.hero .hero-btn{
+   position: absolute;
+   bottom: 5px;
+   right: 5px;
 }
 
 .Home-Products-Section{
@@ -325,5 +341,6 @@ form label{
     font-size:x-small
   }
 }
+
 
 
