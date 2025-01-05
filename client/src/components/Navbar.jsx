@@ -87,6 +87,9 @@ const Navbar = () => {
                             <li className="nav-item">
                             <Link className="nav-text nav-link" to="/Q-paper">Q-Paper</Link>
                             </li>
+                            <li className="nav-item">
+                            <Link className="nav-text nav-link" to="/contact">Support</Link>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -122,6 +125,9 @@ const Navbar = () => {
                     </li>
                     <li className="nav-item">
                     <Link className="nav-text nav-link" to="/Q-paper"><i className="fa-regular fa-paste mx-2"></i>Q-Paper</Link>
+                    </li>
+                    <li className="nav-item">
+                    <Link className="nav-text nav-link" to="/contact"><i className="fa-regular fa-paste mx-2"></i>Support</Link>
                     </li>
                 </div>
             </div>

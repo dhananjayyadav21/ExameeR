@@ -1,18 +1,16 @@
-:root{
+:root {
   --primary-white: #ffffff;
   --card-item-bg: #fafcfd;
-  
 
   --primary-color: #04bd20;
-  --primary-contrast-1:  #039419;
-  --primary-input-focus:  #04c02051;
+  --primary-contrast-1: #039419;
+  --primary-input-focus: #04c02051;
 
   --primary-2-color: #e58fff;
   --primary-2-contrast: #7b08a8;
-  
 }
 
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -20,60 +18,60 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.btn-green{
-   background-color: var(--primary-color);
-   color: var(--primary-white) ;
-   font-weight: 700;
+.btn-green {
+  background-color: var(--primary-color);
+  color: var(--primary-white);
+  font-weight: 700;
 }
 
 .btn-green:hover,
 .btn-green:focus,
 .btn-green:focus-visible,
-.btn-green:active{
+.btn-green:active {
   background-color: var(--primary-contrast-1) !important;
-  color: var(--primary-white)  !important;
-  box-shadow: 0 0 0 .25rem var(--primary-input-focus) !important;
+  color: var(--primary-white) !important;
+  box-shadow: 0 0 0 0.25rem var(--primary-input-focus) !important;
 }
 
-.purple{
+.purple {
   color: var(--primary-2-contrast);
 }
 
-.btn-purple{
+.btn-purple {
   background-color: var(--primary-2-contrast);
   color: white;
 }
 
-.green{
+.green {
   color: var(--primary-color);
 }
 
-.green-bg{
+.green-bg {
   background: var(--primary-color);
-  color: var(--primary-white) ;
+  color: var(--primary-white);
 }
 
-.p-gray{
+.p-gray {
   color: rgb(91, 91, 91);
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 
-.Play-btn{
+.Play-btn {
   background: #dc0000;
   height: 40px;
   width: 40px;
@@ -86,11 +84,11 @@ code {
   right: 10px;
 }
 
-.Play-btn i{
+.Play-btn i {
   color: rgb(0, 0, 0);
 }
 
-.card-transition{
+.card-transition {
   transition: transform 0.3s ease;
 }
 
@@ -98,7 +96,7 @@ code {
   transform: scale(1.05);
 }
 
-.green-i{
+.green-i {
   color: #039419;
 }
 
@@ -123,23 +121,22 @@ code {
   scrollbar-color: #888 #e0e0e0; /* Thumb and track colors */
 }
 
-
 /*=====================================================  navbar custom css ======================================================*/
-.nav-color{
-  background-color:var(--primary-white) ;
+.nav-color {
+  background-color: var(--primary-white);
 }
 
-.nav-text{
+.nav-text {
   color: black;
 }
 
-.profile-img{
+.profile-img {
   width: 30px;
   height: 30px;
   border: 2px solid rgb(203, 203, 203);
 }
 
-.MobileBar-container{
+.MobileBar-container {
   top: 57px;
   background: #faf9f9f0;
 }
@@ -152,193 +149,228 @@ code {
   text-align: center;
 }
 
-.hero .form-control{
+.hero .form-control {
   border: 2px solid var(--primary-2-contrast);
   padding: 12px;
 }
 
-.hero-search{
+.hero-search {
   position: relative;
 }
 
-.hero .hero-btn{
-   position: absolute;
-   bottom: 5px;
-   right: 5px;
+.hero .hero-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
 }
 
-.Home-Products-Section{
+.Home-Products-Section {
   background: #6101af;
-  color: var(--primary-white) ;
+  color: var(--primary-white);
 }
 
-.Home-Products-Section h1{
+.Home-Products-Section h1 {
   font-weight: bold;
 }
 
-.home-banner-section{
+.home-banner-section {
   margin-top: 100px;
   margin-bottom: 100px;
 }
 
-form label{
-  font-weight:600;
+form label {
+  font-weight: 600;
 }
 
-.Step-blue{
+.Step-blue {
   background-color: rgba(221, 230, 250, 0.671);
   color: rgb(37 99 235);
   height: 80px;
-  width: 80px; 
+  width: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.Step-green{
+.Step-green {
   background-color: rgba(199, 253, 198, 0.671);
   color: rgb(18, 180, 16);
   height: 80px;
-  width: 80px; 
+  width: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.Step-purple{
+.Step-purple {
   background-color: rgba(231, 211, 246, 0.651);
   color: rgb(129, 12, 213);
   height: 80px;
-  width: 80px; 
+  width: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.Feature-examee .svg-blue{
-  color:rgb(37 99 235);
+.Feature-examee .svg-blue {
+  color: rgb(37 99 235);
 }
 
-.Feature-examee .svg-green{
-  color:rgb(18, 180, 16);
+.Feature-examee .svg-green {
+  color: rgb(18, 180, 16);
 }
 
 .Feature-examee .svg-purple,
-.text-purple{
-  color:rgb(129, 12, 213);
+.text-purple {
+  color: rgb(129, 12, 213);
 }
 
-.Feature-examee .svg-red{
-  color:rgb(190, 15, 15);
+.Feature-examee .svg-red {
+  color: rgb(190, 15, 15);
 }
-
 
 /*=========================================================== notes component css ==============================================*/
-.notes-heroSection{
+.notes-heroSection {
   background: var(--primary-2-color);
 }
-.notes-span-section{
-  color: var(--primary-white) ;
+.notes-span-section {
+  color: var(--primary-white);
 }
 .notes-item,
-.team{
-  background: var(--card-item-bg) ;
+.team {
+  background: var(--card-item-bg);
 }
 
-
 /*============================================================= Q-paper css ===================================================*/
-.sidebar-Qpaper{
+.sidebar-Qpaper {
   background: #e1e1e1;
   height: 90.8vh;
 }
 
-.main-Qpaper{
+.main-Qpaper {
   background: #f3f3f3;
   height: 90.8vh;
   overflow: auto;
 }
 
-.Qpaper-heroSection{
+.Qpaper-heroSection {
   background: var(--primary-2-color);
 }
 
-.Qpaper-span-section{
-  color: var(--primary-white) ;
+.Qpaper-span-section {
+  color: var(--primary-white);
 }
 
-.qp-item{
-  background: var(--card-item-bg) ;
+.qp-item {
+  background: var(--card-item-bg);
 }
 
-.Qp-get-cources-btn-container{
+.Qp-get-cources-btn-container {
   position: relative;
 }
 
-.Qp-get-cources-btn{
+.Qp-get-cources-btn {
   position: absolute;
   bottom: 10px;
   left: 0;
 }
 
 /*============================================================== video section  ==================================================*/
-.sidebar-VideoSection{
+.sidebar-VideoSection {
   background: #e1e1e1;
   height: 90.8vh;
 }
 
-.main-VideoSection{
+.main-VideoSection {
   background: #f3f3f3;
   height: 90.8vh;
   overflow: auto;
 }
 
-.video-item{
-  background: var(--card-item-bg) ;
+.video-item {
+  background: var(--card-item-bg);
 }
 
 /*============================================================== Cources section  ==================================================*/
-.Courses-item{
-  background: var(--card-item-bg) ;
+.Courses-item {
+  background: var(--card-item-bg);
 }
 
-.Course-header{
+.Course-header {
   background: #e3ffff;
 }
 
+/*============================================================== support section  ==================================================*/
+.support-call {
+  background-color: rgba(221, 230, 250, 0.671);
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.support-call i{
+  color: rgb(37 99 235);
+}
+
+.support-email {
+  background-color: rgba(199, 253, 198, 0.671);
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.support-email i{
+  color: rgb(18, 180, 16);
+}
+
+.support-location {
+  background-color: rgba(231, 211, 246, 0.651);
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.support-location i{
+  color: rgb(129, 12, 213);
+}
 
 /*============================================================== Auth section  ==================================================*/
 .Auth-header .btn:hover,
 .Auth-header .btn:focus-visible,
 .Auth-header .btn:focus,
-.Auth-header .btn-green:active{
+.Auth-header .btn-green:active {
   background-color: #f8f9fa;
-  color: black ;
+  color: black;
   border: none;
 }
 
-.Register .form-control, 
+.Register .form-control,
 .Login .form-control,
-.VerifyEmail .form-control
-.footer .form-control{
-   border: 1px solid rgb(202, 201, 201);
+.VerifyEmail .form-control .footer .form-control {
+  border: 1px solid rgb(202, 201, 201);
 }
 
 .Register .form-control:focus,
 .Login .form-control:focus,
 .ForgotPass .form-control:focus,
-.VerifyEmail .form-control:focus{
+.VerifyEmail .form-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 .25rem var(--primary-input-focus) !important;
+  box-shadow: 0 0 0 0.25rem var(--primary-input-focus) !important;
 }
 
-
 /*========================================================== footer section ============================================*/
-.footer{
-  background:#06121c;
-  color: var(--primary-white) ;
+.footer {
+  background: #06121c;
+  color: var(--primary-white);
 }
 
 .footer a:hover {
@@ -346,62 +378,55 @@ form label{
 }
 
 .footer p,
-.footer li{
+.footer li {
   color: rgb(180, 180, 180);
 }
 
-
-
 /*=========================================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
-
   /* Notes section */
-  .notes-heroSection{
+  .notes-heroSection {
     font-size: x-small;
   }
 
-  .notes-heroSection h2{
+  .notes-heroSection h2 {
     font-size: large;
   }
 
   /* Q-paper Section */
-  .sidebar-Qpaper{
-   display: none;
+  .sidebar-Qpaper {
+    display: none;
   }
 
-  .Qpaper-heroSection{
+  .Qpaper-heroSection {
     font-size: x-small;
   }
 
-  .Qpaper-heroSection h2{
-     font-size: medium;
+  .Qpaper-heroSection h2 {
+    font-size: medium;
   }
 
-  .Qpaper-heroSection  button{
+  .Qpaper-heroSection button {
     font-size: x-small;
- }
+  }
 
   /* Video section */
-  .sidebar-VideoSection{
+  .sidebar-VideoSection {
     height: auto;
     background: #f3f3f3;
   }
-  
 }
 
 @media only screen and (max-width: 500px) {
-  .front-img{
+  .front-img {
     width: 200px;
   }
 
-  .mobile-h{
+  .mobile-h {
     font-size: medium;
   }
-  
-  .mobile-btn-fs{
-    font-size:x-small
+
+  .mobile-btn-fs {
+    font-size: x-small;
   }
 }
-
-
-
