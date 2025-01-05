@@ -5,6 +5,7 @@ import CourceIteam from '../components/CourceIteam'
 import Footer from '../components/Footer'
 import TestimonialCard from '../components/TestimonialCard'
 import Team from '../components/Team'
+import Offers from '../components/Offers'
 import { ReactTyped } from "react-typed";
 
 const Home = () => {
@@ -155,25 +156,25 @@ const Home = () => {
               <div className='container-lg mb-4'>
                 <div className='row g-3'>
                   <div className='col-6 col-md-3'>
-                    <div className=' shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white'>
+                    <div className=' shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100'>
                       <h6 className='m-0 p-0 fw-bolder'>Previous Papers</h6>
                       <p className='m-0 p-0 text-secondary'>Access past exam papers</p>  
                     </div>
                   </div>
                   <div className='col-6 col-md-3'>
-                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white'>
+                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100'>
                       <h6 className='m-0 p-0 fw-bolder'>Video Lectures</h6>
                       <p className='m-0 p-0 text-secondary'>Watch expert explanations</p>  
                     </div>
                   </div>
                   <div className='col-6 col-md-3'>
-                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white'>
+                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100'>
                       <h6 className='m-0 p-0'>Study Notes</h6>
                       <p className='m-0 p-0 text-secondary '>Download detailed notes</p>  
                     </div>
                   </div>
                   <div className='col-6 col-md-3'>
-                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white'>
+                    <div className='shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100'>
                       <h6 className='m-0 p-0 fw-bolder'>Mock Tests</h6>
                       <p className='m-0 p-0 text-secondary'>Practice with sample tests</p>  
                     </div>
@@ -235,7 +236,7 @@ const Home = () => {
               <div className="row g-3">
                 {/* <!-- Feature 1 --> */}
                 <div className="col-md-6 col-lg-3">
-                  <div className='shadow-sm rounded-3 border p-3 p-lg-3 bg-light'>
+                  <div className='shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100'>
                     <div className="svg-blue mb-4" style={{width:"40px"}}>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -248,7 +249,7 @@ const Home = () => {
 
                 {/* <!-- Feature 2 --> */}
                 <div className="col-md-6 col-lg-3">
-                <div className='shadow-sm rounded-3 border p-3 p-lg-3 bg-light'>
+                <div className='shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100'>
                   <div className="svg-green mb-3" style={{width:"40px"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
@@ -261,7 +262,7 @@ const Home = () => {
 
                 {/* <!-- Feature 3 --> */}
                 <div className="col-md-6 col-lg-3" >
-                <div className=' shadow-sm rounded-3 border p-3 p-lg-3 bg-light'>
+                <div className=' shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100'>
                   <div className="svg-purple mb-3" style={{width:"40px"}}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -301,6 +302,12 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+
+      {/* ====================================== offers ================================================================= */}
+      <footer className="offers-section">
+        <Offers/>
+      </footer>
 
 
       {/* ====================================== footer ================================================================= */}
