@@ -25,15 +25,15 @@ const Offers = () => {
                 <div className="card-body">
                   <ul className="list-unstyled mb-4">
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i  fa-check"></i>
                       Access to Basic Notes
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       5 Course Downloads
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Email Support
                     </li>
                   </ul>
@@ -57,19 +57,19 @@ const Offers = () => {
                 <div className="card-body">
                   <ul className="list-unstyled mb-4">
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Everything in Basic
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Unlimited Downloads
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Priority Support
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Live Sessions
                     </li>
                   </ul>
@@ -90,19 +90,19 @@ const Offers = () => {
                 <div className="card-body">
                   <ul className="list-unstyled text-start mb-4">
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Everything in Pro
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       1-on-1 Mentoring
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Custom Study Plan
                     </li>
                     <li className="mb-2">
-                      <i className="bi bi-check-circle-fill text-success me-2"></i>
+                      <i className="fa-solid mx-3 green-i fa-check"></i>
                       Certificate
                     </li>
                   </ul>

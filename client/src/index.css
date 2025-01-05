@@ -98,13 +98,8 @@ code {
   transform: scale(1.05);
 }
 
-.badge-blue{
-  background-color: rgb(219 234 254 / 1);
-  color: rgb(30 64 175 );
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  
+.green-i{
+  color: #039419;
 }
 
 /*======================================================== scrollBar ===========================================================*/
