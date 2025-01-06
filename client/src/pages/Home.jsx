@@ -1,14 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import CourceIteam from '../components/CourceIteam'
-// import NotesIteam from '../components/NotesItem'
 import Footer from '../components/Footer'
 import TestimonialCard from '../components/TestimonialCard'
 import Team from '../components/Team'
 import Offers from '../components/Offers'
 import { ReactTyped } from "react-typed";
 import HowExameeWork from '../components/HowExameeWork'
-import Contact from './Contact'
 
 const Home = () => {
 

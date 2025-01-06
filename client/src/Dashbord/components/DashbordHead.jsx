@@ -109,9 +109,9 @@ const DashbordHead = () => {
                 </div>
 
                 {/* Quick Actions */}
-                <div className="row">
+                <div className="row g-2">
                     <div className='col-md-6 col-lg-3'>
-                        <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 mx-1 border shadow-sm rounded-3">
+                        <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3">
                             <i className="bi bi-upload text-primary"></i>
                             <span className="text-dark">Upload Course</span>
                         </div>
