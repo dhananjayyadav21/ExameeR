@@ -405,6 +405,13 @@ form label {
   background-color: rgb(35, 35, 35);;
 }
 
+.dashbord-mobilebar{
+  position: fixed;
+  top: 75px;
+  right: 10px;
+  border-radius: 8px;
+}
+
 .dashbor-nav{
   height: 91vh;
 }

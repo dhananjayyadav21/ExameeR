@@ -14,7 +14,7 @@ import {
 const DashbordHead = () => {
   return (
     <div>
-      <div id="dashboard" className="min-vh-100 pt-2 bg-light">
+      <div id="dashboard" className="min-vh-100 p-2 py-4 px-md-4 bg-light">
         {/* Header */}
         <div className="mb-4">
           <h1 className="h3 fw-bold text-dark">Dashboard</h1>
