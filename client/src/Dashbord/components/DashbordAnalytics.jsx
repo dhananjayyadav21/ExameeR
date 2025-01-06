@@ -5,12 +5,12 @@ import { faFile,faUpload, faVideo, faBook } from '@fortawesome/free-solid-svg-ic
 
 const Analytics = () => {
   return (
-    <section id="analytics" className="min-vh-100 bg-dark text-white p-lg-4">
+    <section id="analytics" className="min-vh-100 bg-darkgray text-white p-lg-4">
       <div className="container-lg py-4">
         {/* Stats Overview */}
         <div className="row mb-4">
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="bg-darkgray p-4 rounded border border hover:border-info transition duration-300">
+            <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Total Notes</h3>
               <p className="h2 font-weight-bold mt-2">124</p>
               <div className="d-flex align-items-center mt-2 text-success">
@@ -21,7 +21,7 @@ const Analytics = () => {
           </div>
 
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="bg-darkgray p-4 rounded border border hover:border-info transition duration-300">
+            <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Total Courses</h3>
               <p className="h2 font-weight-bold mt-2">36</p>
               <div className="d-flex align-items-center mt-2 text-success">
@@ -32,7 +32,7 @@ const Analytics = () => {
           </div>
 
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="bg-darkgray p-4 rounded border border hover:border-info transition duration-300">
+            <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Video Lectures</h3>
               <p className="h2 font-weight-bold mt-2">89</p>
               <div className="d-flex align-items-center mt-2 text-success">
@@ -43,7 +43,7 @@ const Analytics = () => {
           </div>
 
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <div className="bg-darkgray p-4 rounded border border hover:border-info transition duration-300">
+            <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Previous Year Papers</h3>
               <p className="h2 font-weight-bold mt-2">245</p>
               <div className="d-flex align-items-center mt-2 text-success">
@@ -55,7 +55,7 @@ const Analytics = () => {
         </div>
 
         {/* Recent Uploads */}
-        <div className="bg-darkgray border rounded p-2 p-lg-4 mb-4">
+        <div className="bg-dark border rounded p-2 p-lg-4 mb-4">
           <h2 className="h6 font-weight-bold mt-2 mb-4">Recent Uploads</h2>
           <div className="table-responsive">
             <table className="table w-100">
@@ -124,7 +124,7 @@ const Analytics = () => {
         {/* Quick Upload Actions */}
         <div className="row">
           <div className="col-12 col-md-6 col-lg-3 mb-4">
-            <button className="d-flex align-items-center justify-content-center bg-darkgray p-4 rounded">
+            <button className="d-flex align-items-center justify-content-center bg-dark p-4 rounded">
               <FontAwesomeIcon icon={faUpload} className="w-6 h-6 text-info" />
             </button>
           </div>
