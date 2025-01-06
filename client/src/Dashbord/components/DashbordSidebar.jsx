@@ -6,53 +6,78 @@ import {
   faStickyNote,
   faVideo,
   faQuestionCircle,
+  faUser,
+  faSearch,
+  faSchoolCircleXmark
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <nav className="bg-white w-100 w-lg-25 h-100 position-sticky top-0 d-none d-lg-flex flex-column shadow-sm border-end">
       <div className="flex-grow-1 py-4">
-        <a
-          href="#dashboard"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light"
-        >
+        <Link
+          to="dashboard-head"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faHome} className="me-3" />
           <span className="fw-semibold">Dashboard</span>
-        </a>
-        <a
-          href="#courses"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light"
-        >
+        </Link>
+
+        <Link
+          to="dashboard-courses"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faBookOpen} className="me-3" />
           <span className="fw-semibold">Courses</span>
-        </a>
-        <a
-          href="#notes"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light"
-        >
+        </Link>
+
+        <Link
+          to="dashboard-notes"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faStickyNote} className="me-3" />
           <span className="fw-semibold">Notes</span>
-        </a>
-        <a
-          href="#videoLectures"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light"
-        >
+        </Link>
+
+        <Link
+          to="dashboard-videos"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faVideo} className="me-3" />
           <span className="fw-semibold">Videos</span>
-        </a>
-        <a
-          href="#previousQuestions"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active"
-        >
+        </Link>
+
+        <Link
+          to="dashboard-pyq"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
           <FontAwesomeIcon icon={faQuestionCircle} className="me-3" />
           <span className="fw-semibold">PYQs</span>
-        </a>
+        </Link>
+
+        <Link
+          to="dashboard-student-management"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
+          <FontAwesomeIcon icon={faSchoolCircleXmark} className="me-3" />
+          <span className="fw-semibold">Students</span>
+        </Link>
+
+        <Link
+          to="dashboard-analyticst"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
+          <FontAwesomeIcon icon={faSearch} className="me-3" />
+          <span className="fw-semibold">Analytics</span>
+        </Link>
+
+        <Link
+          to="dashboard-settings"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
+          <FontAwesomeIcon icon={faUser} className="me-3" />
+          <span className="fw-semibold">Settings</span>
+        </Link>
+
       </div>
 
       <div className="p-2 border-top">
         <div className="d-flex align-items-start">
           <img
-            src="./assets/img/Front.png"
+            src="/assets/img/Front.png"
             alt="Profile"
             className="rounded-circle"
             style={{ width: "40px", height: "40px" }}

@@ -4,9 +4,7 @@ import {
   faPlus,
   faPlayCircle,
   faEdit,
-  faTrashAlt,
-  faChevronLeft,
-  faChevronRight,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 const VideoLectures = () => {

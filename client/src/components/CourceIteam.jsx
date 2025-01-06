@@ -6,7 +6,7 @@ const CourceIteam = () => {
         <div className="col-12 col-sm-6 col-lg-3">
             <div className="card card-transition shadow-sm Courses-item p-2 rounded-3">
                 <div className='position-relative'>
-                <img className="card-img-top rounded-3" src="assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>
+                <img className="card-img-top rounded-3" src="/assets/img/cource.jpg" alt="Cardcap" style={{width:"100%"}}/>
                 <div className="Play-btn bg-danger">
                     <i className="fa-solid fa-play"></i>
                 </div>
