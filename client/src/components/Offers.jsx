@@ -4,7 +4,7 @@ const Offers = () => {
   return (
     <>
       <section id="pricing" className="py-5">
-        <div className="container">
+        <div className="container-lg">
           {/* Section Header */}
           <div className="text-center my-4">
             <h2 className="fw-bold text-dark">Try With Latest Offers</h2>
