@@ -49,6 +49,10 @@ code {
   color: var(--primary-2-contrast);
 }
 
+.bg-purple{
+  background-color: rgba(255, 108, 255, 0.79);
+}
+
 .btn-purple {
   background-color: var(--primary-2-contrast);
   color: white;
@@ -301,6 +305,11 @@ form label {
 
 .Course-header {
   background: #e3ffff;
+}
+
+.badge-blue{
+  color: rgb(30, 30, 199);
+  background-color: rgba(192, 192, 236, 0.779);
 }
 
 /*============================================================== support section  ==================================================*/
