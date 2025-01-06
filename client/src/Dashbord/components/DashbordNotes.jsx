@@ -23,33 +23,32 @@ const StudyNotes = () => {
     
 
         {/* Filters and Search */}
-        <div className="bg-white p-4 rounded border border-light mb-4">
-          <div className="d-flex flex-wrap gap-3">
-            <div className="flex-grow-1">
-              <label className="form-label">Search Notes</label>
+        <div className="bg-white p-4 rounded border mb-4">
+          <div className="row g-3">
+            <div className="col-md">
+              <label className="form-label fw-semibold">Search</label>
               <input
                 type="text"
-                placeholder="Search by title or subject..."
+                placeholder="Search courses..."
                 className="form-control"
               />
             </div>
-            <div className="w-48">
-              <label className="form-label">Subject</label>
+            <div className="col-md-3">
+              <label className="form-label fw-semibold">Category</label>
               <select className="form-select">
-                <option value="">All Subjects</option>
-                <option value="computer-science">Computer Science</option>
-                <option value="mathematics">Mathematics</option>
-                <option value="physics">Physics</option>
+                <option value="">All Categories</option>
+                <option value="programming">Programming</option>
+                <option value="design">Design</option>
+                <option value="business">Business</option>
               </select>
             </div>
-            <div className="w-48">
-              <label className="form-label">Semester</label>
+            <div className="col-md-3">
+              <label className="form-label fw-semibold">Status</label>
               <select className="form-select">
-                <option value="">All Semesters</option>
-                <option value="1">Semester 1</option>
-                <option value="2">Semester 2</option>
-                <option value="3">Semester 3</option>
-                <option value="4">Semester 4</option>
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
           </div>
@@ -168,15 +167,19 @@ const StudyNotes = () => {
         </div>
 
         {/* Pagination */}
-        <div className="d-flex justify-content-between align-items-center mt-3">
-          <div className="text-muted">Showing 1 to 2 of 24 entries</div>
-          <nav>
-            <button className="btn btn-outline-secondary me-2">Previous</button>
-            <button className="btn btn-success me-2">1</button>
-            <button className="btn btn-outline-secondary me-2">2</button>
-            <button className="btn btn-outline-secondary me-2">3</button>
-            <button className="btn btn-outline-secondary">Next</button>
-          </nav>
+        <div className="row g-3 d-flex justify-content-between align-items-center mt-3">
+          <div className="col-md-6">
+            <div className="text-muted">Showing 1 to 2 of 24 entries</div>
+          </div>
+          <div className="col-md-6">
+            <nav>
+              <button className="btn btn-outline-secondary me-2">Previous</button>
+              <button className="btn btn-success me-2">1</button>
+              <button className="btn btn-outline-secondary me-2">2</button>
+              <button className="btn btn-outline-secondary me-2">3</button>
+              <button className="btn btn-outline-secondary">Next</button>
+            </nav>
+          </div>
         </div>
       </div>
     </>
