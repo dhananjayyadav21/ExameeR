@@ -14,8 +14,7 @@ const Dashboard = () => {
       <div className="container-fluid">
         <div className="row">
           <section className="dashbor-nav col-lg-2"></section>
-
-          <section className="dashbor-main col-lg-10">
+          <section className="dashbor-main col-12 col-lg-10">
             <div className=" bg-light">
               {/* Dashbord Head */}
               <div className="container-lg py-2 ">
@@ -48,15 +47,14 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="bg-dark">
-
+            <div className="bg-darkgray">
               {/* dashbord Analytics  */}
-              <div className="container-lg py-2">
+              <div className="py-2">
                 <Analytics />
               </div>
 
               {/* dashbord Setting  */}
-              <div className="container-lg py-2">
+              <div className="py-2">
                 <Settings />
               </div>
             </div>
