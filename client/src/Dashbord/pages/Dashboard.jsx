@@ -8,17 +8,23 @@ import StudentManagement from "../components/StudentManagement";
 import Settings from "../components/DashbordSetting";
 import Analytics from "../components/DashbordAnalytics";
 import Sidebar from "../components/DashbordSidebar";
+// import UploadForm from "../components/UplodeFiles";
 
 const Dashboard = () => {
   return (
     <>
-      <div className="container-fluid">
+      <div className="container-fluid cursor-default">
         <div className="row">
           <section className="dashbor-nav col-lg-2 p-0">
              <Sidebar/>
           </section>
           <section className="dashbor-main col-12 col-lg-10 p-0">
             <div className=" bg-light">
+              {/* Dashbord Head */}
+              {/* <div className="container-lg py-2 ">
+                <UploadForm/>
+              </div> */}
+
               {/* Dashbord Head */}
               <div className="container-lg py-2 ">
                 <DashbordHead />

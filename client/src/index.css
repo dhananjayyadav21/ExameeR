@@ -75,6 +75,10 @@ code {
   cursor: pointer;
 }
 
+.cursor-default{
+  cursor: default;
+}
+
 .Play-btn {
   background: #dc0000;
   height: 40px;
