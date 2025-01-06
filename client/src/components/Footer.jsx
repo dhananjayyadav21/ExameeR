@@ -55,7 +55,7 @@ const Footer = () => {
                     <h5 className="m-0">Newsletter</h5>
                     <p className='py-3 m-0'>Subscribe to our newsletter for updates and offers.</p> 
                     <form action="sumbit" className='d-flex flex-column'>
-                        <input className='p-2 rounded-2 col-11 col-sm-12 mt-0 my-3 form-control bg-dark text-white' type="email" name='email' placeholder="Search for Notes..."/>
+                        <input className='placeholder-white p-2 rounded-2 col-11 col-sm-12 mt-0 my-3 form-control bg-dark text-white' type="email" name='email' placeholder="Search for Notes..."/>
                         <button className='btn btn-green'>Subscribe</button>
                     </form>
                   </div>

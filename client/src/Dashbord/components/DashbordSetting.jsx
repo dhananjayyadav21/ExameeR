@@ -2,10 +2,10 @@ import React from 'react';
 
 const Settings = () => {
   return (
-    <section id="settings" className="min-vh-100 bg-dark text-white p-4">
+    <section id="settings" className="min-vh-100 bg-darkgray text-white p-lg-4">
       <div className="container">
         {/* Profile Settings */}
-        <div className="bg-darkgray rounded border border-dark p-4 mb-4">
+        <div className="bg-dark rounded-3 border border-dark p-4 mb-4">
           <h2 className="h5 font-weight-bold mb-4">Profile Settings</h2>
 
           <div className="d-flex justify-content-start align-items-center gap-3 mb-4">
@@ -35,7 +35,7 @@ const Settings = () => {
                 <label className="">First Name</label>
                 <input
                   type="text"
-                  className="form-control bg-dark text-white border border-secondary"
+                  className="form-control placeholder-white bg-dark text-white border border-secondary"
                   placeholder="First Name"
                 />
               </div>
@@ -43,7 +43,7 @@ const Settings = () => {
                 <label className="">Last Name</label>
                 <input
                   type="text"
-                  className="form-control bg-dark text-white border border-secondary"
+                  className="form-control placeholder-white bg-dark text-white border border-secondary"
                   placeholder="Last Name"
                 />
               </div>
@@ -53,7 +53,7 @@ const Settings = () => {
               <label className="">Email</label>
               <input
                 type="email"
-                className="form-control bg-dark text-white border border-secondary"
+                className="form-control placeholder-white bg-dark text-white border border-secondary"
                 placeholder="Email"
               />
             </div>
@@ -62,7 +62,7 @@ const Settings = () => {
               <label className="">Institution</label>
               <input
                 type="text"
-                className="form-control bg-dark text-white border border-secondary"
+                className="form-control placeholder-white bg-dark text-white border border-secondary"
                 placeholder="Institution"
               />
             </div>
@@ -70,14 +70,14 @@ const Settings = () => {
         </div>
 
         {/* Security Settings */}
-        <div className="bg-darkgray rounded border border-dark p-4 mb-4">
+        <div className="bg-dark rounded-3 border border-dark p-4 mb-4">
           <h2 className="h5 font-weight-bold mb-4">Security Settings</h2>
           <form>
             <div className="form-group mb-2">
               <label className="">Current Password</label>
               <input
                 type="password"
-                className="form-control bg-dark text-white border border-secondary"
+                className="form-control placeholder-white bg-dark text-white border border-secondary"
                 placeholder="Current Password"
               />
             </div>
@@ -86,7 +86,7 @@ const Settings = () => {
               <label className="">New Password</label>
               <input
                 type="password"
-                className="form-control bg-dark text-white border border-secondary"
+                className="form-control placeholder-white bg-dark text-white border border-secondary"
                 placeholder="New Password"
               />
             </div>
@@ -95,7 +95,7 @@ const Settings = () => {
               <label className="">Confirm New Password</label>
               <input
                 type="password"
-                className="form-control bg-dark text-white border border-secondary"
+                className="form-control placeholder-white bg-dark text-white border border-secondary"
                 placeholder="Confirm New Password"
               />
             </div>
@@ -103,7 +103,7 @@ const Settings = () => {
         </div>
 
         {/* Notification Preferences */}
-        <div className="bg-darkgray rounded border border-dark p-4 mb-4">
+        <div className="bg-dark rounded-3 border border-dark p-4 mb-4">
           <h2 className="h5 font-weight-bold mb-4">Notification Preferences</h2>
           <div className="mb-3">
             <div className="d-flex justify-content-between py-2 border-bottom border-dark">
