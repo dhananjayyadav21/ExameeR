@@ -5,8 +5,8 @@ import { faFile,faUpload, faVideo, faBook } from '@fortawesome/free-solid-svg-ic
 
 const Analytics = () => {
   return (
-    <section id="analytics" className="min-vh-100 bg-dark text-white p-4">
-      <div className="container">
+    <section id="analytics" className="min-vh-100 bg-dark text-white p-lg-4">
+      <div className="container-lg py-4">
         {/* Stats Overview */}
         <div className="row mb-4">
           <div className="col-12 col-md-6 col-lg-3 mb-4">
@@ -55,8 +55,8 @@ const Analytics = () => {
         </div>
 
         {/* Recent Uploads */}
-        <div className="bg-darkgray border rounded p-4 mb-4">
-          <h2 className="h6 font-weight-bold mb-4">Recent Uploads</h2>
+        <div className="bg-darkgray border rounded p-2 p-lg-4 mb-4">
+          <h2 className="h6 font-weight-bold mt-2 mb-4">Recent Uploads</h2>
           <div className="table-responsive">
             <table className="table w-100">
               <thead>
