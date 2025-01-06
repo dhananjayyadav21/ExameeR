@@ -3,7 +3,7 @@ import { FaPlusCircle, FaEdit, FaDownload, FaTrash, FaFileAlt } from "react-icon
 
 const PreviousQuestions = () => {
   return (
-    <div id="previousQuestions" className="min-vh-100 pt-2">
+    <div id="previousQuestions" className="min-vh-100 p-2 py-4 px-md-4">
       {/* Header with Add Question Paper Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h2 font-weight-bold text-dark">Previous Year Questions</h1>

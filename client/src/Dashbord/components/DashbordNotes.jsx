@@ -11,7 +11,7 @@ import {
 const StudyNotes = () => {
   return (
     <>
-      <div id="notes" className="min-vh-100 pt-2">
+      <div id="notes" className="min-vh-100 p-2 py-4 px-md-4">
         {/* Header with Add Notes Button */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="h2 font-weight-bold text-dark">Study Notes</h1>

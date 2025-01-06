@@ -2,7 +2,7 @@ import React from 'react';
 
 const Settings = () => {
   return (
-    <section id="settings" className="min-vh-100 bg-darkgray text-white p-lg-4">
+    <section id="settings" className="min-vh-100 bg-darkgray text-white p-2 py-4 px-md-4">
       <div className="container">
         {/* Profile Settings */}
         <div className="bg-dark rounded-3 border border-dark p-4 mb-4">

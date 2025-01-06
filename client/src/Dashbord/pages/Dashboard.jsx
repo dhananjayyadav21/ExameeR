@@ -9,6 +9,7 @@ import StudentManagement from "../components/StudentManagement";
 import Settings from "../components/DashbordSetting";
 import Analytics from "../components/DashbordAnalytics";
 import Sidebar from "../components/DashbordSidebar";
+import MobileMenuButton from "../components/DashbordMobileBar";
 
 // import UploadForm from "../components/UplodeFiles";
 
@@ -21,7 +22,7 @@ const Dashboard = () => {
              <Sidebar/>
           </section>
 
-          <section className="dashbor-main col-12 col-lg-10 p-0">
+          <section className="dashbor-main col-12 col-lg-10 p-0 position-relative">
             <div className="bg-light">
               <Routes>
                 <Route index element={<DashbordHead />} /> 
@@ -55,6 +56,11 @@ const Dashboard = () => {
                 <Route path="/dashboard-settings" element={<Settings />} />
               </Routes>
             </div>
+
+            <div className="dashbord-mobilebar">
+              <MobileMenuButton/>
+            </div>
+      
           </section>
 
         </div>

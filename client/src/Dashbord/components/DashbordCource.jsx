@@ -7,7 +7,7 @@ import {
 
 const Courses = () => {
   return (
-    <div id="courses" className="min-vh-100 pt-2">
+    <div id="courses" className="min-vh-100 p-2 py-4 px-md-4">
       {/* Header with Add Course Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h4 fw-bold text-dark">Courses</h1>

@@ -7,7 +7,7 @@ import {
 
 const UploadForm = () => {
   return (
-    <form className="bg-white rounded-lg border shadow-sm p-4">
+    <form className="bg-white rounded-lg border shadow-sm px-2 py-4 px-md-4">
       {/* Basic Information */}
       <div className="mb-4">
         <h2 className="h5 font-semibold text-dark mb-3">Basic Information</h2>
