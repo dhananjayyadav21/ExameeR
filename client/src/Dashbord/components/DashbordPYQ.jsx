@@ -147,15 +147,20 @@ const PreviousQuestions = () => {
       </div>
 
       {/* Pagination */}
-      <div className="d-flex justify-content-between align-items-center mt-4">
-        <div className="text-muted">Showing 1 to 2 of 15 question papers</div>
-        <nav>
-          <button className="btn btn-outline-secondary me-2">Previous</button>
-          <button className="btn btn-warning me-2">1</button>
-          <button className="btn btn-outline-secondary me-2">2</button>
-          <button className="btn btn-outline-secondary me-2">3</button>
-          <button className="btn btn-outline-secondary">Next</button>
-        </nav>
+      {/* Pagination */}
+      <div className="row g-2 d-flex justify-content-center mt-4">
+        <div className="col-md-6">
+          <div className="text-muted">Showing 1 to 2 of 15 Cources</div>
+        </div>
+        <div className="col-md-6">
+          <nav>
+            <button className="btn btn-outline-secondary me-2">Previous</button>
+            <button className="btn btn-info me-2">1</button>
+            <button className="btn btn-outline-secondary me-2">2</button>
+            <button className="btn btn-outline-secondary me-2">3</button>
+            <button className="btn btn-outline-secondary">Next</button>
+          </nav>
+        </div>
       </div>
     </div>
   );

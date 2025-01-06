@@ -144,19 +144,19 @@ const VideoLectures = () => {
       </div>
 
       {/* Pagination */}
-      <div className="d-flex justify-content-between align-items-center mt-4">
-        <div className="text-muted">Showing 1 to 2 of 18 videos</div>
-        <nav className="d-flex">
-          <button className="btn btn-outline-secondary me-2">
-            <FontAwesomeIcon icon={faChevronLeft} /> Previous
-          </button>
-          <button className="btn btn-primary me-2">1</button>
-          <button className="btn btn-outline-secondary me-2">2</button>
-          <button className="btn btn-outline-secondary me-2">3</button>
-          <button className="btn btn-outline-secondary">
-            Next <FontAwesomeIcon icon={faChevronRight} />
-          </button>
-        </nav>
+      <div className="row g-2 d-flex justify-content-center mt-4">
+        <div className="col-md-6">
+          <div className="text-muted">Showing 1 to 2 of 15 Cources</div>
+        </div>
+        <div className="col-md-6">
+          <nav>
+            <button className="btn btn-outline-secondary me-2">Previous</button>
+            <button className="btn btn-warning me-2">1</button>
+            <button className="btn btn-outline-secondary me-2">2</button>
+            <button className="btn btn-outline-secondary me-2">3</button>
+            <button className="btn btn-outline-secondary">Next</button>
+          </nav>
+        </div>
       </div>
     </div>
   );
