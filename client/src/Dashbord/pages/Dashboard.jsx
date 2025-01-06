@@ -18,49 +18,50 @@ const Dashboard = () => {
     <>
       <div className="container-fluid cursor-default">
         <div className="row">
-          <section className="dashbor-nav col-lg-2 p-0">
+          <section className="dashbor-nav col-lg-2 d-none d-lg-flex p-0">
              <Sidebar/>
           </section>
 
-          <section className="dashbor-main col-12 col-lg-10 p-0 position-relative">
-            <div className="bg-light">
-              <Routes>
-                <Route index element={<DashbordHead />} /> 
+          <section className="dashbor-main col-12 col-lg-10 p-0">
+            <section className="components">
+              <div className="bg-light">
+                <Routes>
+                  <Route index element={<DashbordHead />} /> 
 
-                {/* Dashboard Head */}
-                <Route path="/dashboard-head" element={<DashbordHead />} />
+                  {/* Dashboard Head */}
+                  <Route path="/dashboard-head" element={<DashbordHead />} />
 
-                {/* Courses */}
-                <Route path="/dashboard-courses" element={<Cource />} />
+                  {/* Courses */}
+                  <Route path="/dashboard-courses" element={<Cource />} />
 
-                {/* Notes */}
-                <Route path="/dashboard-notes" element={<Notes />} />
+                  {/* Notes */}
+                  <Route path="/dashboard-notes" element={<Notes />} />
 
-                {/* Videos */}
-                <Route path="/dashboard-videos" element={<Video />} />
+                  {/* Videos */}
+                  <Route path="/dashboard-videos" element={<Video />} />
 
-                {/* Previous Year Questions */}
-                <Route path="/dashboard-pyq" element={<PYQ />} />
+                  {/* Previous Year Questions */}
+                  <Route path="/dashboard-pyq" element={<PYQ />} />
 
-                {/* Student Management */}
-                <Route path="/dashboard-student-management" element={<StudentManagement />} />
-              </Routes>
-            </div>
+                  {/* Student Management */}
+                  <Route path="/dashboard-student-management" element={<StudentManagement />} />
+                </Routes>
+              </div>
+              <div className="bg-darkgray">
+                <Routes>
+                  {/* Analytics */}
+                  <Route path="/dashboard-analyticst" element={<Analytics />} />
 
-            <div className="bg-darkgray">
-              <Routes>
-                {/* Analytics */}
-                <Route path="/dashboard-analyticst" element={<Analytics />} />
+                  {/* Settings */}
+                  <Route path="/dashboard-settings" element={<Settings />} />
+                </Routes>
+              </div>
+            </section>
 
-                {/* Settings */}
-                <Route path="/dashboard-settings" element={<Settings />} />
-              </Routes>
-            </div>
 
-            <div className="dashbord-mobilebar">
+            <section className="position-relative d-lg-none">
               <MobileMenuButton/>
-            </div>
-      
+            </section>
           </section>
 
         </div>

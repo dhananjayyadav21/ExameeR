@@ -405,11 +405,17 @@ form label {
   background-color: rgb(35, 35, 35);;
 }
 
-.dashbord-mobilebar{
+.dashbord-mobilebar-btn{
   position: fixed;
   top: 75px;
   right: 10px;
   border-radius: 8px;
+}
+
+.dashbord-mobilebar{
+  position: fixed;
+  top: 60px;
+  left: 2px;
 }
 
 .dashbor-nav{

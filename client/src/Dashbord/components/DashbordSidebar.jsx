@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white w-100 w-lg-25 h-100 position-sticky top-0 d-none d-lg-flex flex-column shadow-sm border-end">
+    <nav className="bg-white w-100 w-lg-25 h-100 position-sticky top-0 d-flex flex-column shadow-sm border-end dashboard-nav">
       <div className="flex-grow-1 py-4">
         <Link
           to="dashboard-head"
@@ -71,9 +71,9 @@ const Sidebar = () => {
           <FontAwesomeIcon icon={faUser} className="me-3" />
           <span className="fw-semibold">Settings</span>
         </Link>
-
       </div>
 
+      {/* Profile Section at the bottom */}
       <div className="p-2 border-top">
         <div className="d-flex align-items-start">
           <img
