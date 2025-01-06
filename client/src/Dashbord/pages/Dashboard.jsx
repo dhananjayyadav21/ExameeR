@@ -1,4 +1,5 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import DashbordHead from "../components/DashbordHead";
 import Cource from "../components/DashbordCource";
 import Notes from "../components/DashbordNotes";
@@ -8,6 +9,7 @@ import StudentManagement from "../components/StudentManagement";
 import Settings from "../components/DashbordSetting";
 import Analytics from "../components/DashbordAnalytics";
 import Sidebar from "../components/DashbordSidebar";
+
 // import UploadForm from "../components/UplodeFiles";
 
 const Dashboard = () => {
@@ -18,56 +20,43 @@ const Dashboard = () => {
           <section className="dashbor-nav col-lg-2 p-0">
              <Sidebar/>
           </section>
+
           <section className="dashbor-main col-12 col-lg-10 p-0">
-            <div className=" bg-light">
-              {/* Dashbord Head */}
-              {/* <div className="container-lg py-2 ">
-                <UploadForm/>
-              </div> */}
+            <div className="bg-light">
+              <Routes>
+                <Route index element={<DashbordHead />} /> 
 
-              {/* Dashbord Head */}
-              <div className="container-lg py-2 ">
-                <DashbordHead />
-              </div>
+                {/* Dashboard Head */}
+                <Route path="/dashboard-head" element={<DashbordHead />} />
 
-              {/* dashbord Cource  */}
-              <div className="container-lg py-2">
-                <Cource />
-              </div>
+                {/* Courses */}
+                <Route path="/dashboard-courses" element={<Cource />} />
 
-              {/* dashbord Notes  */}
-              <div className="container-lg py-2">
-                <Notes />
-              </div>
+                {/* Notes */}
+                <Route path="/dashboard-notes" element={<Notes />} />
 
-              {/* dashbord Video  */}
-              <div className="container-lg py-2">
-                <Video />
-              </div>
+                {/* Videos */}
+                <Route path="/dashboard-videos" element={<Video />} />
 
-              {/* dashbord PYQ  */}
-              <div className="container-lg py-2">
-                <PYQ />
-              </div>
+                {/* Previous Year Questions */}
+                <Route path="/dashboard-pyq" element={<PYQ />} />
 
-              {/* dashbord StudentManagement  */}
-              <div className="container-lg py-2">
-                <StudentManagement />
-              </div>
+                {/* Student Management */}
+                <Route path="/dashboard-student-management" element={<StudentManagement />} />
+              </Routes>
             </div>
 
             <div className="bg-darkgray">
-              {/* dashbord Analytics  */}
-              <div className="py-2">
-                <Analytics />
-              </div>
+              <Routes>
+                {/* Analytics */}
+                <Route path="/dashboard-analyticst" element={<Analytics />} />
 
-              {/* dashbord Setting  */}
-              <div className="py-2">
-                <Settings />
-              </div>
+                {/* Settings */}
+                <Route path="/dashboard-settings" element={<Settings />} />
+              </Routes>
             </div>
           </section>
+
         </div>
       </div>
     </>

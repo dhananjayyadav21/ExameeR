@@ -23,13 +23,13 @@ const Navbar = () => {
             <div className="container-fluid fs-6">
                     
                 {/* Brand-Logo For App */}
-                <Link className="nav-text navbar-brand mt-0" to="/"><img src="assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
+                <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
         
                 <span className='d-flex gap-3'>
                     {/* profile icon for MobileBar */}
                     <div className="nav-item dropdown d-lg-none">  
                         <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div><img  className='profile-img rounded-circle' src="assets/img/Front.png" alt="" /></div>
+                        <div><img  className='profile-img rounded-circle' src="/assets/img/Front.png" alt="" /></div>
                         </a>
                         <ul className="dropdown-menu mt-5" style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                             <li><a className="dropdown-item" href="/">My Learning</a></li>
@@ -64,7 +64,7 @@ const Navbar = () => {
                         <ul className="navbar-nav me-auto d-flex align-items-center">
                             <li className="nav-item dropdown">  
                                 <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <div><img  className='profile-img rounded-circle' src="assets/img/Front.png" alt="" /></div>
+                                <div><img  className='profile-img rounded-circle' src="/assets/img/Front.png" alt="" /></div>
                                 </a>
                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>

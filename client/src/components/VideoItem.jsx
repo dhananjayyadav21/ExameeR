@@ -6,7 +6,7 @@ const VideoItem = () => {
      <div className="col-12 col-sm-6 col-lg-4 rounded-3">
        <div className="card card-transition shadow-sm video-item p-2 rounded-4">
             <div className='position-relative'>
-              <img className="card-img-top rounded-4" src="assets/img/DSA.jpg" alt="Cardcap" style={{width:"100%"}}/>
+              <img className="card-img-top rounded-4" src="/assets/img/DSA.jpg" alt="Cardcap" style={{width:"100%"}}/>
               <div className="Play-btn bg-danger">
                 <i className="fa-solid fa-play"></i>
               </div>

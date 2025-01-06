@@ -81,7 +81,7 @@ const Home = () => {
                 </div>
 
               <div className='col-12 col-md-6 rounded-4 mb-4'>
-                  <img className='front-img' src="assets/img/Front.png" alt="Front Examee" />
+                  <img className='front-img' src="/assets/img/Front.png" alt="Front Examee" />
               </div>
           </section> 
 
