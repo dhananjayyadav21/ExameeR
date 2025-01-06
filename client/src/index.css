@@ -401,6 +401,30 @@ form label {
   background-color: rgb(35, 35, 35);;
 }
 
+.dashbor-nav{
+  height: 91vh;
+}
+
+.dashbor-main{
+  height: 91vh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+@media only screen and (max-width: 770px) {
+
+  .dashbor-nav{
+    display: none;
+  }
+  
+  .dashbor-main{
+    height: 91vh;
+    overflow-y: scroll;
+  }
+
+}
+
+
 /*=========================================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
   /* Notes section */

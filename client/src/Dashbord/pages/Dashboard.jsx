@@ -7,13 +7,16 @@ import PYQ from "../components/DashbordPYQ";
 import StudentManagement from "../components/StudentManagement";
 import Settings from "../components/DashbordSetting";
 import Analytics from "../components/DashbordAnalytics";
+import Sidebar from "../components/DashbordSidebar";
 
 const Dashboard = () => {
   return (
     <>
       <div className="container-fluid">
         <div className="row">
-          <section className="dashbor-nav col-lg-2"></section>
+          <section className="dashbor-nav col-lg-2 p-0">
+             <Sidebar/>
+          </section>
           <section className="dashbor-main col-12 col-lg-10 p-0">
             <div className=" bg-light">
               {/* Dashbord Head */}
