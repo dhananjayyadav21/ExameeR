@@ -442,6 +442,61 @@ form label {
 }
 
 
+/*============================================================ Error page ==================================================*/
+/* ErrorPage.css */
+.error-page {
+  background-color: #f7fafc;
+  padding: 2rem;
+}
+
+.text-indigo {
+  color: #5c6bc0;
+}
+
+.font-weight-bold {
+  font-weight: 700;
+}
+
+.font-weight-semibold {
+  font-weight: 600;
+}
+
+.icon-wrapper {
+  margin-bottom: 2rem;
+}
+
+.icon {
+  font-size: 5rem;
+  color: #5c6bc0;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-indigo {
+  background-color: #5c6bc0;
+  color: white;
+  border: none;
+}
+
+.btn-indigo:hover {
+  background-color: #3f4b8c;
+}
+
+.btn-contact {
+  border-color: #d1d5db;
+  color: #4b5563;
+}
+
+.btn-contact:hover {
+  background-color: #e5e7eb;
+}
+
+
 /*=========================================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
   /* Notes section */

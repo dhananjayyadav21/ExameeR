@@ -22,6 +22,7 @@ import DashbordPYQ from "./Dashbord/components/DashbordPYQ";
 import DashbordStudentManagement from "./Dashbord/components/StudentManagement";
 import DashbordAnalytics from './Dashbord/components/DashbordAnalytics';
 import DashbordSettings from './Dashbord/components/DashbordSetting';
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   return (
@@ -55,6 +56,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/verifyEmail" element={<VerifyEmail />} />
+
+          <Route path="*" element={<ErrorPage />} />
 
         </Routes>
       </BrowserRouter>
