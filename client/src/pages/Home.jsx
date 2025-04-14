@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import CourceIteam from '../components/CourceIteam'
 import Footer from '../components/Footer'
-import TestimonialCard from '../components/TestimonialCard'
+// import TestimonialCard from '../components/TestimonialCard'
 import Team from '../components/Team'
 import Offers from '../components/Offers'
 import { ReactTyped } from "react-typed";
@@ -30,26 +30,26 @@ const Home = () => {
     }
   ]
   
-  let testimonals = [
-    {
-      "name": "Alice Carter",
-      "role": "UI/UX Designer",
-      "description": "The courses offered here helped me improve my design skills significantly",
-      "img": "https://www.atlanticcouncil.org/wp-content/uploads/2022/09/JolyMelanie_Lib_t-1.jpg"
-    },
-    {
-      "name": "Michael Rodriguez",
-      "role": "Full Stack Developer",
-      "description": "This platform has the best resources for learning modern web development. Highly recommended!",
-      "img": "https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg"
-    },
-    {
-      "name": "Sophia Patel",
-      "role": "Data Analyst",
-      "description": "The analytics courses were exactly what I needed to boost my career. The instructors are amazing!",
-      "img": "https://th.bing.com/th/id/R.65c93fce16c1532b3e15a4a52f3ef7f6?rik=nzRaktT%2fUnQRqw&riu=http%3a%2f%2fthispix.com%2fwp-content%2fuploads%2f2015%2f06%2f011.jpg&ehk=gJKh7A8T2u3z4vSqk7O6KLmxjgWQ6OsIxQN3fUiN%2bAM%3d&risl=&pid=ImgRaw&r=0"
-    }
-  ]
+  // let testimonals = [
+  //   {
+  //     "name": "Alice Carter",
+  //     "role": "UI/UX Designer",
+  //     "description": "The courses offered here helped me improve my design skills significantly",
+  //     "img": "https://www.atlanticcouncil.org/wp-content/uploads/2022/09/JolyMelanie_Lib_t-1.jpg"
+  //   },
+  //   {
+  //     "name": "Michael Rodriguez",
+  //     "role": "Full Stack Developer",
+  //     "description": "This platform has the best resources for learning modern web development. Highly recommended!",
+  //     "img": "https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg"
+  //   },
+  //   {
+  //     "name": "Sophia Patel",
+  //     "role": "Data Analyst",
+  //     "description": "The analytics courses were exactly what I needed to boost my career. The instructors are amazing!",
+  //     "img": "https://th.bing.com/th/id/R.65c93fce16c1532b3e15a4a52f3ef7f6?rik=nzRaktT%2fUnQRqw&riu=http%3a%2f%2fthispix.com%2fwp-content%2fuploads%2f2015%2f06%2f011.jpg&ehk=gJKh7A8T2u3z4vSqk7O6KLmxjgWQ6OsIxQN3fUiN%2bAM%3d&risl=&pid=ImgRaw&r=0"
+  //   }
+  // ]
 
   return (
     <div>    
@@ -193,8 +193,8 @@ const Home = () => {
       </div>
      
 
-      {/*==================================================== Testimonial Card 3 ==============================================*/}
-      <div className='bg-light py-5 px-lg-5'>
+      {/*=========================================== Testimonial Card 3 ==============================================*/}
+      {/* <div className='bg-light py-5 px-lg-5'>
         <div className="container-lg my-5 ">
           <h2 className="fw-bolder text-center my-3">Our Testimonials</h2>
           <p className='text-center fw-bold p-gray mb-5'>Trusted By Thousands  ||  Why People Love Us  ||  Your Feedback, Our Pride</p>
@@ -203,7 +203,7 @@ const Home = () => {
               <TestimonialCard key={index} img={user.img} name={user.name} role={user.role} description={user.description}/>)}
           </div>
         </div>
-      </div>
+      </div> */}
 
 
       {/* ====================================== offers ================================================================= */}

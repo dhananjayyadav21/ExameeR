@@ -23,15 +23,15 @@ const Navbar = () => {
             <div className="container-fluid fs-6">
                     
                 {/* Brand-Logo For App */}
-                <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
-        
-                <span className='d-flex gap-3'>
+                <ul className="d-flex flex-row align-items-center mb-0">
+                    <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
+
                     {/* profile icon for MobileBar */}
                     <div className="nav-item dropdown d-lg-none">  
                         <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div><img  className='profile-img rounded-circle' src="/assets/img/Front.png" alt="" /></div>
                         </a>
-                        <ul className="dropdown-menu mt-5" style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
+                        <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                             <li><a className="dropdown-item" href="/">My Learning</a></li>
                             <li><a className="dropdown-item" href="/">Edit Profile</a></li>
                             <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
@@ -39,6 +39,10 @@ const Navbar = () => {
                             <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
                         </ul>
                     </div>
+                </ul>
+                
+        
+                <span className='d-flex gap-3'> 
                     {/* Hamburger icon for MobileBar */}
                     <i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none d-${openMBDisply}`} onClick={openMobileBar}  ></i>
                     <i className={`fa-solid fa-2x fa-xmark align-self-center d-lg-none d-${display}`} onClick={closeMobileBar}></i>
