@@ -30,7 +30,7 @@ function MobileMenuButton() {
             </button>
         </div>
 
-        <div className={`dashbord-mobilebar d-${isDisplay} `}>
+        <div className={`dashbord-mobilebar d-${isDisplay} h-100`}>
             <Sidebar/>
         </div>
     

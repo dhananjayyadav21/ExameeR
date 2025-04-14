@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white w-100 w-lg-25 h-100 position-sticky top-0 d-flex flex-column shadow-sm border-end dashboard-nav">
+    <nav className="bg-white w-100 w-lg-25 position-sticky d-flex flex-column shadow-sm border-end dashboard-nav">
       <div className="flex-grow-1 py-4">
         <Link
           to="dashboard-head"
@@ -80,7 +80,7 @@ const Sidebar = () => {
             src="/assets/img/Front.png"
             alt="Profile"
             className="rounded-circle"
-            style={{ width: "40px", height: "40px" }}
+            style={{ width: "50px", height: "50px" }}
             loading="lazy"
           />
           <div className="ms-2">
