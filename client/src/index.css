@@ -30,6 +30,10 @@ code {
     monospace;
 }
 
+.pl-0{
+  padding-left: 0%;
+}
+
 .btn-green {
   background-color: var(--primary-color);
   color: var(--primary-white);

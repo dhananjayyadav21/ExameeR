@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <div>
         <section id="contact" className="py-5">
-            <div className="container-lg px-3 px-lg-5">
+            <div className="container px-3 px-lg-5">
             <div className="row g-5">
                 {/* Contact Information */}
                 <div className="col-lg-6">
@@ -17,7 +17,7 @@ const Contact = () => {
                 <div className="list-group">
                     <div className="d-flex align-items-center mb-4">
                     <div className="support-call text-white mx-2">
-                        <i class="fa-solid fa-phone"></i>
+                        <i className="fa-solid fa-phone"></i>
                     </div>
                     <div>
                         <h5 className="fw-bold mb-0">Phone</h5>
@@ -27,7 +27,7 @@ const Contact = () => {
 
                     <div className="d-flex align-items-center mb-4">
                     <div className="support-email text-white  mx-2">
-                        <i class="fa-regular fa-envelope"></i>
+                        <i className="fa-regular fa-envelope"></i>
                     </div>
                     <div>
                         <h5 className="fw-bold mb-0">Email</h5>
@@ -37,7 +37,7 @@ const Contact = () => {
 
                     <div className="d-flex align-items-center">
                     <div className="support-location text-white  mx-2">
-                        <i class="fa-solid fa-location-dot"></i>
+                        <i className="fa-solid fa-location-dot"></i>
                     </div>
                     <div>
                         <h5 className="fw-bold mb-0">Location</h5>
