@@ -5,8 +5,8 @@ const Contact = () => {
   return (
     <div>
         <section id="contact" className="py-5">
-            <div className="container px-3 px-lg-5">
-            <div className="row g-5">
+            <div className="container-lg px-3 px-lg-5">
+            <div className="row g-4 align-items-center">
                 {/* Contact Information */}
                 <div className="col-lg-6">
                 <h2 className="fw-bold text-dark mb-4">Get in Touch</h2>
