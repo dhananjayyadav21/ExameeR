@@ -23,7 +23,7 @@ const Navbar = () => {
             <div className="container-fluid fs-6">
                     
                 {/* Brand-Logo For App */}
-                <ul className="d-flex flex-row align-items-center mb-0">
+                <ul className="d-flex flex-row align-items-center mb-0 pl-0">
                     <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
 
                     {/* profile icon for MobileBar */}
