@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Offers = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <section id="pricing" className="py-5">
@@ -37,7 +40,7 @@ const Offers = () => {
                       Email Support
                     </li>
                   </ul>
-                  <button className="btn btn-primary w-100">Get Started</button>
+                  <button className="btn btn-primary w-100" onClick={()=>navigate('/plans')}>Get Started</button>
                 </div>
               </div>
             </div>
@@ -73,7 +76,7 @@ const Offers = () => {
                       Live Sessions
                     </li>
                   </ul>
-                  <button className="btn btn-primary w-100">Get Started</button>
+                  <button className="btn btn-primary w-100" onClick={()=>navigate('/plans')}>Get Started</button>
                 </div>
               </div>
             </div>
@@ -106,7 +109,7 @@ const Offers = () => {
                       Certificate
                     </li>
                   </ul>
-                  <button className="btn btn-primary w-100">Get Started</button>
+                  <button className="btn btn-primary w-100"onClick={()=>navigate('/plans')}>Get Started</button>
                 </div>
               </div>
             </div>

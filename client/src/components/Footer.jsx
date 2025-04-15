@@ -23,7 +23,7 @@ const Footer = () => {
                   <div className="col-md-6 my-3">
                     <h5 className="mb-3">Quick Links</h5>
                     <ul className="list-unstyled">
-                      <li><Link to="/home" className="nav-link cursor-pointer my-2"> Home</Link></li>
+                      <li><Link to="/" className="nav-link cursor-pointer my-2"> Home</Link></li>
                       <li><Link to="/about" className="nav-link cursor-pointer my-2">About Us</Link></li>
                       <li><Link to="/cources" className="nav-link cursor-pointer my-2">Courses</Link></li>
                       <li><Link to="/notes" className="nav-link cursor-pointer my-2">Notes</Link></li>
