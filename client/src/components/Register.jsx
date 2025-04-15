@@ -20,8 +20,6 @@ const Register = () => {
                 if(localStorage.getItem("user-info")){
                     navigate('/');
                 }  
-
-                console.log("============",result.data.user);
             }
 
           } catch (error) {
@@ -50,7 +48,7 @@ const Register = () => {
             <div className="d-grid">
                 <button className="btn btn-light border" onClick={googleLogin}>
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Icon" className="me-2"  style={{width:"20px"}}/>
-                    Register with Google
+                    Login with Google
                 </button>
             </div>
 

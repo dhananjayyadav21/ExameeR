@@ -1,7 +1,38 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useGoogleLogin } from '@react-oauth/google';
+import { googleAuth } from '../googleAuthApi';
 
 const Login = () => {
+    const navigate = useNavigate();
+    
+    const responseGoogle = async (authResult)=>{
+        try {
+            if(authResult['code']){
+                const result = await googleAuth(authResult['code']);
+
+                const {Username, Email, Profile} = result.data.user;
+                const token = result.data.token;
+
+                const userObj = {Username, Email, Profile,token};
+                localStorage.setItem("user-info",JSON.stringify(userObj));
+                
+                if(localStorage.getItem("user-info")){
+                    navigate('/');
+                }  
+            }
+
+        } catch (error) {
+            console.error("Error while requesting google to code :",error);
+        }
+    }
+    
+    const googleLogin = useGoogleLogin({
+        onSuccess:responseGoogle,
+        onError:responseGoogle,
+        flow: 'auth-code'
+    })
+
   return (
     <>
      <div className="container d-flex justify-content-center align-self-center px-3 mt-2 mb-3">
@@ -15,7 +46,7 @@ const Login = () => {
            
             {/* <!-- Google Login Button --> */}
             <div className="d-grid">
-                <button className="btn btn-light border">
+                <button className="btn btn-light border"  onClick={googleLogin}>
                     <img  src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Icon" className="me-2"  style={{width:"20px"}}/>
                     Login with Google
                 </button>
