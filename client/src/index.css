@@ -369,10 +369,11 @@ form label {
 .Auth-header .btn:hover,
 .Auth-header .btn:focus-visible,
 .Auth-header .btn:focus,
-.Auth-header .btn-green:active {
+.Auth-header .btn-green:active{
   background-color: #f8f9fa;
-  color: black;
+  color: #04bd20;
   border: none;
+  padding:7px
 }
 
 .Register .form-control,
