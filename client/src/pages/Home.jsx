@@ -75,8 +75,11 @@ const Home = () => {
                   </div>
                   
                   <div className='d-flex gap-2 justify-content-center justify-content-md-start'>
-                  <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
-                  <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>
+                  {!localStorage.getItem("user-info")?
+                    <><button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Login</Link></button>
+                      <button type="button" className="btn btn-green px-4 rounded-3"><Link className='nav-link' to="/auth">Register</Link></button>
+                    </>:
+                    <></>}
                   </div> 
                 </div>
 
