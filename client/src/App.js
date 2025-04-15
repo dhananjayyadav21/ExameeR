@@ -1,13 +1,13 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
 import Cource from "./components/Cource";
 import QPaper from "./components/QPaper";
 import Video from "./components/Video";
 import Home from "./pages/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
@@ -25,6 +25,15 @@ import DashbordSettings from './Dashbord/components/DashbordSetting';
 import ErrorPage from "./components/ErrorPage";
 
 function App() {
+
+  const GoogleAuthWraper = ()=>{
+    return(
+      <GoogleOAuthProvider clientId="81360539878-c23jclv7lc31cf8m2remiso4qk6kthd4.apps.googleusercontent.com">
+        <Auth></Auth>
+      </GoogleOAuthProvider>
+    )
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -51,9 +60,9 @@ function App() {
           </Route>
 
           {/* Authentication Routes */}
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/auth" element={<GoogleAuthWraper />} />
+          <Route path="/login" element={<GoogleAuthWraper />} />
+          <Route path="/register" element={<GoogleAuthWraper />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/verifyEmail" element={<VerifyEmail />} />
 

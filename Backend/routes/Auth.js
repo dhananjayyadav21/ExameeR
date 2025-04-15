@@ -1,11 +1,14 @@
-const express = require('express');
+const googleAuth = require('../controllers/googleAuthControllers')
+const router = require('express').Router();
 
 
-const router = express.Router();
+  //============================== create A new User using POST: auth/register ==================================
+  router.get('/register', (req, res) => {
+    res.send("hellow register")
+  });
 
-//============================== create A new User using POST: examee/auth/register ==================================
-router.get('/register', (req, res) => {
-    res.send('Hello World!')
-  })
+  router.get('/google', googleAuth);
+
+
 
 module.exports = router;  
