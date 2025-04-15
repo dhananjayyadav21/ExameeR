@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CourceIteam from '../components/CourceIteam'
 import Footer from '../components/Footer'
 // import TestimonialCard from '../components/TestimonialCard'
@@ -9,6 +9,8 @@ import { ReactTyped } from "react-typed";
 import HowExameeWork from '../components/HowExameeWork'
 
 const Home = () => {
+
+  const navigate = useNavigate();
 
   let arr = [{},{},{},{}]
   let team = [
@@ -136,7 +138,7 @@ const Home = () => {
             <div className="row g-4 mt-4">{arr.map((e,index)=> <CourceIteam key={index}/>)}</div>
         </div>
         <div className='d-flex justify-content-center'>
-           <button className='btn btn-dark px-5 py-2 mt-5'>View All Courses</button>
+           <button className='btn btn-dark px-5 py-2 mt-5'onClick={()=>navigate('/cource')} >View All Courses</button>
         </div>
       </section>
 

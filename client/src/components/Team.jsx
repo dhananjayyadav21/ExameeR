@@ -17,7 +17,7 @@ const Team = (props) => {
                     </div>
                 </div>
                 <button className="mt-3 btn btn-primary w-100">
-                    View Notes
+                    View
                 </button>
             </div> 
         </div>
