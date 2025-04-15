@@ -18,9 +18,14 @@ const googleLogin = async (req,res)=>{
 
        console.log("userDataRes==",userDataRes.data);
 
-       let user = await userModel.findOne({email});
+       let user = await userModel.findOne({Email:email});
 
        console.log("user==",user);
+
+       if(user){
+         console.log("Alrady User Exist");
+       }
+
        if(!user){
           user = await userModel.create({
             Username:name, Email:email,Profile:picture
