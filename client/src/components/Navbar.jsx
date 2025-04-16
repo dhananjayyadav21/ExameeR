@@ -1,20 +1,31 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from "react-toastify";
 
 const Navbar = () => {
 
-   const [display, setDisplay] = useState("none");
-   const [openMBDisply, setopenMBDisply] = useState("");
+    const [display, setDisplay] = useState("none");
+    const [openMBDisply, setopenMBDisply] = useState("");
 
-   const openMobileBar = ()=>{
+    const openMobileBar = ()=>{
         setDisplay("");
         setopenMBDisply("none");
-   }
+    }
 
-   const closeMobileBar = ()=>{
+    const closeMobileBar = ()=>{
         setDisplay("none");
         setopenMBDisply("");
-   }
+    }
+
+    const handleLogout = ()=>{
+        localStorage.removeItem('token');
+        toast.error("You're now logged out !!", {
+            position: "top-right"
+        });
+        window.location.reload();
+    }
+
+
 
   return (
     <>
@@ -36,7 +47,7 @@ const Navbar = () => {
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>
                                     <li><a className="dropdown-item" href="/">Edit Profile</a></li>
-                                    <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                                    <li><a className="dropdown-item text-danger"  onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                                     <li><hr className="dropdown-divider"/></li>
                                     <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
                                 </ul>
@@ -80,7 +91,7 @@ const Navbar = () => {
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
                                             <li><a className="dropdown-item" href="/">Edit Profile</a></li>
-                                            <li><a className="dropdown-item text-danger" href="/">Logout <i className="fa-solid  fa-arrow-right-from-bracket"></i></a></li>
+                                            <li><a className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid  fa-arrow-right-from-bracket"></i></a></li>
                                             <li><hr className="dropdown-divider"/></li>
                                             <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li>
                                         </ul>

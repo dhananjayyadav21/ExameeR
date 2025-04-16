@@ -48,6 +48,7 @@ const Login = () => {
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
+                    window.location.reload();
                 }else if (result.success === false) {
                     toast.warning(result.message, {
                         position: "top-right"
