@@ -12,7 +12,7 @@ const Register = () => {
         Username:"",
         Email: "",
         Password: "",
-        ConfirmPassword:" "
+        ConfirmPassword:""
     });
     
     const handleFormSumbit = async (e) => {
@@ -56,7 +56,8 @@ const Register = () => {
                         position: "top-right"
                     });
                 } else if (result.success === false) {
-                    toast.warning("Please try with correct credentials", {
+                    toast.warning(result.message
+                        , {
                         position: "top-right"
                     });
                 }

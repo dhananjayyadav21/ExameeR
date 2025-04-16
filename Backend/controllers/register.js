@@ -1,5 +1,6 @@
 const userModel = require('../model/User');
 const bcrypt = require('bcrypt');
+const {sendVerificationEamil} = require("../services/sendEmails")
 
 const register = async (req, res) => {
     try {
@@ -34,7 +35,10 @@ const register = async (req, res) => {
             VerificationCode
         });
 
+        sendVerificationEamil(user.Email,user.VerificationCode);
+
         await user.save();
+        
         return res.status(200).json({
             success: true,
             message: 'Successfully registered. Please login now.',
