@@ -14,8 +14,7 @@ const UserSchema = new Schema({
 
     },
     Password:{
-        type:String,
-        required:true,
+        type:String
     },
     isVerified:{
         type:Boolean,

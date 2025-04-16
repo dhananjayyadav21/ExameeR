@@ -16,7 +16,8 @@ const Login = () => {
     const handleFormSumbit = async (e) => {
         e.preventDefault();
 
-        try {
+        try { 
+            // debugger
             const { Email, Password } = Credentials;
         
             if (!Email || !Password) {
@@ -74,7 +75,7 @@ const Login = () => {
                 const token = result.data.token;
 
                 const userObj = { Username, Email, Profile };
-                localStorage.setItem("user-info", JSON.stringify(userObj));
+                // localStorage.setItem("user-info", JSON.stringify(userObj));
                 localStorage.setItem("token", token);
 
                 if(result.data.success === true){

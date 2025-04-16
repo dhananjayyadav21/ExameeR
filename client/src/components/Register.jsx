@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '../googleAuthApi';
 import * as GlobalUrls from "../GlobalURL"
@@ -80,7 +80,7 @@ const Register = () => {
                 const token = result.data.token;
 
                 const userObj = {Username, Email, Profile};
-                localStorage.setItem("user-info",JSON.stringify(userObj));
+                // localStorage.setItem("user-info",JSON.stringify(userObj));
                 localStorage.setItem("token",token);
                 
                 if(result.data.success === true){
