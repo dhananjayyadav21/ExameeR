@@ -23,6 +23,9 @@ const UserSchema = new Schema({
     VerificationCode:{
         type:String
     },
+    ForgotPasswordCode:{
+        type:String
+    },
     Profile:{
         type:String 
     }
