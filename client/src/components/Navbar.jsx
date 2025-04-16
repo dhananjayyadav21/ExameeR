@@ -27,7 +27,7 @@ const Navbar = () => {
                     <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
 
                     {/* profile icon for MobileBar */}
-                    {localStorage.getItem("user-info")?
+                    {localStorage.getItem("token")?
                         <>
                             <div className="nav-item dropdown d-lg-none">  
                                 <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,7 +71,7 @@ const Navbar = () => {
                     {/* profile, Notes, Cource, Videos, Q-paper */}
                     <div>
                         <ul className="navbar-nav me-auto d-flex align-items-center">
-                            {localStorage.getItem("user-info")?
+                            {localStorage.getItem("token")?
                                 <>
                                     <li className="nav-item dropdown">  
                                         <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown"  aria-expanded="false">
