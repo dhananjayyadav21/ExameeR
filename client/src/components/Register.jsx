@@ -1,11 +1,76 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '../googleAuthApi';
+import * as GlobalUrls from "../GlobalURL"
+import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate();
 
+    const [Credentials, setCredentials] = useState({
+        Username:"",
+        Email: "",
+        Password: "",
+        ConfirmPassword:" "
+    });
+    
+    const handleFormSumbit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const { Username, Email, Password, ConfirmPassword } = Credentials;
+        
+            if (!Username || !Email || !Password) {
+                toast.warning("All fields are required !", {
+                    position: "top-right"
+                });
+            } 
+            else if (Password !== ConfirmPassword) {
+                toast.warning("Password & Confirm Password must be same !", {
+                    position: "top-right"
+                });
+            } 
+            else {
+                const response = await fetch(`${GlobalUrls.REGISTER_URL}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        Username,
+                        Email,
+                        Password,
+                    }),
+                });
+        
+                const result = await response.json();
+        
+                console.log(result);
+                console.log(result.success);
+        
+                // If successfully registered, navigate to verify email page
+                if (result.success === true) {
+                    navigate("/verifyEmail");
+                    toast.success("Register successfully !", {
+                        position: "top-right"
+                    });
+                } else if (result.success === false) {
+                    toast.warning("Please try with correct credentials", {
+                        position: "top-right"
+                    });
+                }
+            }
+            }catch (error) {
+            console.error(error.message);
+        }
+    };    
+    
+    const handlOnchange = (e) => {
+        setCredentials({ ...Credentials, [e.target.name]: e.target.value });
+    };
+
+    //============================================== [ Google Authentication] ================================================
     const responseGoogle = async (authResult)=>{
           try {
             if(authResult['code']){
@@ -14,12 +79,20 @@ const Register = () => {
                 const {Username, Email, Profile} = result.data.user;
                 const token = result.data.token;
 
-                const userObj = {Username, Email, Profile,token};
+                const userObj = {Username, Email, Profile};
                 localStorage.setItem("user-info",JSON.stringify(userObj));
+                localStorage.setItem("token",token);
                 
-                if(localStorage.getItem("user-info")){
+                if(result.data.success === true){
                     navigate('/');
-                }  
+                    toast.success("You're now logged in !", {
+                        position: "top-right"
+                    });
+                }else if(result.data.success === false){
+                    toast.error("Something went wrong. Please try again later !", {
+                        position: "top-right"
+                    });
+                }   
             }
 
           } catch (error) {
@@ -58,34 +131,34 @@ const Register = () => {
             </div>
             
             {/* <!-- Register Form --> */}
-            <form noValidate>
+            <form onSubmit={handleFormSumbit}>
                 <div className='row'>
                     <div className='col-12 col-md-6'>
                         <div className="mb-3">
                             <small><label htmlFor="username" className="form-label">Username</label></small>
-                            <input type="text" className="form-control" id="username" placeholder="Enter your username"/>
+                            <input type="text" className="form-control" id="Username" name='Username' value={Credentials.Username} onChange={handlOnchange} placeholder="Enter your username"/>
                         </div>
                     </div>
                     <div className='col-12 col-md-6'>
                         <div className="mb-3">
                             <small><label htmlFor="email" className="form-label">Email</label></small>
-                            <input type="email" className="form-control" id="email" placeholder="Enter your email"/>
+                            <input type="email" className="form-control" id="Email" name='Email' value={Credentials.Email} onChange={handlOnchange} placeholder="Enter your email"/>
                         </div>
                     </div>
                     <div className='col-12 col-md-6'>
                         <div className="mb-3">
                             <small><label htmlFor="password" className="form-label">Password</label></small>
-                            <input type="password" className="form-control" id="password" placeholder="Enter your password"/>
+                            <input type="password" className="form-control" id="Password" name='Password' value={Credentials.Password} onChange={handlOnchange} placeholder="Enter your password"/>
                         </div>
                     </div>
                     <div className='col-12 col-md-6'>
                         <div className="mb-3">
                             <small><label htmlFor="confirmPassword" className="form-label">Confirm Password</label></small>
-                            <input type="password" className="form-control" id="confirmPassword" placeholder="Re-enter your password"/>
+                            <input type="password" className="form-control" id="ConfirmPassword" name='ConfirmPassword' value={Credentials.ConfirmPassword} onChange={handlOnchange}  placeholder="Re-enter your password"/>
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-green w-100"><Link className='nav-link' to="/verifyEmail">Register</Link></button>
+                <button type="submit" className="btn btn-green w-100">Register</button>
             </form>
 
           
