@@ -2,7 +2,7 @@ const transporter = require('./Email.config')
 const {VerificationEmail_Template,WelcomeEmail_Template} = require('./emailTemplate');
 const MyEmail = process.env.EMAIL;
 
-export const sendVerificationEamil= async(Email,VerificationCode)=>{
+const sendVerificationEamil= async(Email,VerificationCode)=>{
     try {
      const response=   await transporter.sendMail({
             from: `"Examee" <${MyEmail}>`,
@@ -18,7 +18,7 @@ export const sendVerificationEamil= async(Email,VerificationCode)=>{
     }
 }
 
-export const sendWelcomeEmail= async(Email,Username)=>{
+const sendWelcomeEmail= async(Email,Username)=>{
     try {
      const response=   await transporter.sendMail({
             from: `"Examee" <${MyEmail}>`,
@@ -33,3 +33,9 @@ export const sendWelcomeEmail= async(Email,Username)=>{
         console.log('Welcome Email error',error)
     }
 }
+
+
+module.exports = {
+    sendVerificationEamil,
+    sendWelcomeEmail
+};

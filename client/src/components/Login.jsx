@@ -48,9 +48,8 @@ const Login = () => {
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
-                } else {
-                    alert("");
-                    toast.warning("Please try with the correct credentials !", {
+                }else if (result.success === false) {
+                    toast.warning(result.message, {
                         position: "top-right"
                     });
                 }

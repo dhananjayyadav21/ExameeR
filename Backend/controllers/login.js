@@ -1,6 +1,7 @@
 const userModel = require('../model/User');
 const bcrypt = require('bcrypt');
 const Jwt = require('jsonwebtoken');
+const {sendWelcomeEmail} = require("../services/sendEmails")
 
 const login = async (req, res) => {
     try {
@@ -39,6 +40,9 @@ const login = async (req, res) => {
                 expiresIn:process.env.JWT_TIMEOUT
             }
         );
+
+
+        sendWelcomeEmail(user.Email,user.Username);
 
         return res.status(200).json({
             success:true,
