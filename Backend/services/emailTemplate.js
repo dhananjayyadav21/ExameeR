@@ -42,39 +42,38 @@ export const WelcomeEmail_Template = `<!DOCTYPE html>
   <title>Welcome to Examee</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body style="margin: 0; padding: 0; background-color: #e8f5e9; font-family: 'Segoe UI', Arial, sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+<body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+
+  <!-- Preheader -->
+  <div style="display:none; max-height:0; overflow:hidden; color:#f4f6f8;">
+    Welcome to Examee – Start your learning journey today!
+  </div>
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
     
     <!-- Header -->
     <tr>
-      <td style="background-color: #2e7d32; padding: 30px 20px; text-align: center;">
-        <!-- Replace with your actual logo hosted at newexamee.netlify.app -->
-        <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" style="max-width: 160px; margin-bottom: 10px;" />
-        <h1 style="margin: 10px 0 0; font-size: 24px; color: #ffffff;">Welcome to Examee!</h1>
+      <td style="background-color: #2e7d32; padding: 40px 20px; text-align: center;">
+        <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo - Smart and Secure Learning" style="max-width: 140px; margin-bottom: 16px;" />
+        <h1 style="margin: 0; font-size: 26px; color: #ffffff;">Welcome to Examee, {{USERNAME}}!</h1>
       </td>
     </tr>
 
     <!-- Body -->
     <tr>
-      <td style="padding: 30px 40px; color: #444; line-height: 1.6;">
-        <p style="font-size: 16px; margin-top: 0;">Hi <strong>{{USERNAME}}</strong>,</p>
-        <p style="font-size: 16px;">
-          We're thrilled to have you join us at <strong>Examee</strong> — your smart and secure learning platform. Whether you're a student, educator, or professional, Examee is designed to help you succeed.
-        </p>
-        <p style="font-size: 16px;">
-          Your journey begins now. Head over to your dashboard to explore tools, manage exams, and personalize your learning experience.
-        </p>
-        <p style="font-size: 16px;">
-          If you need assistance, our friendly support team is always here to help you.
-        </p>
-        <p style="font-size: 16px;">
-          Happy learning! 🎉<br />
-          <span style="color: #2e7d32;"><strong>— The Examee Team</strong></span>
+      <td style="padding: 32px 40px; color: #333333; line-height: 1.6; font-size: 16px;">
+        <p style="margin-top: 0;">Hi <strong>{{USERNAME}}</strong>,</p>
+        <p>We’re excited to have you on board at <strong>Examee</strong> – the smart and secure platform built to empower your learning journey.</p>
+        <p>Explore your dashboard, manage exams, and unlock personalized tools designed to help you succeed.</p>
+        <p>Need help? Our friendly support team is just a click away.</p>
+        <p>Wishing you success, growth, and a great learning experience! 🎉</p>
+        <p style="margin-bottom: 0;">
+          <strong style="color: #2e7d32;">– The Examee Team</strong>
         </p>
 
         <!-- CTA Button -->
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="https://newexamee.netlify.app" style="background-color: #2e7d32; color: #ffffff; padding: 14px 28px; text-decoration: none; font-size: 16px; border-radius: 6px; display: inline-block;">
+        <div style="text-align: center; margin: 40px 0;">
+          <a href="https://newexamee.netlify.app" style="background-color: #2e7d32; color: #ffffff; padding: 14px 28px; text-decoration: none; font-size: 16px; border-radius: 8px; font-weight: bold; display: inline-block;">
             Go to learn
           </a>
         </div>
@@ -83,9 +82,24 @@ export const WelcomeEmail_Template = `<!DOCTYPE html>
 
     <!-- Footer -->
     <tr>
-      <td style="background-color: #f1f8e9; text-align: center; padding: 20px; font-size: 12px; color: #777;">
+      <td style="background-color: #f1f8e9; text-align: center; padding: 20px; font-size: 13px; color: #777;">
         &copy; 2025 <strong style="color: #2e7d32;">Examee</strong>. All rights reserved.<br />
-        <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">www.examee.com</a>
+        <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
+      </td>
+    </tr>
+
+    <!-- Optional: Social Media Links -->
+    <tr>
+      <td style="text-align: center; padding: 16px;">
+        <a href="https://www.instagram.com/iamneell_ig/" style="margin: 0 6px; text-decoration: none;">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="24" height="24" />
+        </a>
+        <a href="https://www.youtube.com/@exameecode" style="margin: 0 6px; text-decoration: none;">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="24" height="24" />
+        </a>
+        <a href="https://www.linkedin.com/in/dhananjayyadav18" style="margin: 0 6px; text-decoration: none;">
+          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="LinkedIn" width="24" height="24" />
+        </a>
       </td>
     </tr>
   </table>
