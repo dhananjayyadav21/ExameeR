@@ -19,9 +19,6 @@ const googleLogin = async (req,res)=>{
        console.log("userDataRes==",userDataRes.data);
 
        let user = await userModel.findOne({Email:email});
-
-       console.log("user==",user);
-
        if(user){
          console.log("Alrady User Exist");
        }
@@ -40,17 +37,20 @@ const googleLogin = async (req,res)=>{
          }
       );
       return res.status(200).json({
-         message: 'success',
+         success:true,
+         message: 'Successfully google authentication',
          token,
          user
       })
 
     } catch (error) {
         res.status(500).json({
+         success:false,
          message: 'googleAuth controller error'
         })
     }
  }
+ 
  
  module.exports = googleLogin
  

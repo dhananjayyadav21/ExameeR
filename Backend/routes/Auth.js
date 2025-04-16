@@ -1,13 +1,15 @@
-const googleAuth = require('../controllers/googleAuthControllers')
+const googleAuth = require('../controllers/googleAuthControllers');
+const register = require('../controllers/register');
+const login = require('../controllers/login');
 const router = require('express').Router();
 
 
-  //============================== create A new User using POST: auth/register ==================================
-  router.get('/register', (req, res) => {
-    res.send("hellow register")
-  });
+  //--- user Authenticate using manual crendential ---------
+  router.post('/register',register);
 
-  //============================== create A new User using Google Authentication ==================================
+  router.post('/login',login);
+
+  //---- User Authentication using google --------
   router.get('/google', googleAuth);
 
 

@@ -3,16 +3,26 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     Username:{
-        type:String
+        type:String,
+        required:true,
+
     },
     Email:{
-        type:String
+        type:String,
+        required:true,
+        unique:true
+
     },
     Password:{
-        type:String
+        type:String,
+        required:true,
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     },
     VerificationCode:{
-        type:Number
+        type:String
     },
     Profile:{
         type:String 
