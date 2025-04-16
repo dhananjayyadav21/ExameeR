@@ -38,70 +38,81 @@ export const VerificationEmail_Template = `<!DOCTYPE html>
 export const WelcomeEmail_Template = `<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Welcome to Examee</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <title>Welcome to Examee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f6f8;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 120px;
+            margin-bottom: 10px;
+        }
+        .greeting {
+            font-size: 22px;
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        .body-text {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #2e7d32;
+            color: #ffffff;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">
-
-  <!-- Preheader -->
-  <div style="display:none; max-height:0; overflow:hidden; color:#f4f6f8;">
-    Welcome to Examee – Start your learning journey today!
-  </div>
-
-  <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
-    
-    <!-- Header -->
-    <tr>
-      <td style="background-color: #2e7d32; padding: 40px 20px; text-align: center;">
-        <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo - Smart and Secure Learning" style="max-width: 140px; margin-bottom: 16px;" />
-        <h1 style="margin: 0; font-size: 26px; color: #ffffff;">Welcome to Examee, {{USERNAME}}!</h1>
-      </td>
-    </tr>
-
-    <!-- Body -->
-    <tr>
-      <td style="padding: 32px 40px; color: #333333; line-height: 1.6; font-size: 16px;">
-        <p style="margin-top: 0;">Hi <strong>{{USERNAME}}</strong>,</p>
-        <p>We’re excited to have you on board at <strong>Examee</strong> – the smart and secure platform built to empower your learning journey.</p>
-        <p>Explore your dashboard, manage exams, and unlock personalized tools designed to help you succeed.</p>
-        <p>Need help? Our friendly support team is just a click away.</p>
-        <p>Wishing you success, growth, and a great learning experience! 🎉</p>
-        <p style="margin-bottom: 0;">
-          <strong style="color: #2e7d32;">– The Examee Team</strong>
-        </p>
-
-        <!-- CTA Button -->
-        <div style="text-align: center; margin: 40px 0;">
-          <a href="https://newexamee.netlify.app" style="background-color: #2e7d32; color: #ffffff; padding: 14px 28px; text-decoration: none; font-size: 16px; border-radius: 8px; font-weight: bold; display: inline-block;">
-            Go to learn
-          </a>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
+            <h1 class="greeting">Welcome to Examee, {{USERNAME}}!</h1>
         </div>
-      </td>
-    </tr>
-
-    <!-- Footer -->
-    <tr>
-      <td style="background-color: #f1f8e9; text-align: center; padding: 20px; font-size: 13px; color: #777;">
-        &copy; 2025 <strong style="color: #2e7d32;">Examee</strong>. All rights reserved.<br />
-        <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
-      </td>
-    </tr>
-
-    <!-- Optional: Social Media Links -->
-    <tr>
-      <td style="text-align: center; padding: 16px;">
-        <a href="https://www.instagram.com/iamneell_ig/" style="margin: 0 6px; text-decoration: none;">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="24" height="24" />
-        </a>
-        <a href="https://www.youtube.com/@exameecode" style="margin: 0 6px; text-decoration: none;">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="24" height="24" />
-        </a>
-        <a href="https://www.linkedin.com/in/dhananjayyadav18" style="margin: 0 6px; text-decoration: none;">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="LinkedIn" width="24" height="24" />
-        </a>
-      </td>
-    </tr>
-  </table>
+        <div class="body-text">
+            <p>Hi Dear,</p>
+            <p>Welcome to Examee! We're happy to have you join our learning platform.</p>
+            <p>Get started by exploring your dashboard and discovering the tools we have for you.</p>
+            <p>If you need any assistance, our support team is here to help.</p>
+            <p>Best regards,</p>
+            <p>The Examee Team</p>
+        </div>
+        <div style="text-align: center;">
+            <a href="https://newexamee.netlify.app" class="button" style="color:rgb(255, 255, 255); text-decoration: none;">Go to learn</a>
+        </div>
+        <div class="footer">
+            <p>© 2025 Examee. All rights reserved.</p>
+            <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
+        </div>
+    </div>
 </body>
 </html>`
