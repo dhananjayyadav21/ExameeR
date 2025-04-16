@@ -32,6 +32,13 @@ const login = async (req, res) => {
             });
         }
 
+        if(!user.isVerified){
+            return res.status(400).json({
+                success: false,
+                message: "Email not veryfied!"
+            });
+        }
+
         // create jwt
         const { _id } = user;
             const token = Jwt.sign({_id,Email}, 

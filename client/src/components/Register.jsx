@@ -46,12 +46,12 @@ const Register = () => {
         
                 const result = await response.json();
         
-                console.log(result);
-                console.log(result.success);
+                // console.log(result);
+                // console.log(result.success);
         
                 // If successfully registered, navigate to verify email page
                 if (result.success === true) {
-                    navigate("/verifyEmail");
+                    navigate(`/verifyEmail?Email=${result.user.Email}`);
                     toast.success("Register successfully !", {
                         position: "top-right"
                     });
@@ -71,7 +71,7 @@ const Register = () => {
         setCredentials({ ...Credentials, [e.target.name]: e.target.value });
     };
 
-    //============================================== [ Google Authentication] ================================================
+    //======================================= [ Google Authentication] ===============================================
     const responseGoogle = async (authResult)=>{
           try {
             if(authResult['code']){
@@ -80,6 +80,7 @@ const Register = () => {
                 const {Username, Email, Profile} = result.data.user;
                 const token = result.data.token;
 
+                // eslint-disable-next-line
                 const userObj = {Username, Email, Profile};
                 // localStorage.setItem("user-info",JSON.stringify(userObj));
                 localStorage.setItem("token",token);
