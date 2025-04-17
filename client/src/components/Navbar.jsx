@@ -17,19 +17,18 @@ const Navbar = () => {
         setopenMBDisply("");
     }
 
-    const handleLogout = ()=>{
+    const handleLogout = async ()=>{
         localStorage.removeItem('token');
+        await window.location.reload();
         toast.error("You're now logged out !!", {
             position: "top-right"
         });
-        window.location.reload();
     }
 
 
 
   return (
     <>
-    
         <nav id='nav' className="navbar sticky-top navbar-expand-lg shadow-sm nav-color">
             <div className="container-fluid fs-6">
                     
@@ -47,7 +46,7 @@ const Navbar = () => {
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>
                                     <li><a className="dropdown-item" href="/">Edit Profile</a></li>
-                                    <li><a className="dropdown-item text-danger"  onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+                                    <li><a className="dropdown-item text-danger" href='/'  onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></a></li>
                                     <li><hr className="dropdown-divider"/></li>
                                     <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
                                 </ul>
@@ -91,7 +90,7 @@ const Navbar = () => {
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
                                             <li><a className="dropdown-item" href="/">Edit Profile</a></li>
-                                            <li><a className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid  fa-arrow-right-from-bracket"></i></a></li>
+                                            <li><a className="dropdown-item text-danger" href='/' onClick={handleLogout}>Logout <i className="fa-solid  fa-arrow-right-from-bracket"></i></a></li>
                                             <li><hr className="dropdown-divider"/></li>
                                             <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li>
                                         </ul>

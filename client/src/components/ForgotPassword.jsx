@@ -51,7 +51,6 @@ const ForgotPassword = () => {
 
     //======================================== [Password reset] =================================
     const [ForgotPasswordData, setForgotPassword] = useState({ // create state for form data
-        Email:localStorage.getItem("FogotEmail"),
         ForgotPasswordCode:"",
         NewPassword:"",
         ConfirmNewPassword:""
@@ -61,10 +60,12 @@ const ForgotPassword = () => {
         e.preventDefault();
         
         try {
-            const {Email, ForgotPasswordCode, NewPassword, ConfirmNewPassword} = ForgotPasswordData;
+            const {ForgotPasswordCode, NewPassword, ConfirmNewPassword} = ForgotPasswordData;
+
+            console.log("formfogo=====",ForgotPasswordData)
             
             // Validate if email or password 
-            if (!Email || !ForgotPasswordCode || !NewPassword || !ConfirmNewPassword) {
+            if (!ForgotPasswordCode || !NewPassword || !ConfirmNewPassword) {
                 toast.error("Please fill out all fields !", {
                     position: "top-right"
                 });
@@ -78,10 +79,11 @@ const ForgotPassword = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ Email: Email, ForgotPasswordCode:ForgotPasswordCode, NewPassword:NewPassword, ConfirmNewPassword:ConfirmNewPassword }),
+                body: JSON.stringify({ Email:localStorage.getItem("FogotEmail"), ForgotPasswordCode:ForgotPasswordCode, NewPassword:NewPassword, ConfirmNewPassword:ConfirmNewPassword }),
                 });
     
                 const result = await response.json();  // get response from server
+                console.log(result)
                
                 // If successfully reset password, and navigate
                 if (result.success === true) {
