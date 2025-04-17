@@ -1,22 +1,21 @@
 const transporter = require('./Email.config')
-const {VerificationEmail_Template,WelcomeEmail_Template} = require('./emailTemplate');
+const {VerificationEmail_Template,WelcomeEmail_Template,ForgotPasswordEmail_Template} = require('./emailTemplate');
 const MyEmail = process.env.EMAIL;
 
-const sendVerificationEamil= async(Email,VerificationCode)=>{
+const sendVerificationEamil = async (Email, VerificationCode) => {
     try {
-     const response=   await transporter.sendMail({
+        const response = await transporter.sendMail({
             from: `"Examee" <${MyEmail}>`,
-
             to: Email,
-            subject: "Verify your Email", 
-            text: "Verify your Email", 
-            html: VerificationEmail_Template.replace("{{VERIFICATION_CODE}}",VerificationCode)
-        })
-        console.log('Verification Email send Successfully',response)
+            subject: "Verify your Email",
+            text: `Your verification code is: ${VerificationCode}. Please visit http://localhost:3000/verifyEmail?Email=${Email} to verify.`, // Added link to text version
+            html: VerificationEmail_Template(Email, VerificationCode), // Pass both email and code
+        });
+        console.log('Verification Email sent Successfully', response);
     } catch (error) {
-        console.log('Verification Email error',error)
+        console.log('Verification Email error', error);
     }
-}
+};
 
 const sendWelcomeEmail= async(Email,Username)=>{
     try {
@@ -34,8 +33,24 @@ const sendWelcomeEmail= async(Email,Username)=>{
     }
 }
 
+const sendForgotPasswordEmail = async (Email, ForgotPasswordCode) => {
+    try {
+      const response = await transporter.sendMail({
+        from: `"Examee" <${MyEmail}>`,
+        to: Email,
+        subject: "Reset Your Password",
+        text: `Your forgot password verification code is: ${ForgotPasswordCode}`,
+        html: ForgotPasswordEmail_Template(ForgotPasswordCode), 
+      });
+      console.log('Forgot Password Email sent Successfully', response);
+    } catch (error) {
+      console.log('Forgot Password Email error', error);
+    }
+  };
+
 
 module.exports = {
     sendVerificationEamil,
-    sendWelcomeEmail
+    sendWelcomeEmail,
+    sendForgotPasswordEmail
 };
