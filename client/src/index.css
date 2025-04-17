@@ -412,8 +412,9 @@ form label {
 
 /*================================================ Profile ===============================================*/
 .userprofile-img {
-  width: 80px;
-  height: 80px;
+  width: 140px;
+  height: 140px;
+  margin: 0 22px;
   object-fit: cover;
 }
 
