@@ -373,8 +373,13 @@ form label {
   background-color: #f8f9fa;
   color: #04bd20;
   border: none;
-  padding:7px
+  padding:6px
 }
+
+.Auth-header .btn{
+  border: none;
+}
+
 
 .Register .form-control,
 .Login .form-control,
