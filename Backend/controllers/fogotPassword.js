@@ -1,5 +1,6 @@
-const userModel = require('../model/User'); // Adjust the path if needed
+const userModel = require('../model/User'); 
 const bcrypt = require('bcrypt');
+const {sendForgotPasswordEmail} = require("../services/sendEmails")
 
 const resetPassword = async (req, res) => {
     try {
@@ -21,7 +22,7 @@ const resetPassword = async (req, res) => {
         }
 
         //  Password Strength Validation (Important Security Practice)
-        if (NewPassword.length < 8) { // Example: Minimum length of 8
+        if (NewPassword.length < 6) { // Example: Minimum length of 8
             return res.status(400).json({
                 success: false,
                 message: "Password must be at least 8 characters long"
@@ -53,7 +54,6 @@ const resetPassword = async (req, res) => {
 
         // 5. Update the Password and Clear the ForgotPasswordCode
         user.Password = hashedNewPassword;
-        user.ForgotPasswordCode = undefined; // Clear the code after successful reset.  *CRITICAL*
         await user.save();
 
         // 6. Send Success Response

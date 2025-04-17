@@ -37,8 +37,8 @@ const Login = () => {
                 });
         
                 const result = await response.json();
-                console.log(result);
-                console.log(result.success);
+                // console.log(result);
+                // console.log(result.success);
         
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
@@ -50,13 +50,16 @@ const Login = () => {
                     });
                     window.location.reload();
                 }else if (result.success === false) {
-                    toast.warning(result.message, {
+                    toast.error(result.message, {
                         position: "top-right"
                     });
                 }
             }
         } catch (error) {
             console.error("Login error:", error.message);
+            toast.error("Login error", {
+                position: "top-right"
+            });
         }
         
     };
@@ -65,7 +68,7 @@ const Login = () => {
         setCredentials({ ...Credentials, [e.target.name]: e.target.value });
     };
 
-    //============================================== [ Google Authentication] ================================================
+    //=================================== [ Google Authentication] ============================================
     const responseGoogle = async (authResult) => {
         try {
             if (authResult['code']) {
@@ -92,6 +95,9 @@ const Login = () => {
 
         } catch (error) {
             console.error("Error while requesting google to code :", error);
+            toast.error("Error while requesting google to code ", {
+                position: "top-right"
+            });
         }
     }
 

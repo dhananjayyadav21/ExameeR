@@ -22,12 +22,12 @@ const Register = () => {
             const { Username, Email, Password, ConfirmPassword } = Credentials;
         
             if (!Username || !Email || !Password) {
-                toast.warning("All fields are required !", {
+                toast.error("All fields are required !", {
                     position: "top-right"
                 });
             } 
             else if (Password !== ConfirmPassword) {
-                toast.warning("Password & Confirm Password must be same !", {
+                toast.error("Password & Confirm Password must be same !", {
                     position: "top-right"
                 });
             } 
@@ -56,7 +56,7 @@ const Register = () => {
                         position: "top-right"
                     });
                 } else if (result.success === false) {
-                    toast.warning(result.message
+                    toast.error(result.message
                         , {
                         position: "top-right"
                     });
@@ -64,6 +64,9 @@ const Register = () => {
             }
             }catch (error) {
             console.error(error.message);
+            toast.error("Error while verify !", {
+                position: "top-right"
+            });
         }
     };    
     
@@ -73,7 +76,7 @@ const Register = () => {
 
     //======================================= [ Google Authentication] ===============================================
     const responseGoogle = async (authResult)=>{
-          try {
+        try {
             if(authResult['code']){
                 const result = await googleAuth(authResult['code']);
 
@@ -99,7 +102,10 @@ const Register = () => {
 
           } catch (error) {
             console.error("Error while requesting google to code :",error);
-          }
+            toast.error("Error while requesting google to code  !", {
+                position: "top-right"
+            });
+        }
     }
 
     const googleLogin = useGoogleLogin({

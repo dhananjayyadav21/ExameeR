@@ -8,15 +8,16 @@ const VerifyEmail = () => {
 
   const [searchParams] = useSearchParams();
   const Email = searchParams.get('Email');
+  const VerificationCodeParams = searchParams.get('VerificationCode');
 
-  const [VerificationCode, setVerificationCode] = useState('');
+  const [VerificationCode, setVerificationCode] = useState("" || VerificationCodeParams);
 
   const handleFormSumbit = async (e) => {
     e.preventDefault();
 
     try {
         if (!VerificationCode) {
-          toast.warning("VerificationCode required !", {
+          toast.error("VerificationCode required !", {
               position: "top-right"
           });
         }else{
@@ -30,7 +31,7 @@ const VerifyEmail = () => {
 
           const result = await response.json();
 
-          console.log("verifydata--------",result);
+          // console.log("verifydata--------",result);
 
           if (result.success === true) {
             toast.success("Email verified successfully!", {
@@ -38,7 +39,7 @@ const VerifyEmail = () => {
             });
             navigate("/login");
           } else if (result.success === false) {
-            toast.warning(result.message ||'Verification failed.'
+            toast.error(result.message ||'Verification failed.'
                 , {
                 position: "top-right"
             });
