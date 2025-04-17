@@ -8,8 +8,8 @@ const sendVerificationEamil = async (Email, VerificationCode) => {
             from: `"Examee" <${MyEmail}>`,
             to: Email,
             subject: "Verify your Email",
-            text: `Your verification code is: ${VerificationCode}. Please visit http://localhost:3000/verifyEmail?Email=${Email} to verify.`, // Added link to text version
-            html: VerificationEmail_Template(Email, VerificationCode), // Pass both email and code
+            text: `Your verification code is: ${VerificationCode}.`,
+            html: VerificationEmail_Template(Email, VerificationCode), 
         });
         console.log('Verification Email sent Successfully', response);
     } catch (error) {
@@ -21,7 +21,6 @@ const sendWelcomeEmail= async(Email,Username)=>{
     try {
      const response=   await transporter.sendMail({
             from: `"Examee" <${MyEmail}>`,
-
             to: Email, 
             subject: "Welcome In Examee",
             text: "Welcome In Examee",
