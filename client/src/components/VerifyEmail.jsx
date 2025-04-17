@@ -31,7 +31,6 @@ const VerifyEmail = () => {
 
           const result = await response.json();
 
-          // console.log("verifydata--------",result);
 
           if (result.success === true) {
             toast.success("Email verified successfully!", {

@@ -6,7 +6,7 @@ const {sendWelcomeEmail} = require("../services/sendEmails")
 const login = async (req, res) => {
     try {
         const { Email, Password } = req.body;
-        console.log("user----",Email,Password)
+
         if ( !Email || !Password) {
             return res.status(400).json({
                 success: false,

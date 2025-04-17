@@ -222,9 +222,6 @@ export const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE h
             <p>Best regards,</p>
             <p>The Examee Team</p>
         </div>
-        <div style="text-align: center;">
-            <a href="https://newexamee.netlify.app/reset-password" class="button" style="color:rgb(255, 255, 255); text-decoration: none;">Reset Password Page</a>
-        </div>
         <div class="footer">
             <p>© 2025 Examee. All rights reserved.</p>
             <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>

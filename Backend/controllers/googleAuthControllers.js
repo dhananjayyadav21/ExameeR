@@ -16,8 +16,6 @@ const googleLogin = async (req,res)=>{
 
        const {email, name, picture} = userDataRes.data;
 
-       console.log("userDataRes==",userDataRes.data);
-
        let user = await userModel.findOne({Email:email});
        if(user){
          console.log("Alrady User Exist");
