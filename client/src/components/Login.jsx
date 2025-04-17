@@ -41,12 +41,11 @@ const Login = () => {
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
                     localStorage.setItem("token",result.token)
-                    console.log(result.token)
+                    window.location.reload();
                     navigate("/");
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
-                    window.location.reload();
                 }else if (result.success === false) { // if any error from the server
                     toast.error(result.message, {
                         position: "top-right"
