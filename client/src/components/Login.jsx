@@ -47,7 +47,7 @@ const Login = () => {
                         position: "top-right"
                     });
                     window.location.reload();
-                }else if (result.success === false) {
+                }else if (result.success === false) { // if any error from the server
                     toast.error(result.message, {
                         position: "top-right"
                     });

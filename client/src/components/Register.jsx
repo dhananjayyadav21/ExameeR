@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Register = () => {
     const navigate = useNavigate();
 
-    const [Credentials, setCredentials] = useState({
+    const [Credentials, setCredentials] = useState({ // create state for form data
         Username:"",
         Email: "",
         Password: "",
@@ -21,18 +21,18 @@ const Register = () => {
         try {
             const { Username, Email, Password, ConfirmPassword } = Credentials;
         
-            if (!Username || !Email || !Password) {
+            if (!Username || !Email || !Password) { // check all fields enter
                 toast.error("All fields are required !", {
                     position: "top-right"
                 });
             } 
-            else if (Password !== ConfirmPassword) {
+            else if (Password !== ConfirmPassword) { // comapare password and confirmpassword
                 toast.error("Password & Confirm Password must be same !", {
                     position: "top-right"
                 });
             } 
             else {
-                const response = await fetch(`${GlobalUrls.REGISTER_URL}`, {
+                const response = await fetch(`${GlobalUrls.REGISTER_URL}`, { // server api call 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const Register = () => {
                     }),
                 });
         
-                const result = await response.json();
+                const result = await response.json(); // result from server
         
                 // If successfully registered, navigate to verify email page
                 if (result.success === true) {
@@ -52,14 +52,14 @@ const Register = () => {
                     toast.success("Register successfully !", {
                         position: "top-right"
                     });
-                } else if (result.success === false) {
+                } else if (result.success === false) { // if any error acoured from server
                     toast.error(result.message
                         , {
                         position: "top-right"
                     });
                 }
             }
-            }catch (error) {
+            }catch (error) { // if any error during the form sumbit 
             console.error(error.message);
             toast.error("Error while verify !", {
                 position: "top-right"
@@ -85,12 +85,13 @@ const Register = () => {
                 // localStorage.setItem("user-info",JSON.stringify(userObj));
                 localStorage.setItem("token",token);
                 
+                // If successfully logged in, store token and navigate
                 if(result.data.success === true){
                     navigate('/');
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
-                }else if(result.data.success === false){
+                }else if(result.data.success === false){ // if error from google authentication
                     toast.error("Something went wrong. Please try again later !", {
                         position: "top-right"
                     });

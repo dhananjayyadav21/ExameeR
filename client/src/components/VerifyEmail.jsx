@@ -7,8 +7,8 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
-  const Email = searchParams.get('Email');
-  const VerificationCodeParams = searchParams.get('VerificationCode');
+  const Email = searchParams.get('Email'); // email find from search parameter
+  const VerificationCodeParams = searchParams.get('VerificationCode'); // VerificationCode find from search parameter
 
   const [VerificationCode, setVerificationCode] = useState("" || VerificationCodeParams);
 
@@ -16,12 +16,13 @@ const VerifyEmail = () => {
     e.preventDefault();
 
     try {
+        // Validate verification code 
         if (!VerificationCode) {
           toast.error("VerificationCode required !", {
               position: "top-right"
           });
         }else{
-          const response = await fetch(`${GlobalUrls.VERIFY_URL}`, {
+          const response = await fetch(`${GlobalUrls.VERIFY_URL}`, { // call server api
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,22 +30,22 @@ const VerifyEmail = () => {
             body: JSON.stringify({ Email: Email, VerificationCode: VerificationCode }),
           });
 
-          const result = await response.json();
+          const result = await response.json(); // response from server api
 
-
-          if (result.success === true) {
+          // If successfully logged in, store token and navigate
+          if (result.success === true) { 
             toast.success("Email verified successfully!", {
                 position: "top-right"
             });
             navigate("/login");
-          } else if (result.success === false) {
+          } else if (result.success === false) { //if any error accoured from server
             toast.error(result.message ||'Verification failed.'
                 , {
                 position: "top-right"
             });
           }
         } 
-    } catch (error) {
+    } catch (error) { // if error during the sumbit form data
         console.error('Verification error:', error);
         toast.error('An error occurred during verification.'
           , {
