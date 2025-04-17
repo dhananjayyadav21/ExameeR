@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import * as GlobalUrls from "../GlobalURL"
 
 const ProfileCardWithBanner = () => {
-    const user = {
-        name: "Jane Smith",
-        email: "jane.smith@example.com",
-        isVerified: "+91-9876543210",
-        Profile: "",
-        About: ""
-      };
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    if (token) {
+      getUser();
+    } else {
+      navigate("/login");
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  const getUser = async()=>{
+    try {
+      const response = await fetch(`${GlobalUrls.GETUSER_URL}`, { //call server api 
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "AuthToken": localStorage.getItem("token")
+          },
+      });
+      const result = await response.json(); // get response from server
+      setUser(result.user);      
+    } catch (error) {
+      console.error("getUser error:", error.message);
+    }
+  }
 
       
   return (
@@ -25,9 +49,12 @@ const ProfileCardWithBanner = () => {
               />
               </div>
               <div className="col-12 col-md-9 mb-4">
-                <h4 className="mb-1">{user.name}</h4>
-                <p className="mb-0 text-muted">{user.email}</p>
-                <small className="text-muted">{user.isVerified}</small>
+                <h4 className="mb-1">@{user.Username}</h4>
+                <p className="mb-0 text-muted">{user.Email}</p>
+                {user.isVerified ?
+                  <><small className="text-success">Verified <i className="fas fa-check-circle text-success"></i></small></>:
+                  <><small className="text-danger">Not Verified <i className="fas fa-times-circle text-danger"></i></small></>
+                }
               </div>
           </div>
 

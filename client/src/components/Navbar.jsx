@@ -39,14 +39,17 @@ const Navbar = () => {
                         <>
                             <div className="nav-item dropdown d-lg-none">  
                                 <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                   <div><img  className='profile-img rounded-circle' src="/assets/img/Front.png" alt="" /></div>
+                                   <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile") || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
                                 </a>
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>
                                     <li><a className="dropdown-item" href="/profile">View Profile</a></li>
                                     <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
-                                    <li><hr className="dropdown-divider"/></li>
-                                    <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
+                                    { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
+                                        <><li><hr className="dropdown-divider"/></li>
+                                        <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
+                                        <></>
+                                    }
                                 </ul>
                             </div>
                         </>:
@@ -83,9 +86,9 @@ const Navbar = () => {
                                 <>
                                     <li className="nav-item dropdown">  
                                         <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown"  aria-expanded="false">
-                                         <div><img  className='profile-img rounded-circle' src="/assets/img/Front.png" alt="" /></div>
+                                         <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile") || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
                                         </a>
-                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
                                             <li><a className="dropdown-item" href="/profile">View Profile</a></li>
                                             <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>

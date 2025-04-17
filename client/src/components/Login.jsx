@@ -78,6 +78,7 @@ const Login = () => {
                 // localStorage.setItem("user-info", JSON.stringify(userObj));
                 localStorage.setItem("token", token);
                 localStorage.setItem("user", Email);
+                localStorage.setItem("Profile",Profile);
 
                 if(result.data.success === true){
                     navigate('/');
