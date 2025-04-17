@@ -1,20 +1,136 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React,{useState} from 'react'
+import { Link,useNavigate } from 'react-router-dom';
+import * as GlobalUrls from "../GlobalURL"
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
+    const navigate = useNavigate();
+    const [Email, setEmail] = useState("");
+
+    const handleFogotPasswordEmail = async(e)=>{
+        e.preventDefault();
+
+        try {
+            if (!Email) {
+                toast.error("Please fill out email fields !", {
+                    position: "top-right"
+                });
+            }else{
+                const response = await fetch(`${GlobalUrls.FOGOTCODE_URL}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Email: Email}),
+                });
+    
+                localStorage.setItem("FogotEmail",Email);
+                const result = await response.json();
+    
+                if (result.success === true) {
+                toast.success("Verification code sent to your email!", {
+                    position: "top-right"
+                });
+                } else if (result.success === false) {
+                toast.error(result.message ||'Verification Code failed.'
+                    , {
+                    position: "top-right"
+                });
+                }
+            } 
+        } catch (error) {
+            console.error('FogotPasswordEmail error:', error);
+            toast.error('An error occurred during FogotPassword when sending email code.'
+                , {
+                position: "top-right"
+            });
+        }
+    }
+
+    //======================================== [Password reset] =================================
+    const [ForgotPasswordData, setForgotPassword] = useState({
+        Email:localStorage.getItem("FogotEmail"),
+        ForgotPasswordCode:"",
+        NewPassword:"",
+        ConfirmNewPassword:""
+    });
+
+    const handleForgotPassword = async(e) =>{
+        e.preventDefault();
+        
+        try {
+            const {Email, ForgotPasswordCode, NewPassword, ConfirmNewPassword} = ForgotPasswordData;
+            
+            // Validate if email or password 
+            if (!Email || !ForgotPasswordCode || !NewPassword || !ConfirmNewPassword) {
+                toast.error("Please fill out all fields !", {
+                    position: "top-right"
+                });
+            }else if(NewPassword !== ConfirmNewPassword) {
+                toast.error("NewPassword and ConfirmPassword do not match!", {
+                    position: "top-right"
+                });
+            }else{
+                const response = await fetch(`${GlobalUrls.FOGOTPASSWORD_URL}`, { //call server api 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Email: Email, ForgotPasswordCode:ForgotPasswordCode, NewPassword:NewPassword, ConfirmNewPassword:ConfirmNewPassword }),
+                });
+    
+                const result = await response.json();  // get response from server
+               
+                // If successfully reset password, and navigate
+                if (result.success === true) {
+                toast.success( result.message || "Password reset successfully !", {
+                    position: "top-right"
+                });
+                navigate('/login');
+                } else if (result.success === false) {
+                toast.error(result.message ||'Password reseting failed.'
+                    , {
+                    position: "top-right"
+                });
+                }
+            } 
+        } catch (error) { // if any error during the form sumbit
+            console.error('FogotPassword error:', error);
+            toast.error('An error occurred during FogotPassword when sumbiting data.'
+                , {
+                position: "top-right"
+            });
+        }
+
+    }
+
+    const handlOnchange = (e) => {
+        setForgotPassword({ ...ForgotPasswordData, [e.target.name]: e.target.value });
+    };
+
+
   return (
     <>
        <div className="container d-flex justify-content-center align-self-center my-3">
         <div className="form-containe col-12 col-md-5 shadow rounded-4 py-4 px-3 p-md-5 mt-3 ForgotPass">
             <h4 className="text-start mb-4">Forgot Password?</h4>
 
-            <form>
+            <form onSubmit={handleFogotPasswordEmail}>
                 <div className="mb-3">
+                    <small><label htmlFor="email" className="form-label">Email</label></small>
+                    <input type="email" className="form-control" id="email" name='FogotPasswordEmail' value={Email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"/>
+                </div>
+
+                <button type="submit" className="btn btn-light w-100 mb-3">Get Verification Code</button> 
+            </form>    
+             
+            <form onSubmit={handleForgotPassword}>
+                {/* <div className="mb-3">
                     <small><label htmlFor="email" className="form-label">Email</label></small>
                     <input type="email" className="form-control" id="email" placeholder="Enter your email" required/>
                 </div>
 
-                <button type="submit" className="btn btn-light w-100 mb-3">Get Verification Code</button>
+                <button type="submit" className="btn btn-light w-100 mb-3">Get Verification Code</button> */}
 
                 <div className='text-secondary my-4'>
                     <p className='fw-normal m-0'>Get Verification code</p>
@@ -23,17 +139,17 @@ const ForgotPassword = () => {
 
                 <div className="mb-3">
                     <small><label htmlFor="vcode" className="form-label">Verification Code</label></small> 
-                    <input type="number" className="form-control" id="vcode" placeholder="Enter Verification Code" required/>
+                    <input type="number" className="form-control" id="vcode" name='ForgotPasswordCode' value={ForgotPasswordData.ForgotPasswordCode} onChange={handlOnchange} placeholder="Enter Verification Code" required/>
                 </div>
 
                 <div className="mb-3">
                     <small><label htmlFor="password" className="form-label">New Password</label></small> 
-                    <input type="password" className="form-control" id="password" placeholder="password" required/>
+                    <input type="password" className="form-control" id="NewPassword" name='NewPassword' value={ForgotPasswordData.NewPassword} onChange={handlOnchange} placeholder="password" required/>
                 </div>
 
                 <div className="mb-3">
                     <small><label htmlFor="Cpassword" className="form-label">Confirm Password</label></small>
-                    <input type="password" className="form-control" id="Cpassword" placeholder="Confirm password" required/>
+                    <input type="password" className="form-control" id="ConfirmNewPassword" name='ConfirmNewPassword' value={ForgotPasswordData.ConfirmNewPassword} onChange={handlOnchange} placeholder="Confirm password" required/>
                 </div>
 
                 <button type="submit" className="btn btn-green w-100">Save Password</button>

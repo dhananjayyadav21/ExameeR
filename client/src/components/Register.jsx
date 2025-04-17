@@ -46,9 +46,6 @@ const Register = () => {
         
                 const result = await response.json();
         
-                // console.log(result);
-                // console.log(result.success);
-        
                 // If successfully registered, navigate to verify email page
                 if (result.success === true) {
                     navigate(`/verifyEmail?Email=${result.user.Email}`);

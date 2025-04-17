@@ -17,15 +17,15 @@ const Login = () => {
         e.preventDefault();
 
         try { 
-            // debugger
             const { Email, Password } = Credentials;
         
+            // Validate if email or password not ennter
             if (!Email || !Password) {
                 toast.warning("All fields are required !", {
                     position: "top-right"
                 });
             } else {
-                const response = await fetch(`${GlobalUrls.LOGIN_URL}`, {
+                const response = await fetch(`${GlobalUrls.LOGIN_URL}`, { //call server api 
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -36,9 +36,7 @@ const Login = () => {
                     }),
                 });
         
-                const result = await response.json();
-                // console.log(result);
-                // console.log(result.success);
+                const result = await response.json(); // get response from server
         
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
@@ -55,13 +53,12 @@ const Login = () => {
                     });
                 }
             }
-        } catch (error) {
+        } catch (error) { // if any error during the form sumbit
             console.error("Login error:", error.message);
             toast.error("Login error", {
                 position: "top-right"
             });
-        }
-        
+        }   
     };
 
     const handlOnchange = (e) => {
@@ -77,6 +74,7 @@ const Login = () => {
                 const { Username, Email, Profile } = result.data.user;
                 const token = result.data.token;
 
+                // eslint-disable-next-line
                 const userObj = { Username, Email, Profile };
                 // localStorage.setItem("user-info", JSON.stringify(userObj));
                 localStorage.setItem("token", token);

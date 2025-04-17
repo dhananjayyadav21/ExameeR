@@ -22,13 +22,12 @@ const resetPassword = async (req, res) => {
         }
 
         //  Password Strength Validation (Important Security Practice)
-        if (NewPassword.length < 6) { // Example: Minimum length of 8
+        if (NewPassword.length < 6) {
             return res.status(400).json({
                 success: false,
                 message: "Password must be at least 8 characters long"
             });
         }
-        // You can add more password complexity checks here (e.g., require uppercase, lowercase, numbers, symbols)
 
         // 2. Find the User
         const user = await userModel.findOne({ Email: Email.toLowerCase() }); // Find by email
