@@ -22,7 +22,9 @@ import DashbordPYQ from "./Dashbord/components/DashbordPYQ";
 import DashbordStudentManagement from "./Dashbord/components/StudentManagement";
 import DashbordAnalytics from './Dashbord/components/DashbordAnalytics';
 import DashbordSettings from './Dashbord/components/DashbordSetting';
+
 import ErrorPage from "./components/ErrorPage";
+import GuardedRoute from "./services/GuardedRoute";
 
 function App() {
 
@@ -40,11 +42,36 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/notes" element={<Notes />} />
-          <Route path="/cource" element={<Cource />} />
-          <Route path="/Q-paper" element={<QPaper />} />
-          <Route path="/video" element={<Video />} />
-          <Route path="/contact" element={<Contact />} />
+
+          <Route path="/notes" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<Notes />}
+            redirectTo="/auth"
+          />} />
+
+          <Route path="/cource" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<Cource />}
+            redirectTo="/auth"
+          />} />
+
+          <Route path="/Q-paper" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<QPaper />}
+            redirectTo="/auth"
+          />}/>
+
+          <Route path="/video" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<Video />}
+            redirectTo="/auth"
+          />} />
+
+          <Route path="/contact" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<Contact />}
+            redirectTo="/auth"
+          />} />
 
           {/* Fix: Add '*' to the dashboard route */}
           <Route path="/dashboard" element={<Dashboard />}>
