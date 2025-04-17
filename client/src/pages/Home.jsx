@@ -55,7 +55,7 @@ const Home = () => {
 
   return (
     <div>    
-      {/*================================================ home-main-section =================================================*/}
+      {/*===================================== home-main-section ===========================================*/}
       <section className='hero bg-light'>
         <section className='container-lg mx-md-3 my-md-5'>
           <section className='row rounded-4 p-md-4'>
@@ -90,7 +90,7 @@ const Home = () => {
               </div>
           </section> 
 
-          {/*======================================= Our Provide Service Section ============================================*/}
+          {/*============================= Our Provide Service Section =====================================*/}
           <section className='hero-showcase mt-5 text-secondary'>
             <div className='container-lg mb-4 mb-lg-0'>
               <div className='row g-3'>
@@ -126,7 +126,7 @@ const Home = () => {
 
      
 
-      {/*========================================== New And Latest Cources Section============================================*/}
+      {/*==================================== New And Latest Cources Section =====================================*/}
       <section className='container-lg px-4 my-5 home-banner-section'>
         <div className='text-center'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
@@ -144,7 +144,7 @@ const Home = () => {
 
     
 
-      {/*================================================== team ==========================================*/}
+      {/*============================================== team ====================================*/}
       <section className=' bg-light'>
         <div className='container-lg px-lg-5'>
             <div className='px-2 py-4 d-flex flex-column justify-content-center align-items-center'>
@@ -211,13 +211,13 @@ const Home = () => {
       </div> */}
 
 
-      {/* ====================================== offers ================================================================= */}
+      {/* ====================================== offers ================================================= */}
       <footer className="offers-section px-lg-5">
         <Offers/>
       </footer>
 
 
-      {/* ====================================== footer ================================================================= */}
+      {/* ====================================== footer =================================================== */}
       <footer className="footer bottom-0">
          <Footer/>
       </footer>
