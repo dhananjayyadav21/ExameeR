@@ -405,6 +405,24 @@ form label {
   color: rgb(180, 180, 180);
 }
 
+/*=========================================================== Profile ===============================================*/
+.userprofile-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.banner-container {
+  max-height: 100%;
+}
+
+.banner-image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+
 /*=========================================================== Dashbord ===============================================*/
 .bg-darkgray{
   background-color: rgb(35, 35, 35);;

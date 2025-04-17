@@ -43,7 +43,7 @@ const Navbar = () => {
                                 </a>
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>
-                                    <li><a className="dropdown-item" href="/">Edit Profile</a></li>
+                                    <li><a className="dropdown-item" href="/profile">View Profile</a></li>
                                     <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                     <li><hr className="dropdown-divider"/></li>
                                     <li><Link className="dropdown-item btn btn-dark w-100" to="/dashboard">Dashboard</Link></li>
@@ -87,7 +87,7 @@ const Navbar = () => {
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
-                                            <li><a className="dropdown-item" href="/">Edit Profile</a></li>
+                                            <li><a className="dropdown-item" href="/profile">View Profile</a></li>
                                             <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                             { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
                                                 <><li><hr className="dropdown-divider"/></li>
