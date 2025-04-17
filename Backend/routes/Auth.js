@@ -5,7 +5,6 @@ const verfyEmail = require('../controllers/verfyEmail');
 const fogotPassword = require('../controllers/fogotPassword');
 const router = require('express').Router();
 
-
   //--- user Authenticate using manual crendential ---------
   router.post('/register',register);
 
@@ -19,7 +18,5 @@ const router = require('express').Router();
 
   //---- User Authentication using google --------
   router.get('/google', googleAuth);
-
-
 
 module.exports = router;  

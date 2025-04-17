@@ -25,8 +25,6 @@ const Navbar = () => {
         });
     }
 
-
-
   return (
     <>
         <nav id='nav' className="navbar sticky-top navbar-expand-lg shadow-sm nav-color">
@@ -91,8 +89,12 @@ const Navbar = () => {
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
                                             <li><a className="dropdown-item" href="/">Edit Profile</a></li>
                                             <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
-                                            <li><hr className="dropdown-divider"/></li>
-                                            <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li>
+                                            { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
+                                                <><li><hr className="dropdown-divider"/></li>
+                                                <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
+                                                <></>
+                                            }
+                                            
                                         </ul>
                                     </li>
                                 </>:
@@ -122,7 +124,7 @@ const Navbar = () => {
         </nav>    
 
         <div className='MobileBar-container sticky-top'>
-        {/*====================================================== mobilebar =======================================================*/}
+        {/*========================================= mobilebar ==============================================*/}
         <div className={`MobileBar p-2 d-flex d-${display}`}>
             <div className="navbar-nav me-auto mb-2 mb-lg-0 ">
             
@@ -138,7 +140,7 @@ const Navbar = () => {
                     </ul>
                 </div>
                 {/* Notes, Cource, Videos, Q-paper */}
-                <div onClick={closeMobileBar}>
+                <div onClick={closeMobileBar}> 
                     <li className="nav-item">
                     <Link className="nav-text nav-link " to="/notes"><i className="fa-solid fa-note-sticky mx-2"></i>Notes</Link>
                     </li>

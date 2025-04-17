@@ -41,7 +41,7 @@ const Login = () => {
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
                     localStorage.setItem("token",result.token)
-                    window.location.reload();
+                    localStorage.setItem("user", result.user.Email);
                     navigate("/");
                     toast.success("You're now logged in !", {
                         position: "top-right"
@@ -77,6 +77,7 @@ const Login = () => {
                 const userObj = { Username, Email, Profile };
                 // localStorage.setItem("user-info", JSON.stringify(userObj));
                 localStorage.setItem("token", token);
+                localStorage.setItem("user", Email);
 
                 if(result.data.success === true){
                     navigate('/');
@@ -89,7 +90,7 @@ const Login = () => {
                     });
                 } 
             }
-
+            
         } catch (error) {
             console.error("Error while requesting google to code :", error);
             toast.error("Error while requesting google to code ", {
