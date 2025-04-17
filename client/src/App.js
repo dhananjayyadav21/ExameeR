@@ -25,6 +25,7 @@ import DashbordSettings from './Dashbord/components/DashbordSetting';
 
 import ErrorPage from "./components/ErrorPage";
 import GuardedRoute from "./services/GuardedRoute";
+import ProfileCard from "./components/ProfileCard";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<ProfileCard />} />
 
           <Route path="/notes" element={<GuardedRoute
             hasToBeAuthenticated={true}
@@ -72,6 +74,8 @@ function App() {
             element={<Contact />}
             redirectTo="/auth"
           />} />
+
+
 
           {/* Fix: Add '*' to the dashboard route */}
           <Route path="/dashboard" element={<Dashboard />}>
