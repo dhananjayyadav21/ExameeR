@@ -11,12 +11,13 @@ const ForgotPassword = () => {
         e.preventDefault();
 
         try {
+            // validate email 
             if (!Email) {
                 toast.error("Please fill out email fields !", {
                     position: "top-right"
                 });
             }else{
-                const response = await fetch(`${GlobalUrls.FOGOTCODE_URL}`, {
+                const response = await fetch(`${GlobalUrls.FOGOTCODE_URL}`, { // call server api
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,20 +26,21 @@ const ForgotPassword = () => {
                 });
     
                 localStorage.setItem("FogotEmail",Email);
-                const result = await response.json();
+                const result = await response.json(); // response from server
     
+                // If successfully code send, and navigate
                 if (result.success === true) {
                 toast.success("Verification code sent to your email!", {
                     position: "top-right"
                 });
-                } else if (result.success === false) {
+                } else if (result.success === false) { // if error acoured from server
                 toast.error(result.message ||'Verification Code failed.'
                     , {
                     position: "top-right"
                 });
                 }
             } 
-        } catch (error) {
+        } catch (error) { // if any error during the form sumbit
             console.error('FogotPasswordEmail error:', error);
             toast.error('An error occurred during FogotPassword when sending email code.'
                 , {
@@ -48,7 +50,7 @@ const ForgotPassword = () => {
     }
 
     //======================================== [Password reset] =================================
-    const [ForgotPasswordData, setForgotPassword] = useState({
+    const [ForgotPasswordData, setForgotPassword] = useState({ // create state for form data
         Email:localStorage.getItem("FogotEmail"),
         ForgotPasswordCode:"",
         NewPassword:"",
@@ -66,7 +68,7 @@ const ForgotPassword = () => {
                 toast.error("Please fill out all fields !", {
                     position: "top-right"
                 });
-            }else if(NewPassword !== ConfirmNewPassword) {
+            }else if(NewPassword !== ConfirmNewPassword) { // compare password or confirmpassword
                 toast.error("NewPassword and ConfirmPassword do not match!", {
                     position: "top-right"
                 });
@@ -87,7 +89,7 @@ const ForgotPassword = () => {
                     position: "top-right"
                 });
                 navigate('/login');
-                } else if (result.success === false) {
+                } else if (result.success === false) { // if error acoured from server
                 toast.error(result.message ||'Password reseting failed.'
                     , {
                     position: "top-right"
@@ -101,7 +103,6 @@ const ForgotPassword = () => {
                 position: "top-right"
             });
         }
-
     }
 
     const handlOnchange = (e) => {
@@ -125,13 +126,6 @@ const ForgotPassword = () => {
             </form>    
              
             <form onSubmit={handleForgotPassword}>
-                {/* <div className="mb-3">
-                    <small><label htmlFor="email" className="form-label">Email</label></small>
-                    <input type="email" className="form-control" id="email" placeholder="Enter your email" required/>
-                </div>
-
-                <button type="submit" className="btn btn-light w-100 mb-3">Get Verification Code</button> */}
-
                 <div className='text-secondary my-4'>
                     <p className='fw-normal m-0'>Get Verification code</p>
                     <p className='fw-normal m-0'>Enter the code sent to your email address</p> 

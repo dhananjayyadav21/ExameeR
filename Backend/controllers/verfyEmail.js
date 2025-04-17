@@ -4,6 +4,7 @@ const verifyEmail = async (req, res) => {
     try {
         const { Email, VerificationCode } = req.body;
 
+        // 1. Input Validation
         if (!Email || !VerificationCode) {
             return res.status(400).json({
                 success: false,
@@ -11,6 +12,7 @@ const verifyEmail = async (req, res) => {
             });
         }
 
+        // 2. Find the User
         const user = await userModel.findOne({ Email: Email.toLowerCase() });
 
         if (!user) {
@@ -36,16 +38,17 @@ const verifyEmail = async (req, res) => {
 
         // Update isVerified to true and clear the VerificationCode
         user.isVerified = true;
-        user.VerificationCode = undefined; // Optional: Clear the code after successful verification
+        user.VerificationCode = undefined; 
         await user.save();
-
+        
+        // Send Success Response
         return res.status(200).json({
             success: true,
             message: "Email successfully verified. You can now log in."
         });
 
     } catch (error) {
-        console.error("Verify Email Error:", error);
+        console.error("Verify Email Error:", error); 
         res.status(500).json({
             success: false,
             message: 'Verify Email server internal error'
