@@ -85,6 +85,7 @@ const Register = () => {
                 // localStorage.setItem("user-info",JSON.stringify(userObj));
                 localStorage.setItem("token",token);
                 localStorage.setItem("user", Email);
+                localStorage.setItem("Profile",Profile);
                 
                 // If successfully logged in, store token and navigate
                 if(result.data.success === true){

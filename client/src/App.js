@@ -43,7 +43,12 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<ProfileCard />} />
+
+          <Route path="/profile" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<ProfileCard />}
+            redirectTo="/auth"
+          />} />
 
           <Route path="/notes" element={<GuardedRoute
             hasToBeAuthenticated={true}
