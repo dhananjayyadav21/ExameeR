@@ -116,7 +116,7 @@ const Register = () => {
   return (
     <>
       <div className="container d-flex justify-content-center align-self-center px-3 mt-2">
-        <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-3 p-md-5 mt-3 Register">
+        <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 mt-3 Register">
 
             {/* <!-- Register Header --> */}
             <div className='mb-4'>
