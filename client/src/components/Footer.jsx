@@ -25,7 +25,7 @@ const Footer = () => {
                     <ul className="list-unstyled">
                       <li><Link to="/" className="nav-link cursor-pointer my-2"> Home</Link></li>
                       <li><Link to="/about" className="nav-link cursor-pointer my-2">About Us</Link></li>
-                      <li><Link to="/cources" className="nav-link cursor-pointer my-2">Courses</Link></li>
+                      <li><Link to="/cource" className="nav-link cursor-pointer my-2">Courses</Link></li>
                       <li><Link to="/notes" className="nav-link cursor-pointer my-2">Notes</Link></li>
                       <li><Link to="/Q-paper" className="nav-link cursor-pointer my-2">Contact</Link></li>
                     </ul>
@@ -43,9 +43,9 @@ const Footer = () => {
                   <div className="col-md-6 my-3">
                     <h5 className="mb-3">Our Courses</h5>
                     <ul className="list-unstyled">
-                      <li><Link to="/cources" className="nav-link cursor-pointer my-2">Sci-Technology</Link></li>
-                      <li><Link to="/cources" className="nav-link cursor-pointer my-2">Commerce</Link></li>
-                      <li><Link to="/cources" className="nav-link cursor-pointer my-2">Arts & Civils</Link></li>
+                      <li><Link to="/cource" className="nav-link cursor-pointer my-2">Sci-Technology</Link></li>
+                      <li><Link to="/cource" className="nav-link cursor-pointer my-2">Commerce</Link></li>
+                      <li><Link to="/cource" className="nav-link cursor-pointer my-2">Arts & Civils</Link></li>
                       <li><Link to="/Q-paper" className="nav-link cursor-pointer my-2">Previous Papers</Link></li>
                       <li><Link to="/video" className="nav-link cursor-pointer my-2">Video Lectures</Link></li>
                     </ul>
