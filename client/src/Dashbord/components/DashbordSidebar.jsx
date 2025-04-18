@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <nav className="bg-white w-100 w-lg-25 position-sticky d-flex flex-column shadow-sm border-end dashboard-nav">
+    <nav className="bg-white w-100 position-sticky d-flex flex-column shadow-sm border-end dashboard-nav">
       <div className="flex-grow-1 py-4">
         <Link
           to="dashboard-head"

@@ -18,11 +18,11 @@ const Dashboard = () => {
     <>
       <div className="container-fluid cursor-default">
         <div className="row">
-          <section className="dashbor-nav col-lg-2 d-none d-lg-flex p-0">
+          <section className="dashboard-nav col-lg-2 d-none d-lg-flex p-0">
              <Sidebar/>
           </section>
 
-          <section className="dashbor-main col-12 col-lg-10 p-0">
+          <section className="dashboard-main col-12 col-lg-10 p-0">
             <section className="components">
               <div className="bg-light">
                 <Routes>
