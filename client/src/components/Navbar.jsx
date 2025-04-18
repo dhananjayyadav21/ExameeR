@@ -1,9 +1,17 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation  } from 'react-router-dom'
 import { toast } from "react-toastify";
 
 const Navbar = () => {
     const navigate = useNavigate();
+
+    let location = useLocation();
+    const isDashboard = location.pathname.startsWith('/dashboard');
+
+    console.log(location.pathname)
+    console.log(location.pathname === "/dashboard")
+
+
     const [display, setDisplay] = useState("none");
     const [openMBDisply, setopenMBDisply] = useState("");
 
@@ -56,12 +64,20 @@ const Navbar = () => {
                         <></>
                     }
                 </ul>
-                
-                <span className='d-flex gap-3'> 
-                    {/* Hamburger icon for MobileBar */}
-                    <i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none d-${openMBDisply}`} onClick={openMobileBar}  ></i>
-                    <i className={`fa-solid fa-2x fa-xmark align-self-center d-lg-none d-${display}`} onClick={closeMobileBar}></i>
-                </span>
+
+                {/* Hamburger icon for MobileBar */}
+                <span className='d-flex gap-3'>
+                    {!isDashboard && (
+                        <>
+                            <i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none d-${openMBDisply}`}
+                                onClick={openMobileBar}>
+                            </i>
+                            <i className={`fa-solid fa-2x fa-xmark align-self-center d-lg-none d-${display}`}
+                                onClick={closeMobileBar}>
+                            </i>
+                        </>
+                    )}
+                </span>                
                 
                 {/* Colaps item Below Lg Screen */}
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -161,8 +177,7 @@ const Navbar = () => {
                 </div>
             </div>
         </div>
-
-    </div>
+        </div>
     </>
   )
 }

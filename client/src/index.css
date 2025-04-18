@@ -455,16 +455,16 @@ form label {
 
 .dashbord-mobilebar{
   position: fixed;
-  top: 57px;
+  top: 56px;
   left: 0;
 }
 
 .dashboard-nav{
-  height: calc(100vh - 57px);
+  height: calc(100vh - 56px);
 }
 
 .dashboard-main{
-  height: calc(100vh - 57px);
+  height: calc(100vh - 56px);
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -476,10 +476,10 @@ form label {
   }
   
   .dashboard-main{
-    height: 91vh;
+    height: calc(100vh - 56px);
     overflow-y: scroll;
+    scrollbar-width: none;
   }
-
 }
 
 

@@ -10,7 +10,7 @@ import {
 
 const StudentManagement = () => {
   return (
-    <div id="studentManagement" className="min-vh-100 p-2 py-4 px-md-4">
+    <div id="studentManagement" className="min-vh-100 p-3 py-4 px-md-4">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h2 font-weight-bold text-dark">Student Management</h1>
