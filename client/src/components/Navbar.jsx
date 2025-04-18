@@ -8,10 +8,6 @@ const Navbar = () => {
     let location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
 
-    console.log(location.pathname)
-    console.log(location.pathname === "/dashboard")
-
-
     const [display, setDisplay] = useState("none");
     const [openMBDisply, setopenMBDisply] = useState("");
 
