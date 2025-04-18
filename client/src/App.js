@@ -103,11 +103,41 @@ function App() {
           </Route>
 
           {/* Authentication Routes */}
-          <Route path="/auth" element={<GoogleAuthWraper />} />
-          <Route path="/login" element={<GoogleAuthWraper />} />
-          <Route path="/register" element={<GoogleAuthWraper />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/verifyEmail" element={<VerifyEmail />} />
+          <Route path="/auth" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<GoogleAuthWraper />}
+            redirectTo="/"
+          />} />
+
+          <Route path="/auth" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<GoogleAuthWraper />}
+            redirectTo="/"
+          />} />
+
+          <Route path="/login" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<GoogleAuthWraper />}
+            redirectTo="/"
+          />} />
+
+          <Route path="/register" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<GoogleAuthWraper />}
+            redirectTo="/"
+          />} />
+
+          <Route path="/verifyEmail" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<VerifyEmail />}
+            redirectTo="/"
+          />} />
+
+          <Route path="/forgotPassword" element={<GuardedRoute
+            hasToBeAuthenticated={false}
+            element={<ForgotPassword />}
+            redirectTo="/"
+          />} />
 
           <Route path="*" element={<ErrorPage />} />
 
