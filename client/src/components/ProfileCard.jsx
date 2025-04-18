@@ -49,7 +49,7 @@ const ProfileCardWithBanner = () => {
               />
               </div>
               <div className="col-12 col-md-9 mb-4">
-                <h4 className="mb-1">@{user.Username}</h4>
+                <h4 className="mb-1">@{(user.Username).toLowerCase()}</h4>
                 <p className="mb-0 text-muted">{user.Email}</p>
                 {user.isVerified ?
                   <><small className="text-success">Verified <i className="fas fa-check-circle text-success"></i></small></>:
@@ -75,7 +75,7 @@ const ProfileCardWithBanner = () => {
       </div>
 
       <div className="d-flex justify-content-center my-5">
-        <img className="d-flex justify-content-center" src="/assets/img/brandlog.png" alt="Examee" style={{width:"210px"}} />
+        <img className="d-flex justify-content-center" src="/assets/img/brandlog.png" alt="Examee" style={{width:"150px"}} />
       </div>
     </div>
   );

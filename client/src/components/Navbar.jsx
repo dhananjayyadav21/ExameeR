@@ -34,7 +34,7 @@ const Navbar = () => {
                 <ul className="d-flex flex-row align-items-center mb-0 pl-0">
                     <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
 
-                    {/* profile icon for MobileBar */}
+                    {/*=========================== profile icon for MobileBar ==========================*/}
                     {localStorage.getItem("token")?
                         <>
                             <div className="nav-item dropdown d-lg-none">  
@@ -43,7 +43,7 @@ const Navbar = () => {
                                 </a>
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><a className="dropdown-item" href="/">My Learning</a></li>
-                                    <li><a className="dropdown-item" href="/profile">View Profile</a></li>
+                                    <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
                                     <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                     { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
                                         <><li><hr className="dropdown-divider"/></li>
@@ -57,7 +57,6 @@ const Navbar = () => {
                     }
                 </ul>
                 
-        
                 <span className='d-flex gap-3'> 
                     {/* Hamburger icon for MobileBar */}
                     <i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none d-${openMBDisply}`} onClick={openMobileBar}  ></i>
@@ -90,7 +89,7 @@ const Navbar = () => {
                                         </a>
                                         <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
                                             <li><a className="dropdown-item" href="/">My Learning</a></li>
-                                            <li><a className="dropdown-item" href="/profile">View Profile</a></li>
+                                            <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
                                             <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                             { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
                                                 <><li><hr className="dropdown-divider"/></li>
