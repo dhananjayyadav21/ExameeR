@@ -455,27 +455,27 @@ form label {
 
 .dashbord-mobilebar{
   position: fixed;
-  top: 60px;
-  left: 2px;
+  top: 57px;
+  left: 0;
 }
 
-.dashbor-nav{
-  height: 91vh;
+.dashboard-nav{
+  height: calc(100vh - 57px);
 }
 
-.dashbor-main{
-  height: 91vh;
+.dashboard-main{
+  height: calc(100vh - 57px);
   overflow-y: scroll;
   scrollbar-width: none;
 }
 
 @media only screen and (max-width: 770px) {
 
-  .dashbor-nav{
+  .dashboard-nav{
     display: none;
   }
   
-  .dashbor-main{
+  .dashboard-main{
     height: 91vh;
     overflow-y: scroll;
   }
