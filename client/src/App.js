@@ -26,6 +26,7 @@ import DashbordSettings from './Dashbord/components/DashbordSetting';
 import ErrorPage from "./components/ErrorPage";
 import GuardedRoute from "./services/GuardedRoute";
 import ProfileCard from "./components/ProfileCard";
+import MyLearning from "./components/MyLearning ";
 
 function App() {
 
@@ -47,6 +48,12 @@ function App() {
           <Route path="/profile" element={<GuardedRoute
             hasToBeAuthenticated={true}
             element={<ProfileCard />}
+            redirectTo="/auth"
+          />} />
+
+          <Route path="/myLearning" element={<GuardedRoute
+            hasToBeAuthenticated={true}
+            element={<MyLearning />}
             redirectTo="/auth"
           />} />
 

@@ -250,12 +250,23 @@ form label {
 }
 
 /*=========================================== notes component css ==============================================*/
-.notes-heroSection {
+.notes-heroSection,
+.purple-heroSection {
   background: var(--primary-2-color);
 }
+
+.mylearning-heroSection{
+  background: #f3f4f3;
+}
+
 .notes-span-section {
   color: var(--primary-white);
 }
+
+.mylearning-span-section {
+  color: var(--primary-color);
+}
+
 .notes-item,
 .team {
   background: var(--card-item-bg);
@@ -530,11 +541,13 @@ form label {
 /*=========================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
   /* Notes section */
-  .notes-heroSection {
+  .notes-heroSection,
+   .mylearning-heroSection{
     font-size: x-small;
   }
 
-  .notes-heroSection h2 {
+  .notes-heroSection h2,
+  .mylearning-heroSection h2 {
     font-size: large;
   }
 
@@ -563,6 +576,10 @@ form label {
 }
 
 @media only screen and (max-width: 500px) {
+  .mylearning-section-heading h5{
+    font-size: small;
+  }
+
   .front-img {
     width: 200px;
   }

@@ -42,7 +42,7 @@ const Navbar = () => {
                                    <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile") || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
                                 </a>
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item" href="/">My Learning</a></li>
+                                    <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
                                     <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
                                     <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                     { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
@@ -88,7 +88,7 @@ const Navbar = () => {
                                          <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile") || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
                                         </a>
                                         <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
-                                            <li><a className="dropdown-item" href="/">My Learning</a></li>
+                                            <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
                                             <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
                                             <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
                                             { localStorage.getItem("user") === "youaretopperofficial@gmail.com"? 
