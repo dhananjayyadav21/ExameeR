@@ -5,7 +5,7 @@ import { faFile,faUpload, faVideo, faBook } from '@fortawesome/free-solid-svg-ic
 
 const Analytics = () => {
   return (
-    <section id="analytics" className="min-vh-100 bg-darkgray text-white p-lg-4">
+    <section id="analytics" className="min-vh-100 bg-darkgray text-white p-2 p-lg-4">
       <div className="container-lg py-4">
         {/* Stats Overview */}
         <div className="row mb-4">
