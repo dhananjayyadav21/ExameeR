@@ -21,7 +21,7 @@ const CourceIteam = () => {
                     </div>
                     <h5 className="card-title px-0">C Programing<span> </span></h5>
                     <p className="card-text px-0"><span>Cource Content :</span> <span>Opps, variable, identifire, kyeword, looping, controle </span></p>
-                    <button className='btn btn-primary text-white fw-bold col-12 m-0' onClick={()=>navigate('/cource')}>Watch Now</button>
+                    <button className='btn btn-info text-white fw-bold col-12 m-0' onClick={()=>navigate('/cource')}>Watch Now</button>
                 </div>
             </div>
         </div>  
