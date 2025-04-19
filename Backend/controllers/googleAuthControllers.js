@@ -2,6 +2,19 @@ const {outh2client} = require('../utils/googleConfig')
 const axios = require('axios');
 const Jwt = require('jsonwebtoken');
 const userModel = require('../model/User')
+async function getImageAsBase64(url) {
+   try {
+   const response = await fetch(url);
+   const arrayBuffer = await response.arrayBuffer();
+   const buffer = Buffer.from(arrayBuffer);
+   const mimeType = response.headers.get('content-type');
+   const base64 = buffer.toString('base64');
+   const base64Image = `data:${mimeType};base64,${base64}`;
+   return base64Image;
+   } catch (err) {
+   console.error('Failed to fetch image:', err.message);
+   }
+}
 
 const googleLogin = async (req,res)=>{
     try {
@@ -18,7 +31,7 @@ const googleLogin = async (req,res)=>{
 
        let user = await userModel.findOne({Email:email});
        if(user){
-         console.log("Alrady User Exist");
+         console.log("Already User Exist");
        }
 
        if(!user){
@@ -34,6 +47,9 @@ const googleLogin = async (req,res)=>{
           expiresIn:process.env.JWT_TIMEOUT
          }
       );
+
+      // Make sure you're running Node.js v18+ for built-in fetch
+      user.Profile = await getImageAsBase64(user.Profile);
       return res.status(200).json({
          success:true,
          message: 'Successfully google authentication',
