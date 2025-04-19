@@ -27,6 +27,10 @@ import ErrorPage from "./components/ErrorPage";
 import GuardedRoute from "./services/GuardedRoute";
 import ProfileCard from "./components/ProfileCard";
 import MyLearning from "./components/MyLearning ";
+import UploadNotes from "./Dashbord/components/UploadNotes";
+import UploadPYQ from "./Dashbord/components/UploadPYQ";
+import UploadVideo from "./Dashbord/components/UploadVideo";
+import UploadCourse from "./Dashbord/components/UploadCourse";
 
 function App() {
 
@@ -101,6 +105,11 @@ function App() {
             <Route path="dashboard-analyticst" element={<DashbordAnalytics />} />
             <Route path="dashboard-settings" element={<DashbordSettings />} />
           </Route>
+
+          <Route path="/uploadNotes" element={<UploadNotes />} />
+          <Route path="/uploadPYQ" element={<UploadPYQ />} />
+          <Route path="/uploadVideo" element={<UploadVideo />} />
+          <Route path="/uploadCourse" element={<UploadCourse />} />
 
           {/* Authentication Routes */}
           <Route path="/auth" element={<GuardedRoute

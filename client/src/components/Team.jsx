@@ -13,10 +13,10 @@ const Team = (props) => {
                     <div>
                     <h5 className="m-0 p-0">{name}</h5>
                     <p className="my-2 text-secondary">{description}</p>
-                    <span className="m-0 p-0 text-primary">{role}</span>
+                    <span className="m-0 p-0 text-info fw-normal">{role}</span>
                     </div>
                 </div>
-                <button className="mt-3 btn btn-primary w-100">
+                <button className="mt-3 btn btn-info text-white fw-bold w-100">
                     View
                 </button>
             </div> 

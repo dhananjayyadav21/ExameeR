@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -143,28 +144,38 @@ const DashbordHead = () => {
         {/* Quick Actions */}
         <div className="row g-2">
           <div className="col-md-6 col-lg-3">
+            <Link to="/uploadNotes" className="text-decoration-none text-dark">
             <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
-              <FontAwesomeIcon icon={faUpload} className="text-primary" />
-              <span className="text-dark">Upload Course</span>
-            </div>
-          </div>
-          <div className="col-md-6 col-lg-3">
-            <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
-              <FontAwesomeIcon icon={faStickyNote} className="text-success" />
+              <FontAwesomeIcon icon={faStickyNote} className="text-primary" />
               <span className="text-dark">Add Notes</span>
             </div>
+            </Link>
           </div>
           <div className="col-md-6 col-lg-3">
+            <Link to="/uploadVideo" className="text-decoration-none">  
+            <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
+              <FontAwesomeIcon icon={faCircleQuestion} className="text-success" />
+              <span className="text-dark">Add Questions</span>
+            </div>
+            </Link>
+          </div>
+          <div className="col-md-6 col-lg-3">
+            <Link to="/uploadVideo" className="text-decoration-none">
             <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
               <FontAwesomeIcon icon={faVideo} className="text-purple" />
               <span className="text-dark">Upload Video</span>
             </div>
+            </Link>
           </div>
           <div className="col-md-6 col-lg-3">
+            <Link to="/uploadVideo" className="text-decoration-none">
             <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
-              <FontAwesomeIcon icon={faCircleQuestion} className="text-warning" />
-              <span className="text-dark">Add Questions</span>
+              <FontAwesomeIcon icon={faUpload} className="text-warning" />
+              <span className="text-dark">
+                  Upload Course
+              </span>
             </div>
+            </Link>
           </div>
         </div>
       </div>
