@@ -30,8 +30,7 @@ const Register = () => {
                 toast.error("Password & Confirm Password must be same !", {
                     position: "top-right"
                 });
-            } 
-            else {
+            }else {
                 const response = await fetch(`${GlobalUrls.REGISTER_URL}`, { // server api call 
                     method: "POST",
                     headers: {
@@ -41,6 +40,7 @@ const Register = () => {
                         Username,
                         Email,
                         Password,
+                        ConfirmPassword
                     }),
                 });
         
@@ -61,7 +61,7 @@ const Register = () => {
             }
             }catch (error) { // if any error during the form sumbit 
             console.error(error.message);
-            toast.error("Error while verify !", {
+            toast.error("Error while register !", {
                 position: "top-right"
             });
         }
