@@ -4,11 +4,18 @@ const {sendVerificationEamil} = require("../services/sendEmails")
 
 const register = async (req, res) => {
     try {
-        const { Username, Email, Password } = req.body;
-        if (!Username || !Email || !Password) {
+        const { Username, Email, Password, ConfirmPassword } = req.body;
+        if (!Username || !Email || !Password || !ConfirmPassword) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
+            });
+        }
+
+        if (Password !== ConfirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Password & Confirm Password do not match"
             });
         }
 
@@ -38,6 +45,10 @@ const register = async (req, res) => {
         sendVerificationEamil(user.Email,user.VerificationCode);
 
         await user.save();
+
+        user = {
+            Email : user.Email
+        } 
         
         return res.status(200).json({
             success: true,

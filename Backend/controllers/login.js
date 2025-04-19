@@ -51,6 +51,10 @@ const login = async (req, res) => {
 
         sendWelcomeEmail(user.Email,user.Username);
 
+        user = {
+            Email : user.Email
+        }
+
         return res.status(200).json({
             success:true,
             message: 'Successfully login authentication',
