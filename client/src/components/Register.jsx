@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate();
-
+    
+    const [loading, setLoading] = useState(false);
     const [Credentials, setCredentials] = useState({ // create state for form data
         Username:"",
         Email: "",
@@ -17,16 +18,18 @@ const Register = () => {
     
     const handleFormSumbit = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         try {
             const { Username, Email, Password, ConfirmPassword } = Credentials;
         
             if (!Username || !Email || !Password) { // check all fields enter
+                setLoading(false);
                 toast.error("All fields are required !", {
                     position: "top-right"
                 });
             } 
             else if (Password !== ConfirmPassword) { // comapare password and confirmpassword
+                setLoading(false);
                 toast.error("Password & Confirm Password must be same !", {
                     position: "top-right"
                 });
@@ -48,11 +51,13 @@ const Register = () => {
         
                 // If successfully registered, navigate to verify email page
                 if (result.success === true) {
+                    setLoading(false);
                     navigate(`/verifyEmail?Email=${result.user.Email}`);
                     toast.success("Register successfully !", {
                         position: "top-right"
                     });
                 } else if (result.success === false) { // if any error acoured from server
+                    setLoading(false);
                     toast.error(result.message
                         , {
                         position: "top-right"
@@ -60,11 +65,13 @@ const Register = () => {
                 }
             }
             }catch (error) { // if any error during the form sumbit 
+            setLoading(false);
             console.error(error.message);
             toast.error("Error while register !", {
                 position: "top-right"
             });
         }
+        setLoading(false);
     };    
     
     const handlOnchange = (e) => {
@@ -77,15 +84,12 @@ const Register = () => {
             if(authResult['code']){
                 const result = await googleAuth(authResult['code']);
 
-                const {Username, Email, Profile} = result.data.user;
+                const {Profile, Role} = result.data.user;
                 const token = result.data.token;
 
-                // eslint-disable-next-line
-                const userObj = {Username, Email, Profile};
-                // localStorage.setItem("user-info",JSON.stringify(userObj));
                 localStorage.setItem("token",token);
-                localStorage.setItem("user", Email);
                 localStorage.setItem("Profile",Profile);
+                localStorage.setItem("userRole",Role);
                 
                 // If successfully logged in, store token and navigate
                 if(result.data.success === true){
@@ -117,13 +121,19 @@ const Register = () => {
   return (
     <>
       <div className="container d-flex justify-content-center align-self-center px-3 mt-2">
-        <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 mt-3 Register">
+        <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 my-3 Register">
 
             {/* <!-- Register Header --> */}
             <div className='mb-4'>
                 <h4 className="text-start mb-1 fw-bold">Register</h4>
                  <p className='text-secondary'>to continue to Examee</p>
             </div>
+
+            {loading && (
+                <div className="text-center">
+                <div className="spinner-border mb-4" role="status"></div>
+                </div>
+            )}
 
             {/* <!-- Google Register Button --> */}
             <div className="d-grid">
@@ -168,11 +178,6 @@ const Register = () => {
                 </div>
                 <button type="submit" className="btn btn-green w-100">Register</button>
             </form>
-
-          
-
-            
-
         </div>
     </div>
     </>

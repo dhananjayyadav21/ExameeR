@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate();
-
+    
+    const [loading, setLoading] = useState(false);
     const [Credentials, setCredentials] = useState({
         Email: "",
         Password: "",
@@ -15,12 +16,14 @@ const Login = () => {
 
     const handleFormSumbit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         try { 
             const { Email, Password } = Credentials;
         
             // Validate if email or password not ennter
             if (!Email || !Password) {
+                setLoading(false);
                 toast.warning("All fields are required !", {
                     position: "top-right"
                 });
@@ -40,13 +43,15 @@ const Login = () => {
         
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
+                    setLoading(false);
                     localStorage.setItem("token",result.token)
-                    localStorage.setItem("user", result.user.Email);
+                    localStorage.setItem("userRole", result.user.Role);
                     navigate("/");
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
                 }else if (result.success === false) { // if any error from the server
+                    setLoading(false);
                     toast.error(result.message, {
                         position: "top-right"
                     });
@@ -54,10 +59,12 @@ const Login = () => {
             }
         } catch (error) { // if any error during the form sumbit
             console.error("Login error:", error.message);
+            setLoading(false);
             toast.error("Login error", {
                 position: "top-right"
             });
-        }   
+        } 
+        setLoading(false);  
     };
 
     const handlOnchange = (e) => {
@@ -70,15 +77,12 @@ const Login = () => {
             if (authResult['code']) {
                 const result = await googleAuth(authResult['code']);
 
-                const { Username, Email, Profile } = result.data.user;
+                const {Profile, Role} = result.data.user;
                 const token = result.data.token;
 
-                // eslint-disable-next-line
-                const userObj = { Username, Email, Profile };
-                // localStorage.setItem("user-info", JSON.stringify(userObj));
-                localStorage.setItem("token", token);
-                localStorage.setItem("user", Email);
+                localStorage.setItem("token",token);
                 localStorage.setItem("Profile",Profile);
+                localStorage.setItem("userRole",Role);
 
                 if(result.data.success === true){
                     navigate('/');
@@ -109,14 +113,19 @@ const Login = () => {
     return (
         <>
             <div className="container d-flex justify-content-center align-self-center px-3 mt-2 mb-3">
-                <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 mt-3 Login">
+                <div className="form-containe col-12 col-lg-5 shadow rounded-4 py-4 px-4 p-md-5 my-3 Login">
 
                     {/* <!-- Login Heading --> */}
                     <div className='mb-4'>
                         <h4 className="text-start fw-bold mb-1">Login</h4>
                         <p className='text-secondary'>to continue to Examee</p>
-
                     </div>
+
+                    {loading && (
+                      <div className="text-center">
+                      <div className="spinner-border mb-4" role="status"></div>
+                      </div>
+                    )}
 
                     {/* <!-- Google Login Button --> */}
                     <div className="d-grid">

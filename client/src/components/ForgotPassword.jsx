@@ -5,14 +5,17 @@ import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(false);
     const [Email, setEmail] = useState("");
 
     const handleFogotPasswordEmail = async(e)=>{
         e.preventDefault();
-
+        setLoading(true);
         try {
             // validate email 
             if (!Email) {
+                setLoading(false);
                 toast.error("Please fill out email fields !", {
                     position: "top-right"
                 });
@@ -30,10 +33,12 @@ const ForgotPassword = () => {
     
                 // If successfully code send, and navigate
                 if (result.success === true) {
+                setLoading(false);
                 toast.success("Verification code sent to your email!", {
                     position: "top-right"
                 });
                 } else if (result.success === false) { // if error acoured from server
+                setLoading(false);
                 toast.error(result.message ||'Verification Code failed.'
                     , {
                     position: "top-right"
@@ -41,12 +46,14 @@ const ForgotPassword = () => {
                 }
             } 
         } catch (error) { // if any error during the form sumbit
+            setLoading(false);
             console.error('FogotPasswordEmail error:', error);
             toast.error('An error occurred during FogotPassword when sending email code.'
                 , {
                 position: "top-right"
             });
         }
+        setLoading(false);
     }
 
     //======================================== [Password reset] =================================
@@ -58,18 +65,19 @@ const ForgotPassword = () => {
 
     const handleForgotPassword = async(e) =>{
         e.preventDefault();
+        setLoading(true);
         
         try {
             const {ForgotPasswordCode, NewPassword, ConfirmNewPassword} = ForgotPasswordData;
-
-            console.log("formfogo=====",ForgotPasswordData)
             
             // Validate if email or password 
             if (!ForgotPasswordCode || !NewPassword || !ConfirmNewPassword) {
+                setLoading(false);
                 toast.error("Please fill out all fields !", {
                     position: "top-right"
                 });
             }else if(NewPassword !== ConfirmNewPassword) { // compare password or confirmpassword
+                setLoading(false);
                 toast.error("NewPassword and ConfirmPassword do not match!", {
                     position: "top-right"
                 });
@@ -83,15 +91,16 @@ const ForgotPassword = () => {
                 });
     
                 const result = await response.json();  // get response from server
-                console.log(result)
-               
+
                 // If successfully reset password, and navigate
                 if (result.success === true) {
+                setLoading(false);
                 toast.success( result.message || "Password reset successfully !", {
                     position: "top-right"
                 });
                 navigate('/login');
                 } else if (result.success === false) { // if error acoured from server
+                setLoading(false);
                 toast.error(result.message ||'Password reseting failed.'
                     , {
                     position: "top-right"
@@ -99,12 +108,14 @@ const ForgotPassword = () => {
                 }
             } 
         } catch (error) { // if any error during the form sumbit
+            setLoading(false);
             console.error('FogotPassword error:', error);
             toast.error('An error occurred during FogotPassword when sumbiting data.'
                 , {
                 position: "top-right"
             });
         }
+        setLoading(false);
     }
 
     const handlOnchange = (e) => {
@@ -126,6 +137,12 @@ const ForgotPassword = () => {
 
                 <button type="submit" className="btn btn-light w-100 mb-3">Get Verification Code</button> 
             </form>    
+
+            {loading && (
+                <div className="text-center">
+                <div className="spinner-border mt-2" role="status"></div>
+                </div>
+            )}
              
             <form onSubmit={handleForgotPassword}>
                 <div className='text-secondary my-4'>

@@ -116,10 +116,11 @@ const login = async (req, res) => {
         );
 
 
-        sendWelcomeEmail(user.Email, user.Username);
+        // sendWelcomeEmail(user.Email, user.Username);
 
         user = {
-            Email: user.Email
+            Email: user.Email,
+            Role : user.Role
         }
 
         return res.status(200).json({
