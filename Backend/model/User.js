@@ -16,6 +16,11 @@ const UserSchema = new Schema({
     Password:{
         type:String
     },
+    Role:{
+        type: String,
+        enum: ['Admin', 'Instructor', 'Student'],
+        default: 'Student', 
+    },
     isVerified:{
         type:Boolean,
         default:false

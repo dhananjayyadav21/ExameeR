@@ -1,10 +1,5 @@
 const googleAuth = require('../controllers/googleAuthControllers');
 const Authcontroller = require('../controllers/AuthController');
-// const register = require('../controllers/register');
-// const login = require('../controllers/login');
-// const verfyEmail = require('../controllers/verfyEmail');
-// const fogotPassword = require('../controllers/fogotPassword');
-// const getUser = require('../controllers/getUser');
 const fetchUser = require("../middleware/fetchUser");
 const router = require('express').Router();
 

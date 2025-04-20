@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ContentContext from '../../context/ContentContext';
+import { toast } from "react-toastify";
 
-const UploadNotes = ({ userId }) => {
+const UploadNotes = () => {
+  const context = useContext(ContentContext);
+  const { addNote } = context
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -13,9 +18,8 @@ const UploadNotes = ({ userId }) => {
 
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { //handle Field Data Change 
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -23,7 +27,7 @@ const UploadNotes = ({ userId }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e) => { //handle file Change 
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
   };
@@ -31,45 +35,57 @@ const UploadNotes = ({ userId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // check file and file type
     if (!file || file.type !== 'application/pdf') {
-      return setMessage('Please upload a valid PDF file.');
-    }
-
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('description', formData.description);
-    data.append('professor', formData.professor);
-    data.append('category', formData.category);
-    data.append('tags', formData.tags.split(',').map(tag => tag.trim()));
-    data.append('isPublic', formData.isPublic);
-    data.append('status', formData.status);
-    data.append('uploadedBy', userId);
-    data.append('file', file);
-
-    try {
-      setUploading(true);
-      const response = await fetch('/api/notes/upload', {
-        method: 'POST',
-        body: data,
+      return toast.warning("Please upload a valid PDF file", {
+        position: "top-right"
       });
+    }else {
+      const data = {  // set Note data
+        title: formData.title,
+        description: formData.description,
+        professor: formData.professor,
+        category: formData.category,
+        tags: formData.tags.split(',').map(tag => tag.trim()),
+        isPublic: formData.isPublic,
+        status: formData.status
+      };
 
-      if (!response.ok) throw new Error('Upload failed');
+      try {
+        setUploading(true);
+        console.log("data-------------", data)
+        const response = await addNote(data);
+        console.log("response-------------", response)
 
-      setMessage('Note uploaded successfully!');
-      setFormData({
-        title: '',
-        description: '',
-        professor: '',
-        category: '',
-        tags: '',
-        isPublic: true,
-        status: 'public',
-      });
-      setFile(null);
-    } catch (error) {
-      setMessage('Failed to upload note. Try again.');
-    } finally {
-      setUploading(false);
+        if (response.success === true) {
+          toast.success("Note uploaded successfully!", {
+            position: "top-right"
+          });
+          // setFormData({
+          //   title: '',
+          //   description: '',
+          //   professor: '',
+          //   category: '',
+          //   tags: '',
+          //   isPublic: false,
+          //   status: 'public',
+          // });
+          // setFile(null);
+        }else if(response.success === false){
+          toast.error( response.message || "Failed to upload note.!", {
+            position: "top-right"
+          });
+        }
+        
+        // if accured error in calling api
+      } catch (error) {
+        return toast.error("Failed to upload note. Try again", {
+          position: "top-right"
+        });
+      } finally {
+        setUploading(false);
+      }
+
     }
   };
 
@@ -91,7 +107,6 @@ const UploadNotes = ({ userId }) => {
             <div className="container-fluid my-3">
               <div className="card shadow m-0 p-0">
                 <div className="card-body">
-                  {message && <div className="alert alert-info">{message}</div>}
 
                   <form onSubmit={handleSubmit}>
                     {/* Title */}
@@ -102,7 +117,6 @@ const UploadNotes = ({ userId }) => {
                       <input
                         type="text"
                         name="title"
-                        required
                         value={formData.title}
                         onChange={handleChange}
                         className="form-control"
@@ -217,16 +231,16 @@ const UploadNotes = ({ userId }) => {
           </div>
 
           {/* Brand Logo Column */}
-            <div className="col-md-2 bg-light">
-                <div style={{ marginTop: '45vh' }}>
-                    <img
-                    src="./assets/img/brandlog.png"
-                    alt="brand"
-                    style={{ transform: 'rotate(90deg)' }}
-                    width={200}
-                    />
-                </div>
+          <div className="col-md-2 bg-light">
+            <div style={{ marginTop: '45vh' }}>
+              <img
+                src="./assets/img/brandlog.png"
+                alt="brand"
+                style={{ transform: 'rotate(90deg)' }}
+                width={200}
+              />
             </div>
+          </div>
         </div>
       </div>
     </>

@@ -315,6 +315,13 @@ const getUser = async (req, res) => {
 
         const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode -_id');
 
+        if(!user){
+            return res.status(200).json({
+                success: false,
+                message: 'User not found !',
+            }) 
+        }
+
         return res.status(200).json({
             success: true,
             message: 'User details fetch successfully',

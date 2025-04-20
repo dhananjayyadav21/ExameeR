@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import ContentState from "./context/ContentState";
 
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
@@ -35,8 +36,8 @@ import FileUpload from "./Dashbord/components/FileUpload";
 
 function App() {
 
-  const GoogleAuthWraper = ()=>{
-    return(
+  const GoogleAuthWraper = () => {
+    return (
       <GoogleOAuthProvider clientId="81360539878-c23jclv7lc31cf8m2remiso4qk6kthd4.apps.googleusercontent.com">
         <Auth></Auth>
       </GoogleOAuthProvider>
@@ -45,116 +46,118 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
+      <ContentState>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-          <Route path="/profile" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<ProfileCard />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/profile" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<ProfileCard />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/myLearning" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<MyLearning />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/myLearning" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<MyLearning />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/notes" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<Notes />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/notes" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<Notes />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/cource" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<Cource />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/cource" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<Cource />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/Q-paper" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<QPaper />}
-            redirectTo="/auth"
-          />}/>
+            <Route path="/Q-paper" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<QPaper />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/video" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<Video />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/video" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<Video />}
+              redirectTo="/auth"
+            />} />
 
-          <Route path="/contact" element={<GuardedRoute
-            hasToBeAuthenticated={true}
-            element={<Contact />}
-            redirectTo="/auth"
-          />} />
+            <Route path="/contact" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<Contact />}
+              redirectTo="/auth"
+            />} />
 
 
 
-          {/* Fix: Add '*' to the dashboard route */}
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route index element={<DashbordHead />} />
-            <Route path="dashboard-head" element={<DashbordHead />} />
-            <Route path="dashboard-courses" element={<DashbordCource />} />
-            <Route path="dashboard-notes" element={<DashbordNotes />} />
-            <Route path="dashboard-videos" element={<DashbordVideo />} />
-            <Route path="dashboard-pyq" element={<DashbordPYQ />} />
-            <Route path="dashboard-student-management" element={<DashbordStudentManagement />}/>
-            <Route path="dashboard-analyticst" element={<DashbordAnalytics />} />
-            <Route path="dashboard-settings" element={<DashbordSettings />} />
-          </Route>
+            {/* Fix: Add '*' to the dashboard route */}
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<DashbordHead />} />
+              <Route path="dashboard-head" element={<DashbordHead />} />
+              <Route path="dashboard-courses" element={<DashbordCource />} />
+              <Route path="dashboard-notes" element={<DashbordNotes />} />
+              <Route path="dashboard-videos" element={<DashbordVideo />} />
+              <Route path="dashboard-pyq" element={<DashbordPYQ />} />
+              <Route path="dashboard-student-management" element={<DashbordStudentManagement />} />
+              <Route path="dashboard-analyticst" element={<DashbordAnalytics />} />
+              <Route path="dashboard-settings" element={<DashbordSettings />} />
+            </Route>
 
-          <Route path="/uploadNotes" element={<UploadNotes />} />
-          <Route path="/uploadPYQ" element={<UploadPYQ />} />
-          <Route path="/uploadVideo" element={<UploadVideo />} />
-          <Route path="/uploadCourse" element={<UploadCourse />} />
+            <Route path="/uploadNotes" element={<UploadNotes />} />
+            <Route path="/uploadPYQ" element={<UploadPYQ />} />
+            <Route path="/uploadVideo" element={<UploadVideo />} />
+            <Route path="/uploadCourse" element={<UploadCourse />} />
 
-          <Route path="/fileUoload" element={<FileUpload />} /> {/*temparry routes for file uplode on drive by appscript api*/}
+            <Route path="/fileUoload" element={<FileUpload />} /> {/*temparry routes for file uplode on drive by appscript api*/}
 
-          {/* Authentication Routes */}
-          <Route path="/auth" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<GoogleAuthWraper />}
-            redirectTo="/"
-          />} />
+            {/* Authentication Routes */}
+            <Route path="/auth" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<GoogleAuthWraper />}
+              redirectTo="/"
+            />} />
 
-          <Route path="/auth" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<GoogleAuthWraper />}
-            redirectTo="/"
-          />} />
+            <Route path="/auth" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<GoogleAuthWraper />}
+              redirectTo="/"
+            />} />
 
-          <Route path="/login" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<GoogleAuthWraper />}
-            redirectTo="/"
-          />} />
+            <Route path="/login" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<GoogleAuthWraper />}
+              redirectTo="/"
+            />} />
 
-          <Route path="/register" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<GoogleAuthWraper />}
-            redirectTo="/"
-          />} />
+            <Route path="/register" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<GoogleAuthWraper />}
+              redirectTo="/"
+            />} />
 
-          <Route path="/verifyEmail" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<VerifyEmail />}
-            redirectTo="/"
-          />} />
+            <Route path="/verifyEmail" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<VerifyEmail />}
+              redirectTo="/"
+            />} />
 
-          <Route path="/forgotPassword" element={<GuardedRoute
-            hasToBeAuthenticated={false}
-            element={<ForgotPassword />}
-            redirectTo="/"
-          />} />
+            <Route path="/forgotPassword" element={<GuardedRoute
+              hasToBeAuthenticated={false}
+              element={<ForgotPassword />}
+              redirectTo="/"
+            />} />
 
-          <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage />} />
 
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </ContentState>
     </>
   );
 }
