@@ -259,18 +259,17 @@ const UploadNotes = () => {
               </div>
             </div>
           </div>
-
+          
           {/* Brand Logo Column */}
-          <div className="col-md-2 bg-light">
-            <div style={{ marginTop: '45vh' }}>
-              <img
-                src="./assets/img/brandlog.png"
-                alt="brand"
-                style={{ transform: 'rotate(90deg)' }}
-                width={200}
-              />
-            </div>
-          </div>
+          <div className="d-none d-md-flex col-md-2 bg-light align-items-center justify-content-center">
+            <img
+              src="./assets/img/brandlog.png"
+              alt="brand"
+              className="img-fluid"
+              style={{ transform: 'rotate(90deg)' }}
+              width={200}
+            />
+          </div>          
         </div>
       </div>
     </>
