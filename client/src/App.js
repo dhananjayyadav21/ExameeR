@@ -31,6 +31,7 @@ import UploadNotes from "./Dashbord/components/UploadNotes";
 import UploadPYQ from "./Dashbord/components/UploadPYQ";
 import UploadVideo from "./Dashbord/components/UploadVideo";
 import UploadCourse from "./Dashbord/components/UploadCourse";
+import FileUpload from "./Dashbord/components/FileUpload";
 
 function App() {
 
@@ -110,6 +111,8 @@ function App() {
           <Route path="/uploadPYQ" element={<UploadPYQ />} />
           <Route path="/uploadVideo" element={<UploadVideo />} />
           <Route path="/uploadCourse" element={<UploadCourse />} />
+
+          <Route path="/fileUoload" element={<FileUpload />} /> {/*temparry routes for file uplode on drive by appscript api*/}
 
           {/* Authentication Routes */}
           <Route path="/auth" element={<GuardedRoute
