@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react';
 import ContentContext from '../../context/ContentContext';
+import DriveUpload from '../../services/DriveUpload';
+import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
 
 const UploadNotes = () => {
   const context = useContext(ContentContext);
   const { addNote } = context
 
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -16,6 +20,7 @@ const UploadNotes = () => {
     status: 'public',
   });
 
+  const [fileUrl, setFileUrl] = useState(null);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -27,20 +32,41 @@ const UploadNotes = () => {
     }));
   };
 
-  const handleFileChange = (e) => { //handle file Change 
+  const handleFileChange = async (e) => { //handle file Change 
+    setUploading(true);
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
+
+    if (selectedFile) { //if selected file available
+      try{
+        const result = await DriveUpload(selectedFile);
+        if(result && result.success && result.fileUrl){ 
+          setFileUrl(result.fileUrl);
+        }else{
+          toast.warning("Some thing went wrong please Re upload", {
+            position: "top-right"
+          });
+        }
+      }catch(ex){ //if error acured in file uploading on drive
+        toast.error(ex.message, {
+          position: "top-right"
+        });
+      }
+    }
+    setUploading(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
-    // check file and file type
-    if (!file || file.type !== 'application/pdf') {
+      // check file and file type
+      if (!file || file.type !== 'application/pdf') {
+      setUploading(false);  
       return toast.warning("Please upload a valid PDF file", {
         position: "top-right"
       });
-    }else {
+      }else {
       const data = {  // set Note data
         title: formData.title,
         description: formData.description,
@@ -48,45 +74,43 @@ const UploadNotes = () => {
         category: formData.category,
         tags: formData.tags.split(',').map(tag => tag.trim()),
         isPublic: formData.isPublic,
-        status: formData.status
+        status: formData.status,
+        fileUrl: fileUrl
       };
 
       try {
-        setUploading(true);
-        console.log("data-------------", data)
         const response = await addNote(data);
-        console.log("response-------------", response)
-
+        
         if (response.success === true) {
+          setFormData({
+            title: '',
+            description: '',
+            professor: '',
+            category: '',
+            tags: '',
+            isPublic: true,
+            status: 'public',
+          });
+          setFile(null);
+          navigate(-1);
           toast.success("Note uploaded successfully!", {
             position: "top-right"
           });
-          // setFormData({
-          //   title: '',
-          //   description: '',
-          //   professor: '',
-          //   category: '',
-          //   tags: '',
-          //   isPublic: false,
-          //   status: 'public',
-          // });
-          // setFile(null);
         }else if(response.success === false){
+          setUploading(false);
           toast.error( response.message || "Failed to upload note.!", {
             position: "top-right"
           });
         }
-        
+    
         // if accured error in calling api
       } catch (error) {
+        setUploading(false);
         return toast.error("Failed to upload note. Try again", {
           position: "top-right"
         });
-      } finally {
-        setUploading(false);
-      }
-
-    }
+      }}
+    setUploading(false);
   };
 
   return (
@@ -200,6 +224,12 @@ const UploadNotes = () => {
                         className="form-control"
                       />
                     </div>
+
+                    {uploading && (
+                      <div className="text-center">
+                      <div className="spinner-border mt-3" role="status"></div>
+                      </div>
+                    )}
 
                     {/* Public/Private Toggle */}
                     <div className="form-check form-switch mb-3">

@@ -23,13 +23,10 @@ const uploadNotes = async (req, res) => {
       })
     }
 
-    req.body.fileUrl = "test";
     const { title, description, professor, category, tags, isPublic, status, fileUrl } = req.body;
 
-    console.log("data-------------", req.body);
-
     // Check All data from body
-    if (!title || !description || !professor || !category || !tags || !isPublic || !status || !fileUrl) {
+    if (!title || !description || !professor || !category || !tags || !status || !fileUrl) {
       return res.status(400).json({
         success: false,
         message: "Every fields are reuired !"

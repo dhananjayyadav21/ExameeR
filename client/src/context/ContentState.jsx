@@ -12,13 +12,15 @@ const ContentState = (props) => {
         `${GlobalUrls.ADDNOTE_URL}`,
         Data
       );
-      // setNotes(Notes.concat(json));
+      if(json.success === true){
+       // setNotes(Notes.concat(json));
+      }
       return json;
     }catch (error) {
       console.log("Do not add Note due to some error",error);
     }
     };
-    
+    // eslint-disable-next-line
     const [Notes, setNotes] = useState([]);
     return (
         <ContentContext.Provider
