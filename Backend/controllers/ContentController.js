@@ -76,6 +76,15 @@ const getAllPublicNotes = async (req, res) => {
 
   try {
     let userId = req.user._id;
+    const category = req.query.category || "sci-technology";
+    const sortBy = req.query.sortBy || "latest";
+
+    let sortOption = {};
+    if (sortBy === "latest") {
+      sortOption = { createdOn: -1 }; // Newest first
+    } else if (sortBy === "oldest") {
+      sortOption = { createdOn: 1 }; // Oldest first
+    } 
 
     // check user exist or not
     const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
@@ -86,23 +95,57 @@ const getAllPublicNotes = async (req, res) => {
       })
     }
 
-    if (user.isVerified !== true) { // check user verified  or not
-      return res.status(401).json({
-        success: false,
-        message: "You are not verified user!",
-      })
+    if(user.Role === "Student"){
+      const notes = await Note.find({ // all notes find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+  
+      res.status(200).json({ // return result as true
+        success: true,
+        count: notes.length,
+        data: notes,
+      });
+    }
+    
+    if(user.Role === "Instructor"){
+      const notes = await Note.find({
+        $or: [
+          { isPublic: true, status: 'public',category: category },  // public notes
+          { uploadedBy: req.user._id } // my notes (any status)
+        ]
+      }).sort(sortOption);
+
+      res.status(200).json({ // return result as true
+        success: true,
+        count: notes.length,
+        data: notes,
+      });
+    }
+  
+    if(user.Role === "Admin"){
+
+      const notes = await Note.find({category: category}).sort(sortOption).limit(3); // all notes find from db
+  
+      res.status(200).json({ // return result as true
+        success: true,
+        count: notes.length,
+        data: notes,
+      });
     }
 
-    const notes = await Note.find({ // all notes find from db
-      isPublic: true,
-      status: 'public'
-    }).sort({ createdOn: -1 });
 
-    res.status(200).json({ // return result as true
-      success: true,
-      count: notes.length,
-      data: notes,
-    });
+    // const notes = await Note.find({ // all notes find from db
+    //   isPublic: true,
+    //   status: 'public'
+    // }).sort({ createdOn: -1 });
+
+    // res.status(200).json({ // return result as true
+    //   success: true,
+    //   count: notes.length,
+    //   data: notes,
+    // });
   } catch (error) { // if accured some error
     console.error('Error fetching public notes:', error);
     res.status(500).json({

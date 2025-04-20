@@ -32,8 +32,7 @@ const ProfileCardWithBanner = () => {
       console.error("getUser error:", error.message);
     }
   }
-
-      
+  
   return (
     <div className="container p-4">
       <div className="row bg-white rounded-3 shadow overflow-hidden">
@@ -43,7 +42,9 @@ const ProfileCardWithBanner = () => {
           <div className="row d-flex align-items-center">
             <div className="col-12 col-md-3 mb-4 d-flex justify-content-center"> 
               <img
-                src={localStorage.getItem('Profile') !== "undefined" || "/assets/img/Avtar.jpg"}
+                src={localStorage.getItem("Profile") && localStorage.getItem("Profile") !== "undefined"
+                  ? localStorage.getItem("Profile")
+                  : "/assets/img/Avtar.jpg"}
                 alt="User Avatar"
                 className="rounded-circle me-3 userprofile-img"
               />

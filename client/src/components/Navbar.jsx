@@ -43,7 +43,14 @@ const Navbar = () => {
                         <>
                             <div className="nav-item dropdown d-lg-none">  
                                 <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                   <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile") !== "undefined" || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
+                                    <div><img
+                                        className="profile-img rounded-circle"
+                                        src={
+                                        localStorage.getItem("Profile") && localStorage.getItem("Profile") !== "undefined"
+                                        ? localStorage.getItem("Profile")
+                                        : "/assets/img/Avtar.jpg"
+                                        }alt="Avtar"/>
+                                    </div>
                                 </a>
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
@@ -97,7 +104,15 @@ const Navbar = () => {
                                 <>
                                     <li className="nav-item dropdown">  
                                         <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown"  aria-expanded="false">
-                                         <div><img  className='profile-img rounded-circle' src={localStorage.getItem("Profile")!== "undefined" || "/assets/img/Avtar.jpg"} alt="Avtar" /></div>
+                                         <div><img
+                                                className="profile-img rounded-circle"
+                                                src={
+                                                localStorage.getItem("Profile") && localStorage.getItem("Profile") !== "undefined"
+                                                    ? localStorage.getItem("Profile")
+                                                    : "/assets/img/Avtar.jpg"
+                                                }
+                                                alt="Avtar"/>
+                                         </div>
                                         </a>
                                         <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
                                             <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
