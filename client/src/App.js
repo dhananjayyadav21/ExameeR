@@ -26,13 +26,13 @@ import DashbordSettings from './Dashbord/components/DashbordSetting';
 
 import ErrorPage from "./components/ErrorPage";
 import GuardedRoute from "./services/GuardedRoute";
+import RoleBasedRoute from "./services/RoleBasedRoute";
 import ProfileCard from "./components/ProfileCard";
 import MyLearning from "./components/MyLearning ";
 import UploadNotes from "./Dashbord/components/UploadNotes";
 import UploadPYQ from "./Dashbord/components/UploadPYQ";
 import UploadVideo from "./Dashbord/components/UploadVideo";
 import UploadCourse from "./Dashbord/components/UploadCourse";
-import FileUpload from "./Dashbord/components/FileUpload";
 
 function App() {
 
@@ -95,9 +95,13 @@ function App() {
             />} />
 
 
-
-            {/* Fix: Add '*' to the dashboard route */}
-            <Route path="/dashboard" element={<Dashboard />}>
+            {/* Fix: Add '*' to the dashboard route -------------------------------- */} 
+            <Route path="/dashboard" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<Dashboard />}
+              />
+            }>
               <Route index element={<DashbordHead />} />
               <Route path="dashboard-head" element={<DashbordHead />} />
               <Route path="dashboard-courses" element={<DashbordCource />} />
@@ -113,8 +117,6 @@ function App() {
             <Route path="/uploadPYQ" element={<UploadPYQ />} />
             <Route path="/uploadVideo" element={<UploadVideo />} />
             <Route path="/uploadCourse" element={<UploadCourse />} />
-
-            <Route path="/fileUoload" element={<FileUpload />} /> {/*temparry routes for file uplode on drive by appscript api*/}
 
             {/* Authentication Routes */}
             <Route path="/auth" element={<GuardedRoute
@@ -152,7 +154,6 @@ function App() {
               element={<ForgotPassword />}
               redirectTo="/"
             />} />
-
             <Route path="*" element={<ErrorPage />} />
 
           </Routes>
