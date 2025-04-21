@@ -41,9 +41,10 @@ const sendForgotPasswordEmail = async (Email, ForgotPasswordCode) => {
         text: `Your forgot password verification code is: ${ForgotPasswordCode}`,
         html: ForgotPasswordEmail_Template(ForgotPasswordCode), 
       });
-      console.log('Forgot Password Email sent Successfully', response);
+      console.log('Forgot Password Email sent Successfully', response.accepted,response.rejected);
     } catch (error) {
       console.log('Forgot Password Email error', error);
+      throw error;
     }
   };
 

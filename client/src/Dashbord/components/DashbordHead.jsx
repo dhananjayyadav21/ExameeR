@@ -163,7 +163,7 @@ const DashbordHead = () => {
             </Link>
           </div>
           <div className="col-md-6 col-lg-3">
-            <Link to="/uploadVideo" className="text-decoration-none">  
+            <Link to="/uploadPYQ" className="text-decoration-none">  
             <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
               <FontAwesomeIcon icon={faCircleQuestion} className="text-success" />
               <span className="text-dark">Add Questions</span>
@@ -179,7 +179,7 @@ const DashbordHead = () => {
             </Link>
           </div>
           <div className="col-md-6 col-lg-3">
-            <Link to="/uploadVideo" className="text-decoration-none">
+            <Link to="/uploadCourse" className="text-decoration-none">
             <div className="bg-white d-flex align-items-center justify-content-center gap-2 p-3 border shadow-sm rounded-3 cursor-pointer">
               <FontAwesomeIcon icon={faUpload} className="text-warning" />
               <span className="text-dark">

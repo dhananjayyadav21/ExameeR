@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ContentContext from '../../context/ContentContext';
+import DriveUpload from '../../services/DriveUpload';
+import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
 
-const UploadPYQ = ({ userId }) => {
+const UploadPYQ = () => {
+  const context = useContext(ContentContext);
+  const { addPYQ } = context;
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: '',
     year: '',
     subject: '',
-    category: '',
+    category: 'sciTechnology',
     tags: '',
     isPublic: true,
     status: 'public',
   });
 
   const [file, setFile] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
 
+  //**********************************************************************************
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -23,54 +32,105 @@ const UploadPYQ = ({ userId }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  //**********************************************************************************
+  const handleFileChange = async (e) => {
+    setUploading(true);
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
+
+    if (selectedFile) { //if selected file available
+      try{
+        const result = await DriveUpload(selectedFile);
+        if(result && result.success && result.fileUrl){ 
+          setFileUrl(result.fileUrl);
+        }else{
+          toast.warning("Some thing went wrong please Re upload", {
+            position: "top-right"
+          });
+        }
+      }catch(ex){ //if error acured in file uploading on drive
+        toast.error(ex.message, {
+          position: "top-right"
+        });
+      }
+    }
+    setUploading(false);
   };
 
+   //**********************************************************************************
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
+    // check file and file type
     if (!file || file.type !== 'application/pdf') {
-      return setMessage('Please upload a valid PDF file.');
-    }
-
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('year', formData.year);
-    data.append('subject', formData.subject);
-    data.append('category', formData.category);
-    data.append('tags', formData.tags.split(',').map(tag => tag.trim()));
-    data.append('isPublic', formData.isPublic);
-    data.append('status', formData.status);
-    data.append('uploadedBy', userId);
-    data.append('file', file);
-
-    try {
-      setUploading(true);
-      const response = await fetch('/api/pyq/upload', {
-        method: 'POST',
-        body: data,
+      setUploading(false);  
+      return toast.warning("Please upload a PDF or valid PDF file", {
+        position: "top-right"
       });
+    }else{
+      const data = {  // set PYQ data
+        title: formData.title,
+        year: formData.year,
+        subject: formData.subject,
+        category: formData.category,
+        tags: formData.tags.split(',').map(tag => tag.trim()),
+        isPublic: formData.isPublic,
+        status: formData.status,
+        fileUrl: fileUrl
+      };
 
-      if (!response.ok) throw new Error('Upload failed');
+      try {
+        const { title, year, subject, category, status } = data;
 
-      setMessage('Previous Year Question uploaded successfully!');
-      setFormData({
-        title: '',
-        year: '',
-        subject: '',
-        category: '',
-        tags: '',
-        isPublic: true,
-        status: 'public',
-      });
-      setFile(null);
-    } catch (error) {
-      setMessage('Failed to upload PYQ. Try again.');
-    } finally {
-      setUploading(false);
-    }
+        if(!title || !year || !subject || !category || !status ){
+          // Check All data from body
+          if (!title || !year || !subject) {
+            setUploading(false); 
+            toast.warning("PYQ title & year,subject must be important !", {
+                position: "top-right"
+          });
+          }
+
+          // Check All data from body
+          if (!category || !status ) {
+            setUploading(false); 
+            toast.warning("PYQ Category & Status reuired !", {
+              position: "top-right"
+            });
+          }
+        }else{
+          const response = await addPYQ(data);
+          if (response.success === true) {
+            setFormData({
+              title: '',
+              year: '',
+              subject: '',
+              category: 'sciTechnology',
+              tags: '',
+              isPublic: true,
+              status: 'public',
+            });
+            setFile(null);
+            navigate(-1);
+            toast.success("PYQ uploaded successfully!", {
+              position: "top-right"
+            });
+          }else if(response.success === false){
+            setUploading(false);
+            toast.error( response.message || "Failed to upload pyq.!", {
+              position: "top-right"
+            });
+          }
+        }
+        // if accured error in calling api
+      } catch (error) {
+        setUploading(false);
+        return toast.error("Failed to upload pyq. Try again", {
+          position: "top-right"
+        });
+      }}
+    setUploading(false);
   };
 
   return (
@@ -90,7 +150,7 @@ const UploadPYQ = ({ userId }) => {
             <div className="container my-3">
               <div className="card shadow">
                 <div className="card-body">
-                  {message && <div className="alert alert-info">{message}</div>}
+      
                   <form onSubmit={handleSubmit}>
                     {/* Title */}
                     <div className="mb-3">
@@ -140,14 +200,16 @@ const UploadPYQ = ({ userId }) => {
                     {/* Category */}
                     <div className="mb-3">
                       <label className="form-label">Category (Stream)</label>
-                      <input
-                        type="text"
+                      <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="form-control"
-                        placeholder="e.g. Computer Science, Commerce, etc."
-                      />
+                        className="form-select"
+                      >
+                        <option value="sciTechnology">sciTechnology</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="arts&civils">Arts & civils</option>
+                      </select>
                     </div>
 
                     {/* Tags */}
@@ -190,6 +252,12 @@ const UploadPYQ = ({ userId }) => {
                         className="form-control"
                       />
                     </div>
+
+                    {uploading && (
+                      <div className="text-center">
+                      <div className="spinner-border mt-3" role="status"></div>
+                      </div>
+                    )}
 
                     {/* Public Toggle */}
                     <div className="form-check form-switch mb-3">

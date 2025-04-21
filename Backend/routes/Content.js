@@ -6,6 +6,8 @@ const router = require('express').Router();
 
   router.post('/addNotes',fetchUser, ContentController.uploadNotes);
 
+  router.post('/addPYQ',fetchUser, ContentController.uploadPYQ);
+
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   
 
