@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,8 +11,19 @@ import {
   faVideo,
   faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
+import ContentContext from '../../context/ContentContext'
 
 const DashbordHead = () => {
+  const context = useContext(ContentContext);
+  const { MyNotes, getNote } = context;
+
+  useEffect( () => {
+    if (localStorage.getItem('token')) {
+      getNote();
+    }
+    // eslint-disable-next-line
+  },[]);
+
   return (
     <div>
       <div id="dashboard" className="min-vh-100 p-3 py-4 px-md-4 bg-light">
@@ -24,6 +35,23 @@ const DashbordHead = () => {
 
         {/* Stats Grid */}
         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+        <div className="col">
+            <div className="card border shadow-sm h-100 rounded-3">
+              <div className="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <p className="small text-secondary">Total Notes</p>
+                  <h3 className="fw-bold text-dark">{MyNotes.length}</h3>
+                </div>
+                <div className="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center p-3">
+                  <FontAwesomeIcon
+                    icon={faFileAlt}
+                    className="text-success fs-4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="col">
             <div className="card h-100 border rounded-3">
               <div className="card-body d-flex justify-content-between align-items-center">
@@ -33,23 +61,6 @@ const DashbordHead = () => {
                 </div>
                 <div className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon icon={faBook} className="text-primary fs-4" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col">
-            <div className="card border shadow-sm h-100 rounded-3">
-              <div className="card-body d-flex justify-content-between align-items-center">
-                <div>
-                  <p className="small text-secondary">Total Notes</p>
-                  <h3 className="fw-bold text-dark">45</h3>
-                </div>
-                <div className="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center p-3">
-                  <FontAwesomeIcon
-                    icon={faFileAlt}
-                    className="text-success fs-4"
-                  />
                 </div>
               </div>
             </div>

@@ -39,6 +39,9 @@ const noteSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
+    ExmeeUserId:{
+        type:String
+    },
     createdOn: {
         type: Date,
         default: Date.now,

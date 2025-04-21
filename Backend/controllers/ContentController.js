@@ -23,7 +23,8 @@ const uploadNotes = async (req, res) => {
         message: "You are not allowed to upload notes!",
       })
     }
-
+    
+    const ExmeeUserId = user.ExmeeUserId; 
     const { title, description, professor, category, tags, isPublic, status, fileUrl } = req.body;
 
     // Check All data from body
@@ -60,6 +61,7 @@ const uploadNotes = async (req, res) => {
       status: status || 'public',
       fileUrl,
       uploadedBy: userId,
+      ExmeeUserId:ExmeeUserId,
       createdOn: new Date(),
       updatedOn: new Date(),
       deletedOn: null
@@ -138,13 +140,19 @@ const getAllPublicNotes = async (req, res) => {
           { isPublic: true, status: 'public',category: category },  // public notes
           { uploadedBy: req.user._id } // my notes (any status)
         ]
-      }).sort(sortOption);
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+
+      // my notes (any status)
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); 
 
       res.status(200).json({ // return result as true
         success: true,
         message:"Fetch All My & Public Notes ",
         count: notes.length,
         data: notes,
+        myNotes: myNotes,
+        myNotesCount: myNotes.length
+
       });
     }
   

@@ -26,8 +26,12 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.GETNOTE_URL}`,
       );
-      if (json.success === true) {
+      if(json.success === true) {
         setNotes(json.data);
+        if(json.myNotes){
+          setMyNotes(json.myNotes);
+          console.log("Mynotes---------",json.myNotes);
+        }
       }
       return json;
     } catch (error) {
@@ -37,9 +41,10 @@ const ContentState = (props) => {
 
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
+  const [MyNotes, setMyNotes] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ Notes, addNote, getNote}}>
+      value={{ Notes, MyNotes, addNote, getNote}}>
       {props.children}
     </ContentContext.Provider>
   );
