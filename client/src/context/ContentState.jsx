@@ -30,7 +30,11 @@ const ContentState = (props) => {
         setNotes(json.data);
         if(json.myNotes){
           setMyNotes(json.myNotes);
-          console.log("Mynotes---------",json.myNotes);
+          // console.log("Mynotes---------",json.myNotes);
+        }
+        if(json.allNotes){
+          setAllNotes(json.allNotes);
+          // console.log("Mynotes---------",json.allNotes);
         }
       }
       return json;
@@ -42,9 +46,10 @@ const ContentState = (props) => {
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
   const [MyNotes, setMyNotes] = useState([]);
+  const [AllNotes, setAllNotes] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, addNote, getNote}}>
+      value={{ Notes, MyNotes, AllNotes, addNote, getNote}}>
       {props.children}
     </ContentContext.Provider>
   );

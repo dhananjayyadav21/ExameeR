@@ -157,13 +157,27 @@ const getAllPublicNotes = async (req, res) => {
     }
   
     if(user.Role === "Admin"){
-      const notes = await Note.find({category: category}).sort(sortOption); // all notes find from db
+      const notes = await Note.find({ // all notes find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      
+      // my notes (any status)
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); 
+
+      const allNotes = await Note.find({category: category}).sort(sortOption); // all notes find from db
   
       res.status(200).json({ // return result as true
         success: true,
         message:"Fetch All Notes ",
         count: notes.length,
         data: notes,
+        myNotes: myNotes,
+        myNotesCount: myNotes.length,
+        allNotes: allNotes,
+        allNotesCount: allNotes.length
       });
     }
   } catch (error) { // if accured some error
