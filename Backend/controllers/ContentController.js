@@ -27,10 +27,26 @@ const uploadNotes = async (req, res) => {
     const { title, description, professor, category, tags, isPublic, status, fileUrl } = req.body;
 
     // Check All data from body
-    if (!title || !description || !professor || !category || !tags || !status || !fileUrl) {
+    if (!title || !professor) {
       return res.status(400).json({
         success: false,
-        message: "Every fields are reuired !"
+        message: "Notes title & professor must be important !"
+      });
+    }
+
+    // Check All data from body
+    if (!category || !status ) {
+      return res.status(400).json({
+        success: false,
+        message: "Notes Category & Status reuired !"
+      });
+    }
+
+    // Check All data from body
+    if (!fileUrl) {
+      return res.status(400).json({
+        success: false,
+        message: "File not uplode try again!"
       });
     }
 
@@ -125,7 +141,6 @@ const getAllPublicNotes = async (req, res) => {
     }
   
     if(user.Role === "Admin"){
-
       const notes = await Note.find({category: category}).sort(sortOption).limit(3); // all notes find from db
   
       res.status(200).json({ // return result as true
@@ -134,18 +149,6 @@ const getAllPublicNotes = async (req, res) => {
         data: notes,
       });
     }
-
-
-    // const notes = await Note.find({ // all notes find from db
-    //   isPublic: true,
-    //   status: 'public'
-    // }).sort({ createdOn: -1 });
-
-    // res.status(200).json({ // return result as true
-    //   success: true,
-    //   count: notes.length,
-    //   data: notes,
-    // });
   } catch (error) { // if accured some error
     console.error('Error fetching public notes:', error);
     res.status(500).json({

@@ -14,7 +14,7 @@ const UploadNotes = () => {
     title: '',
     description: '',
     professor: '',
-    category: '',
+    category: 'sciTechnology',
     tags: '',
     isPublic: true,
     status: 'public',
@@ -63,7 +63,7 @@ const UploadNotes = () => {
       // check file and file type
       if (!file || file.type !== 'application/pdf') {
       setUploading(false);  
-      return toast.warning("Please upload a valid PDF file", {
+      return toast.warning("Please upload a PDF or valid PDF file", {
         position: "top-right"
       });
       }else {
@@ -79,30 +79,48 @@ const UploadNotes = () => {
       };
 
       try {
-        const response = await addNote(data);
-        
-        if (response.success === true) {
-          setFormData({
-            title: '',
-            description: '',
-            professor: '',
-            category: '',
-            tags: '',
-            isPublic: true,
-            status: 'public',
+        const { title, professor, category, status } = data;
+            
+        if(!title || !professor || !category || !status ){
+          // Check All data from body
+          if (!title || !professor) {
+            setUploading(false); 
+            toast.warning("Notes title & professor must be important !", {
+               position: "top-right"
           });
-          setFile(null);
-          navigate(-1);
-          toast.success("Note uploaded successfully!", {
-            position: "top-right"
-          });
-        }else if(response.success === false){
-          setUploading(false);
-          toast.error( response.message || "Failed to upload note.!", {
-            position: "top-right"
-          });
+          }
+
+          // Check All data from body
+          if (!category || !status ) {
+            setUploading(false); 
+            toast.warning("Notes Category & Status reuired !", {
+              position: "top-right"
+            });
+          }
+        }else{
+          const response = await addNote(data);
+          if (response.success === true) {
+            setFormData({
+              title: '',
+              description: '',
+              professor: '',
+              category: 'sciTechnology',
+              tags: '',
+              isPublic: true,
+              status: 'public',
+            });
+            setFile(null);
+            navigate(-1);
+            toast.success("Note uploaded successfully!", {
+              position: "top-right"
+            });
+          }else if(response.success === false){
+            setUploading(false);
+            toast.error( response.message || "Failed to upload note.!", {
+              position: "top-right"
+            });
+          }
         }
-    
         // if accured error in calling api
       } catch (error) {
         setUploading(false);
@@ -174,14 +192,16 @@ const UploadNotes = () => {
                     {/* Category */}
                     <div className="mb-3">
                       <label className="form-label">Category (Stream)</label>
-                      <input
-                        type="text"
+                      <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="form-control"
-                        placeholder="e.g. Computer Science, Commerce, etc."
-                      />
+                        className="form-select"
+                      >
+                        <option value="sciTechnology">sciTechnology</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="arts&civils">Arts & civils</option>
+                      </select>
                     </div>
 
                     {/* Tags */}

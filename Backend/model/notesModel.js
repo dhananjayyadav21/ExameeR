@@ -13,7 +13,11 @@ const noteSchema = new mongoose.Schema({
         required: true,
     },
 
-    category: String,
+    category: {
+        type: String,
+        enum: ['sciTechnology', 'commerce', 'arts&civils'],
+        default: 'sciTechnology',
+    },
 
     tags: [String],
 
