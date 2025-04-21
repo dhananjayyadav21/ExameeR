@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
-import { Link, useNavigate, useLocation  } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { toast } from "react-toastify";
+import ContentContext from '../context/ContentContext'
+import * as GlobalUrls from "../GlobalURL"
 
 const Navbar = () => {
-    const navigate = useNavigate();
+    const context = useContext(ContentContext);
+    const { getNote } = context
 
+    const navigate = useNavigate();
     let location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
 
@@ -19,6 +23,10 @@ const Navbar = () => {
     const closeMobileBar = ()=>{
         setDisplay("none");
         setopenMBDisply("");
+    }
+
+    const handleCategoryChange = (category)=>{
+        getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}`);
     }
 
     const handleLogout = ()=>{
@@ -55,7 +63,10 @@ const Navbar = () => {
                                 <ul className="dropdown-menu " style={{marginRight:"500px"}} aria-labelledby="navbarDropdown">
                                     <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
                                     <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
-                                    <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
+                                    <li>
+                                        <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                                        </span>
+                                    </li>
                                     { localStorage.getItem("userRole")==="Admin" || localStorage.getItem("userRole")=== "Instructor"? 
                                         <><li><hr className="dropdown-divider"/></li>
                                         <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
@@ -91,9 +102,9 @@ const Navbar = () => {
                             <i className="fa-solid fa-layer-group m-2"></i>Category
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
-                                <li><a className="dropdown-item" href="/">Commerce</a></li>
-                                <li><a className="dropdown-item" href="/">Arts & civils</a></li>
+                                <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('sciTechnology')}}>Sci-Technology</button></li>
+                                <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('commerce')}}>Commerce</button></li>
+                                <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('artscivils')}}>Arts & civils</button></li>
                             </ul>
                         </li>
                     </ul>
@@ -117,20 +128,20 @@ const Navbar = () => {
                                         <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
                                             <li><Link className="dropdown-item" to="/myLearning">My Learning</Link></li>
                                             <li><Link className="dropdown-item" to="/profile">View Profile</Link></li>
-                                            <li><span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i></span></li>
+                                            <li>
+                                                <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                                                </span>
+                                            </li>
                                             { localStorage.getItem("userRole")==="Admin" || localStorage.getItem("userRole")=== "Instructor" ? 
                                                 <><li><hr className="dropdown-divider"/></li>
                                                 <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
                                                 <></>
                                             }
-                                            
                                         </ul>
                                     </li>
                                 </>:
                                 <></>
                             }
-                            
-
                             <li className="nav-item">
                             <Link className="nav-text nav-link " to="/notes">Notes</Link>
                             </li>
@@ -152,8 +163,8 @@ const Navbar = () => {
             </div>
         </nav>    
 
-        <div className='MobileBar-container sticky-top'>
         {/*========================================= mobilebar ==============================================*/}
+        <div className='MobileBar-container sticky-top'>
         <div className={`MobileBar p-2 d-flex d-${display}`}>
             <div className="navbar-nav me-auto mb-2 mb-lg-0 ">
             
@@ -163,9 +174,9 @@ const Navbar = () => {
                     <i className="fa-solid fa-layer-group mx-2"></i>Category
                     </a>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a className="dropdown-item" href="/">Sci-Technology</a></li>
-                        <li><a className="dropdown-item" href="/">Commerce</a></li>
-                        <li><a className="dropdown-item" href="/">Arts & civils</a></li>
+                        <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('sciTechnology')}}>Sci-Technology</button></li>
+                        <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('commerce')}}>Commerce</button></li>
+                        <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('artscivils')}}>Arts & civils</button></li>
                     </ul>
                 </div>
                 {/* Notes, Cource, Videos, Q-paper */}

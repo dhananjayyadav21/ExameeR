@@ -15,7 +15,7 @@ const noteSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ['sciTechnology', 'commerce', 'arts&civils'],
+        enum: ['sciTechnology', 'commerce', 'artscivils'],
         default: 'sciTechnology',
     },
 

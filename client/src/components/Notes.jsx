@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import NotesIteam from "./NotesItem.jsx"
 import Footer from "./Footer.jsx";
+import ContentContext from '../context/ContentContext'
 
 const Notes = () => {
+  const context = useContext(ContentContext);
+  const { Notes, getNote } = context;
 
-  let Aarr = [ {},{},{},{},{},{},]
-
-  console.log(Aarr);
+  useEffect( () => {
+    if (localStorage.getItem('token')) {
+      getNote();
+    }
+    // eslint-disable-next-line
+  },[]);
 
   return (
     <>
@@ -43,7 +49,7 @@ const Notes = () => {
 
         <div className="container-lg mt-2 mb-5">
           <div className="row g-4">
-            {Aarr.map((e,index)=> <NotesIteam key={index}/>)}
+            {Notes.map((note,index)=> <NotesIteam key={index} Notes={note}/>)}
           </div>
         </div>
       </div>   

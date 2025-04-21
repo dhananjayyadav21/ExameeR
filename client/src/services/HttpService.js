@@ -6,7 +6,10 @@ const headers = {
 // GET Request
 export const getData = async (URL) => {
   try {
-    const response = await fetch(URL);
+    const response = await fetch(URL,{
+      method: 'GET',
+      headers,
+    });
     const result = await response.json();
     return result; //return json
 

@@ -13,6 +13,7 @@ export const GETUSER_URL = `${BASEURL}auth/getUser`
 
 //--------------------- Contents Urls ------
 export const ADDNOTE_URL = `${BASEURL}content/addNotes`
+export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
 
 
 

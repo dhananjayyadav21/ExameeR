@@ -68,8 +68,9 @@ const uploadNotes = async (req, res) => {
     await newNote.save(); // save notes in db
     let note = {
       title,
+      description,
       professor,
-      category
+      category,
     }
 
     return res.status(201).json({ // send result as true
@@ -92,8 +93,13 @@ const getAllPublicNotes = async (req, res) => {
 
   try {
     let userId = req.user._id;
-    const category = req.query.category || "sci-technology";
-    const sortBy = req.query.sortBy || "latest";
+    const category = (req.query.category !== undefined && req.query.category !== null) 
+    ? req.query.category 
+    : "sciTechnology";
+    
+    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null) 
+    ? req.query.sortBy 
+    : "latest";
 
     let sortOption = {};
     if (sortBy === "latest") {
@@ -120,6 +126,7 @@ const getAllPublicNotes = async (req, res) => {
   
       res.status(200).json({ // return result as true
         success: true,
+        message:"Fetch All Public Notes ",
         count: notes.length,
         data: notes,
       });
@@ -135,16 +142,18 @@ const getAllPublicNotes = async (req, res) => {
 
       res.status(200).json({ // return result as true
         success: true,
+        message:"Fetch All My & Public Notes ",
         count: notes.length,
         data: notes,
       });
     }
   
     if(user.Role === "Admin"){
-      const notes = await Note.find({category: category}).sort(sortOption).limit(3); // all notes find from db
+      const notes = await Note.find({category: category}).sort(sortOption); // all notes find from db
   
       res.status(200).json({ // return result as true
         success: true,
+        message:"Fetch All Notes ",
         count: notes.length,
         data: notes,
       });
