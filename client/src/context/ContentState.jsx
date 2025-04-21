@@ -30,7 +30,7 @@ const ContentState = (props) => {
         Data
       );
       if (json.success === true) {
-        setPYQ(PYQ.concat(json.data));
+        setPYQ(PYQS.concat(json.data));
       }
       return json;
     } catch (error) {
@@ -50,11 +50,9 @@ const ContentState = (props) => {
         setNotes(json.data);
         if(json.myNotes){
           setMyNotes(json.myNotes);
-          // console.log("Mynotes---------",json.myNotes);
         }
         if(json.allNotes){
           setAllNotes(json.allNotes);
-          // console.log("Mynotes---------",json.allNotes);
         }
       }
       return json;
@@ -63,15 +61,43 @@ const ContentState = (props) => {
     }
   };
 
+
+
+
+  //---------------- GET PYQ() using Get Httpservice ----------------------- 
+  const getPYQ = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETPYQ_URL}`,
+      );
+      if(json.success === true) {
+        setPYQ(json.data);
+        if(json.myPYQ){
+          setMyPYQ(json.myPYQ);
+        }
+        if(json.allPYQ){
+          setAllPYQ(json.allPYQ);
+        }
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch PYQ due to some error", error);
+    }
+  };
+
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
-  const [PYQ, setPYQ] = useState([]);
-
   const [MyNotes, setMyNotes] = useState([]);
   const [AllNotes, setAllNotes] = useState([]);
+
+  const [PYQS, setPYQ] = useState([]);
+  const [MyPYQS, setMyPYQ] = useState([]);
+  const [AllPYQS, setAllPYQ] = useState([]);
+
+ 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQ, addNote, getNote, addPYQ}}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, addNote, getNote, addPYQ, getPYQ}}>
       {props.children}
     </ContentContext.Provider>
   );

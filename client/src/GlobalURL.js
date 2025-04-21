@@ -15,6 +15,7 @@ export const GETUSER_URL = `${BASEURL}auth/getUser`
 export const ADDNOTE_URL = `${BASEURL}content/addNotes`
 export const ADDPYQ_URL = `${BASEURL}content/addPYQ`
 export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
+export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ` 
 
 
 

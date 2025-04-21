@@ -1,9 +1,9 @@
 const Note = require('../model/notesModel');
 const userModel = require("../model/User");
-const PYQModel = require('../model/pyqModel');
+const PYQModel = require("../model/pyqModel");
 
 
-//---------------------------- [ uplodeNotes Controller ] ---------------------------
+//---------------------------- [ NOTES: uplodeNotes Controller ] ---------------------------
 const uploadNotes = async (req, res) => {
   try {
 
@@ -24,8 +24,8 @@ const uploadNotes = async (req, res) => {
         message: "You are not allowed to upload notes!",
       })
     }
-    
-    const ExmeeUserId = user.ExmeeUserId; 
+
+    const ExmeeUserId = user.ExmeeUserId;
     const { title, description, professor, category, tags, isPublic, status, fileUrl } = req.body;
 
     // Check All data from body
@@ -37,7 +37,7 @@ const uploadNotes = async (req, res) => {
     }
 
     // Check All data from body
-    if (!category || !status ) {
+    if (!category || !status) {
       return res.status(400).json({
         success: false,
         message: "Notes Category & Status reuired !"
@@ -62,7 +62,7 @@ const uploadNotes = async (req, res) => {
       status: status || 'public',
       fileUrl,
       uploadedBy: userId,
-      ExmeeUserId:ExmeeUserId,
+      ExmeeUserId: ExmeeUserId,
       createdOn: new Date(),
       updatedOn: new Date(),
       deletedOn: null
@@ -91,9 +91,7 @@ const uploadNotes = async (req, res) => {
   }
 };
 
-
-
-//----------------------------- [ uplodePYQ Controller ] ---------------------------
+//----------------------------- [ PYQ: uplodePYQ Controller ] ---------------------------
 const uploadPYQ = async (req, res) => {
   try {
 
@@ -114,8 +112,8 @@ const uploadPYQ = async (req, res) => {
         message: "You are not allowed to upload PYQ!",
       })
     }
-    
-    const ExmeeUserId = user.ExmeeUserId; 
+
+    const ExmeeUserId = user.ExmeeUserId;
     const { title, year, subject, category, tags, isPublic, status, fileUrl } = req.body;
 
     // Check All data from body
@@ -127,7 +125,7 @@ const uploadPYQ = async (req, res) => {
     }
 
     // Check All data from body
-    if (!category || !status ) {
+    if (!category || !status) {
       return res.status(400).json({
         success: false,
         message: "PYQ Category & Status reuired !"
@@ -152,7 +150,7 @@ const uploadPYQ = async (req, res) => {
       status: status || 'public',
       fileUrl,
       uploadedBy: userId,
-      ExmeeUserId:ExmeeUserId,
+      ExmeeUserId: ExmeeUserId,
       createdOn: new Date(),
       updatedOn: new Date(),
       deletedOn: null
@@ -182,26 +180,25 @@ const uploadPYQ = async (req, res) => {
 };
 
 
-
-// ------[Get all public notes ] -----------------
+// ------[ NOTES: Get all public notes ] -----------------
 const getAllPublicNotes = async (req, res) => {
 
   try {
     let userId = req.user._id;
-    const category = (req.query.category !== undefined && req.query.category !== null) 
-    ? req.query.category 
-    : "sciTechnology";
-    
-    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null) 
-    ? req.query.sortBy 
-    : "latest";
+    const category = (req.query.category !== undefined && req.query.category !== null)
+      ? req.query.category
+      : "sciTechnology";
+
+    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null)
+      ? req.query.sortBy
+      : "latest";
 
     let sortOption = {};
     if (sortBy === "latest") {
       sortOption = { createdOn: -1 }; // Newest first
     } else if (sortBy === "oldest") {
       sortOption = { createdOn: 1 }; // Oldest first
-    } 
+    }
 
     // check user exist or not
     const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
@@ -212,35 +209,35 @@ const getAllPublicNotes = async (req, res) => {
       })
     }
 
-    if(user.Role === "Student"){
+    if (user.Role === "Student") {
       const notes = await Note.find({ // all notes find from db
         isPublic: true,
         status: 'public',
         category: category
       }).sort(sortOption);
-  
+
       res.status(200).json({ // return result as true
         success: true,
-        message:"Fetch All Public Notes ",
+        message: "Fetch All Public Notes ",
         count: notes.length,
         data: notes,
       });
     }
-    
-    if(user.Role === "Instructor"){
+
+    if (user.Role === "Instructor") {
       const notes = await Note.find({
         $or: [
-          { isPublic: true, status: 'public',category: category },  // public notes
+          { isPublic: true, status: 'public', category: category },  // public notes
           { uploadedBy: req.user._id } // my notes (any status)
         ]
       }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       // my notes (any status)
-      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); 
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
 
       res.status(200).json({ // return result as true
         success: true,
-        message:"Fetch All My & Public Notes ",
+        message: "Fetch All My & Public Notes ",
         count: notes.length,
         data: notes,
         myNotes: myNotes,
@@ -248,23 +245,23 @@ const getAllPublicNotes = async (req, res) => {
 
       });
     }
-  
-    if(user.Role === "Admin"){
+
+    if (user.Role === "Admin") {
       const notes = await Note.find({ // all notes find from db
         isPublic: true,
         status: 'public',
         category: category
       }).sort(sortOption);
 
-      
-      // my notes (any status)
-      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); 
 
-      const allNotes = await Note.find({category: category}).sort(sortOption); // all notes find from db
-  
+      // my notes (any status)
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+
+      const allNotes = await Note.find({ category: category }).sort(sortOption); // all notes find from db
+
       res.status(200).json({ // return result as true
         success: true,
-        message:"Fetch All Notes ",
+        message: "Fetch All Notes ",
         count: notes.length,
         data: notes,
         myNotes: myNotes,
@@ -283,4 +280,104 @@ const getAllPublicNotes = async (req, res) => {
 };
 
 
-module.exports = { uploadNotes, uploadPYQ, getAllPublicNotes }
+
+// ------[ PYQ: Get all public PYQ ] -----------------
+const getAllPublicPYQ = async (req, res) => {
+
+  try {
+    let userId = req.user._id;
+    const category = (req.query.category !== undefined && req.query.category !== null)
+      ? req.query.category
+      : "sciTechnology";
+
+    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null)
+      ? req.query.sortBy
+      : "latest";
+
+    let sortOption = {};
+    if (sortBy === "latest") {
+      sortOption = { createdAt: -1 }; // Newest first
+    } else if (sortBy === "oldest") {
+      sortOption = { createdAt: 1 }; // Oldest first
+    }
+
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    if (user.Role === "Student") {
+      const pyq = await PYQModel.find({ // all PYQ find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Public PYQ ",
+        count: pyq.length,
+        data: pyq,
+      });
+    }
+
+    if (user.Role === "Instructor") {
+      const pyq = await PYQModel.find({
+        $or: [
+          { isPublic: true, status: 'public', category: category },  // public PYQ
+          { uploadedBy: req.user._id } // my PYQ (any status)
+        ]
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+
+      // my PYQ (any status)
+      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All My & Public PYQ ",
+        count: pyq.length,
+        data: pyq,
+        myPYQ: myPYQ,
+        myPYQCount: myPYQ.length
+
+      });
+    }
+
+    if (user.Role === "Admin") {
+      const pyq = await PYQModel.find({ // all PYQ find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      // my PYQ (any status)
+      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+
+      const allPYQ = await PYQModel.find({ category: category }).sort(sortOption); // all PYQ find from db
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All PYQ ",
+        count: pyq.length,
+        data: pyq,
+        myPYQ: myPYQ,
+        myPYQCount: myPYQ.length,
+        allPYQ: allPYQ,
+        allPYQCount: allPYQ.length
+      });
+    }
+  } catch (error) { // if accured some error
+    console.error('Error fetching public pyq:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error while fetching public pyq',
+    });
+  }
+};
+
+
+module.exports = { uploadNotes, uploadPYQ, getAllPublicNotes, getAllPublicPYQ }

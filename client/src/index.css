@@ -306,6 +306,12 @@ form label {
   left: 0;
 }
 
+.Pyq-year-Badge{
+  z-index: 10000;
+  top: 2%;
+  left: 1%;
+}
+
 /*============================================ video section  ==================================================*/
 .sidebar-VideoSection {
   background: #e1e1e1;

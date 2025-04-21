@@ -15,11 +15,12 @@ import ContentContext from '../../context/ContentContext'
 
 const DashbordHead = () => {
   const context = useContext(ContentContext);
-  const { MyNotes, getNote } = context;
+  const { MyNotes, MyPYQS, getNote, getPYQ } = context;
 
   useEffect( () => {
     if (localStorage.getItem('token')) {
       getNote();
+      getPYQ();
     }
     // eslint-disable-next-line
   },[]);
@@ -88,7 +89,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Previous Questions</p>
-                  <h3 className="fw-bold text-dark">64</h3>
+                  <h3 className="fw-bold text-dark">{MyPYQS.length}</h3>
                 </div>
                 <div className="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon

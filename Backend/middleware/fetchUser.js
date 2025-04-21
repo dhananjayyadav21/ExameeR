@@ -19,7 +19,7 @@ const fetchUser = (req, res, next) => {
     const Data = jwt.verify(token, AuthToken_Secrate);
     req.user = Data;
 
-    console.log(Data);
+    // console.log(Data);
     next();
 
   } catch (error) {
