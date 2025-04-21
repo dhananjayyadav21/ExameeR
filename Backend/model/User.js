@@ -16,6 +16,9 @@ const UserSchema = new Schema({
     Password:{
         type:String
     },
+    ExmeeUserId:{
+        type:String
+    },
     Role:{
         type: String,
         enum: ['Admin', 'Instructor', 'Student'],

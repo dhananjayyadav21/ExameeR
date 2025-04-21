@@ -46,6 +46,7 @@ const Login = () => {
                     setLoading(false);
                     localStorage.setItem("token",result.token)
                     localStorage.setItem("userRole", result.user.Role);
+                    localStorage.setItem("userExmeeUserId", result.user.ExmeeUserId);
                     navigate("/");
                     toast.success("You're now logged in !", {
                         position: "top-right"
@@ -77,12 +78,13 @@ const Login = () => {
             if (authResult['code']) {
                 const result = await googleAuth(authResult['code']);
 
-                const {Profile, Role} = result.data.user;
+                const {Profile, Role, ExmeeUserId} = result.data.user;
                 const token = result.data.token;
 
                 localStorage.setItem("token",token);
                 localStorage.setItem("Profile",Profile);
                 localStorage.setItem("userRole",Role);
+                localStorage.setItem("userExmeeUserId",ExmeeUserId);
 
                 if(result.data.success === true){
                     navigate('/');

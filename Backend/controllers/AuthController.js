@@ -17,6 +17,14 @@ const register = async (req, res) => {
             });
         }
 
+        // Check Username cannot admin
+        if(Username === "Admin" || Username === "admin"){
+            return res.status(400).json({
+                success: false,
+                message: "You cannot create an account with the username 'admin'!"
+            });
+        }
+
         if (Password !== ConfirmPassword) {
             return res.status(400).json({
                 success: false,
@@ -38,13 +46,21 @@ const register = async (req, res) => {
         const securePassword = await bcrypt.hash(Password.toString(), salt);
         const VerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
+        // create ExmeeUserIdBasedOnEmail for uniq id
+        function userIdBasedOnEmail(userEmail) {
+            const hash = [...userEmail].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            return hash + Math.floor(Math.random() * 10000);
+        }  
+        const ExmeeUserIdBasedOnEmail = userIdBasedOnEmail(Email);
+        const ExmeeUserId = Jwt.sign(ExmeeUserIdBasedOnEmail, process.env.ExameeUserId_SECRATE)
 
         // Create new user
         user = new userModel({
             Username,
             Email: Email.toLowerCase(),
             Password: securePassword,
-            VerificationCode
+            VerificationCode,
+            ExmeeUserId:ExmeeUserId,
         });
 
         sendVerificationEamil(user.Email, user.VerificationCode);
@@ -120,7 +136,8 @@ const login = async (req, res) => {
 
         user = {
             Email: user.Email,
-            Role : user.Role
+            Role : user.Role,
+            ExmeeUserId :user.ExmeeUserId
         }
 
         return res.status(200).json({

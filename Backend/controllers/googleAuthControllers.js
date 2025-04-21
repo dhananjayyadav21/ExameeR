@@ -34,9 +34,18 @@ const googleLogin = async (req,res)=>{
          console.log("Already User Exist");
        }
 
+       function userIdBasedOnEmail(userEmail) {
+         const hash = [...userEmail].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+         return hash + Math.floor(Math.random() * 10000);
+       }
+           
+       const ExmeeUserIdBasedOnEmail = userIdBasedOnEmail(email);
+       const ExmeeUserId = Jwt.sign(ExmeeUserIdBasedOnEmail, process.env.ExameeUserId_SECRATE)
+
+
        if(!user){
           user = await userModel.create({
-            Username:name, Email:email,Profile:picture
+            Username:name, Email:email,Profile:picture,isVerified:true, ExmeeUserId:ExmeeUserId,
           })
        }
        

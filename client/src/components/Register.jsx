@@ -84,12 +84,13 @@ const Register = () => {
             if(authResult['code']){
                 const result = await googleAuth(authResult['code']);
 
-                const {Profile, Role} = result.data.user;
+                const {Profile, Role, ExmeeUserId} = result.data.user;
                 const token = result.data.token;
 
                 localStorage.setItem("token",token);
                 localStorage.setItem("Profile",Profile);
                 localStorage.setItem("userRole",Role);
+                localStorage.setItem("userExmeeUserId",ExmeeUserId);
                 
                 // If successfully logged in, store token and navigate
                 if(result.data.success === true){
