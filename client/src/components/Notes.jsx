@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import NotesIteam from "./NotesItem.jsx"
 import Footer from "./Footer.jsx";
 import ContentContext from '../context/ContentContext'
+import * as GlobalUrls from "../GlobalURL"
 
 const Notes = () => {
   const context = useContext(ContentContext);
@@ -13,6 +14,10 @@ const Notes = () => {
     }
     // eslint-disable-next-line
   },[]);
+
+  const handleShortByChange = (sortBy)=>{
+    getNote(`${GlobalUrls.GETNOTE_URL}?sortBy=${sortBy}`);
+  }
 
   return (
     <>
@@ -35,14 +40,8 @@ const Notes = () => {
               Sort By <i className="fa-solid fa-sort"></i>
               </a>
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a className="dropdown-item" href="/">Sem-I</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-II</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-III</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-IV</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-V</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-VI</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-VII</a></li>
-                  <li><a className="dropdown-item" href="/">Sem-VIII</a></li>
+                  <li><button className="dropdown-item" onClick={()=>{ handleShortByChange('latest')}}>Latest-Notes</button></li>
+                  <li><button className="dropdown-item" onClick={()=>{ handleShortByChange('oldest')}}>Oldest-Notes</button></li>
               </ul>
           </div>
         </div> 
