@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { toast } from "react-toastify";
+import hasUserRole from '../utils/hasUserRole';
 
 const Navbar = () => {
     const [searchParams] = useSearchParams();
@@ -64,7 +65,7 @@ const Navbar = () => {
                                         <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
                                         </span>
                                     </li>
-                                    { localStorage.getItem("userRole")==="Admin" || localStorage.getItem("userRole")=== "Instructor"? 
+                                    { hasUserRole("Admin","Instructor")? 
                                         <><li><hr className="dropdown-divider"/></li>
                                         <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
                                         <></>
@@ -129,7 +130,7 @@ const Navbar = () => {
                                                 <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
                                                 </span>
                                             </li>
-                                            { localStorage.getItem("userRole")==="Admin" || localStorage.getItem("userRole")=== "Instructor" ? 
+                                            {hasUserRole("Admin","Instructor")? 
                                                 <><li><hr className="dropdown-divider"/></li>
                                                 <li><Link className="dropdown-item" to="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></>:
                                                 <></>

@@ -5,7 +5,7 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    
+
     description: String,
 
     professor: {
@@ -39,21 +39,14 @@ const noteSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    ExmeeUserId:{
-        type:String
+    ExmeeUserId: {
+        type: String
     },
-    createdOn: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedOn: {
-        type: Date,
-        default: Date.now,
-    },
-    deletedOn: {
+    deletedAt: {
         type: Date,
         default: null,
     }
-});
+}, { timestamps: true }
+);
 
 module.exports = mongoose.model('Note', noteSchema);

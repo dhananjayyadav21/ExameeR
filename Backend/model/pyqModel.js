@@ -53,6 +53,11 @@ const pyqSchema = new mongoose.Schema(
     ExmeeUserId:{
         type:String
     },
+    
+    deletedAt: {
+      type: Date,
+      default: null,
+    }
   },
   { timestamps: true }
 );

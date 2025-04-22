@@ -4,7 +4,7 @@ const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
 
 
-//-----[ NOTES: uplodeNotes Controller ] ---------------------------
+//-----[ NOTES: uplodeNotes Controller ] ------------
 const uploadNotes = async (req, res) => {
   try {
 
@@ -92,7 +92,7 @@ const uploadNotes = async (req, res) => {
   }
 };
 
-//-----[ PYQ: uplodePYQ Controller ] ---------------------------
+//-----[ PYQ: uplodePYQ Controller ] --------
 const uploadPYQ = async (req, res) => {
   try {
 
@@ -177,7 +177,7 @@ const uploadPYQ = async (req, res) => {
   }
 };
 
-//------[ VIDEO: uploadVideo Controller ] ---------------------------
+//------[ VIDEO: uploadVideo Controller ] ---------
 const uploadVideo = async (req, res) => {
   try {
 
@@ -263,8 +263,7 @@ const uploadVideo = async (req, res) => {
 
 
 
-
-// ------[ NOTES: Get all public notes ] -----------------
+// ------[ NOTES: Get all public notes ] -------
 const getAllPublicNotes = async (req, res) => {
 
   try {
@@ -279,9 +278,9 @@ const getAllPublicNotes = async (req, res) => {
 
     let sortOption = {};
     if (sortBy === "latest") {
-      sortOption = { createdOn: -1 }; // Newest first
+      sortOption = { createdAt: -1 }; // Newest first
     } else if (sortBy === "oldest") {
-      sortOption = { createdOn: 1 }; // Oldest first
+      sortOption = { createdAt: 1 }; // Oldest first
     }
 
     // check user exist or not
@@ -298,7 +297,7 @@ const getAllPublicNotes = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption);
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -309,11 +308,10 @@ const getAllPublicNotes = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const notes = await Note.find({
-        $or: [
-          { isPublic: true, status: 'public', category: category },  // public notes
-          { uploadedBy: req.user._id } // my notes (any status)
-        ]
+      const notes = await Note.find({ // all notes find from db
+        isPublic: true,
+        status: 'public',
+        category: category
       }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       // my notes (any status)
@@ -363,7 +361,7 @@ const getAllPublicNotes = async (req, res) => {
   }
 };
 
-// ------[ PYQ: Get all public PYQ ] -----------------
+// ------[ PYQ: Get all public PYQ ] ---------
 const getAllPublicPYQ = async (req, res) => {
 
   try {
@@ -397,7 +395,7 @@ const getAllPublicPYQ = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption);
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -408,11 +406,10 @@ const getAllPublicPYQ = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const pyq = await PYQModel.find({
-        $or: [
-          { isPublic: true, status: 'public', category: category },  // public PYQ
-          { uploadedBy: req.user._id } // my PYQ (any status)
-        ]
+      const pyq = await PYQModel.find({ // all PYQ find from db
+        isPublic: true,
+        status: 'public',
+        category: category
       }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       // my PYQ (any status)
@@ -494,7 +491,7 @@ const getAllPublicVIDEO = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption);
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -505,11 +502,10 @@ const getAllPublicVIDEO = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const Video = await VideoModel.find({
-        $or: [
-          { isPublic: true, status: 'public', category: category },  // public Video
-          { uploadedBy: req.user._id } // my Video (any status)
-        ]
+      const Video = await VideoModel.find({ // all Video find from db
+        isPublic: true,
+        status: 'public',
+        category: category
       }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
 
       const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");  // my Video (any status)
@@ -556,4 +552,71 @@ const getAllPublicVIDEO = async (req, res) => {
 };
 
 
-module.exports = { uploadNotes, uploadPYQ, uploadVideo, getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO }
+// ------[ ALLLatest: Get all public ALLLatest ] -----------------
+const getLatestUpload = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category !=="")
+      ? req.query.category
+      : "sciTechnology";
+
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    if (user.Role === "Instructor" || user.Role === "Admin") {
+
+      const baseFilter = { ExmeeUserId: user.ExmeeUserId, category: category }
+      const sortOption = { createdAt: 1 };
+      const [notes, videos, pyqs] = await Promise.all([
+        Note.find(baseFilter).sort(sortOption),
+        VideoModel.find(baseFilter).sort(sortOption),
+        PYQModel.find(baseFilter).sort(sortOption)
+      ]);
+
+      // Add 'type' to each entry
+      const taggedNotes = notes.map(item => ({ ...item._doc, type: 'Note' }));
+      const taggedVideos = videos.map(item => ({ ...item._doc, type: 'Video' }));
+      const taggedPYQs = pyqs.map(item => ({ ...item._doc, type: 'PYQ' }));
+
+      // Combine and sort all by createdAt
+      const combined = [...taggedNotes, ...taggedVideos, ...taggedPYQs].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+
+      // Limit to top 5 latest uploads
+      const latest = combined.slice(0, 4);
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Latest Uploaded Data ",
+        count: latest.length,
+        data: latest,
+      });
+    }
+  } catch (error) { // if accured some error
+    console.error('Error fetching All Latest Uploaded Data:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error while fetching All Latest Uploaded Data',
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports = { uploadNotes, uploadPYQ, uploadVideo, getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload }

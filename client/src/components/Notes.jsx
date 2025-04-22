@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NotesIteam from "./NotesItem.jsx"
 import Footer from "./Footer.jsx";
@@ -8,7 +8,6 @@ import * as GlobalUrls from "../GlobalURL"
 
 const Notes = () => {
   const [searchParams] = useSearchParams();
-  const [loading, setloading] = useState(false);
   const navigate = useNavigate();
   const context = useContext(ContentContext);
   const { Notes, getNote } = context;
@@ -17,9 +16,7 @@ const Notes = () => {
   const sortBy = searchParams.get('sortBy') || 'latest';
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      setloading(true);
       getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`);
-      setloading(false);
     }
     // eslint-disable-next-line
   }, [category, sortBy]);
@@ -43,11 +40,6 @@ const Notes = () => {
             </p>
           </div>
         </div>
-
-        {loading && (<div className="text-center">
-            <div className="spinner-border text-info mt-5" role="status"></div>
-            </div>
-        )}
 
         <div className="container-lg mt-5 d-flex justify-content-end">
           <div className="col-4 col-sm-3 col-md-2 col-lg-1 text-center">

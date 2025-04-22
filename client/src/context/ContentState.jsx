@@ -118,6 +118,23 @@ const ContentState = (props) => {
   };
 
 
+   //--------- GET VIDEO() using Get Httpservice -------------- 
+   const getLatestUpload = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETLATESTDATA_URL}`,
+      );
+      if(json.success === true) {
+        setLatestData(json.data);
+        console.log("datacone",json.data)
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch setLatest Data due to some error", error);
+    }
+  };
+
+
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
   const [MyNotes, setMyNotes] = useState([]);
@@ -131,9 +148,13 @@ const ContentState = (props) => {
   const [MyVideo, setMyVideo] = useState([]);
   const [AllVideo, setAllVideo] = useState([]);
 
+  const [LatestData, setLatestData] = useState([]);
+
+  console.log("datacone-------",LatestData)
+
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,  addNote, getNote, addPYQ, getPYQ, addVideo, getVideo}}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData,  addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload}}>
       {props.children}
     </ContentContext.Provider>
   );
