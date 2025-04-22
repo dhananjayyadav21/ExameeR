@@ -143,7 +143,7 @@ const Home = () => {
               </div>
             </div>
 
-            <section className='hero-showcase py-3 pt-lg-5'>
+            <section className='hero-showcase py-1'>
               <div className='container-lg mb-4'>
                 <div className='row g-3'>
                   <div className='col-6 col-md-3'>

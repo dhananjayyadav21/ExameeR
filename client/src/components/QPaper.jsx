@@ -3,7 +3,7 @@ import QPaperItem from "./QPaperItem.jsx";
 import Footer from "./Footer.jsx";
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 const QPaper = () => {
     const [searchParams] = useSearchParams();
@@ -33,7 +33,7 @@ const QPaper = () => {
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-Qpaper Qp-get-cources-btn-container">
                         <div className="container Qp-get-cources-btn">
-                            <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><a className='nav-link' href="/">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></a></button>
+                            <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><Link className='nav-link' to="/cource">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></Link></button>
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@ const QPaper = () => {
                                     Browse and download question papers by course and subject.
                                     Practice with real exam patterns to improve performance.
                                     Boost your preparation with this invaluable resource and enhance your chances of success!</p>
-                                <button className="btn btn-info">Get Best Cources <i className="fa-solid fa-arrow-right"></i></button>
+                                <button className="btn btn-info" onClick={()=>navigate('/cource')}>Get Best Cources <i className="fa-solid fa-arrow-right"></i></button>
                             </div>
 
                             {/*========= Q-p Section =============*/}

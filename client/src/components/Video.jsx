@@ -31,11 +31,11 @@ const Video = () => {
                 <div className="row g-4">
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-VideoSection">
-                        <div className='p-4 my-3 rounded-3' style={{ backgroundColor: "white" }}>
-                            <h4 className='text-center'>SELECT VIDEO LECTURES</h4>
+                        <div className='p-4 my-3 rounded-3 text-center' style={{ backgroundColor: "white" }}>
+                            <h4>LEARN WITH LECTURES</h4>
                             <div className='row g-2 p-2 mt-3 rounded-3' >
-                                <button className="btn btn-light">Free Lectures</button>
-                                <button className='btn btn-light'> Enrolled Lectures</button>
+                                <span className="btn-light-gray p-2">Your Journey, Our Voice.</span>
+                                <span className='btn-light-gray p-2'>Learn Smarter, Not Harder</span>
                             </div>
                         </div>
                     </div>
