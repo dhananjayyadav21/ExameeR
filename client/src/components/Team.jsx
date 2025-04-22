@@ -16,9 +16,6 @@ const Team = (props) => {
                     <span className="m-0 p-0 text-info fw-normal">{role}</span>
                     </div>
                 </div>
-                <button className="mt-3 btn btn-info text-white fw-bold w-100">
-                    View
-                </button>
             </div> 
         </div>
     </>
