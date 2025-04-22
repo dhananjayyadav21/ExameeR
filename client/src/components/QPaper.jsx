@@ -40,8 +40,6 @@ const QPaper = () => {
                                 <p>Prepare effectively with access to a comprehensive repository of previous year question papers.
                                     Browse and download question papers by course and subject.
                                     Practice with real exam patterns to improve performance.
-                                    Filter papers by year, difficulty level, or specific topics.
-                                    Gain insights into frequently asked questions and exam trends.
                                     Boost your preparation with this invaluable resource and enhance your chances of success!</p>
                                 <button className="btn btn-info">Get Best Cources <i className="fa-solid fa-arrow-right"></i></button>
                             </div>

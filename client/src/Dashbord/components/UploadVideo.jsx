@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import ContentContext from '../../context/ContentContext';
+import { useNavigate } from 'react-router-dom'
+import { toast } from "react-toastify";
 
-const UploadVideo = ({ userId }) => {
+const UploadVideo = () => {
+  const context = useContext(ContentContext);
+  const { addVideo } = context;
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    category: '',
+    category: 'sciTechnology',
     tags: '',
+    fileUrl: '',
     isPublic: true,
     status: 'public',
   });
 
-  const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
 
+  //**********************************************************************************
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -22,52 +29,77 @@ const UploadVideo = ({ userId }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
-
+  //**********************************************************************************
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
-    if (!file || !file.type.startsWith('video/')) {
-      return setMessage('Please upload a valid video file.');
-    }
+      const data = {  // set Video data
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        tags: formData.tags.split(',').map(tag => tag.trim()),
+        isPublic: formData.isPublic,
+        status: formData.status,
+        fileUrl: formData.fileUrl
+      };
 
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('description', formData.description);
-    data.append('category', formData.category);
-    data.append('tags', formData.tags.split(',').map(tag => tag.trim()));
-    data.append('isPublic', formData.isPublic);
-    data.append('status', formData.status);
-    data.append('uploadedBy', userId);
-    data.append('file', file);
+      try {
+        const { title, category, status, fileUrl } = data;
 
-    try {
-      setUploading(true);
-      const response = await fetch('/api/video/upload', {
-        method: 'POST',
-        body: data,
-      });
+        if (!fileUrl) {
+          setUploading(false);  
+          return toast.warning("Please upload and paste video url", {
+            position: "top-right"
+          });
+        }
 
-      if (!response.ok) throw new Error('Upload failed');
+        if(!title || !category || !status ){
+          // Check All data from body
+          if (!title ){
+            setUploading(false); 
+            toast.warning("Video title must be important !", {
+                position: "top-right"
+          });
+          }
 
-      setMessage('Video uploaded successfully!');
-      setFormData({
-        title: '',
-        description: '',
-        category: '',
-        tags: '',
-        isPublic: true,
-        status: 'public',
-      });
-      setFile(null);
-    } catch (error) {
-      setMessage('Failed to upload video. Try again.');
-    } finally {
-      setUploading(false);
-    }
+          // Check All data from body
+          if (!category || !status ) {
+            setUploading(false); 
+            toast.warning("Video Category & Status reuired !", {
+              position: "top-right"
+            });
+          }
+        }else{
+          const response = await addVideo(data);
+          if (response.success === true) {
+            setFormData({
+              title: '',
+              description: '',
+              category: 'sciTechnology',
+              tags: '',
+              isPublic: true,
+              status: 'public',
+            });
+            navigate(-1);
+            toast.success("Video uploaded successfully!", {
+              position: "top-right"
+            });
+          }else if(response.success === false){
+            setUploading(false);
+            toast.error( response.message || "Failed to upload Video.!", {
+              position: "top-right"
+            });
+          }
+        }
+        // if accured error in calling api
+      } catch (error) {
+        setUploading(false);
+        return toast.error("Failed to upload Video. Try again", {
+          position: "top-right"
+        });
+      }
+    setUploading(false);
   };
 
   return (
@@ -86,7 +118,7 @@ const UploadVideo = ({ userId }) => {
           <div className="container my-3">
             <div className="card shadow">
               <div className="card-body">
-                {message && <div className="alert alert-info">{message}</div>}
+
                 <form onSubmit={handleSubmit}>
                   {/* Title */}
                   <div className="mb-3">
@@ -118,14 +150,16 @@ const UploadVideo = ({ userId }) => {
                   {/* Category */}
                   <div className="mb-3">
                     <label className="form-label">Category (Stream)</label>
-                    <input
-                      type="text"
+                    <select
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="form-control"
-                      placeholder="e.g. Computer Science, Commerce, etc."
-                    />
+                      className="form-select"
+                    >
+                      <option value="sciTechnology">sciTechnology</option>
+                      <option value="commerce">Commerce</option>
+                      <option value="arts&civils">Arts & civils</option>
+                    </select>
                   </div>
 
                   {/* Tags */}
@@ -158,14 +192,14 @@ const UploadVideo = ({ userId }) => {
 
                   {/* File Upload */}
                   <div className="mb-3">
-                    <label className="form-label">
-                      Upload Video<span className="text-danger">*</span>
-                    </label>
+                    <label className="form-label">Upload Video<span className="text-danger">*</span></label>
                     <input
-                      type="file"
-                      accept="video/*"
-                      onChange={handleFileChange}
+                      type="text"
+                      name="fileUrl"
+                      value={formData.fileUrl}
+                      onChange={handleChange}
                       className="form-control"
+                      placeholder="Paste file Url here..."
                     />
                   </div>
 

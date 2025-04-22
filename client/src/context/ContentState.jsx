@@ -21,7 +21,6 @@ const ContentState = (props) => {
     }
   };
 
-
   //----- Add PYQ() using Post Httpservice ---------------------------------
   const addPYQ = async (Data) => {
     try {
@@ -34,10 +33,25 @@ const ContentState = (props) => {
       }
       return json;
     } catch (error) {
-      console.log("Do not add Note due to some error", error);
+      console.log("Do not add PYQ due to some error", error);
     }
   };
 
+   //----- Add VIDEO() using Post Httpservice ---------------------------------
+   const addVideo = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ADDVIDEO_URL}`,
+        Data
+      );
+      if (json.success === true) {
+        setVideo(Video.concat(json.data));
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not add Video due to some error", error);
+    }
+  };
 
 
   //---------------- GET Note() using Get Httpservice ----------------------- 
@@ -60,9 +74,6 @@ const ContentState = (props) => {
       console.log("Do not fetch Note due to some error", error);
     }
   };
-
-
-
 
   //---------------- GET PYQ() using Get Httpservice ----------------------- 
   const getPYQ = async (URL) => {
@@ -94,10 +105,11 @@ const ContentState = (props) => {
   const [MyPYQS, setMyPYQ] = useState([]);
   const [AllPYQS, setAllPYQ] = useState([]);
 
- 
+  const [Video, setVideo] = useState([]);
+
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, addNote, getNote, addPYQ, getPYQ}}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, addNote, getNote, addPYQ, getPYQ, addVideo}}>
       {props.children}
     </ContentContext.Provider>
   );
