@@ -3,20 +3,26 @@ import QPaperItem from "./QPaperItem.jsx";
 import Footer from "./Footer.jsx";
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const QPaper = () => {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const context = useContext(ContentContext);
     const { PYQS, getPYQ } = context;
 
+    const category = searchParams.get('category') || 'sciTechnology';
+    const sortBy = searchParams.get('sortBy') || 'latest';
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            getPYQ();
+            getPYQ(`${GlobalUrls.GETPYQ_URL}?category=${category}&sortBy=${sortBy}`);
         }
-        // eslint-disable-next-line
-    }, []);
+    // eslint-disable-next-line
+    }, [category,sortBy]);
 
     const handleShortByChange = (sortBy) => {
-        getPYQ(`${GlobalUrls.GETPYQ_URL}?sortBy=${sortBy}`);
+        searchParams.set('sortBy', sortBy);
+        navigate(`?${searchParams.toString()}`);
     }
 
     return (

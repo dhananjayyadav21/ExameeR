@@ -3,20 +3,26 @@ import VideoItem from "./VideoItem";
 import Footer from './Footer';
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Video = () => {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const context = useContext(ContentContext);
     const { Video, getVideo } = context;
 
+    const category = searchParams.get('category') || 'sciTechnology';
+    const sortBy = searchParams.get('sortBy') || 'latest';
     useEffect(() => {
         if (localStorage.getItem('token')) {
-            getVideo();
+            getVideo(`${GlobalUrls.GETVideo_URL}?category=${category}&sortBy=${sortBy}`);
         }
-        // eslint-disable-next-line
-    }, []);
+    // eslint-disable-next-line
+    }, [category,sortBy]);
 
     const handleShortByChange = (sortBy) => {
-        getVideo(`${GlobalUrls.GETVideo_URL}?sortBy=${sortBy}`);
+        searchParams.set('sortBy', sortBy);
+        navigate(`?${searchParams.toString()}`);
     }
 
     return (

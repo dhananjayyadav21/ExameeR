@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { toast } from "react-toastify";
-import ContentContext from '../context/ContentContext'
-import * as GlobalUrls from "../GlobalURL"
 
 const Navbar = () => {
-    const context = useContext(ContentContext);
-    const { getNote } = context
-
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     let location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
@@ -26,7 +22,8 @@ const Navbar = () => {
     }
 
     const handleCategoryChange = (category)=>{
-        getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}`);
+        searchParams.set('category', category);
+        navigate(`?${searchParams.toString()}`);
     }
 
     const handleLogout = ()=>{

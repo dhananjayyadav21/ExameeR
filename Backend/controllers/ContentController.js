@@ -465,7 +465,7 @@ const getAllPublicPYQ = async (req, res) => {
 const getAllPublicVIDEO = async (req, res) => {
   try {
     let userId = req.user._id;
-    const category = (req.query.category !== undefined && req.query.category !== null)
+    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category.trim() !==" ")
       ? req.query.category
       : "sciTechnology";
 
