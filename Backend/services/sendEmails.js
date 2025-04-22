@@ -1,5 +1,5 @@
 const transporter = require('./Email.config')
-const {VerificationEmail_Template,WelcomeEmail_Template,ForgotPasswordEmail_Template} = require('./emailTemplate');
+const {VerificationEmail_Template,WelcomeEmail_Template,SupportEmail_Template,ForgotPasswordEmail_Template} = require('./emailTemplate');
 const MyEmail = process.env.EMAIL;
 
 const sendVerificationEamil = async (Email, VerificationCode) => {
@@ -48,9 +48,26 @@ const sendForgotPasswordEmail = async (Email, ForgotPasswordCode) => {
     }
   };
 
+const sendSupportEmail = async ( name, email, subject, body ) => {
+    try {
+      const response = await transporter.sendMail({
+        from: `"Examee" <${MyEmail}>`,
+        to: `youaretopperofficial+exameesupport@gmail.com`,
+        subject: subject,
+        text: `Examee User Support : ${subject}`,
+        html: SupportEmail_Template(name, email, subject, body), 
+      });
+      console.log('Spport Email sent Successfully', response.accepted,response.rejected);
+    } catch (error) {
+      console.log('Support Email error', error);
+      throw error;
+    }
+  };
+
 
 module.exports = {
     sendVerificationEamil,
     sendWelcomeEmail,
-    sendForgotPasswordEmail
+    sendForgotPasswordEmail,
+    sendSupportEmail
 };

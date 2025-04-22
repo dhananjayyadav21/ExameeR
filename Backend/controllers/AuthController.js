@@ -1,7 +1,8 @@
 const userModel = require('../model/User');
+const suppotModel =  require ('../model/supportModel');
 const bcrypt = require('bcrypt');
 const Jwt = require('jsonwebtoken');
-const { sendWelcomeEmail, sendVerificationEamil, sendForgotPasswordEmail } = require("../services/sendEmails");
+const { sendWelcomeEmail,sendSupportEmail, sendVerificationEamil, sendForgotPasswordEmail } = require("../services/sendEmails");
 require("dotenv").config();
 
 const AuthToken_Secrate = process.env.AUTHTOKEN_SECRATE;
@@ -386,5 +387,53 @@ const verifyToken = async (req, res) => {
     }
 }
 
+// ====================================== [ VerifyToken ] ==========================================
+const support = async (req, res) => {
+    try {
+        let userId = req.user._id;
 
-module.exports = { register, login, verifyEmail, resetPassword, sendResetCode, getUser, verifyToken };
+        // check user exist or not
+        const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+        if (!user) {
+            return res.status(404).json({
+            success: false,
+            message: 'Please create a acount first !',
+            })
+        }
+
+        const {name, email, subject, body } = req.body;
+        if (!name || !email || !subject || !body) {
+            return res.status(400).json({
+                success: false,
+                message: "Please fill the complete form !"
+            });
+        }
+
+        // Create new support
+        userSupport = new suppotModel({
+            name,
+            email: email.toLowerCase(),
+            subject,
+            body,
+            user:userId
+        });
+
+        sendSupportEmail(name, email, subject, body);
+        await userSupport.save();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Successfully send support message.',
+            userSupport
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(401).json({
+            success: false,
+            message: "Not send support message. please try again"
+        });
+    }
+}
+
+
+module.exports = { register, login, verifyEmail, resetPassword, sendResetCode, getUser, verifyToken, support };

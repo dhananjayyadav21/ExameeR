@@ -17,9 +17,12 @@ const router = require('express').Router();
 
   router.get('/getUser',fetchUser, Authcontroller.getUser);
 
-  router.get('/verifyToken', Authcontroller.verifyToken);
+  router.get('/verifyToken', Authcontroller.verifyToken); 
 
   //---- User Authentication using google --------
   router.get('/google', googleAuth);
+
+  //---- User support --------
+  router.post('/support',fetchUser, Authcontroller.support);
 
 module.exports = router;  

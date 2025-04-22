@@ -150,8 +150,6 @@ const ContentState = (props) => {
 
   const [LatestData, setLatestData] = useState([]);
 
-  console.log("datacone-------",LatestData)
-
   return (
     <ContentContext.Provider
       value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData,  addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload}}>

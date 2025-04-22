@@ -9,6 +9,7 @@ export const FOGOTCODE_URL = `${BASEURL}auth/sendResetCode`
 
 //------[User Details Urls]-------------
 export const GETUSER_URL = `${BASEURL}auth/getUser`
+export const SUPPORTUSER_URL = `${BASEURL}auth/support`
 
 
 //------[Contents Urls ]-------------
