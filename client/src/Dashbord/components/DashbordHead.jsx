@@ -15,12 +15,13 @@ import ContentContext from '../../context/ContentContext'
 
 const DashbordHead = () => {
   const context = useContext(ContentContext);
-  const { MyNotes, MyPYQS, getNote, getPYQ } = context;
+  const { MyNotes, MyPYQS, MyVideo, getNote, getPYQ, getVideo } = context;
 
   useEffect( () => {
     if (localStorage.getItem('token')) {
       getNote();
       getPYQ();
+      getVideo();
     }
     // eslint-disable-next-line
   },[]);
@@ -72,7 +73,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Video Lectures</p>
-                  <h3 className="fw-bold text-dark">28</h3>
+                  <h3 className="fw-bold text-dark">{MyVideo.length}</h3>
                 </div>
                 <div className="rounded-circle bg-purple bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon

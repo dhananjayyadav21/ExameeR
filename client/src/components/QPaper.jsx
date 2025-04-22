@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import QPaperItem from "./QPaperItem.jsx"
+import QPaperItem from "./QPaperItem.jsx";
 import Footer from "./Footer.jsx";
-import ContentContext from '../context/ContentContext'
-import * as GlobalUrls from "../GlobalURL"
+import ContentContext from '../context/ContentContext';
+import * as GlobalUrls from "../GlobalURL";
 
 const QPaper = () => {
     const context = useContext(ContentContext);

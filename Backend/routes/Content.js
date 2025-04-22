@@ -10,5 +10,6 @@ const router = require('express').Router();
 
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
+  router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
 
 module.exports = router;  

@@ -4,7 +4,7 @@ const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
 
 
-//---------------------------- [ NOTES: uplodeNotes Controller ] ---------------------------
+//-----[ NOTES: uplodeNotes Controller ] ---------------------------
 const uploadNotes = async (req, res) => {
   try {
 
@@ -92,7 +92,7 @@ const uploadNotes = async (req, res) => {
   }
 };
 
-//----------------------------- [ PYQ: uplodePYQ Controller ] ---------------------------
+//-----[ PYQ: uplodePYQ Controller ] ---------------------------
 const uploadPYQ = async (req, res) => {
   try {
 
@@ -177,7 +177,7 @@ const uploadPYQ = async (req, res) => {
   }
 };
 
-//----------------------------- [ VIDEO: uploadVideo Controller ] ---------------------------
+//------[ VIDEO: uploadVideo Controller ] ---------------------------
 const uploadVideo = async (req, res) => {
   try {
 
@@ -363,7 +363,6 @@ const getAllPublicNotes = async (req, res) => {
   }
 };
 
-
 // ------[ PYQ: Get all public PYQ ] -----------------
 const getAllPublicPYQ = async (req, res) => {
 
@@ -462,5 +461,99 @@ const getAllPublicPYQ = async (req, res) => {
   }
 };
 
+// ------[ VIDEO: Get all public VIDEO ] -----------------
+const getAllPublicVIDEO = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    const category = (req.query.category !== undefined && req.query.category !== null)
+      ? req.query.category
+      : "sciTechnology";
 
-module.exports = { uploadNotes, uploadPYQ, uploadVideo, getAllPublicNotes, getAllPublicPYQ }
+    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null)
+      ? req.query.sortBy
+      : "latest";
+
+    let sortOption = {};
+    if (sortBy === "latest") {
+      sortOption = { createdAt: -1 }; // Newest first
+    } else if (sortBy === "oldest") {
+      sortOption = { createdAt: 1 }; // Oldest first
+    }
+
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    if (user.Role === "Student") {
+      const Video = await VideoModel.find({ // all Video find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Public PYQ ",
+        count: Video.length,
+        data: Video,
+      });
+    }
+
+    if (user.Role === "Instructor") {
+      const Video = await VideoModel.find({
+        $or: [
+          { isPublic: true, status: 'public', category: category },  // public Video
+          { uploadedBy: req.user._id } // my Video (any status)
+        ]
+      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+
+      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");  // my Video (any status)
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All My & Public Video ",
+        count: Video.length,
+        data: Video,
+        myVideo: myVideo,
+        myVideoCount: myVideo.length
+
+      });
+    }
+
+    if (user.Role === "Admin") {
+      const Video = await VideoModel.find({ // all Video find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); // my Video (any status)
+      const allVideo = await VideoModel.find({ category: category }).sort(sortOption); // all Video find from db
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Video ",
+        count: Video.length,
+        data: Video,
+        myVideo: myVideo,
+        myVideoCount: myVideo.length,
+        allVideo: allVideo,
+        allVideoCount: allVideo.length
+      });
+    }
+  } catch (error) { // if accured some error
+    console.error('Error fetching public Video:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error while fetching public Video',
+    });
+  }
+};
+
+
+module.exports = { uploadNotes, uploadPYQ, uploadVideo, getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO }

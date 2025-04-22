@@ -5,7 +5,7 @@ import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
 
-  //----- Add NOtE() using Post Httpservice ---------------------------------
+  //----- Add NOtE() using Post Httpservice ---------------
   const addNote = async (Data) => {
     try {
       const json = await postData(
@@ -21,7 +21,7 @@ const ContentState = (props) => {
     }
   };
 
-  //----- Add PYQ() using Post Httpservice ---------------------------------
+  //----- Add PYQ() using Post Httpservice -----------------
   const addPYQ = async (Data) => {
     try {
       const json = await postData(
@@ -37,7 +37,7 @@ const ContentState = (props) => {
     }
   };
 
-   //----- Add VIDEO() using Post Httpservice ---------------------------------
+   //----- Add VIDEO() using Post Httpservice -----------------
    const addVideo = async (Data) => {
     try {
       const json = await postData(
@@ -54,7 +54,7 @@ const ContentState = (props) => {
   };
 
 
-  //---------------- GET Note() using Get Httpservice ----------------------- 
+  //-------- GET Note() using Get Httpservice ---------------
   const getNote = async (URL) => {
     try {
       const json = await getData(
@@ -75,7 +75,7 @@ const ContentState = (props) => {
     }
   };
 
-  //---------------- GET PYQ() using Get Httpservice ----------------------- 
+  //--------- GET PYQ() using Get Httpservice -------------- 
   const getPYQ = async (URL) => {
     try {
       const json = await getData(
@@ -96,6 +96,28 @@ const ContentState = (props) => {
     }
   };
 
+  //--------- GET VIDEO() using Get Httpservice -------------- 
+  const getVideo = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETVideo_URL}`,
+      );
+      if(json.success === true) {
+        setVideo(json.data);
+        if(json.myVideo){
+          setMyVideo(json.myVideo);
+        }
+        if(json.allVideo){
+          setAllVideo(json.allVideo);
+        }
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch PYQ due to some error", error);
+    }
+  };
+
+
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
   const [MyNotes, setMyNotes] = useState([]);
@@ -106,10 +128,12 @@ const ContentState = (props) => {
   const [AllPYQS, setAllPYQ] = useState([]);
 
   const [Video, setVideo] = useState([]);
+  const [MyVideo, setMyVideo] = useState([]);
+  const [AllVideo, setAllVideo] = useState([]);
 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, addNote, getNote, addPYQ, getPYQ, addVideo}}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,  addNote, getNote, addPYQ, getPYQ, addVideo, getVideo}}>
       {props.children}
     </ContentContext.Provider>
   );
