@@ -17,7 +17,7 @@ const Cource = () => {
         </div>
       </div>
      
-      <div className="container-fluid mt-md-4">
+      <div className="container-fluid ">
             <div className="row g-4">
                 {/*=========================================== left container ===========================================*/}
                 <div className="col-12 col-md-3 sidebar-CoursesSection">

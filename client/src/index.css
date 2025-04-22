@@ -1,6 +1,6 @@
 :root {
   --primary-white: #ffffff;
-  --card-item-bg: #fafcfd;
+  --card-item-bg: #ffffff;
 
   --primary-color: #04bd20;
   --primary-contrast-1: #039419;
@@ -8,6 +8,11 @@
 
   --primary-2-color: #e58fff;
   --primary-2-contrast: #7b08a8;
+  --primary-3-color : #5aeaea;
+
+
+  --primary-sidebar-bg:#f3f3f3;
+  --primary-mainComponent-bg:#fdfdfd;
 }
 
 * {
@@ -39,6 +44,18 @@ code {
   color: var(--primary-white);
   font-weight: 700;
 }
+
+.btn-light-gray{
+  text-decoration: none;
+  color: black;
+  border-radius: 6px;
+  background-color: #F5F5F6;
+}
+
+.btn-light-gray:hover{
+  background-color: #F5F5F6;
+}
+
 
 .btn-green:hover,
 .btn-green:focus,
@@ -255,6 +272,10 @@ form label {
   background: var(--primary-2-color);
 }
 
+.video-heroSection{
+  background: var(--primary-3-color);
+}
+
 .mylearning-heroSection{
   background: #f3f4f3;
 }
@@ -274,12 +295,12 @@ form label {
 
 /*========================================== Q-paper css ===================================================*/
 .sidebar-Qpaper {
-  background: #e1e1e1;
+  background: var( --primary-sidebar-bg);
   height: 90.8vh;
 }
 
 .main-Qpaper {
-  background: #f3f3f3;
+  background:var(--primary-mainComponent-bg);
   height: 90.8vh;
   overflow: auto;
 }
@@ -314,12 +335,12 @@ form label {
 
 /*============================================ video section  ==================================================*/
 .sidebar-VideoSection {
-  background: #e1e1e1;
+  background: var(--primary-sidebar-bg);
   height: 90.8vh;
 }
 
 .main-VideoSection {
-  background: #f3f3f3;
+  background: var(--primary-mainComponent-bg);
   height: 90.8vh;
   overflow: auto;
 }
@@ -331,6 +352,10 @@ form label {
 /*========================================== Cources section  ==================================================*/
 .Courses-item {
   background: var(--card-item-bg);
+}
+
+.sidebar-CoursesSection{
+  background-color: var(--primary-sidebar-bg);
 }
 
 .Course-header {
@@ -548,11 +573,13 @@ form label {
 @media only screen and (max-width: 770px) {
   /* Notes section */
   .notes-heroSection,
+  .video-heroSection,
    .mylearning-heroSection{
     font-size: x-small;
   }
 
   .notes-heroSection h2,
+  .video-heroSection h2,
   .mylearning-heroSection h2 {
     font-size: large;
   }
@@ -577,7 +604,7 @@ form label {
   /* Video section */
   .sidebar-VideoSection {
     height: auto;
-    background: #f3f3f3;
+    background: var(--primary-sidebar-bg);
   }
 }
 
