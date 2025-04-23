@@ -100,4 +100,72 @@ const getDatafromMyLearning = async (req, res) => {
     }
 };
 
-module.exports = { addInMylearning, getDatafromMyLearning };
+
+//----- Remove Content From Mylearning Content-----
+const removeFromMyLearning = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { contentId, contentType } = req.body;
+
+        // Validate user
+        const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Unauthorized user!',
+            });
+        }
+
+        // Find and delete the entry
+        const deletedEntry = await MyLearningModel.findOneAndDelete({
+            userId,
+            contentId,
+            contentType,
+        });
+
+        if (!deletedEntry) {
+            return res.status(404).json({
+                success: false,
+                message: 'Content not found in your MyLearning',
+            });
+        }
+
+        const learningEntries = await MyLearningModel.find({ userId });
+
+        const notesIds = learningEntries
+            .filter(entry => entry.contentType === 'Note')
+            .map(entry => entry.contentId);
+
+        const videoIds = learningEntries
+            .filter(entry => entry.contentType === 'Video')
+            .map(entry => entry.contentId);
+
+        const pyqIds = learningEntries
+            .filter(entry => entry.contentType === 'PYQ')
+            .map(entry => entry.contentId);
+
+        const [notesData, videoData, pyqData] = await Promise.all([
+            Note.find({ _id: { $in: notesIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
+            Video.find({ _id: { $in: videoIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
+            PYQ.find({ _id: { $in: pyqIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
+        ]);
+
+
+        return res.status(200).json({
+            success: true,
+            message: 'Content removed from MyLearning successfully',
+            notesData,
+            videoData,
+            pyqData
+        });
+    } catch (err) {
+        console.error('Error removing content from MyLearning:', err);
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to remove content from MyLearning',
+        });
+    }
+};
+
+
+module.exports = { addInMylearning, getDatafromMyLearning, removeFromMyLearning };

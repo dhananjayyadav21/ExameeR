@@ -16,13 +16,15 @@ export const SUPPORTUSER_URL = `${BASEURL}auth/support`
 export const ADDNOTE_URL = `${BASEURL}content/addNotes`
 export const ADDPYQ_URL = `${BASEURL}content/addPYQ`
 export const ADDVIDEO_URL = `${BASEURL}content/addVideo`
-export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
-
 export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
 export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ`
 export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
+export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
+
+export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
 export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   
-export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload`   
+export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`   
+  
 
 
 

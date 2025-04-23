@@ -58,7 +58,19 @@ code {
   color: black;
   border-radius: 4px;
   font-weight: 500;
-  background-color: #F5F5F6;
+  background-color: #f0f0f0;
+  border: none;
+  padding: 6px 16px;
+}
+
+.btn-gray-sm:hover{
+  text-decoration: none;
+  color: black;
+  border-radius: 4px;
+  font-weight: 500;
+  background-color: #e3e3e3;
+  border: none;
+  padding: 6px 16px;
 }
 
 .btn-light-gray:hover{
@@ -376,6 +388,8 @@ form label {
 
 .video-item {
   background: var(--card-item-bg);
+  min-height: 350px;
+  overflow: hidden;
 }
 
 /*========================================== Cources section  ==================================================*/

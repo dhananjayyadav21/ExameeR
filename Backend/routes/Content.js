@@ -8,13 +8,14 @@ const router = require('express').Router();
   router.post('/addNotes',fetchUser, ContentController.uploadNotes);
   router.post('/addPYQ',fetchUser, ContentController.uploadPYQ);
   router.post('/addVideo',fetchUser, ContentController.uploadVideo);
-  router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);//getDatafromMyLearning
-
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
-  router.get('/getDatafromMyLearning',fetchUser, MylearningControllers.getDatafromMyLearning);
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
+
+  router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
+  router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);
+  router.get('/getDatafromMyLearning',fetchUser, MylearningControllers.getDatafromMyLearning);
 
 module.exports = router;  

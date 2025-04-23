@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import NotesIteam from "./NotesItem.jsx"
 import VideoIteam from "./VideoItem.jsx"
 import PyqIteam from "./QPaperItem.jsx"
-import CourceIteam from "./CourceIteam.jsx"
 import Footer from './Footer';
 import ContentContext from '../context/ContentContext'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,10 +22,6 @@ const MyLearning = () => {
         }
         // eslint-disable-next-line
     }, []);
-
-    console.log(MyLearningVideo,MyLearningPYQ);
-    const Aarr = [{}, {}, {}]
-
     return (
         <>
             <div className="container-lg">
@@ -130,7 +125,7 @@ const MyLearning = () => {
                 </div>
 
 
-                <div className='my-5'>
+                {/* <div className='my-5'>
                     <div className="container-lg d-flex justify-content-start">
                         <div className="container-lg mt-4 shadow-sm">
                             <div className="text-start mylearning-section-heading">
@@ -144,7 +139,7 @@ const MyLearning = () => {
                             {Aarr.map((e, index) => <CourceIteam key={index} />)}
                         </div>
                     </div>
-                </div>
+                </div> */}
 
 
             {MyLearningVideo && MyLearningVideo.length > 0 &&( 

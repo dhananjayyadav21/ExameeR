@@ -5,7 +5,7 @@ const Modal = ({ isOpen, onClose, onConfirm, heading, subHeading }) => {
 
   return (
     <div className="modal d-block fade show mt-0" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
-      <div className="modal-dialog modal-dialog-centered z-3 p-0" role="document">
+      <div className="modal-dialog modal-dialog-centered z-3 px-2" role="document">
         <div className="modal-content py-3">
           <div className="text-center my-3">
             <h6>
@@ -14,11 +14,11 @@ const Modal = ({ isOpen, onClose, onConfirm, heading, subHeading }) => {
             </h6>
           </div>
           <div className="d-flex justify-content-end mx-3">
-            <button type="button" className="btn btn-sm btn-light me-2 shadow-sm" onClick={onClose}>
+            <button type="button" className="btn btn-sm btn-light me-3 shadow-sm" onClick={onClose}>
               Close
             </button>
             <button type="button" className="btn btn-sm btn-dark shadow-sm" onClick={onConfirm}>
-              MyLearning
+              Confirm
             </button>
           </div>
         </div>

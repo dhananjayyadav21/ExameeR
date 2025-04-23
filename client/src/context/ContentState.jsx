@@ -5,7 +5,7 @@ import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
 
-  //----- Add NOtE() using Post Httpservice ---------------
+  //--Add NOtE() using Post Httpservice
   const addNote = async (Data) => {
     try {
       const json = await postData(
@@ -21,7 +21,7 @@ const ContentState = (props) => {
     }
   };
 
-  //----- Add PYQ() using Post Httpservice -----------------
+  //--Add PYQ() using Post Httpservice 
   const addPYQ = async (Data) => {
     try {
       const json = await postData(
@@ -37,7 +37,7 @@ const ContentState = (props) => {
     }
   };
 
-  //----- Add VIDEO() using Post Httpservice -----------------
+  //---Add VIDEO() using Post Httpservice 
   const addVideo = async (Data) => {
     try {
       const json = await postData(
@@ -53,25 +53,7 @@ const ContentState = (props) => {
     }
   };
 
-  //----- Add INMYLEARNING() using Post Httpservice -----------------
-  const addInMylearning = async (Data) => {
-    try {
-      const json = await postData(
-        `${GlobalUrls.ADDINMYLEARNING_URL}`,
-        Data
-      );
-      if (json.success === true) {
-        setMyLearningData(MyLearningData.concat(json.data));
-      }
-      return json;
-    } catch (error) {
-      console.log("Do not add in mylearning due to some error", error);
-    }
-  };
-
-
-
-  //-------- GET Note() using Get Httpservice ---------------
+  //---GET Note() using Get Httpservice 
   const getNote = async (URL) => {
     try {
       const json = await getData(
@@ -92,7 +74,7 @@ const ContentState = (props) => {
     }
   };
 
-  //--------- GET PYQ() using Get Httpservice -------------- 
+  //--GET PYQ() using Get Httpservice 
   const getPYQ = async (URL) => {
     try {
       const json = await getData(
@@ -113,7 +95,7 @@ const ContentState = (props) => {
     }
   };
 
-  //--------- GET VIDEO() using Get Httpservice -------------- 
+  //---GET VIDEO() using Get Httpservice  
   const getVideo = async (URL) => {
     try {
       const json = await getData(
@@ -134,7 +116,7 @@ const ContentState = (props) => {
     }
   };
 
-  //--------- GET LATEST() using Get Httpservice -------------- 
+  //---GET LATEST() using Get Httpservice  
   const getLatestUpload = async (URL) => {
     try {
       const json = await getData(
@@ -150,8 +132,44 @@ const ContentState = (props) => {
     }
   };
 
-   //--------- GETDATA FROM MY LEARNING() using Get Httpservice -------------- 
-   const getDataFromMyLearning = async (URL) => {
+
+//========================================[ MY Learning ]=================================================
+  //--- Add INMYLEARNING() using Post Httpservice 
+  const addInMylearning = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ADDINMYLEARNING_URL}`,
+        Data
+      );
+      if (json.success === true) {
+        setMyLearningData(MyLearningData.concat(json.data));
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not add in mylearning due to some error", error);
+    }
+  };
+
+  //---Remove From MYLEARNING() using Post Httpservice 
+  const removeFromMylearning = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.REMOVEFROMMYLEARNING_URL}`,
+        Data
+      );
+      if (json.success === true) {
+        setMyLearningNotes(json.notesData);
+        setMyLearningVideo(json.videoData)
+        setMyLearningPYQ(json.pyqData)
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not remove mylearning data due to some error", error);
+    }
+  };
+
+  //---GETDATA FROM MY LEARNING() using Get Httpservice  
+  const getDataFromMyLearning = async (URL) => {
     try {
       const json = await getData(
         URL || `${GlobalUrls.GETDATAFROMMYLEARNING_URL}`,
@@ -163,7 +181,7 @@ const ContentState = (props) => {
       }
       return json;
     } catch (error) {
-      console.log("Do not fetch setLatest Data due to some error", error);
+      console.log("Do not fetch setLatest Data due to some error", error); //REMOVEFROMMYLEARNING_URL
     }
   };
 
@@ -190,7 +208,7 @@ const ContentState = (props) => {
 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );

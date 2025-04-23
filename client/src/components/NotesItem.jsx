@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const NotesItem = ({ Notes }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning } = context;
+  const { addInMylearning, removeFromMylearning } = context;
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
 
@@ -20,10 +20,12 @@ const NotesItem = ({ Notes }) => {
       }
       const response = await addInMylearning(data);
       if (response.success === true) {
+        setShowModal(false);
         toast.success("Notes added successfully in my learning!", {
           position: "top-right"
         });
       } else if (response.success === false) {
+        setShowModal(false);
         toast.error(response.message || "Failed to add notes!", {
           position: "top-right"
         });
@@ -37,16 +39,52 @@ const NotesItem = ({ Notes }) => {
     setShowModal(false);
   };
 
+  const handleRemoveToMyLearning = async () => {
+    try {
+      let data = {
+        contentId: Notes._id,
+        contentType: "Note"
+      }
+      const response = await removeFromMylearning(data);
+      if (response.success === true) {
+        setShowModal(false);
+        toast.success("Notes remove successfully from my learning!", {
+          position: "top-right"
+        });
+      } else if (response.success === false) {
+        setShowModal(false);
+        toast.error(response.message || "Failed to remove Notes!", {
+          position: "top-right"
+        });
+      }
+    } catch (error) {
+      return toast.error("Failed to remove from My learning", {
+        position: "top-right"
+      });
+    }
+    setShowModal(false);
+  };
+
   return (
     <>
 
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        onConfirm={handleAddToMyLearning}
-        heading={`Do you want to add ${Notes.title} Notes in My Learning? `}
-        subHeading={`“Stay organized. Keep everything in one place”`}
-      />
+      {isMyLearning ?
+        <>
+          <Modal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            onConfirm={handleRemoveToMyLearning}
+            heading={`Do you want to remove ${Notes.title} Notes from My Learning? `}
+            subHeading={`“Stay organized. Keep everything in one place”`}
+          /></> :
+        <>
+          <Modal
+            isOpen={showModal}
+            onClose={() => setShowModal(false)}
+            onConfirm={handleAddToMyLearning}
+            heading={`Do you want to add ${Notes.title} Notes in My Learning? `}
+            subHeading={`“Stay organized. Keep everything in one place”`}
+          /></>}
 
       <div className='col-12 col-sm-6 col-md-4 col-lg-3'>
         <div className="card card-transition p-4  text-center notes-item rounded-3 shadow-sm" >
@@ -57,7 +95,7 @@ const NotesItem = ({ Notes }) => {
           </div>
           <a href={Notes.fileUrl} className="btn-light-gray p-2"><h6 className='m-0'>View Notes</h6></a>
           {isMyLearning ?
-            <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1"></i></> :
+            <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1" onClick={() => setShowModal(true)}></i></> :
             <><i className="fa-solid fa-plus position-absolute add-mylearning z-1" onClick={() => setShowModal(true)}></i></>
           }
         </div>
