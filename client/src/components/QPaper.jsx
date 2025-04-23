@@ -17,8 +17,8 @@ const QPaper = () => {
         if (localStorage.getItem('token')) {
             getPYQ(`${GlobalUrls.GETPYQ_URL}?category=${category}&sortBy=${sortBy}`);
         }
-    // eslint-disable-next-line
-    }, [category,sortBy]);
+        // eslint-disable-next-line
+    }, [category, sortBy]);
 
     const handleShortByChange = (sortBy) => {
         searchParams.set('sortBy', sortBy);
@@ -32,6 +32,10 @@ const QPaper = () => {
 
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-Qpaper Qp-get-cources-btn-container">
+                        <div className="d-flex flex-column justify-content-center align-items-center" style={{ marginTop: '10vh' }}>
+                                <img src="/assets/img/Exameeyt.png" alt="" width={350} />
+                                <img src="/assets/img/Exameeyt.png" alt="" width={350} />
+                        </div>
                         <div className="container Qp-get-cources-btn">
                             <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><Link className='nav-link' to="/cource">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></Link></button>
                         </div>
@@ -47,7 +51,7 @@ const QPaper = () => {
                                     Browse and download question papers by course and subject.
                                     Practice with real exam patterns to improve performance.
                                     Boost your preparation with this invaluable resource and enhance your chances of success!</p>
-                                <button className="btn btn-info" onClick={()=>navigate('/cource')}>Get Best Cources <i className="fa-solid fa-arrow-right"></i></button>
+                                <button className="btn btn-info" onClick={() => navigate('/cource')}>Get Best Cources <i className="fa-solid fa-arrow-right"></i></button>
                             </div>
 
                             {/*========= Q-p Section =============*/}
