@@ -12,7 +12,7 @@ const myLearningContentSchema = new mongoose.Schema({
   },
   contentType: {
     type: String,
-    enum: ['Note', 'Video', 'Course'],
+    enum: ['Note', 'Video', 'PYQ'],
     required: true,
   }
 }, {

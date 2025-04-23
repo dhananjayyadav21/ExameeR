@@ -146,21 +146,21 @@ code {
 .add-mylearning{
   top: 4%;
   right: 4%;
-  padding: 2px 3px;
-  border-radius: 6px;
-  color: #242424;
+  padding: 2px;
+  border-radius: 4px;
+  color: #2b2b2b;
   cursor: pointer;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .remove-mylearning{
   top: 4%;
   right: 4%;
-  padding: 2px 3px;
-  border-radius: 6px;
+  padding: 1px 3px;
+  border-radius: 4px;
   color: #ff0000;
   cursor: pointer;
-  border: 1px solid black;
+  border: 2px solid #ff0000;
 }
 
 /*=========================================== scrollBar ===========================================================*/

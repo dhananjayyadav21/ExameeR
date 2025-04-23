@@ -8,7 +8,7 @@ const NotesItem = ({ Notes }) => {
   const context = useContext(ContentContext);
   const { addInMylearning } = context;
   const location = useLocation();
-  const isMyLearning = location.pathname === '/mylearning';
+  const isMyLearning = location.pathname === '/myLearning';
 
   const [showModal, setShowModal] = useState(false);
 
@@ -44,7 +44,7 @@ const NotesItem = ({ Notes }) => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleAddToMyLearning}
-        heading={`Do you want to add ${Notes.title} in My Learning? `}
+        heading={`Do you want to add ${Notes.title} Notes in My Learning? `}
         subHeading={`“Stay organized. Keep everything in one place”`}
       />
 
@@ -57,7 +57,7 @@ const NotesItem = ({ Notes }) => {
           </div>
           <a href={Notes.fileUrl} className="btn-light-gray p-2"><h6 className='m-0'>View Notes</h6></a>
           {isMyLearning ?
-            <><i className="fa-solid fa-minus position-absolute remove-mylearning z-1"></i></> :
+            <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1"></i></> :
             <><i className="fa-solid fa-plus position-absolute add-mylearning z-1" onClick={() => setShowModal(true)}></i></>
           }
         </div>

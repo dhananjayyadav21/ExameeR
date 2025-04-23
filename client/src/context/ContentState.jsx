@@ -134,7 +134,7 @@ const ContentState = (props) => {
     }
   };
 
-  //--------- GET VIDEO() using Get Httpservice -------------- 
+  //--------- GET LATEST() using Get Httpservice -------------- 
   const getLatestUpload = async (URL) => {
     try {
       const json = await getData(
@@ -143,6 +143,23 @@ const ContentState = (props) => {
       if (json.success === true) {
         setLatestData(json.data);
         console.log("datacone", json.data)
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch setLatest Data due to some error", error);
+    }
+  };
+
+   //--------- GETDATA FROM MY LEARNING() using Get Httpservice -------------- 
+   const getDataFromMyLearning = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETDATAFROMMYLEARNING_URL}`,
+      );
+      if (json.success === true) {
+        setMyLearningNotes(json.notesData);
+        setMyLearningVideo(json.videoData)
+        setMyLearningPYQ(json.pyqData)
       }
       return json;
     } catch (error) {
@@ -166,10 +183,14 @@ const ContentState = (props) => {
 
   const [LatestData, setLatestData] = useState([]);
   const [MyLearningData, setMyLearningData] = useState([]);
+  const [MyLearningNotes, setMyLearningNotes] = useState([]);
+  const [MyLearningVideo, setMyLearningVideo] = useState([]);
+  const [MyLearningPYQ, setMyLearningPYQ] = useState([]);
+
 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );
