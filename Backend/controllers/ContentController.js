@@ -297,7 +297,7 @@ const getAllPublicNotes = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -312,10 +312,10 @@ const getAllPublicNotes = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
       // my notes (any status)
-      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -337,7 +337,7 @@ const getAllPublicNotes = async (req, res) => {
 
 
       // my notes (any status)
-      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+      const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
       const allNotes = await Note.find({ category: category }).sort(sortOption); // all notes find from db
 
@@ -395,7 +395,7 @@ const getAllPublicPYQ = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -410,10 +410,10 @@ const getAllPublicPYQ = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
       // my PYQ (any status)
-      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -434,7 +434,7 @@ const getAllPublicPYQ = async (req, res) => {
       }).sort(sortOption);
 
       // my PYQ (any status)
-      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");
+      const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
       const allPYQ = await PYQModel.find({ category: category }).sort(sortOption); // all PYQ find from db
 
@@ -491,7 +491,7 @@ const getAllPublicVIDEO = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
       res.status(200).json({ // return result as true
         success: true,
@@ -506,9 +506,9 @@ const getAllPublicVIDEO = async (req, res) => {
         isPublic: true,
         status: 'public',
         category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn -_id");
+      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
-      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id");  // my Video (any status)
+      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");  // my Video (any status)
 
       res.status(200).json({ // return result as true
         success: true,
@@ -528,7 +528,7 @@ const getAllPublicVIDEO = async (req, res) => {
         category: category
       }).sort(sortOption);
 
-      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn -_id"); // my Video (any status)
+      const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn "); // my Video (any status)
       const allVideo = await VideoModel.find({ category: category }).sort(sortOption); // all Video find from db
 
       res.status(200).json({ // return result as true

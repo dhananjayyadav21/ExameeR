@@ -49,6 +49,15 @@ code {
   text-decoration: none;
   color: black;
   border-radius: 6px;
+  font-weight: 500;
+  background-color: #F5F5F6;
+}
+
+.btn-gray-sm{
+  text-decoration: none;
+  color: black;
+  border-radius: 4px;
+  font-weight: 500;
   background-color: #F5F5F6;
 }
 
@@ -132,6 +141,26 @@ code {
 .placeholder-white::placeholder{
   color: rgba(180, 178, 178, 0.677);
   font-size: small;
+}
+
+.add-mylearning{
+  top: 4%;
+  right: 4%;
+  padding: 2px 3px;
+  border-radius: 6px;
+  color: #242424;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.remove-mylearning{
+  top: 4%;
+  right: 4%;
+  padding: 2px 3px;
+  border-radius: 6px;
+  color: #ff0000;
+  cursor: pointer;
+  border: 1px solid black;
 }
 
 /*=========================================== scrollBar ===========================================================*/

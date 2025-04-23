@@ -37,8 +37,8 @@ const ContentState = (props) => {
     }
   };
 
-   //----- Add VIDEO() using Post Httpservice -----------------
-   const addVideo = async (Data) => {
+  //----- Add VIDEO() using Post Httpservice -----------------
+  const addVideo = async (Data) => {
     try {
       const json = await postData(
         `${GlobalUrls.ADDVIDEO_URL}`,
@@ -53,6 +53,23 @@ const ContentState = (props) => {
     }
   };
 
+  //----- Add INMYLEARNING() using Post Httpservice -----------------
+  const addInMylearning = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ADDINMYLEARNING_URL}`,
+        Data
+      );
+      if (json.success === true) {
+        setMyLearningData(MyLearningData.concat(json.data));
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not add in mylearning due to some error", error);
+    }
+  };
+
+
 
   //-------- GET Note() using Get Httpservice ---------------
   const getNote = async (URL) => {
@@ -60,12 +77,12 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.GETNOTE_URL}`,
       );
-      if(json.success === true) {
+      if (json.success === true) {
         setNotes(json.data);
-        if(json.myNotes){
+        if (json.myNotes) {
           setMyNotes(json.myNotes);
         }
-        if(json.allNotes){
+        if (json.allNotes) {
           setAllNotes(json.allNotes);
         }
       }
@@ -81,12 +98,12 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.GETPYQ_URL}`,
       );
-      if(json.success === true) {
+      if (json.success === true) {
         setPYQ(json.data);
-        if(json.myPYQ){
+        if (json.myPYQ) {
           setMyPYQ(json.myPYQ);
         }
-        if(json.allPYQ){
+        if (json.allPYQ) {
           setAllPYQ(json.allPYQ);
         }
       }
@@ -102,12 +119,12 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.GETVideo_URL}`,
       );
-      if(json.success === true) {
+      if (json.success === true) {
         setVideo(json.data);
-        if(json.myVideo){
+        if (json.myVideo) {
           setMyVideo(json.myVideo);
         }
-        if(json.allVideo){
+        if (json.allVideo) {
           setAllVideo(json.allVideo);
         }
       }
@@ -117,16 +134,15 @@ const ContentState = (props) => {
     }
   };
 
-
-   //--------- GET VIDEO() using Get Httpservice -------------- 
-   const getLatestUpload = async (URL) => {
+  //--------- GET VIDEO() using Get Httpservice -------------- 
+  const getLatestUpload = async (URL) => {
     try {
       const json = await getData(
         URL || `${GlobalUrls.GETLATESTDATA_URL}`,
       );
-      if(json.success === true) {
+      if (json.success === true) {
         setLatestData(json.data);
-        console.log("datacone",json.data)
+        console.log("datacone", json.data)
       }
       return json;
     } catch (error) {
@@ -149,10 +165,11 @@ const ContentState = (props) => {
   const [AllVideo, setAllVideo] = useState([]);
 
   const [LatestData, setLatestData] = useState([]);
+  const [MyLearningData, setMyLearningData] = useState([]);
 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData,  addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload}}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );
