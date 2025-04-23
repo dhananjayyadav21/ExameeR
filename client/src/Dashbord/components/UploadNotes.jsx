@@ -40,8 +40,8 @@ const UploadNotes = () => {
     if (selectedFile) { //if selected file available
       try{
         const result = await DriveUpload(selectedFile);
-        if(result && result.success && result.fileUrl){ 
-          setFileUrl(result.fileUrl);
+        if(result && result.success && result.fileId){ 
+          setFileUrl(result.fileId);
         }else{
           toast.warning("Some thing went wrong please Re upload", {
             position: "top-right"
@@ -200,7 +200,7 @@ const UploadNotes = () => {
                       >
                         <option value="sciTechnology">sciTechnology</option>
                         <option value="commerce">Commerce</option>
-                        <option value="arts&civils">Arts & civils</option>
+                        <option value="artscivils">Arts & civils</option>
                       </select>
                     </div>
 

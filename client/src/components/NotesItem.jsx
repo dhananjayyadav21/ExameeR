@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
 import { toast } from "react-toastify";
@@ -7,11 +7,16 @@ import { toast } from "react-toastify";
 const NotesItem = ({ Notes }) => {
   const context = useContext(ContentContext);
   const { addInMylearning, removeFromMylearning } = context;
+
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
 
-  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  const handleViewPDF = () => {
+    navigate(`/pdfviewer?view=${encodeURIComponent(Notes.fileUrl)}`);
+  };
 
+  const [showModal, setShowModal] = useState(false);
   const handleAddToMyLearning = async () => {
     try {
       let data = {
@@ -93,7 +98,7 @@ const NotesItem = ({ Notes }) => {
             <h5 className="card-title">{Notes.title}</h5>
             <p className="card-text text-muted">{Notes.professor}</p>
           </div>
-          <a href={Notes.fileUrl} className="btn-light-gray p-2"><h6 className='m-0'>View Notes</h6></a>
+          <span className="btn-light-gray p-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View Notes</h6></span>
           {isMyLearning ?
             <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1" onClick={() => setShowModal(true)}></i></> :
             <><i className="fa-solid fa-plus position-absolute add-mylearning z-1" onClick={() => setShowModal(true)}></i></>

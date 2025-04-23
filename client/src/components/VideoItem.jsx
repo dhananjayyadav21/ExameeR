@@ -95,12 +95,12 @@ const VideoItem = ({ Video }) => {
             </div>
           </div>
           <div className="card-body">
-            <h5 className="card-title">{Video.title}</h5>
+            <h5 className="card-title">{(Video.title).slice(0,20)}</h5>
             {isMyLearning ?
               <> <button className='btn-gray-sm my-2 text-danger'onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button></> :
               <><button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button></>
             }
-            <p className="card-text">{Video.description}</p>
+            <p className="card-text">{(Video.description).slice(0,90)}..</p>
           </div>
         </div>
       </div>

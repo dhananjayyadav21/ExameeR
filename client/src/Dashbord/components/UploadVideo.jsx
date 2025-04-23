@@ -158,7 +158,7 @@ const UploadVideo = () => {
                     >
                       <option value="sciTechnology">sciTechnology</option>
                       <option value="commerce">Commerce</option>
-                      <option value="arts&civils">Arts & civils</option>
+                      <option value="artscivils">Arts & civils</option>
                     </select>
                   </div>
 

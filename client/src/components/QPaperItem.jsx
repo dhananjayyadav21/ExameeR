@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
 import { toast } from "react-toastify";
@@ -7,8 +7,14 @@ import { toast } from "react-toastify";
 const QPaperItem = ({ PYQ }) => {
   const context = useContext(ContentContext);
   const { addInMylearning, removeFromMylearning } = context;
+
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
+
+  const navigate = useNavigate();
+  const handleViewPDF = () => {
+    navigate(`/pdfviewer?view=${encodeURIComponent(PYQ.fileUrl)}`);
+  };
 
   const [showModal, setShowModal] = useState(false);
 
@@ -75,7 +81,8 @@ const QPaperItem = ({ PYQ }) => {
             onConfirm={handleRemoveToMyLearning}
             heading={`Do you want to remove ${PYQ.title} PYQ from My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
-          /></> :
+          />
+        </> :
         <>
           <Modal
             isOpen={showModal}
@@ -83,10 +90,11 @@ const QPaperItem = ({ PYQ }) => {
             onConfirm={handleAddToMyLearning}
             heading={`Do you want to add ${PYQ.title} PYQ in My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
-          /></>}
+          />
+        </>
+      }
 
-
-      <div className='col-12 col-sm-6 col-lg-4 col-lg-3'>
+      <div className='col-12 col-sm-6 col-lg-3'>
         <div className="card card-transition p-2 py-3 text-center qp-item rounded-3 shadow-sm position-relative" >
           <img src="/assets/img/brandlog.png" alt='Notes Img' className="card-img-top align-self-center" style={{ width: "100px" }} />
           <div className="card-body ">
@@ -95,7 +103,7 @@ const QPaperItem = ({ PYQ }) => {
           </div>
           <div className='d-flex justify-content-between w-100'>
             <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer"><h6 className='m-0'>Year - {PYQ.year}</h6></span>
-            <a href={PYQ.fileUrl} download className="btn-light-gray w-50 p-2 mx-2"><h6 className='m-0'>Download PYQ</h6></a>
+            <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View PYQ</h6></span>
           </div>
           {isMyLearning ?
             <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1" onClick={() => setShowModal(true)}></i></> :

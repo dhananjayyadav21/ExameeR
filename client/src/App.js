@@ -13,6 +13,7 @@ import ForgotPassword from "./components/ForgotPassword";
 import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
+import PdfViewer from "./services/PdfViewer";
 import Dashboard from "./Dashbord/pages/Dashboard";
 
 import DashbordHead from "./Dashbord/components/DashbordHead";
@@ -94,8 +95,14 @@ function App() {
               redirectTo="/auth"
             />} />
 
+            <Route path="/pdfviewer" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<PdfViewer />}
+              redirectTo="/auth"
+            />} />
 
-            {/* Fix: Add '*' to the dashboard route -------------------------------- */} 
+
+            {/* Fix: Add '*' to the dashboard route -------------------------------- */}
             <Route path="/dashboard" element={
               <RoleBasedRoute
                 allowedRoles={["Admin", "Instructor"]}
