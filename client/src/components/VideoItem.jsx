@@ -89,18 +89,25 @@ const VideoItem = ({ Video }) => {
       <div className="col-12 col-sm-6 col-lg-4 rounded-3">
         <div className="card card-transition shadow-sm video-item p-2 rounded-4">
           <div className='position-relative'>
-            <img className="card-img-top rounded-4" src="/assets/img/DSA.jpg" alt="Cardcap" style={{ width: "100%" }} />
-            <div className="Play-btn bg-danger">
+            <iframe
+              width="100%"
+              height="200"
+              src={`https://www.youtube.com/embed/${Video.fileUrl}`}
+              FrameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+            {/* <div className="Play-btn bg-danger">
               <a href={Video.fileUrl}><i className="fa-solid fa-play"></i></a>
-            </div>
+            </div> */}
           </div>
           <div className="card-body">
-            <h5 className="card-title">{(Video.title).slice(0,20)}</h5>
+            <h5 className="card-title">{(Video.title).slice(0, 20)}</h5>
             {isMyLearning ?
-              <> <button className='btn-gray-sm my-2 text-danger'onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button></> :
+              <> <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button></> :
               <><button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button></>
             }
-            <p className="card-text">{(Video.description).slice(0,90)}..</p>
+            <p className="card-text">{(Video.description).slice(0, 90)}..</p>
           </div>
         </div>
       </div>

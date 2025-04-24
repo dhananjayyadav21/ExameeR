@@ -17,8 +17,8 @@ const Video = () => {
         if (localStorage.getItem('token')) {
             getVideo(`${GlobalUrls.GETVideo_URL}?category=${category}&sortBy=${sortBy}`);
         }
-    // eslint-disable-next-line
-    }, [category,sortBy]);
+        // eslint-disable-next-line
+    }, [category, sortBy]);
 
     const handleShortByChange = (sortBy) => {
         searchParams.set('sortBy', sortBy);
@@ -38,16 +38,20 @@ const Video = () => {
                                 <span className='btn-light-gray p-2'>Learn Smarter, Not Harder</span>
                             </div>
                         </div>
+                        {/* Temporary it controlled from backend */}
+                        <div className="d-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
+                            <a href="https://www.youtube.com/@exameecode"><img className="rounded-3" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} /></a>
+                        </div>
                     </div>
 
                     {/*=========================================== right container ===========================================*/}
                     <div className="col-12 col-md-9 main-VideoSection scrollable">
-                    <div className="video-heroSection card container-lg mt-4 shadow-sm">
-                       <div className="text-center py-3">
-                         <h4 className="card-title">Explore Your <span className="notes-span-section">Video Lectures</span></h4>
-                         <p>"Learn Anytime, Anywhere with Expert-Led Video Lectures" || "Your Digital Classroom, One Video at a Time"</p>
-                       </div>
-                     </div>
+                        <div className="video-heroSection card container-lg mt-4 shadow-sm">
+                            <div className="text-center py-3">
+                                <h4 className="card-title">Explore Your <span className="notes-span-section">Video Lectures</span></h4>
+                                <p>"Learn Anytime, Anywhere with Expert-Led Video Lectures" || "Your Digital Classroom, One Video at a Time"</p>
+                            </div>
+                        </div>
                         <div className="p-4">
                             {/*========= video Section =============*/}
                             <div>

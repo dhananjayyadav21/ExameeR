@@ -32,9 +32,12 @@ const QPaper = () => {
 
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-Qpaper Qp-get-cources-btn-container">
-                        <div className="d-flex flex-column justify-content-center align-items-center" style={{ marginTop: '10vh' }}>
-                                <img src="/assets/img/Exameeyt.png" alt="" width={350} />
-                                <img src="/assets/img/Exameeyt.png" alt="" width={350} />
+                        {/* Temporary it controlled from backend */}
+                        <div className="d-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(100vh - 70px - 125px)' }}>
+                            <a href="https://www.youtube.com/@exameecode">
+                                <img className="rounded-top" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
+                                <img className="rounded-bottom" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
+                            </a>
                         </div>
                         <div className="container Qp-get-cources-btn">
                             <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><Link className='nav-link' to="/cource">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></Link></button>

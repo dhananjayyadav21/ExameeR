@@ -6,7 +6,7 @@ const Modal = ({ isOpen, onClose, onConfirm, heading, subHeading }) => {
   return (
     <div className="modal d-block fade show mt-0" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
       <div className="modal-dialog modal-dialog-centered z-3 px-2" role="document">
-        <div className="modal-content py-3">
+        <div className="modal-content p-3">
           <div className="text-center my-3">
             <h6>
               {heading} <br />
