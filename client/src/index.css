@@ -227,19 +227,28 @@ code {
   text-align: center;
 }
 
-.hero .form-control {
+.hero .search {
+  position: relative;
   border: 2px solid var(--primary-2-contrast);
-  padding: 12px;
+  padding: 6px;
+  transition: box-shadow 0.2s ease;
 }
 
-.hero-search {
-  position: relative;
+.search-active {
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 .hero .hero-btn {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 3px;
+  right: 3px;
+  border: none;
+}
+
+.hero .form-control {
+  width: 84%;
+  border: none;  
+  box-shadow: none; 
 }
 
 .Home-Products-Section {

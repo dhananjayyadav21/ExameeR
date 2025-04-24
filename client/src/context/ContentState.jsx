@@ -181,7 +181,27 @@ const ContentState = (props) => {
       }
       return json;
     } catch (error) {
-      console.log("Do not fetch setLatest Data due to some error", error); //REMOVEFROMMYLEARNING_URL
+      console.log("Do not fetch setLatest Data due to some error", error); 
+    }
+  };
+
+
+
+  //=====================================[ Search Content ]=========================================
+   //---SEARCH FROM CONTENT () using Get Httpservice  
+   const searchContent = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.SEARCHCONTENT_URL}`,
+      );
+      if (json.success === true) {
+        setMyLearningNotes(json.notesData);
+        setMyLearningVideo(json.videoData)
+        setMyLearningPYQ(json.pyqData)
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch setLatest Data due to some error", error); 
     }
   };
 
@@ -208,7 +228,7 @@ const ContentState = (props) => {
 
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );

@@ -19,7 +19,9 @@ export const ADDVIDEO_URL = `${BASEURL}content/addVideo`
 export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
 export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ`
 export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
+
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
+export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent` 
 
 export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
 export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   

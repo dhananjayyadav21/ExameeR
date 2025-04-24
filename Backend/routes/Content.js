@@ -1,5 +1,6 @@
 const ContentController = require("../controllers/ContentController");
 const MylearningControllers = require('../controllers/MyLearningConrollers');
+const searchController = require('../controllers/SearchControllers');
 const fetchUser = require("../middleware/fetchUser");
 const router = require('express').Router();
 
@@ -13,6 +14,7 @@ const router = require('express').Router();
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
+  router.get('/searchContent', searchController.searchContent);
 
   router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
   router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);
