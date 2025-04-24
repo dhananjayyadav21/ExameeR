@@ -214,6 +214,9 @@ code {
 .MobileBar-container {
   top: 57px;
   background: #faf9f9f0;
+  position: absolute;
+  width: 100%;
+  display: block;
 }
 
 /*============================================== home pages ================================================*/
