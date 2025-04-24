@@ -14,6 +14,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import Auth from "./pages/Auth";
 import Contact from "./pages/Contact";
 import PdfViewer from "./services/PdfViewer";
+import SearchContent from "./services/SearchContent";
 import Dashboard from "./Dashbord/pages/Dashboard";
 
 import DashbordHead from "./Dashbord/components/DashbordHead";
@@ -100,6 +101,8 @@ function App() {
               element={<PdfViewer />}
               redirectTo="/auth"
             />} />
+
+            <Route path="/searchcontent" element={<SearchContent />} />
 
 
             {/* Fix: Add '*' to the dashboard route -------------------------------- */}

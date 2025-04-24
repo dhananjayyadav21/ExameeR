@@ -9,13 +9,10 @@ import HowExameeWork from '../components/HowExameeWork'
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { toast } from 'react-toastify'
-import QPaperItem from '../components/QPaperItem'
-import NotesItem from '../components/NotesItem'
-import VideoItem from '../components/VideoItem'
 
 const Home = () => {
   const context = useContext(ContentContext);
-  const { getNote, searchContent} = context
+  const { getNote, searchContent, setSearchContentData } = context
   const navigate = useNavigate();
 
   //--get note-------------------
@@ -28,9 +25,9 @@ const Home = () => {
 
   //--create states for search data--------------
   const [isFocused, setIsFocused] = useState(false);
+  const [searchType, setSearchType] = useState('notes');
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+
 
   //--handleSearch for search data--------------
   const handleSearch = async (e) => {
@@ -38,11 +35,10 @@ const Home = () => {
     if (!query.trim()) return;
 
     try {
-      setLoading(true);
-      const response = await searchContent(`${GlobalUrls.SEARCHCONTENT_URL}?search=${encodeURIComponent(query)}`);
-      setResults(response.results || []);
+      const response = await searchContent(`${GlobalUrls.SEARCHCONTENT_URL}?search=${encodeURIComponent(query)}&type=${searchType}`);
       if (response.success === true) {
-        setResults(response.results || []); //Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video,
+        setSearchContentData(response.results || []);
+        navigate('/searchcontent');
       }
       else if (response.success === false) {
         toast.warning(response.message || "No matching content found !", {
@@ -50,12 +46,10 @@ const Home = () => {
         });
       }
     } catch (err) {
-      setResults([]);
+      setSearchContentData([]);
       toast.error("Somthing went wrong.!", {
         position: "top-right"
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -113,13 +107,27 @@ const Home = () => {
                   </button>
                 </div>
               </form>
-
-              <div className='d-flex gap-2 justify-content-center justify-content-md-start'>
+       
+              {/*----------------------------------------------------------------------------------*/}
+              <div className='d-flex my-4 gap-2 justify-content-center justify-content-md-start'>
                 {!localStorage.getItem("token") ?
                   <><Link className='nav-link' to="/auth"><button type="button" className="btn btn-green px-4  rounded-3">Login</button></Link>
                     <Link className='nav-link' to="/auth"><button type="button" className="btn btn-green px-4 rounded-3">Register</button></Link>
-                  </> :
-                  <></>}
+                  </> : 
+                  <> <div className='mt-3' style={{ display: 'flex', gap: '10px' }}>
+                    <button
+                      className={`btn btn-sm shadow-sm ${searchType === 'notes' ? 'btn-dark' : 'btn-white'}`}
+                      onClick={() => setSearchType('notes')}> Notes
+                    </button>
+                    <button
+                      className={`btn btn-sm shadow-sm ${searchType === 'pyq' ? 'btn-dark' : 'btn-white'}`}
+                      onClick={() => setSearchType('pyq')}>PYQ
+                    </button>
+                    <button
+                      className={`btn btn-sm shadow-sm ${searchType === 'video' ? 'btn-dark' : 'btn-white'}`}
+                      onClick={() => setSearchType('video')}> Video
+                    </button>
+                  </div> </>}
               </div>
             </div>
 
@@ -127,43 +135,7 @@ const Home = () => {
               <img className='front-img' src="/assets/img/Front.png" alt="Front Examee" />
             </div>
           </section>
-          {/*================================= search content ===============================================*/}
-          <div className="w-100 mt-5">
-            {loading && <p>Loading...</p>}
-            {!loading && results.length > 0 && (
 
-              <div className="row">
-                {results.length > 0 ? (
-                  results.map((item, index) => {
-                    switch (item.type) {
-                      case 'note':
-                        return (
-                          <NotesItem key={index} Notes={item} />
-                        );
-
-                      case 'pyq':
-                        return (
-                          <QPaperItem key={index} PYQ={item} />
-                        );
-
-                      case 'video':
-                        return (
-                          <VideoItem key={index} Video={item} />
-                        );
-
-                      default:
-                        return null;
-                    }
-                  })
-                ) : (
-                  <div className="text-center w-100">
-                    <h5 className="text-muted mt-4">No content found for your search.</h5>
-                  </div>
-                )}
-              </div>
-
-            )}
-          </div>
 
           {/*============================= Our Provide Service Section =====================================*/}
           <section className='hero-showcase mt-5 text-secondary'>

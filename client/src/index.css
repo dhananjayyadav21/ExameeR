@@ -251,6 +251,16 @@ code {
   box-shadow: none; 
 }
 
+.serch-data-container{
+  position: absolute;
+  z-index: 1001;
+  padding: 20px;
+  min-width: 96vw;
+  min-height: 86vh;
+  top: 5vh;
+  left: 2vw;
+}
+
 .Home-Products-Section {
   background: #6101af;
   color: var(--primary-white);
@@ -329,7 +339,8 @@ form label {
   background: var(--primary-3-color);
 }
 
-.mylearning-heroSection{
+.mylearning-heroSection,
+.serchContent-heroSection{
   background: #f3f4f3;
 }
 
@@ -337,7 +348,8 @@ form label {
   color: var(--primary-white);
 }
 
-.mylearning-span-section {
+.mylearning-span-section,
+.serchContent-span-section {
   color: var(--primary-color);
 }
 
@@ -629,13 +641,15 @@ form label {
   /* Notes section */
   .notes-heroSection,
   .video-heroSection,
-   .mylearning-heroSection{
+   .mylearning-heroSection,
+   .serchContent-heroSection{
     font-size: x-small;
   }
 
   .notes-heroSection h2,
   .video-heroSection h2,
-  .mylearning-heroSection h2 {
+  .mylearning-heroSection h2,
+  .serchContent-heroSection h2 {
     font-size: large;
   }
 

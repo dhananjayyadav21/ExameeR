@@ -50,8 +50,8 @@ const ProfileCardWithBanner = () => {
               />
               </div>
               <div className="col-12 col-md-9 mb-4">
-                <h4 className="mb-1">@{user.Username}</h4>
-                <p className="mb-0 text-muted">{user.Email}</p>
+                <h4 className="mb-1">@{user?.Username}</h4>
+                <p className="mb-0 text-muted">{user?.Email}</p>
                 {user.isVerified ?
                   <><small className="text-success">Verified <i className="fas fa-check-circle text-success"></i></small></>:
                   <><small className="text-danger">Not Verified <i className="fas fa-times-circle text-danger"></i></small></>
@@ -61,7 +61,7 @@ const ProfileCardWithBanner = () => {
 
           <div>
             <h6 className="fw-semibold">About</h6>
-            <p className="text-muted mb-0">{user.About || "One lesson at a time, one step closer to greatness."}</p>
+            <p className="text-muted mb-0">{user?.About || "One lesson at a time, one step closer to greatness."}</p>
           </div>
         </div>
 

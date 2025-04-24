@@ -225,10 +225,10 @@ const ContentState = (props) => {
   const [MyLearningVideo, setMyLearningVideo] = useState([]);
   const [MyLearningPYQ, setMyLearningPYQ] = useState([]);
 
-
+  const [searchContentData, setSearchContentData] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, setSearchContentData, searchContentData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );

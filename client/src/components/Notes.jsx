@@ -55,7 +55,7 @@ const Notes = () => {
 
         <div className="container-lg mt-2 mb-5">
           <div className="row g-4">
-            {Notes.map((note, index) => <NotesIteam key={index} Notes={note} />)}
+            {Notes?.map((note, index) => <NotesIteam key={index} Notes={note} />)}
           </div>
         </div>
       </div>

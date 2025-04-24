@@ -73,7 +73,7 @@ const QPaper = () => {
 
                                 <div className="container-lg mt-2">
                                     <div className="row g-4">
-                                        {PYQS.map((pyq, index) => <QPaperItem key={index} PYQ={pyq} />)}
+                                        {PYQS?.map((pyq, index) => <QPaperItem key={index} PYQ={pyq} />)}
                                     </div>
                                 </div>
 

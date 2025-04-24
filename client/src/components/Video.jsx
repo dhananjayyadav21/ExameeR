@@ -69,7 +69,7 @@ const Video = () => {
 
                                 <div className="mt-2">
                                     <div className="row g-4">
-                                        {Video.map((video, index) => <VideoItem key={index} Video={video} />)}
+                                        {Video?.map((video, index) => <VideoItem key={index} Video={video} />)}
                                     </div>
                                 </div>
 

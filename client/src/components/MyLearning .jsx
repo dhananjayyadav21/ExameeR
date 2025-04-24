@@ -45,7 +45,7 @@ const MyLearning = () => {
                                 <div className="card-body d-flex justify-content-between align-items-center">
                                     <div>
                                         <p className="small text-secondary">Total Notes</p>
-                                        <h3 className="fw-bold text-dark">{MyLearningNotes.length}</h3>
+                                        <h3 className="fw-bold text-dark">{MyLearningNotes?.length}</h3>
                                     </div>
                                     <div className="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                                         <FontAwesomeIcon
@@ -62,7 +62,7 @@ const MyLearning = () => {
                                 <div className="card-body d-flex justify-content-between align-items-center">
                                     <div>
                                         <p className="small text-secondary">Video Lectures</p>
-                                        <h3 className="fw-bold text-dark">{MyLearningVideo.length}</h3>
+                                        <h3 className="fw-bold text-dark">{MyLearningVideo?.length}</h3>
                                     </div>
                                     <div className="rounded-circle bg-purple bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                                         <FontAwesomeIcon
@@ -79,7 +79,7 @@ const MyLearning = () => {
                                 <div className="card-body d-flex justify-content-between align-items-center">
                                     <div>
                                         <p className="small text-secondary">Previous Questions</p>
-                                        <h3 className="fw-bold text-dark">{MyLearningPYQ.length}</h3>
+                                        <h3 className="fw-bold text-dark">{MyLearningPYQ?.length}</h3>
                                     </div>
                                     <div className="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                                         <FontAwesomeIcon
@@ -119,7 +119,7 @@ const MyLearning = () => {
 
                     <div className="container-lg mt-2 mt-md-4">
                         <div className="row g-4">
-                            {MyLearningNotes.map((e, index) => <NotesIteam key={index} Notes={e} />)}
+                            {MyLearningNotes?.map((e, index) => <NotesIteam key={index} Notes={e} />)}
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@ const MyLearning = () => {
 
                     <div className="container-lg mt-2 mt-md-4">
                         <div className="row g-4">
-                            {MyLearningVideo.map((e, index) => <VideoIteam key={index} Video={e} />)}
+                            {MyLearningVideo?.map((e, index) => <VideoIteam key={index} Video={e} />)}
                         </div>
                     </div>
                 </div>)}
@@ -171,7 +171,7 @@ const MyLearning = () => {
 
                         <div className="container-lg mt-2 mt-md-4">
                             <div className="row g-4">
-                                {MyLearningPYQ.map((e, index) => <PyqIteam key={index} PYQ={e} />)}
+                                {MyLearningPYQ?.map((e, index) => <PyqIteam key={index} PYQ={e} />)}
                             </div>
                         </div>
                     </div>)}
