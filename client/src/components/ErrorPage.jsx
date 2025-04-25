@@ -19,8 +19,8 @@ const ErrorPage = ({ setProgress }) => {
         <Row className="mb-4">
           <Col>
             <h1 className="display-1 font-weight-bold text-indigo mb-4">404</h1>
-            <h2 className="h3 font-weight-semibold text-dark mb-4">Page Not Found</h2>
-            <p className="text-muted mb-8">Sorry, the page you're looking for doesn't exist or has been moved.</p>
+            <h2 className="h3 font-weight-semibold text-dark mb-4">Page Not Found </h2>
+            <p className="text-muted mb-8">Sorry, the page you're looking for doesn't exist or has been working on this features</p>
           </Col>
         </Row>
         <Row className="mb-4">
