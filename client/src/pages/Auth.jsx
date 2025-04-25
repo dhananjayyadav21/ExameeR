@@ -7,7 +7,6 @@ const Auth = ({setProgress}) => {
   //----[useEffect]---------
   useEffect(() => {
     setProgress(0);
-    setProgress(100);
     // eslint-disable-next-line
   }, []);
 

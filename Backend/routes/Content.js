@@ -19,6 +19,7 @@ const router = require('express').Router();
 
   router.get('/dashbordContent',fetchUser, dashboardContentControllers.dasContentDeatails);
   router.get('/dashbordAnlytics',fetchUser, dashboardContentControllers.dashbordAnlytics);
+  router.get('/getStudentsByRole',fetchUser, dashboardContentControllers.getStudentsByRole);//
 
   router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
   router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);

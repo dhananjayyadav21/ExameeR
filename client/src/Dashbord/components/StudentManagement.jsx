@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
   faEdit,
   faTrash,
   faLock,
-  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import ContentContext from '../../context/ContentContext'
 
 const StudentManagement = () => {
+  const context = useContext(ContentContext);
+  const { getStudentsByRole, studentsByRole } = context;
+
+  useEffect(() => {
+    getStudentsByRole();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div id="studentManagement" className="min-vh-100 p-3 py-4 px-md-4">
       {/* Header */}
@@ -31,21 +39,11 @@ const StudentManagement = () => {
             />
           </div>
           <div className="w-48">
-            <label className="form-label">Course</label>
-            <select className="form-select">
-              <option value="">All Courses</option>
-              <option value="computer-science">Computer Science</option>
-              <option value="data-structures">Data Structures</option>
-              <option value="database">Database Management</option>
-            </select>
-          </div>
-          <div className="w-48">
             <label className="form-label">Status</label>
             <select className="form-select">
               <option value="">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-              <option value="blocked">Blocked</option>
             </select>
           </div>
         </div>
@@ -78,28 +76,28 @@ const StudentManagement = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="table-row hover:bg-gray-50">
+              {studentsByRole.map((student, i)=>(
+              <tr className="table-row hover:bg-gray-50" key={i}>
                 <td className="py-3 px-4">
                   <div className="d-flex align-items-center">
                     <img
-                      src="https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg"
+                      src={student?.Profile || "/assets/img/Avtar.jpg"}
                       alt="Student"
                       className="w-8 h-8 rounded-circle me-3"
-                      style={{height:"30px", width:"30px"}}
+                      style={{ height: "30px", width: "30px" }}
                     />
-                    <span className="text-sm font-medium text-gray-800">John Doe</span>
+                    <span className="text-sm font-medium text-gray-800">{student?.Username}</span>
                   </div>
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-600">STD001</td>
-                <td className="py-3 px-4 text-sm text-gray-600">john.doe@example.com</td>
+                <td className="py-3 px-4 text-sm text-gray-600">{(student?.ExmeeUserId).slice(0,8)}</td>
+                <td className="py-3 px-4 text-sm text-gray-600">{student?.Email}</td>
                 <td className="py-3 px-4">
                   <div className="d-flex flex-wrap gap-1">
-                    <span className="badge bg-primary text-white">Data Structures</span>
-                    <span className="badge bg-purple text-white">Database</span>
+                    <span className="badge bg-primary text-white">{student?.isVerified}</span>
                   </div>
                 </td>
                 <td className="py-3 px-4">
-                  <span className="badge bg-success text-white">Active</span>
+                  <span className="badge bg-success text-white">{student?.Status}</span>
                 </td>
                 <td className="py-3 px-4">
                   <div className="d-flex gap-2 justify-content-end">
@@ -114,43 +112,7 @@ const StudentManagement = () => {
                     </button>
                   </div>
                 </td>
-              </tr>
-              <tr className="table-row hover:bg-gray-50">
-                <td className="py-3 px-4">
-                  <div className="d-flex align-items-center">
-                    <img
-                      src="https://www.atlanticcouncil.org/wp-content/uploads/2022/09/JolyMelanie_Lib_t-1.jpg"
-                      alt="Student"
-                      className="w-8 h-8 rounded-circle me-3"
-                      style={{height:"30px", width:"30px"}}
-                    />
-                    <span className="text-sm font-medium text-gray-800">Jane Smith</span>
-                  </div>
-                </td>
-                <td className="py-3 px-4 text-sm text-gray-600">STD002</td>
-                <td className="py-3 px-4 text-sm text-gray-600">jane.smith@example.com</td>
-                <td className="py-3 px-4">
-                  <div className="d-flex flex-wrap gap-1">
-                    <span className="badge bg-primary text-white">Data Structures</span>
-                  </div>
-                </td>
-                <td className="py-3 px-4">
-                  <span className="badge bg-warning text-white">Inactive</span>
-                </td>
-                <td className="py-3 px-4">
-                  <div className="d-flex gap-2 justify-content-end">
-                    <button className="btn btn-outline-primary" title="Edit">
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                    <button className="btn btn-outline-success" title="Activate">
-                      <FontAwesomeIcon icon={faCheck} />
-                    </button>
-                    <button className="btn btn-outline-danger" title="Delete">
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              </tr> ))}
             </tbody>
           </table>
         </div>

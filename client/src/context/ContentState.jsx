@@ -241,7 +241,22 @@ const ContentState = (props) => {
     } catch (error) {
       console.log("Do not fetch dash analytics due to some error", error);
     }
-  };
+  };  //GETSTUDENTSBYROLE_URL
+
+  const getStudentsByRole = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETSTUDENTSBYROLE_URL}`,
+      );
+      console.log("////////",json)
+      if(json.success === true){
+        setStudentsByRole(json.students);
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch students due to some error", error);
+    }
+  }; 
 
 
   // eslint-disable-next-line
@@ -271,6 +286,8 @@ const ContentState = (props) => {
   const [dasVideo, setdasVideo] = useState([]);
 
   const [dashAnalytics, setDashAnalytics] = useState([]);
+
+  const [studentsByRole, setStudentsByRole] = useState([]);
   return (
     <ContentContext.Provider
       value={{ 
@@ -278,7 +295,7 @@ const ContentState = (props) => {
         LatestData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData, 
-        searchDashContent, dashNotes, dashPYQ, dasVideo, getdashAnalytics, dashAnalytics
+        searchDashContent, dashNotes, dashPYQ, dasVideo, getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole
          }}>
       {props.children}
     </ContentContext.Provider>

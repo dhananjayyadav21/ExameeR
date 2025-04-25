@@ -29,6 +29,7 @@ export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`
 
 export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
 export const DASHANALYTICS_URL = `${BASEURL}content/dashbordAnlytics`
+export const GETSTUDENTSBYROLE_URL = `${BASEURL}content/getStudentsByRole`
   
 
 

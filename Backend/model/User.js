@@ -24,6 +24,11 @@ const UserSchema = new Schema({
         enum: ['Admin', 'Instructor', 'Student'],
         default: 'Student',
     },
+    Status: {
+        type: String,
+        enum: ['active', 'inactive'],
+        default: 'active',
+    },
     isVerified: {
         type: Boolean,
         default: false
