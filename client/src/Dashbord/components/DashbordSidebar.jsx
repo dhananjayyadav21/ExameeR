@@ -24,17 +24,17 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="dashboard-courses"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
-          <FontAwesomeIcon icon={faBookOpen} className="me-3" />
-          <span className="fw-semibold">Courses</span>
-        </Link>
-
-        <Link
           to="dashboard-notes"
           className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faStickyNote} className="me-3" />
           <span className="fw-semibold">Notes</span>
+        </Link>
+
+        <Link
+          to="dashboard-pyq"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
+          <FontAwesomeIcon icon={faQuestionCircle} className="me-3" />
+          <span className="fw-semibold">PYQs</span>
         </Link>
 
         <Link
@@ -45,10 +45,10 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="dashboard-pyq"
-          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light active">
-          <FontAwesomeIcon icon={faQuestionCircle} className="me-3" />
-          <span className="fw-semibold">PYQs</span>
+          to="dashboard-courses"
+          className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
+          <FontAwesomeIcon icon={faBookOpen} className="me-3" />
+          <span className="fw-semibold">Courses</span>
         </Link>
 
         <Link

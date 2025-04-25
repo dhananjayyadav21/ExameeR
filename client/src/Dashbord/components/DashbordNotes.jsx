@@ -46,14 +46,25 @@ const StudyNotes = () => {
      } 
   }
 
+  let badgeColor = {};
+  dashNotes.forEach(e => {
+    if (`${e.status} === "public"`) {
+      badgeColor = "info";
+    } else if (`${e.status} === "draft"`) {
+      badgeColor = "warning";
+    } else if (`${e.status} === "archived"`) {
+      badgeColor = "danger";
+    }
+  });
+
   return (
     <>
       <div id="notes" className="min-vh-100 p-3 py-4 px-md-4">
         {/* Header with Add Notes Button */}
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="h2 font-weight-bold text-dark">Study Notes</h1>
+          <h1 className="h2 font-weight-bold text-dark dashbord-heading-text">Study Notes</h1>
           <Link to="/uploadNotes" className="text-decoration-none text-dark">
-            <button className="btn btn-success d-flex align-items-center">
+            <button className="btn btn-success d-flex align-items-center dashbord-upload-btn-text">
               <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
               Upload Notes
             </button>
@@ -77,7 +88,7 @@ const StudyNotes = () => {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
               <label className="form-label fw-semibold">Category</label>
               <select
                 className="form-select"
@@ -89,7 +100,7 @@ const StudyNotes = () => {
                 <option value="artscivils">Arts & Civils</option>
               </select>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-2">
               <label className="form-label fw-semibold">Status</label>
               <select
                 className="form-select"
@@ -115,7 +126,7 @@ const StudyNotes = () => {
                 <tr>
                   <th className="text-left">Title</th>
                   <th className="text-left">Category</th>
-                  <th className="text-left">Tags</th>
+                  <th className="text-left">Profesor</th>
                   <th className="text-left">Upload Date</th>
                   <th className="text-left">Status</th>
                   <th className="text-left">Actions</th>
@@ -132,13 +143,13 @@ const StudyNotes = () => {
                           className="text-secondary me-2"
                           size="lg"
                         />
-                        <span className="text-sm text-dark">Data Structures Notes</span>
+                        <span className="text-sm text-dark">{data?.title}</span>
                       </div>
                     </td>
-                    <td className="text-secondary">{data.title}</td>
-                    <td className="text-secondary">Semester 3</td>
-                    <td className="text-secondary">2024-02-10</td>
-                    <td className="text-secondary">2.4 MB</td>
+                    <td className="text-secondary">{data?.category}</td>
+                    <td className="text-secondary">{data?.professor}</td>
+                    <td className="text-secondary">{(data?.createdAt).slice(0,10)}</td>
+                    <td className={`badge bg-${badgeColor} mt-2 `}>{data?.status}</td>
                     <td>
                       <div className="d-flex gap-2">
                         <button className="btn btn-link text-primary" title="Edit">

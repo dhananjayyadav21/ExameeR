@@ -86,9 +86,11 @@ const ContentState = (props) => {
         setPYQ(json.data);
         if (json.myPYQ) {
           setMyPYQ(json.myPYQ);
+          setdashPYQ(json.myPYQ)
         }
         if (json.allPYQ) {
           setAllPYQ(json.allPYQ);
+          setdashPYQ(json.allPYQ)
         }
       }
       return json;
@@ -107,9 +109,11 @@ const ContentState = (props) => {
         setVideo(json.data);
         if (json.myVideo) {
           setMyVideo(json.myVideo);
+          setdasVideo(json.myVideo);
         }
         if (json.allVideo) {
           setAllVideo(json.allVideo);
+          setdasVideo(json.allVideo);
         }
       }
       return json;

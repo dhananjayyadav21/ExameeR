@@ -10,8 +10,8 @@ const Courses = () => {
     <div id="courses" className="min-vh-100 p-3 py-4 px-md-4">
       {/* Header with Add Course Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="h4 fw-bold text-dark">Courses</h1>
-        <button className="btn btn-primary d-flex align-items-center gap-2">
+        <h1 className="h4 fw-bold text-dark dashbord-heading-text">Courses</h1>
+        <button className="btn btn-primary d-flex align-items-center gap-2 dashbord-upload-btn-text">
           <svg
             className="bi bi-plus-circle"
             width="20"

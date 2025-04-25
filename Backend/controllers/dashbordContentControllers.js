@@ -20,11 +20,13 @@ const dasContentDeatails = async (req, res) => {
             ? req.query.type
             : "notes";
 
-        const search = (req.query.search !== undefined && req.query.search !== null && req.query.search !== '')
-            ? req.query.search
-            : a;
-
-            console.log(category,status, search, searchType)
+        const search = req.query.search;
+            if (!search) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Search Field is empty !',
+                })
+            }
 
         const regex = new RegExp(search, 'i');
 

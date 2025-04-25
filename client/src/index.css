@@ -649,7 +649,8 @@ form label {
   .notes-heroSection h2,
   .video-heroSection h2,
   .mylearning-heroSection h2,
-  .serchContent-heroSection h2 {
+  .serchContent-heroSection h2,
+  .dashbord-heading-text {
     font-size: large;
   }
 
@@ -662,7 +663,8 @@ form label {
     font-size: x-small;
   }
 
-  .Qpaper-heroSection h2 {
+  .Qpaper-heroSection h2,
+  .dashbord-upload-btn-text {
     font-size: medium;
   }
 
@@ -686,11 +688,13 @@ form label {
     width: 200px;
   }
 
-  .mobile-h {
+  .mobile-h,
+  .dashbord-heading-text {
     font-size: medium;
   }
 
-  .mobile-btn-fs {
+  .mobile-btn-fs,
+  .dashbord-upload-btn-text {
     font-size: x-small;
   }
 }

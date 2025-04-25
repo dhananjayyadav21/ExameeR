@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
@@ -6,140 +6,164 @@ import {
   faEdit,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import ContentContext from '../../context/ContentContext'
+import * as GlobalUrls from "../../GlobalURL"
+import { toast } from "react-toastify";
+
 
 const VideoLectures = () => {
+  const context = useContext(ContentContext);
+  const { searchDashContent, dasVideo, getVideo } = context;
+
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState("sciTechnology");
+  const [status, setStatus] = useState("public");
+  const [isloading, setIsloading] = useState(false);
+
+
+  //--get data-----------
+  useEffect(() => {
+    getVideo();
+    // eslint-disable-next-line
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsloading(true);
+    try {
+      const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${search}&category=${category}&status=${status}&type=video`);
+      if (res.success === false) {
+        toast.warning(res.message || "No matching content found", {
+          position: "top-right"
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsloading(false);
+    }
+  }
+
+  let btnColor = {};
+  dasVideo.forEach(e => {
+    if (`${e.status} === "public"`) {
+      btnColor = "info";
+    } else if (`${e.status} === "draft"`) {
+      btnColor = "warning";
+    } else if (`${e.status} === "archived"`) {
+      btnColor = "danger";
+    }
+  });
   return (
     <div id="videoLectures" className="min-vh-100 p-2 py-4 px-md-4">
       {/* Header with Add Video Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="h2 font-weight-bold text-dark">Video Lectures</h1>
-        <button className="btn btn-purple px-4 py-2 d-flex align-items-center">
-          <FontAwesomeIcon icon={faPlus} className="me-2" /> Upload Video Lecture
-        </button>
+        <h1 className="h2 font-weight-bold text-dark dashbord-heading-text">Video Lectures</h1>
+        <Link to="/uploadPYQ" className="text-decoration-none text-dark">
+          <button className="btn btn-info px-4 py-2 d-flex align-items-center dashbord-upload-btn-text">
+            <FontAwesomeIcon icon={faPlus} className="me-2" /> Upload Video Lecture
+          </button>
+        </Link>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white p-4 rounded border border-light mb-4">
-        <div className="d-flex flex-wrap gap-3">
-          <div className="flex-fill" style={{ minWidth: "200px" }}>
-            <label className="form-label">Search Videos</label>
-            <input type="text" placeholder="Search by title or topic..." className="form-control" />
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-4 rounded border mb-4"
+      >
+        <div className="row g-3">
+          <div className="col-md">
+            <label className="form-label fw-semibold">Search</label>
+            <input
+              type="text"
+              placeholder="Search Notes..."
+              className="form-control"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
-          <div className="w-48">
-            <label className="form-label">Subject</label>
-            <select className="form-select">
-              <option value="">All Subjects</option>
-              <option value="programming">Programming</option>
-              <option value="database">Database</option>
-              <option value="networking">Networking</option>
+          <div className="col-md-2">
+            <label className="form-label fw-semibold">Category</label>
+            <select
+              className="form-select"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="sciTechnology">Sci-Technology</option>
+              <option value="commerce">Commerce</option>
+              <option value="artscivils">Arts & Civils</option>
             </select>
           </div>
-          <div className="w-48">
-            <label className="form-label">Duration</label>
-            <select className="form-select">
-              <option value="">All Durations</option>
-              <option value="0-15">0-15 minutes</option>
-              <option value="15-30">15-30 minutes</option>
-              <option value="30+">30+ minutes</option>
+          <div className="col-md-2">
+            <label className="form-label fw-semibold">Status</label>
+            <select
+              className="form-select"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="public">Active</option>
+              <option value="draft">Draft</option>
+              <option value="archived">Archived</option>
             </select>
           </div>
         </div>
-      </div>
+      </form>
 
       {/* Video Grid */}
-      <div className="row g-3">
-        {/* Video Card 1 */}
-        <div className="col-12 col-md-6 col-lg-4">
-          <div className="bg-white rounded border border-light overflow-hidden">
-            <div className="position-relative">
-              <img
-                src="https://newexamee.netlify.app/assets/img/cource.jpg"
-                alt="Video Thumbnail"
-                className="img-fluid"
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <div
-                className="position-absolute top-0 start-0 w-100 h-100 bg-black d-flex align-items-center justify-content-center"
-                style={{ opacity: 0.4 }}
-              >
-                <FontAwesomeIcon icon={faPlayCircle} className="text-white" size="3x" />
-              </div>
-              <span
-                className="position-absolute bottom-0 end-0 bg-black text-white"
-                style={{ opacity: 0.75, padding: "0.25rem 0.5rem", borderRadius: "0.25rem" }}
-              >
-                25:30
-              </span>
-            </div>
-            <div className="p-3">
-              <div className="d-flex justify-content-between align-items-start mb-2">
-                <h3 className="h5 text-dark">Introduction to Data Structures</h3>
-                <div className="px-2 py-1 text-xs font-weight-bold text-purple bg-light rounded-pill">New</div>
-              </div>
-              <p className="text-muted mb-4">
-                Learn the fundamentals of data structures and their implementations.
-              </p>
-              <div className="d-flex justify-content-between align-items-center">
-                <span className="text-muted">Uploaded: Feb 10, 2024</span>
-                <div className="d-flex gap-2">
-                  <span className="p-2 text-primary" title="Edit">
-                    <FontAwesomeIcon icon={faEdit} />
-                  </span>
-                  <span className="p-2 text-danger" title="Delete">
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      {isloading && (<h4 className="my-4"> Loding..... </h4>)}
+      {!isloading && dasVideo.length > 0 && (
+        <div className="row g-3">
           {/* Video Card 1 */}
-          <div className="col-12 col-md-6 col-lg-4">
-          <div className="bg-white rounded border border-light overflow-hidden">
-            <div className="position-relative">
-              <img
-                src="https://newexamee.netlify.app/assets/img/cource.jpg"
-                alt="Video Thumbnail"
-                className="img-fluid"
-                style={{ height: "200px", objectFit: "cover" }}
-              />
-              <div
-                className="position-absolute top-0 start-0 w-100 h-100 bg-black d-flex align-items-center justify-content-center"
-                style={{ opacity: 0.4 }}
-              >
-                <FontAwesomeIcon icon={faPlayCircle} className="text-white" size="3x" />
-              </div>
-              <span
-                className="position-absolute bottom-0 end-0 bg-black text-white"
-                style={{ opacity: 0.75, padding: "0.25rem 0.5rem", borderRadius: "0.25rem" }}
-              >
-                25:30
-              </span>
-            </div>
-            <div className="p-3">
-              <div className="d-flex justify-content-between align-items-start mb-2">
-                <h3 className="h5 text-dark">Introduction to Data Structures</h3>
-                <div className="px-2 py-1 text-xs font-weight-bold text-purple bg-light rounded-pill">New</div>
-              </div>
-              <p className="text-muted mb-4">
-                Learn the fundamentals of data structures and their implementations.
-              </p>
-              <div className="d-flex justify-content-between align-items-center">
-                <span className="text-muted">Uploaded: Feb 10, 2024</span>
-                <div className="d-flex gap-2">
-                  <span className="p-2 text-primary" title="Edit">
-                    <FontAwesomeIcon icon={faEdit} />
-                  </span>
-                  <span className="p-2 text-danger" title="Delete">
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                  </span>
+          {dasVideo.map((data, i) => (
+            <div className="col-12 col-md-6 col-lg-4">
+              <div className="bg-white rounded border border-light overflow-hidden" style={{minHeight:'400px'}}>
+                <div className="position-relative">
+                  <iframe
+                    width="100%"
+                    height="200"
+                    src={`https://www.youtube.com/embed/${data?.fileUrl}`}
+                    title="YouTube video player"
+                    FrameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                  {/* <img
+                    src="https://newexamee.netlify.app/assets/img/cource.jpg"
+                    alt="Video Thumbnail"
+                    className="img-fluid"
+                    style={{ height: "200px", objectFit: "cover" }}
+                  /> */}
+                  <div
+                    className="position-absolute top-0 start-0 w-100 h-100 bg-black d-flex align-items-center justify-content-center"
+                    style={{ opacity: 0.4 }}
+                  >
+                    <FontAwesomeIcon icon={faPlayCircle} className="text-white" size="3x" />
+                  </div>
+                </div>
+                <div className="p-3">
+                  <div className="d-flex justify-content-between align-items-start mb-2">
+                    <h3 className="h5 text-dark">{(data?.title).slice(0, 50)}</h3>
+                    <div className={`px-2 py-1 text-xs font-weight-bold text-dark bg-${btnColor} rounded-2`}>{data?.status}</div>
+                  </div>
+                  <p className="text-muted mb-4">
+                    {(data?.description).slice(0, 90)}
+                  </p>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span className="text-muted">Uploaded: {(data?.createdAt).slice(0, 10)}</span>
+                    <div className="d-flex gap-2">
+                      <span className="p-2 text-primary" title="Edit">
+                        <FontAwesomeIcon icon={faEdit} />
+                      </span>
+                      <span className="p-2 text-danger" title="Delete">
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </div>))}
+        </div>)}
 
       {/* Pagination */}
       <div className="row g-2 d-flex justify-content-center mt-4">
@@ -156,6 +180,7 @@ const VideoLectures = () => {
           </nav>
         </div>
       </div>
+
     </div>
   );
 };
