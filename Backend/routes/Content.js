@@ -1,6 +1,7 @@
 const ContentController = require("../controllers/ContentController");
 const MylearningControllers = require('../controllers/MyLearningConrollers');
 const searchController = require('../controllers/SearchControllers');
+const dashboardContentControllers = require('../controllers/dashbordContentControllers');
 const fetchUser = require("../middleware/fetchUser");
 const router = require('express').Router();
 
@@ -15,6 +16,7 @@ const router = require('express').Router();
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);
+  router.get('/dashbordContent',fetchUser, dashboardContentControllers.dasContentDeatails);
 
   router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
   router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);

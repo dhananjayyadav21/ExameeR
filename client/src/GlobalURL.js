@@ -21,7 +21,8 @@ export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ`
 export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
 
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
-export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent` 
+export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent`
+export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
 
 export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
 export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   

@@ -63,9 +63,11 @@ const ContentState = (props) => {
         setNotes(json.data);
         if (json.myNotes) {
           setMyNotes(json.myNotes);
+          setdashNotes(json.myNotes);
         }
         if (json.allNotes) {
           setAllNotes(json.allNotes);
+          setdashNotes(json.allNotes);
         }
       }
       return json;
@@ -194,14 +196,31 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.SEARCHCONTENT_URL}`,
       );
-      if (json.success === true) {
-        setMyLearningNotes(json.notesData);
-        setMyLearningVideo(json.videoData)
-        setMyLearningPYQ(json.pyqData)
+      return json;
+    } catch (error) { 
+      console.log("Do not fetch search details Data due to some error", error); 
+    }
+  };
+
+
+  //---SEARCH FROM CONTENT () using Get Httpservice  
+  const searchDashContent = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.SEARDASHCHCONTENT_URL}`,
+      );
+      if (json.type === "notes") {
+        setdashNotes(json.results);
+      }
+      if (json.type === "pyq") {
+        setdashPYQ(json.results);
+      }
+      if (json.type === "video") {
+        setdasVideo(json.results);
       }
       return json;
-    } catch (error) {
-      console.log("Do not fetch setLatest Data due to some error", error); 
+    } catch (error) {  
+      console.log("Do not fetch dashContent Data due to some error", error); 
     }
   };
 
@@ -220,15 +239,20 @@ const ContentState = (props) => {
   const [AllVideo, setAllVideo] = useState([]);
 
   const [LatestData, setLatestData] = useState([]);
+
   const [MyLearningData, setMyLearningData] = useState([]);
   const [MyLearningNotes, setMyLearningNotes] = useState([]);
   const [MyLearningVideo, setMyLearningVideo] = useState([]);
   const [MyLearningPYQ, setMyLearningPYQ] = useState([]);
 
   const [searchContentData, setSearchContentData] = useState([]);
+
+  const [dashNotes, setdashNotes] = useState([]);
+  const [dashPYQ, setdashPYQ] = useState([]);
+  const [dasVideo, setdasVideo] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, setSearchContentData, searchContentData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, setSearchContentData, searchContentData, searchDashContent, dashNotes, dashPYQ, dasVideo, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
       {props.children}
     </ContentContext.Provider>
   );

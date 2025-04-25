@@ -1,170 +1,162 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faPlusCircle, 
-  faEdit, 
-  faDownload, 
-  faTrashAlt, 
-  faFileAlt 
+import {
+  faPlusCircle,
+  faEdit,
+  faDownload,
+  faTrashAlt,
+  faFileAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import ContentContext from '../../context/ContentContext'
+import * as GlobalUrls from "../../GlobalURL"
+import { toast } from "react-toastify";
+
 
 const StudyNotes = () => {
+  const context = useContext(ContentContext);
+  const { searchDashContent, dashNotes, getNote } = context;
+
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState("sciTechnology");
+  const [status, setStatus] = useState("public");
+  const [isloading, setIsloading] = useState(false);
+
+
+  //--get data-----------
+  useEffect( () => {
+    getNote();
+    // eslint-disable-next-line
+  }, []);
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    setIsloading(true);
+     try {
+      const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${search}&category=${category}&status=${status}&type=notes`);
+      if(res.success === false){
+        toast.warning(res.message || "No matching content found", {
+          position: "top-right"
+        });
+      } 
+     } catch (error) {
+       console.error(error);
+     } finally{
+      setIsloading(false);
+     } 
+  }
+
   return (
     <>
       <div id="notes" className="min-vh-100 p-3 py-4 px-md-4">
         {/* Header with Add Notes Button */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="h2 font-weight-bold text-dark">Study Notes</h1>
-          <button className="btn btn-success d-flex align-items-center">
-            <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
-            Upload Notes
-          </button>
+          <Link to="/uploadNotes" className="text-decoration-none text-dark">
+            <button className="btn btn-success d-flex align-items-center">
+              <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
+              Upload Notes
+            </button>
+          </Link>
         </div>
-    
+
 
         {/* Filters and Search */}
-        <div className="bg-white p-4 rounded border mb-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-4 rounded border mb-4"
+        >
           <div className="row g-3">
             <div className="col-md">
               <label className="form-label fw-semibold">Search</label>
               <input
                 type="text"
-                placeholder="Search courses..."
+                placeholder="Search Notes..."
                 className="form-control"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
             <div className="col-md-3">
               <label className="form-label fw-semibold">Category</label>
-              <select className="form-select">
-                <option value="">All Categories</option>
-                <option value="programming">Programming</option>
-                <option value="design">Design</option>
-                <option value="business">Business</option>
+              <select
+                className="form-select"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="sciTechnology">Sci-Technology</option>
+                <option value="commerce">Commerce</option>
+                <option value="artscivils">Arts & Civils</option>
               </select>
             </div>
             <div className="col-md-3">
               <label className="form-label fw-semibold">Status</label>
-              <select className="form-select">
-                <option value="">All Status</option>
-                <option value="active">Active</option>
+              <select
+                className="form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="public">Active</option>
                 <option value="draft">Draft</option>
                 <option value="archived">Archived</option>
               </select>
             </div>
           </div>
-        </div>
+        </form>
+
 
         {/* Notes List */}
+        {isloading && <h4 className="my-4">Loding.....</h4> }
+        { !isloading && (
         <div className="bg-white rounded border border-light overflow-hidden">
           <div className="table-responsive">
             <table className="table">
               <thead className="bg-light">
                 <tr>
                   <th className="text-left">Title</th>
-                  <th className="text-left">Subject</th>
-                  <th className="text-left">Semester</th>
+                  <th className="text-left">Category</th>
+                  <th className="text-left">Tags</th>
                   <th className="text-left">Upload Date</th>
-                  <th className="text-left">Size</th>
+                  <th className="text-left">Status</th>
                   <th className="text-left">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {/* Note Item 1 */}
-                <tr className="table-hover">
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <FontAwesomeIcon
-                        icon={faFileAlt}
-                        className="text-secondary me-2"
-                        size="lg"
-                      />
-                      <span className="text-sm text-dark">Data Structures Notes</span>
-                    </div>
-                  </td>
-                  <td className="text-secondary">Computer Science</td>
-                  <td className="text-secondary">Semester 3</td>
-                  <td className="text-secondary">2024-02-10</td>
-                  <td className="text-secondary">2.4 MB</td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-link text-primary" title="Edit">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      <button className="btn btn-link text-success" title="Download">
-                        <FontAwesomeIcon icon={faDownload} />
-                      </button>
-                      <button className="btn btn-link text-danger" title="Delete">
-                        <FontAwesomeIcon icon={faTrashAlt} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                {/* Note Item 1 */}
-                <tr className="table-hover">
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <FontAwesomeIcon
-                        icon={faFileAlt}
-                        className="text-secondary me-2"
-                        size="lg"
-                      />
-                      <span className="text-sm text-dark">Data Structures Notes</span>
-                    </div>
-                  </td>
-                  <td className="text-secondary">Computer Science</td>
-                  <td className="text-secondary">Semester 3</td>
-                  <td className="text-secondary">2024-02-10</td>
-                  <td className="text-secondary">2.4 MB</td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-link text-primary" title="Edit">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      <button className="btn btn-link text-success" title="Download">
-                        <FontAwesomeIcon icon={faDownload} />
-                      </button>
-                      <button className="btn btn-link text-danger" title="Delete">
-                        <FontAwesomeIcon icon={faTrashAlt} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                {/* Note Item 1 */}
-                <tr className="table-hover">
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <FontAwesomeIcon
-                        icon={faFileAlt}
-                        className="text-secondary me-2"
-                        size="lg"
-                      />
-                      <span className="text-sm text-dark">Data Structures Notes</span>
-                    </div>
-                  </td>
-                  <td className="text-secondary">Computer Science</td>
-                  <td className="text-secondary">Semester 3</td>
-                  <td className="text-secondary">2024-02-10</td>
-                  <td className="text-secondary">2.4 MB</td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-link text-primary" title="Edit">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      <button className="btn btn-link text-success" title="Download">
-                        <FontAwesomeIcon icon={faDownload} />
-                      </button>
-                      <button className="btn btn-link text-danger" title="Delete">
-                        <FontAwesomeIcon icon={faTrashAlt} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                {dashNotes.map((data, i) => (
+                  <tr className="table-hover">
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <FontAwesomeIcon
+                          icon={faFileAlt}
+                          className="text-secondary me-2"
+                          size="lg"
+                        />
+                        <span className="text-sm text-dark">Data Structures Notes</span>
+                      </div>
+                    </td>
+                    <td className="text-secondary">{data.title}</td>
+                    <td className="text-secondary">Semester 3</td>
+                    <td className="text-secondary">2024-02-10</td>
+                    <td className="text-secondary">2.4 MB</td>
+                    <td>
+                      <div className="d-flex gap-2">
+                        <button className="btn btn-link text-primary" title="Edit">
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        <button className="btn btn-link text-success" title="Download">
+                          <FontAwesomeIcon icon={faDownload} />
+                        </button>
+                        <button className="btn btn-link text-danger" title="Delete">
+                          <FontAwesomeIcon icon={faTrashAlt} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>))}
               </tbody>
             </table>
           </div>
-        </div>
+        </div> )}
 
         {/* Pagination */}
         <div className="row g-3 d-flex justify-content-between align-items-center mt-3">
