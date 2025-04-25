@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
 import { postData } from "../services/HttpService"
 import * as GlobalUrls from "../GlobalURL"
 import { toast } from "react-toastify";
 
-const Contact = () => {
+const Contact = ({setProgress}) => {
+
+    //----[useEffect]---------
+    useEffect(() => {
+        setProgress(0);
+        setProgress(100);
+        // eslint-disable-next-line
+      }, []);
 
     //----[userSupport]---------
     const userSupport = async (Data) => {

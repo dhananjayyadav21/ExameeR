@@ -1,12 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import NotesItem from '../components/NotesItem';
 import VideoItem from '../components/VideoItem';
 import QPaperItem from '../components/QPaperItem';
 import ContentContext from '../context/ContentContext';
 
-const SearchContent = () => {
+const SearchContent = ({setProgress}) => {
     const context = useContext(ContentContext);
     const { searchContentData } = context
+
+    //----[useEffect]---------
+      useEffect(() => {
+        setProgress(0);
+        setProgress(100);
+        // eslint-disable-next-line
+      }, []);
 
     return (
         <div className='container-lg'>

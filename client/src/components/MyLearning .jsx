@@ -12,14 +12,16 @@ import {
     faQuestionCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-const MyLearning = () => {
+const MyLearning = ({setProgress}) => {
     const context = useContext(ContentContext);
     const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ } = context;
 
     useEffect(() => {
+        setProgress(0);
         if (localStorage.getItem('token')) {
             getDataFromMyLearning();
         }
+        setProgress(100);
         // eslint-disable-next-line
     }, []);
     return (

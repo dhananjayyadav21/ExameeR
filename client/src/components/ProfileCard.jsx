@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as GlobalUrls from "../GlobalURL"
 
-const ProfileCardWithBanner = () => {
+const ProfileCardWithBanner = ({setProgress}) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [user, setUser] = useState("");
 
   useEffect(() => {
+    setProgress(0);
     if (token) {
       getUser();
     } else {
       navigate("/login");
     }
+    setProgress(100);
     // eslint-disable-next-line
   }, []);
 

@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-do
 import { toast } from "react-toastify";
 import hasUserRole from '../utils/hasUserRole';
 
-const Navbar = () => {
+const Navbar = ({setProgress}) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     let location = useLocation();
@@ -13,26 +13,34 @@ const Navbar = () => {
     const [openMBDisply, setopenMBDisply] = useState("");
 
     const openMobileBar = ()=>{
+        setProgress(0);
         setDisplay("");
         setopenMBDisply("none");
+        setProgress(100);
     }
 
     const closeMobileBar = ()=>{
+        setProgress(0);
         setDisplay("none");
         setopenMBDisply("");
+        setProgress(100);
     }
 
     const handleCategoryChange = (category)=>{
+        setProgress(0);
         searchParams.set('category', category);
         navigate(`?${searchParams.toString()}`);
+        setProgress(100);
     }
 
     const handleLogout = ()=>{
+        setProgress(0);
         localStorage.clear();
         navigate("/login")
         toast.error("You're now logged out !!", {
             position: "top-right"
         });
+        setProgress(100);
     }
 
   return (

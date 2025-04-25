@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
-  faPlayCircle,
   faEdit,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
@@ -134,12 +133,12 @@ const VideoLectures = () => {
                     className="img-fluid"
                     style={{ height: "200px", objectFit: "cover" }}
                   /> */}
-                  <div
+                  {/* <div
                     className="position-absolute top-0 start-0 w-100 h-100 bg-black d-flex align-items-center justify-content-center"
                     style={{ opacity: 0.4 }}
                   >
                     <FontAwesomeIcon icon={faPlayCircle} className="text-white" size="3x" />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="p-3">
                   <div className="d-flex justify-content-between align-items-start mb-2">

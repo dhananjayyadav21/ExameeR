@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaCompass, FaMapSigns, FaHome, FaArrowLeft, FaEnvelope } from 'react-icons/fa';
 
-const ErrorPage = () => {
+const ErrorPage = ({ setProgress }) => {
   const navigate = useNavigate();
-  
+
+  //----[useEffect]---------
+  useEffect(() => {
+    setProgress(0);
+    setProgress(100);
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <section id="ErrorPage" className="error-page">
       <Container className="min-vh-100 d-flex flex-column justify-content-center text-center">
@@ -39,11 +46,11 @@ const ErrorPage = () => {
         <Row>
           <Col>
             <div className="button-group">
-              <Button className="btn-indigo" onClick={()=>navigate('/')}>
+              <Button className="btn-indigo" onClick={() => navigate('/')}>
                 <FaArrowLeft className="mr-2" />
                 Return Home
               </Button>
-              <Button variant="outline-secondary" className="btn-contact" onClick={()=>navigate('/contact')}>
+              <Button variant="outline-secondary" className="btn-contact" onClick={() => navigate('/contact')}>
                 <FaEnvelope className="mr-2" />
                 Contact Support
               </Button>

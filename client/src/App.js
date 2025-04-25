@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ContentState from "./context/ContentState";
+import LoadingBar from 'react-top-loading-bar';
 
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
@@ -35,13 +36,15 @@ import UploadNotes from "./Dashbord/components/UploadNotes";
 import UploadPYQ from "./Dashbord/components/UploadPYQ";
 import UploadVideo from "./Dashbord/components/UploadVideo";
 import UploadCourse from "./Dashbord/components/UploadCourse";
+import { useState } from "react";
 
 function App() {
+  const [progress, setProgress] = useState(0);
 
   const GoogleAuthWraper = () => {
     return (
       <GoogleOAuthProvider clientId="81360539878-c23jclv7lc31cf8m2remiso4qk6kthd4.apps.googleusercontent.com">
-        <Auth></Auth>
+        <Auth setProgress={setProgress}></Auth>
       </GoogleOAuthProvider>
     )
   }
@@ -50,66 +53,67 @@ function App() {
     <>
       <ContentState>
         <BrowserRouter>
-          <Navbar />
+          <Navbar setProgress={setProgress} />
+          <LoadingBar color='#f11946' height={3}  progress={progress} onLoaderFinished={() => setProgress(0)} />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home setProgress={setProgress}/>} />
 
             <Route path="/profile" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<ProfileCard />}
+              element={<ProfileCard  setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
             <Route path="/myLearning" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<MyLearning />}
+              element={<MyLearning setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
             <Route path="/notes" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Notes />}
+              element={<Notes setProgress={setProgress}/>}
               redirectTo="/auth"
             />} />
 
             <Route path="/cource" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Cource />}
+              element={<Cource setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
             <Route path="/Q-paper" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<QPaper />}
+              element={<QPaper setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
             <Route path="/video" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Video />}
+              element={<Video setProgress={setProgress}/>}
               redirectTo="/auth"
             />} />
 
             <Route path="/contact" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Contact />}
+              element={<Contact setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
             <Route path="/pdfviewer" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<PdfViewer />}
+              element={<PdfViewer setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
-            <Route path="/searchcontent" element={<SearchContent />} />
+            <Route path="/searchcontent" element={<SearchContent setProgress={setProgress} />} />
 
 
             {/* Fix: Add '*' to the dashboard route -------------------------------- */}
             <Route path="/dashboard" element={
               <RoleBasedRoute
                 allowedRoles={["Admin", "Instructor"]}
-                element={<Dashboard />}
+                element={<Dashboard/>}
               />
             }>
               <Route index element={<DashbordHead />} />
@@ -135,12 +139,6 @@ function App() {
               redirectTo="/"
             />} />
 
-            <Route path="/auth" element={<GuardedRoute
-              hasToBeAuthenticated={false}
-              element={<GoogleAuthWraper />}
-              redirectTo="/"
-            />} />
-
             <Route path="/login" element={<GuardedRoute
               hasToBeAuthenticated={false}
               element={<GoogleAuthWraper />}
@@ -155,16 +153,16 @@ function App() {
 
             <Route path="/verifyEmail" element={<GuardedRoute
               hasToBeAuthenticated={false}
-              element={<VerifyEmail />}
+              element={<VerifyEmail setProgress={setProgress}/>}
               redirectTo="/"
             />} />
 
             <Route path="/forgotPassword" element={<GuardedRoute
               hasToBeAuthenticated={false}
-              element={<ForgotPassword />}
+              element={<ForgotPassword setProgress={setProgress}/>}
               redirectTo="/"
             />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage setProgress={setProgress}/>} />
 
           </Routes>
         </BrowserRouter>

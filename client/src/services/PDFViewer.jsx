@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const PdfViewer = () => {
+const PdfViewer = ({setProgress}) => {
   const [searchParams] = useSearchParams();
-  const url = searchParams.get('view'); 
+  const url = searchParams.get('view');
   const iframeUrl = `https://drive.google.com/file/d/${url}/preview`
 
   const navigate = useNavigate();
-  const onClose = ()=>{
+  const onClose = () => {
     navigate(-1);
   }
+
+  //----[useEffect]---------
+  useEffect(() => {
+    setProgress(0);
+    setProgress(100);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -32,7 +39,7 @@ const PdfViewer = () => {
           title="PDF Viewer"
         ></iframe>
       </div>
-      <div style={{backgroundColor: '#1E1E1E', minHeight:"10px"}}>
+      <div style={{ backgroundColor: '#1E1E1E', minHeight: "10px" }}>
       </div>
     </>
   );

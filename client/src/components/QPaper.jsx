@@ -5,7 +5,7 @@ import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-const QPaper = () => {
+const QPaper = ({setProgress}) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const context = useContext(ContentContext);
@@ -14,9 +14,11 @@ const QPaper = () => {
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
     useEffect(() => {
+        setProgress(0);
         if (localStorage.getItem('token')) {
             getPYQ(`${GlobalUrls.GETPYQ_URL}?category=${category}&sortBy=${sortBy}`);
         }
+        setProgress(100);
         // eslint-disable-next-line
     }, [category, sortBy]);
 

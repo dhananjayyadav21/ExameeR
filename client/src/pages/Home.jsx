@@ -10,16 +10,18 @@ import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { toast } from 'react-toastify'
 
-const Home = () => {
+const Home = ({setProgress}) => {
   const context = useContext(ContentContext);
   const { getNote, searchContent, setSearchContentData } = context
   const navigate = useNavigate();
 
   //--get note-------------------
   useEffect(() => {
+    setProgress(0);
     if (localStorage.getItem('token')) {
       getNote();
     }
+    setProgress(100);
     // eslint-disable-next-line
   }, []);
 

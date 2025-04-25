@@ -6,7 +6,7 @@ import ContentContext from '../context/ContentContext'
 import * as GlobalUrls from "../GlobalURL"
 
 
-const Notes = () => {
+const Notes = ({setProgress}) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const context = useContext(ContentContext);
@@ -15,9 +15,11 @@ const Notes = () => {
   const category = searchParams.get('category') || 'sciTechnology';
   const sortBy = searchParams.get('sortBy') || 'latest';
   useEffect(() => {
+    setProgress(0);
     if (localStorage.getItem('token')) {
       getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`);
     }
+    setProgress(100);
     // eslint-disable-next-line
   }, [category, sortBy]);
 
