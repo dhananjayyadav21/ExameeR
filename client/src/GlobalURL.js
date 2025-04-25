@@ -22,11 +22,13 @@ export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
 
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
 export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent`
-export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
 
 export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
 export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   
 export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`   
+
+export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
+export const DASHANALYTICS_URL = `${BASEURL}content/dashbordAnlytics`
   
 
 

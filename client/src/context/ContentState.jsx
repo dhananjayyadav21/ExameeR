@@ -130,7 +130,6 @@ const ContentState = (props) => {
       );
       if (json.success === true) {
         setLatestData(json.data);
-        console.log("datacone", json.data)
       }
       return json;
     } catch (error) {
@@ -139,7 +138,7 @@ const ContentState = (props) => {
   };
 
 
-//========================================[ MY Learning ]=================================================
+  //========================================  [ MY Learning ]=================================================
   //--- Add INMYLEARNING() using Post Httpservice 
   const addInMylearning = async (Data) => {
     try {
@@ -187,27 +186,28 @@ const ContentState = (props) => {
       }
       return json;
     } catch (error) {
-      console.log("Do not fetch setLatest Data due to some error", error); 
+      console.log("Do not fetch setLatest Data due to some error", error);
     }
   };
 
 
 
-  //=====================================[ Search Content ]=========================================
-   //---SEARCH FROM CONTENT () using Get Httpservice  
-   const searchContent = async (URL) => {
+  //======================================================[ Search Content ]=========================================
+  //---SEARCH FROM CONTENT () using Get Httpservice  
+  const searchContent = async (URL) => {
     try {
       const json = await getData(
         URL || `${GlobalUrls.SEARCHCONTENT_URL}`,
       );
       return json;
-    } catch (error) { 
-      console.log("Do not fetch search details Data due to some error", error); 
+    } catch (error) {
+      console.log("Do not fetch search details Data due to some error", error);
     }
   };
 
 
-  //---SEARCH FROM CONTENT () using Get Httpservice  
+  //======================================================[ DASHBOARD ]=========================================
+  //---SEARCH FROM CONTENT () using Get Httpservice   //DASHANALYTICS_URL
   const searchDashContent = async (URL) => {
     try {
       const json = await getData(
@@ -223,8 +223,23 @@ const ContentState = (props) => {
         setdasVideo(json.results);
       }
       return json;
-    } catch (error) {  
-      console.log("Do not fetch dashContent Data due to some error", error); 
+    } catch (error) {
+      console.log("Do not fetch dashContent Data due to some error", error);
+    }
+  };
+
+  //---Dashboard Analytics () using Get Httpservice  
+  const getdashAnalytics = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.DASHANALYTICS_URL}`,
+      );
+      if(json.success === true){
+        setDashAnalytics(json);
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch dash analytics due to some error", error);
     }
   };
 
@@ -254,9 +269,17 @@ const ContentState = (props) => {
   const [dashNotes, setdashNotes] = useState([]);
   const [dashPYQ, setdashPYQ] = useState([]);
   const [dasVideo, setdasVideo] = useState([]);
+
+  const [dashAnalytics, setDashAnalytics] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, LatestData, addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContent, setSearchContentData, searchContentData, searchDashContent, dashNotes, dashPYQ, dasVideo, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload }}>
+      value={{ 
+        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, 
+        LatestData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
+        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
+        searchContent, setSearchContentData, searchContentData, 
+        searchDashContent, dashNotes, dashPYQ, dasVideo, getdashAnalytics, dashAnalytics
+         }}>
       {props.children}
     </ContentContext.Provider>
   );

@@ -138,9 +138,9 @@ const DashbordHead = () => {
                 <tbody>
                   {LatestData.map((e, i) => (
                     <tr className="border-bottom">
-                      <td>{e.type}</td>
-                      <td>{e.title}</td>
-                      <td>{(e.createdAt).slice(0, 10)}</td>
+                      <td>{e?.type}</td>
+                      <td>{e?.title}</td>
+                      <td>{(e?.createdAt).slice(0, 10)}</td>
                       <td>
                         <span className={`badge bg-${badgeColor} text-white`}>
                           {e.status}

@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-import { faFile,faUpload, faVideo, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import ContentContext from '../../context/ContentContext'
+import { toast } from "react-toastify";
 
 const Analytics = () => {
+  const context = useContext(ContentContext);
+  const { getdashAnalytics, dashAnalytics,  getLatestUpload, LatestData } = context;
+
+  useEffect(() => {
+    getdashAnalytics();
+    getLatestUpload();
+    // eslint-disable-next-line
+  }, []);
+
+  if (dashAnalytics.success === false) {
+    toast.warning(dashAnalytics.message || "Some error please try again", {
+      position: "top-right"
+    });
+  }
+
   return (
     <section id="analytics" className="min-vh-100 bg-darkgray text-white p-2 p-lg-4">
       <div className="container-lg py-4">
@@ -12,10 +30,10 @@ const Analytics = () => {
           <div className="col-12 col-md-6 col-lg-3 mb-4">
             <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Total Notes</h3>
-              <p className="h2 font-weight-bold mt-2">124</p>
+              <p className="h2 font-weight-bold mt-2">{dashAnalytics?.data?.notes?.total}</p>
               <div className="d-flex align-items-center mt-2 text-success">
                 <FontAwesomeIcon icon={faArrowUp} className="w-4 h-4 mr-1" />
-                <span className="small">+12% this month</span>
+                <span className="small">+{dashAnalytics?.data?.notes?.growth}% this month</span>
               </div>
             </div>
           </div>
@@ -23,10 +41,10 @@ const Analytics = () => {
           <div className="col-12 col-md-6 col-lg-3 mb-4">
             <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Total Courses</h3>
-              <p className="h2 font-weight-bold mt-2">36</p>
+              <p className="h2 font-weight-bold mt-2">0</p>
               <div className="d-flex align-items-center mt-2 text-success">
                 <FontAwesomeIcon icon={faArrowUp} className="w-4 h-4 mr-1" />
-                <span className="small">+8% this month</span>
+                <span className="small">+0% this month</span>
               </div>
             </div>
           </div>
@@ -34,10 +52,10 @@ const Analytics = () => {
           <div className="col-12 col-md-6 col-lg-3 mb-4">
             <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Video Lectures</h3>
-              <p className="h2 font-weight-bold mt-2">89</p>
+              <p className="h2 font-weight-bold mt-2">{dashAnalytics?.data?.videos?.total}</p>
               <div className="d-flex align-items-center mt-2 text-success">
                 <FontAwesomeIcon icon={faArrowUp} className="w-4 h-4 mr-1" />
-                <span className="small">+15% this month</span>
+                <span className="small">{dashAnalytics?.data?.videos?.growth}% this month</span>
               </div>
             </div>
           </div>
@@ -45,10 +63,10 @@ const Analytics = () => {
           <div className="col-12 col-md-6 col-lg-3 mb-4">
             <div className="bg-dark p-4 rounded border border hover:border-info transition duration-300">
               <h3 className="h5 text-muted">Previous Year Papers</h3>
-              <p className="h2 font-weight-bold mt-2">245</p>
+              <p className="h2 font-weight-bold mt-2">{dashAnalytics?.data?.pyqs?.total}</p>
               <div className="d-flex align-items-center mt-2 text-success">
                 <FontAwesomeIcon icon={faArrowUp} className="w-4 h-4 mr-1" />
-                <span className="small">+20% this month</span>
+                <span className="small">{dashAnalytics?.data?.pyqs?.growth}% this month</span>
               </div>
             </div>
           </div>
@@ -68,54 +86,19 @@ const Analytics = () => {
                 </tr>
               </thead>
               <tbody>
+                {LatestData.map((data,i) => (
                 <tr className="border-bottom">
                   <td className="py-3">
                     <span className="badge bg-info text-light">
-                      <FontAwesomeIcon icon={faFile} /> Note
+                        {data?.type}
                     </span>
                   </td>
-                  <td className="py-3">C Programming Fundamentals</td>
-                  <td className="py-3">2024-02-15</td>
+                  <td className="py-3">{data?.title}</td>
+                  <td className="py-3">{(data?.createdAt).slice(0,10)}</td>
                   <td className="py-3">
-                    <span className="text-success">Published</span>
+                    <span className="text-success">{data?.status}</span>
                   </td>
-                </tr>
-                <tr className="border-bottom">
-                  <td className="py-3">
-                    <span className="badge bg-purple text-light">
-                      <FontAwesomeIcon icon={faBook} /> Course
-                    </span>
-                  </td>
-                  <td className="py-3">Data Structures Advanced</td>
-                  <td className="py-3">2024-02-14</td>
-                  <td className="py-3">
-                    <span className="text-success">Published</span>
-                  </td>
-                </tr>
-                <tr className="border-bottom">
-                  <td className="py-3">
-                    <span className="badge bg-danger text-light">
-                      <FontAwesomeIcon icon={faVideo} /> Video
-                    </span>
-                  </td>
-                  <td className="py-3">Algorithm Analysis Lecture</td>
-                  <td className="py-3">2024-02-13</td>
-                  <td className="py-3">
-                    <span className="text-warning">Processing</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-3">
-                    <span className="badge bg-success text-light">
-                      <FontAwesomeIcon icon={faBook} /> PYQ
-                    </span>
-                  </td>
-                  <td className="py-3">2023 Final Examination</td>
-                  <td className="py-3">2024-02-12</td>
-                  <td className="py-3">
-                    <span className="text-success">Published</span>
-                  </td>
-                </tr>
+                </tr>))}
               </tbody>
             </table>
           </div>
@@ -124,9 +107,11 @@ const Analytics = () => {
         {/* Quick Upload Actions */}
         <div className="row">
           <div className="col-12 col-md-6 col-lg-3 mb-4">
+            <Link to="/dashboard" className="text-decoration-none">
             <button className="d-flex align-items-center justify-content-center bg-dark p-4 rounded">
               <FontAwesomeIcon icon={faUpload} className="w-6 h-6 text-info" />
             </button>
+            </Link>
           </div>
         </div>
       </div>

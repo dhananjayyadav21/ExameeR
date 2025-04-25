@@ -16,7 +16,9 @@ const router = require('express').Router();
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);
+
   router.get('/dashbordContent',fetchUser, dashboardContentControllers.dasContentDeatails);
+  router.get('/dashbordAnlytics',fetchUser, dashboardContentControllers.dashbordAnlytics);
 
   router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
   router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);

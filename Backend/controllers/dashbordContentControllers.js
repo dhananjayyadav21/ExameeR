@@ -3,7 +3,7 @@ const PYQ = require("../model/pyqModel");
 const Video = require("../model/videoModel");
 const userModel = require("../model/User");
 
-// ------[ NOTES: Get all notes detail ] -------
+// ------[  Get all notes, pyq, video, detail ] -------
 const dasContentDeatails = async (req, res) => {
 
     try {
@@ -16,17 +16,17 @@ const dasContentDeatails = async (req, res) => {
             ? req.query.status
             : "public";
 
-        const searchType = (req.query.type !== undefined && req.query.type !== null  && req.query.type !== '')
+        const searchType = (req.query.type !== undefined && req.query.type !== null && req.query.type !== '')
             ? req.query.type
             : "notes";
 
         const search = req.query.search;
-            if (!search) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Search Field is empty !',
-                })
-            }
+        if (!search) {
+            return res.status(400).json({
+                success: false,
+                message: 'Search Field is empty !',
+            })
+        }
 
         const regex = new RegExp(search, 'i');
 
@@ -224,7 +224,7 @@ const dasContentDeatails = async (req, res) => {
                     results: result
                 })
             }
-            
+
         }
     } catch (error) { // if accured some error
         console.error(error);
@@ -236,4 +236,95 @@ const dasContentDeatails = async (req, res) => {
 };
 
 
-module.exports = { dasContentDeatails }
+// ------[  Get all analytics dashbord ] -------
+const dashbordAnlytics = async (req, res) => {
+    const userId = req.user._id;
+  
+    // Get the user
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    if (user.Role !== 'Instructor' && user.Role !== 'Admin') {
+        return res.status(400).json({
+          success: false,
+          message: 'You are not able to use this features !',
+        });
+      }
+  
+    const isInstructor = user.Role === 'Instructor';
+    const isAdmin = user.Role === 'Admin';
+  
+    console.log(user.Role);
+    const calcGrowth = (current, previous) => {
+      if (previous === 0) return current === 0 ? 0 : 100;
+      return (((current - previous) / previous) * 100).toFixed(2);
+    };
+  
+    try {
+      const today = new Date();
+      const oneMonthAgo = new Date();
+      oneMonthAgo.setMonth(today.getMonth() - 1);
+  
+      const models = { notes: Note, videos: Video, pyqs: PYQ };
+      const results = {};
+  
+      for (const key in models) {
+        const Model = models[key];
+  
+        // 👇 Add base filter (only non-deleted)
+        const baseFilter = { deletedAt: null };
+  
+        // 👇 Add author filter if instructor
+        if (isInstructor) {
+          baseFilter.uploadedBy = userId; // Assuming createdBy field stores the author's id
+        }
+  
+        const currentMonthFilter = {
+          ...baseFilter,
+          createdAt: { $gte: oneMonthAgo }
+        };
+  
+        const lastMonthFilter = {
+          ...baseFilter,
+          createdAt: { $lt: oneMonthAgo }
+        };
+  
+        const currentCount = await Model.countDocuments(currentMonthFilter);
+        const lastMonthCount = await Model.countDocuments(lastMonthFilter);
+        const totalCount = await Model.countDocuments(baseFilter);
+  
+        results[key] = {
+          total: totalCount,
+          growth: calcGrowth(currentCount, lastMonthCount)
+        };
+      }
+
+        return res.status(200).json({
+          success: true,
+          message: 'Your analytics data!',
+          data :{
+            notes: results.notes,
+            videos: results.videos,
+            pyqs: results.pyqs
+          }
+        });
+ 
+  
+    } catch (err) {
+      console.log(err.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Some error on fetching analytics data!',
+      });
+    }
+  };
+  
+
+
+
+module.exports = { dasContentDeatails, dashbordAnlytics }
