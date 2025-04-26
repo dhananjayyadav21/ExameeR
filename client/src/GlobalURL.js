@@ -33,6 +33,8 @@ export const GETSTUDENTSBYROLE_URL = `${BASEURL}content/getStudentsByRole`
 export const ADDSTUDENS_URL = `${BASEURL}content/addStudent` 
 export const CHANGESTUDENTSTATUS_URL = `${BASEURL}content/changeStudentStatus`
 export const DELETESTUDENT_URL = `${BASEURL}content/deleteStudent` 
+export const UPDATESTUDENT_URL = `${BASEURL}content/updateStudent`  
+
   
 
 

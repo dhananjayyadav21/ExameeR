@@ -1,25 +1,29 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ContentContext from '../../context/ContentContext'; // Assume you have addStudent function here
 import { toast } from 'react-toastify';
 
-const AddStudent = () => {
+const UpdateStudent = () => {
   const context = useContext(ContentContext);
-  const { addStudent } = context; // Function to call API for adding student
-  const navigate = useNavigate();
+  const { updateStudent } = context; // Function to call API for adding student
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { Username, Email, Password, Status, Role, isVerified , _id} = location.state || {}; 
+  console.log(_id);
+  
   //--- formdata of the update form
   const [formData, setFormData] = useState({
-    Username: '',
-    Email: '',
-    Password: '',
-    Role: 'Student',
-    Status: 'active',
-    isVerified: false,
+    Username: Username,
+    Email: Email,
+    Password: Password,
+    Role: Role,
+    Status: Status,
+    isVerified: isVerified,
   });
   const [uploading, setUploading] = useState(false);
 
-  //--handle onchange student info
+ //--handle onchange student info
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -33,16 +37,16 @@ const AddStudent = () => {
     e.preventDefault();
     setUploading(true);
 
-    if (!formData.Username || !formData.Email || !formData.Password) { //check fields
-      toast.warning('Username, Email, and Password are required!', { position: 'top-right' });
+    if (!formData.Username || !formData.Email) {
+      toast.warning('Username, Email are required!', { position: 'top-right' });
       setUploading(false);
       return;
     }
 
     try {
-      const response = await addStudent(formData); //call api and add user
+      const response = await updateStudent(formData,_id); //call api 
       if (response.success === true) {
-        toast.success('Student added successfully!', { position: 'top-right' });
+        toast.success('Student update successfully!', { position: 'top-right' });
         setFormData({
           Username: '',
           Email: '',
@@ -53,25 +57,25 @@ const AddStudent = () => {
         });
         navigate(-1);
       } else {
-        toast.error(response.message || 'Failed to add student.', { position: 'top-right' });
+        toast.error(response.message || 'Failed to update student.', { position: 'top-right' });
       }
-    } catch (error) { //handle error
-      toast.error('Failed to add student. Try again.', { position: 'top-right' });
+    } catch (error) { // handle error
+      toast.error('Failed to update student. Try again.', { position: 'top-right' });
     }
     setUploading(false);
   };
 
   return (
-    <>
+    <> 
       <div className="container-fluid">
         <div className="row">
 
           {/* Form Column */}
-          <div className="col-12 col-md-10">
+          <div className="col-12 col-md-10 h-100" style={{minHeight:'92vh'}}>
             <div className="container-fluid mt-4 shadow-sm">
               <div className="text-start">
                 <h5 className="card-title mb-0 py-2">
-                  Add<span className="text-info"> New Student</span>
+                  Update<span className="text-warning"> Student Info</span>
                 </h5>
               </div>
             </div>
@@ -163,9 +167,9 @@ const AddStudent = () => {
                     <button
                       type="submit"
                       disabled={uploading}
-                      className="btn btn-primary"
+                      className="btn btn-warning"
                     >
-                      {uploading ? 'Saving...' : 'Add Student'}
+                      {uploading ? 'Saving...' : 'UpdateStudent'}
                     </button>
 
                   </form>
@@ -175,7 +179,7 @@ const AddStudent = () => {
           </div>
 
           {/* Brand Logo Column */}
-          <div className="d-none d-md-flex col-md-2 bg-light align-items-center justify-content-center">
+          <div className="d-none d-md-flex col-md-2 bg-light align-items-center justify-content-center" style={{minHeight:'92vh'}}>
             <img
               src="./assets/img/brandlog.png"
               alt="brand"
@@ -191,4 +195,4 @@ const AddStudent = () => {
   );
 };
 
-export default AddStudent;
+export default UpdateStudent;

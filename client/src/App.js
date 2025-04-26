@@ -38,6 +38,7 @@ import UploadVideo from "./Dashbord/components/UploadVideo";
 import UploadCourse from "./Dashbord/components/UploadCourse";
 import { useState } from "react";
 import AddStudent from "./Dashbord/components/AddStudent";
+import UpdateStudent from "./Dashbord/components/UpdateStudent";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -133,6 +134,8 @@ function App() {
             <Route path="/uploadVideo" element={<UploadVideo />} />
             <Route path="/uploadCourse" element={<UploadCourse />} />
             <Route path="/addStudent" element={<AddStudent />} />
+            <Route path="/updatestudent" element={<UpdateStudent />} />
+
 
             {/* Authentication Routes */}
             <Route path="/auth" element={<GuardedRoute

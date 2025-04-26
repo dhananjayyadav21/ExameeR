@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ContentContext from "./ContentContext";
-import { getData, postData, patchData, deleteData } from "../services/HttpService"
+import { getData, postData, patchData, deleteData, putData } from "../services/HttpService"
 import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
@@ -274,6 +274,20 @@ const ContentState = (props) => {
     }
   };
 
+
+   //--Update student info () using Post Httpservice 
+   const updateStudent = async (Data,id) => {
+    try {
+      const json = await putData(
+        `${GlobalUrls.UPDATESTUDENT_URL}/${id}`,
+        Data 
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not update student due to some error", error);
+    }
+  };
+
   //---Delete Student details and mylibrary
   const deleteStudent = async (id) => {
     try {
@@ -336,7 +350,7 @@ const ContentState = (props) => {
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo,
-        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, deleteStudent, changeStudentStatus
+        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus
       }}>
       {props.children}
     </ContentContext.Provider>

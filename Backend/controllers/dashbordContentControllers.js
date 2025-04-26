@@ -237,7 +237,6 @@ const dasContentDeatails = async (req, res) => {
     }
 };
 
-
 // ------[  Get all analytics dashbord ] -------
 const dashbordAnlytics = async (req, res) => {
     const userId = req.user._id;
@@ -324,6 +323,8 @@ const dashbordAnlytics = async (req, res) => {
         });
     }
 };
+
+
 
 
 // ------[  Get student by roles ] -------
@@ -441,11 +442,10 @@ const getStudentsByRole = async (req, res) => {
     }
 };
 
-
 // ------- [ add student ] ------------
 const addStudent = async (req, res) => {
     try {
-        const { Username, Email, Password, Role, Status, isVerified } = req.body;
+        const { Username, Email, Password, Status, isVerified } = req.body;
 
         const userId = req.user._id;
         const requester = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
@@ -516,6 +516,52 @@ const addStudent = async (req, res) => {
     }
 };
 
+// ------- [ Update student ] ------------
+const updateStudent = async (req, res) => {
+    try {
+        const { Username, Email, Password, Status, isVerified } = req.body;
+
+        const userId = req.user._id;
+        const requester = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+
+        // Check if requester is Admin or Instructor
+        if (!requester || (requester.Role !== 'Admin' && requester.Role !== 'Instructor')) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only Admin or Instructor can add students.'
+            });
+        }
+
+        const { id } = req.params;
+        const user = await userModel.findById(id);
+        if (!user)
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+
+        if (Username) user.Username = Username;
+        if (Email) user.Email = Email;
+        if (Password) {
+            const salt = await bcrypt.genSalt(10);
+            user.Password = await bcrypt.hash(Password, salt);
+        }
+        if (Status) user.Status = Status;
+        if (isVerified) user.isVerified = isVerified;
+
+        await user.save();
+        return res.json({
+            success: true,
+            message: 'User updated successfully'
+        });
+    } catch (error) {
+        console.error('Edit user error:', error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
 
 // Change status active/inactive
 const changeStudentStatus = async (req, res) => {
@@ -599,4 +645,4 @@ const deleteStudent = async (req, res) => {
 
 
 
-module.exports = { dasContentDeatails, dashbordAnlytics, getStudentsByRole, addStudent, changeStudentStatus, deleteStudent }
+module.exports = { dasContentDeatails, dashbordAnlytics, getStudentsByRole, addStudent, updateStudent, changeStudentStatus, deleteStudent }

@@ -8,7 +8,7 @@ import {
   faLock,
   faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL";
 import { toast } from "react-toastify";
@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 const StudentManagement = () => {
   const context = useContext(ContentContext);
   const { getStudentsByRole, studentsByRole, changeStudentStatus, deleteStudent } = context;
+
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -63,7 +65,7 @@ const StudentManagement = () => {
     });
   }
 
-  //-- delete students and its records ------
+  //-- delete students and its records ------ /dashboard-student-managemen/updatestudent
   const [showModal, setShowModal] = useState(false);
   const deleteStudentCoinfirm = async (student) => {
     const res = await deleteStudent(student._id);
@@ -71,6 +73,13 @@ const StudentManagement = () => {
     getStudentsByRole();
     toast.success(res.message || "Successfully delete student !", {
       position: "top-right"
+    });
+  }
+
+  //---- handle student update
+  const handleUpdate = (student)=>{
+    navigate("/updatestudent", {
+      state: student
     });
   }
 
@@ -178,8 +187,9 @@ const StudentManagement = () => {
                     <td className="py-3 px-4">
                       <div className="d-flex gap-2 justify-content-end">
                         <button className="btn btn-outline-primary" title="Edit">
-                          <FontAwesomeIcon icon={faEdit} />
+                          <FontAwesomeIcon icon={faEdit}  onClick={()=>{handleUpdate(student)}} />
                         </button>
+
                         {student?.Status === "active" ?
                           <><button className="btn btn-outline-warning" title="Block" onClick={() => { chnageStatus(student) }}>
                             <FontAwesomeIcon icon={faLock} />
@@ -188,6 +198,7 @@ const StudentManagement = () => {
                             <FontAwesomeIcon icon={faUnlock} />
                           </button></>
                         }
+
                         <button className="btn btn-outline-danger" title="Delete" onClick={() => { setShowModal(true) }}>
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
