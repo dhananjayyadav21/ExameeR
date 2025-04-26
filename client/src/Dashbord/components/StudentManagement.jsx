@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "../../utils/Modal";
 import {
   faPlus,
   faEdit,
@@ -35,6 +36,7 @@ const StudentManagement = () => {
     // eslint-disable-next-line
   }, []);
 
+  //-- handle search form sumbit ------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
@@ -52,10 +54,22 @@ const StudentManagement = () => {
     }
   }
 
-  const chnageStatus = (student) => {
-    changeStudentStatus(student._id);
+  //-- change student status ------
+  const chnageStatus = async (student) => {
+    const res = await changeStudentStatus(student._id);
     getStudentsByRole();
-    toast.success("Successfully change student status", {
+    toast.success(res.message || "Successfully change student status !", {
+      position: "top-right"
+    });
+  }
+
+  //-- delete students and its records ------
+  const [showModal, setShowModal] = useState(false);
+  const deleteStudentCoinfirm = async (student) => {
+    const res = await deleteStudent(student._id);
+    setShowModal(false);
+    getStudentsByRole();
+    toast.success(res.message || "Successfully delete student !", {
       position: "top-right"
     });
   }
@@ -131,47 +145,55 @@ const StudentManagement = () => {
             </thead>
             <tbody>
               {currentStudents.map((student, i) => (
-                <tr className="table-row hover:bg-gray-50" key={i}>
-                  <td className="py-3 px-4">
-                    <div className="d-flex align-items-center">
-                      <img
-                        src={student?.Profile || "/assets/img/Avtar.jpg"}
-                        alt="Student"
-                        className="w-8 h-8 rounded-circle me-3"
-                        style={{ height: "30px", width: "30px" }}
-                      />
-                      <span className="text-sm font-medium text-gray-800">{student?.Username}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-sm text-gray-600">{(student?.ExmeeUserId).slice(0, 8)}</td>
-                  <td className="py-3 px-4 text-sm text-gray-600">{student?.Email}</td>
-                  <td className="py-3 px-4">
-                    <div className="d-flex flex-wrap gap-1">
-                      <span className="badge bg-primary text-white">{student?.isVerified}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="badge bg-success text-white">{student?.Status}</span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="d-flex gap-2 justify-content-end">
-                      <button className="btn btn-outline-primary" title="Edit">
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      {student?.Status === "active" ?
-                        <><button className="btn btn-outline-warning" title="Block" onClick={() => { chnageStatus(student) }}>
-                          <FontAwesomeIcon icon={faLock} />
-                        </button></> :
-                        <><button className="btn btn-outline-info" title="Block" onClick={() => { chnageStatus(student) }}>
-                          <FontAwesomeIcon icon={faUnlock} />
-                        </button></>
-                      }
-                      <button className="btn btn-outline-danger" title="Delete">
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>))}
+                <>
+                  <Modal
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    onConfirm={() => deleteStudentCoinfirm(student)}
+                    heading={`Do you want to remove ${student?.Username} user.`}
+                    subHeading={`“Yes or No”`}
+                  />
+                  <tr className="table-row hover:bg-gray-50" key={i}>
+                    <td className="py-3 px-4">
+                      <div className="d-flex align-items-center">
+                        <img
+                          src={student?.Profile || "/assets/img/Avtar.jpg"}
+                          alt="Student"
+                          className="w-8 h-8 rounded-circle me-3"
+                          style={{ height: "30px", width: "30px" }}
+                        />
+                        <span className="text-sm font-medium text-gray-800">{student?.Username}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-gray-600">{(student?.ExmeeUserId).slice(0, 8)}</td>
+                    <td className="py-3 px-4 text-sm text-gray-600">{student?.Email}</td>
+                    <td className="py-3 px-4">
+                      <div className="d-flex flex-wrap gap-1">
+                        <span className="badge bg-primary text-white">{student?.isVerified}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <span className="badge bg-success text-white">{student?.Status}</span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="d-flex gap-2 justify-content-end">
+                        <button className="btn btn-outline-primary" title="Edit">
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        {student?.Status === "active" ?
+                          <><button className="btn btn-outline-warning" title="Block" onClick={() => { chnageStatus(student) }}>
+                            <FontAwesomeIcon icon={faLock} />
+                          </button></> :
+                          <><button className="btn btn-outline-info" title="Block" onClick={() => { chnageStatus(student) }}>
+                            <FontAwesomeIcon icon={faUnlock} />
+                          </button></>
+                        }
+                        <button className="btn btn-outline-danger" title="Delete" onClick={() => { setShowModal(true) }}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr> </>))}
             </tbody>
           </table>
         </div>
