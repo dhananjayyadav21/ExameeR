@@ -20,6 +20,15 @@ const VideoLectures = () => {
   const [status, setStatus] = useState("public");
   const [isloading, setIsloading] = useState(false);
 
+  // Calculate current page Video
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const indexOfLastVideo = currentPage * itemsPerPage;
+  const indexOfFirstVideo = indexOfLastVideo - itemsPerPage;
+  const currentVideo = dasVideo.slice(indexOfFirstVideo, indexOfLastVideo);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(dasVideo.length / itemsPerPage);
 
   //--get data-----------
   useEffect(() => {
@@ -114,9 +123,9 @@ const VideoLectures = () => {
       {!isloading && dasVideo.length > 0 && (
         <div className="row g-3">
           {/* Video Card 1 */}
-          {dasVideo.map((data, i) => (
+          {currentVideo.map((data, i) => (
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="bg-white rounded border border-light overflow-hidden" style={{minHeight:'400px'}}>
+              <div className="bg-white rounded border border-light overflow-hidden" style={{ minHeight: '400px' }}>
                 <div className="position-relative">
                   <iframe
                     width="100%"
@@ -164,19 +173,38 @@ const VideoLectures = () => {
             </div>))}
         </div>)}
 
-      {/* Pagination */}
-      <div className="row g-2 d-flex justify-content-center mt-4">
-        <div className="col-md-6">
-          <div className="text-muted">Showing 1 to 2 of 15 Cources</div>
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-between align-items-center p-3">
+        <div className="text-muted">
+          Showing {indexOfFirstVideo + 1} to {Math.min(indexOfLastVideo, dasVideo.length)} of {dasVideo.length} Students
         </div>
-        <div className="col-md-6">
-          <nav>
-            <button className="btn btn-outline-secondary me-2">Previous</button>
-            <button className="btn btn-warning me-2">1</button>
-            <button className="btn btn-outline-secondary me-2">2</button>
-            <button className="btn btn-outline-secondary me-2">3</button>
-            <button className="btn btn-outline-secondary">Next</button>
-          </nav>
+
+        <div>
+          <button
+            className="btn btn-outline-secondary me-2"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-outline-secondary"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          >
+            Next
+          </button>
         </div>
       </div>
 

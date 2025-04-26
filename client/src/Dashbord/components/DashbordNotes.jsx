@@ -22,28 +22,37 @@ const StudyNotes = () => {
   const [status, setStatus] = useState("public");
   const [isloading, setIsloading] = useState(false);
 
+  // Calculate current page Notes
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const indexOfLastNotes = currentPage * itemsPerPage;
+  const indexOfFirstNotes = indexOfLastNotes - itemsPerPage;
+  const currentNotes = dashNotes.slice(indexOfFirstNotes, indexOfLastNotes);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(dashNotes.length / itemsPerPage);
 
   //--get data-----------
-  useEffect( () => {
+  useEffect(() => {
     getNote();
     // eslint-disable-next-line
   }, []);
 
-  const handleSubmit = async (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
-     try {
+    try {
       const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${search}&category=${category}&status=${status}&type=notes`);
-      if(res.success === false){
+      if (res.success === false) {
         toast.warning(res.message || "No matching content found", {
           position: "top-right"
         });
-      } 
-     } catch (error) {
-       console.error(error);
-     } finally{
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setIsloading(false);
-     } 
+    }
   }
 
   let badgeColor = {};
@@ -117,73 +126,93 @@ const StudyNotes = () => {
 
 
         {/* Notes List */}
-        {isloading && <h4 className="my-4">Loding.....</h4> }
-        { !isloading && (
-        <div className="bg-white rounded border border-light overflow-hidden">
-          <div className="table-responsive">
-            <table className="table">
-              <thead className="bg-light">
-                <tr>
-                  <th className="text-left">Title</th>
-                  <th className="text-left">Category</th>
-                  <th className="text-left">Profesor</th>
-                  <th className="text-left">Upload Date</th>
-                  <th className="text-left">Status</th>
-                  <th className="text-left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Note Item 1 */}
-                {dashNotes.map((data, i) => (
-                  <tr className="table-hover">
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <FontAwesomeIcon
-                          icon={faFileAlt}
-                          className="text-secondary me-2"
-                          size="lg"
-                        />
-                        <span className="text-sm text-dark">{data?.title}</span>
-                      </div>
-                    </td>
-                    <td className="text-secondary">{data?.category}</td>
-                    <td className="text-secondary">{data?.professor}</td>
-                    <td className="text-secondary">{(data?.createdAt).slice(0,10)}</td>
-                    <td className={`badge bg-${badgeColor} mt-2 `}>{data?.status}</td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        <button className="btn btn-link text-primary" title="Edit">
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        <button className="btn btn-link text-success" title="Download">
-                          <FontAwesomeIcon icon={faDownload} />
-                        </button>
-                        <button className="btn btn-link text-danger" title="Delete">
-                          <FontAwesomeIcon icon={faTrashAlt} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>))}
-              </tbody>
-            </table>
-          </div>
-        </div> )}
+        {isloading && <h4 className="my-4">Loding.....</h4>}
+        {!isloading && (
+          <div className="bg-white rounded border border-light overflow-hidden">
+            <div className="table-responsive">
+              <table className="table">
+                <thead className="bg-light">
+                  <tr>
+                    <th className="text-left">Title</th>
+                    <th className="text-left">Category</th>
+                    <th className="text-left">Profesor</th>
+                    <th className="text-left">Upload Date</th>
+                    <th className="text-left">Status</th>
+                    <th className="text-left">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* Note Item 1 */}
+                  {currentNotes.map((data, i) => (
+                    <tr className="table-hover">
+                      <td>
+                        <div className="d-flex align-items-center">
+                          <FontAwesomeIcon
+                            icon={faFileAlt}
+                            className="text-secondary me-2"
+                            size="lg"
+                          />
+                          <span className="text-sm text-dark">{data?.title}</span>
+                        </div>
+                      </td>
+                      <td className="text-secondary">{data?.category}</td>
+                      <td className="text-secondary">{data?.professor}</td>
+                      <td className="text-secondary">{(data?.createdAt).slice(0, 10)}</td>
+                      <td className={`badge bg-${badgeColor} mt-2 `}>{data?.status}</td>
+                      <td>
+                        <div className="d-flex gap-2">
+                          <button className="btn btn-link text-primary" title="Edit">
+                            <FontAwesomeIcon icon={faEdit} />
+                          </button>
+                          <button className="btn btn-link text-success" title="Download">
+                            <FontAwesomeIcon icon={faDownload} />
+                          </button>
+                          <button className="btn btn-link text-danger" title="Delete">
+                            <FontAwesomeIcon icon={faTrashAlt} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>))}
+                </tbody>
+              </table>
+            </div>
+          </div>)}
 
-        {/* Pagination */}
-        <div className="row g-3 d-flex justify-content-between align-items-center mt-3">
-          <div className="col-md-6">
-            <div className="text-muted">Showing 1 to 2 of 24 entries</div>
+        {/* Pagination Controls */}
+        <div className="d-flex justify-content-between align-items-center p-3">
+          <div className="text-muted">
+            Showing {indexOfFirstNotes + 1} to {Math.min(indexOfLastNotes, dashNotes.length)} of {dashNotes.length} Students
           </div>
-          <div className="col-md-6">
-            <nav>
-              <button className="btn btn-outline-secondary me-2">Previous</button>
-              <button className="btn btn-success me-2">1</button>
-              <button className="btn btn-outline-secondary me-2">2</button>
-              <button className="btn btn-outline-secondary me-2">3</button>
-              <button className="btn btn-outline-secondary">Next</button>
-            </nav>
+
+          <div>
+            <button
+              className="btn btn-outline-secondary me-2"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            >
+              Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              className="btn btn-outline-secondary"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            >
+              Next
+            </button>
           </div>
         </div>
+
       </div>
     </>
   );

@@ -14,6 +14,15 @@ const PreviousQuestions = () => {
   const [status, setStatus] = useState("public");
   const [isloading, setIsloading] = useState(false);
 
+  // Calculate current page pyq
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const indexOfLastPYQ = currentPage * itemsPerPage;
+  const indexOfFirstPYQ = indexOfLastPYQ - itemsPerPage;
+  const currentPYQ = dashPYQ.slice(indexOfFirstPYQ, indexOfLastPYQ);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(dashPYQ.length / itemsPerPage);
 
   //--get data-----------
   useEffect(() => {
@@ -123,7 +132,7 @@ const PreviousQuestions = () => {
               </thead>
               <tbody>
                 {/* Question Paper Item 1 */}
-                {dashPYQ.map((data, i) => (
+                {currentPYQ.map((data, i) => (
                   < tr className="table-row">
                     <td>
                       <div className="d-flex align-items-center">
@@ -154,21 +163,41 @@ const PreviousQuestions = () => {
           </div>
         </div>)}
 
-      {/* Pagination */}
-      <div className="row g-2 d-flex justify-content-center mt-4">
-        <div className="col-md-6">
-          <div className="text-muted">Showing 1 to 2 of 15 Cources</div>
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-between align-items-center p-3">
+        <div className="text-muted">
+          Showing {indexOfFirstPYQ + 1} to {Math.min(indexOfLastPYQ, dashPYQ.length)} of {dashPYQ.length} Students
         </div>
-        <div className="col-md-6">
-          <nav>
-            <button className="btn btn-outline-secondary me-2">Previous</button>
-            <button className="btn btn-info me-2">1</button>
-            <button className="btn btn-outline-secondary me-2">2</button>
-            <button className="btn btn-outline-secondary me-2">3</button>
-            <button className="btn btn-outline-secondary">Next</button>
-          </nav>
+
+        <div>
+          <button
+            className="btn btn-outline-secondary me-2"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-outline-secondary"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          >
+            Next
+          </button>
         </div>
       </div>
+
     </div >
   );
 };

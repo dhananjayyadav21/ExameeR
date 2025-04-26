@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faBookOpen,
+  // faBookOpen,
   faStickyNote,
   faVideo,
   faQuestionCircle,
@@ -44,12 +44,12 @@ const Sidebar = () => {
           <span className="fw-semibold">Videos</span>
         </Link>
 
-        <Link
+        {/* <Link
           to="dashboard-courses"
           className="d-flex align-items-center px-4 py-3 text-dark text-decoration-none hover-bg-light">
           <FontAwesomeIcon icon={faBookOpen} className="me-3" />
           <span className="fw-semibold">Courses</span>
-        </Link>
+        </Link> */}
 
         <Link
           to="dashboard-student-management"

@@ -18,6 +18,16 @@ const StudentManagement = () => {
   const [status, setStatus] = useState("");
   const [isloading, setIsloading] = useState(false);
 
+  // Calculate current page students
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(4);
+  const indexOfLastStudent = currentPage * itemsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - itemsPerPage;
+  const currentStudents = studentsByRole.slice(indexOfFirstStudent, indexOfLastStudent);
+
+  // Calculate total pages
+  const totalPages = Math.ceil(studentsByRole.length / itemsPerPage);
+
   useEffect(() => {
     getStudentsByRole();
     // eslint-disable-next-line
@@ -81,7 +91,7 @@ const StudentManagement = () => {
         </div>
       </form>
 
-      {isloading && <h4 className="my-4">Loding.....</h4> }
+      {isloading && <h4 className="my-4">Loding.....</h4>}
       {/* Students Table */}
       <div className="bg-white rounded-3 border border-gray-200 overflow-hidden my-4">
         <div className="overflow-auto">
@@ -109,7 +119,7 @@ const StudentManagement = () => {
               </tr>
             </thead>
             <tbody>
-              {studentsByRole.map((student, i) => (
+              {currentStudents.map((student, i) => (
                 <tr className="table-row hover:bg-gray-50" key={i}>
                   <td className="py-3 px-4">
                     <div className="d-flex align-items-center">
@@ -151,21 +161,41 @@ const StudentManagement = () => {
         </div>
       </div>
 
-      {/* Pagination */}
-      <div className="row g-2 d-flex justify-content-center mt-4">
-        <div className="col-md-6">
-          <div className="text-muted">Showing 1 to 2 of 15 Cources</div>
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-between align-items-center p-3">
+        <div className="text-muted">
+          Showing {indexOfFirstStudent + 1} to {Math.min(indexOfLastStudent, studentsByRole.length)} of {studentsByRole.length} Students
         </div>
-        <div className="col-md-6">
-          <nav>
-            <button className="btn btn-outline-secondary me-2">Previous</button>
-            <button className="btn btn-success me-2">1</button>
-            <button className="btn btn-outline-secondary me-2">2</button>
-            <button className="btn btn-outline-secondary me-2">3</button>
-            <button className="btn btn-outline-secondary">Next</button>
-          </nav>
+
+        <div>
+          <button
+            className="btn btn-outline-secondary me-2"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
+              onClick={() => setCurrentPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-outline-secondary"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          >
+            Next
+          </button>
         </div>
       </div>
+
     </div>
   );
 };
