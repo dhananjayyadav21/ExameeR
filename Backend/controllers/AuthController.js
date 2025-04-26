@@ -53,7 +53,7 @@ const register = async (req, res) => {
             return hash + Math.floor(Math.random() * 10000);
         }  
         const ExmeeUserIdBasedOnEmail = userIdBasedOnEmail(Email);
-        const ExmeeUserId = Jwt.sign(ExmeeUserIdBasedOnEmail, process.env.ExameeUserId_SECRATE)
+        const ExmeeUserId = Exa+ExmeeUserIdBasedOnEmail;
 
         // Create new user
         user = new userModel({

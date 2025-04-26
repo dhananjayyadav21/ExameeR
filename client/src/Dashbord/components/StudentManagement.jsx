@@ -5,14 +5,16 @@ import {
   faEdit,
   faTrash,
   faLock,
+  faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL";
 import { toast } from "react-toastify";
 
 const StudentManagement = () => {
   const context = useContext(ContentContext);
-  const { getStudentsByRole, studentsByRole } = context;
+  const { getStudentsByRole, studentsByRole, changeStudentStatus, deleteStudent } = context;
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -50,14 +52,24 @@ const StudentManagement = () => {
     }
   }
 
+  const chnageStatus = (student) => {
+    changeStudentStatus(student._id);
+    getStudentsByRole();
+    toast.success("Successfully change student status", {
+      position: "top-right"
+    });
+  }
+
   return (
     <div id="studentManagement" className="min-vh-100 p-3 py-4 px-md-4">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h2 font-weight-bold text-dark dashbord-heading-text">Student Management</h1>
-        <button className="btn btn-primary px-4 py-2 d-flex align-items-center dashbord-upload-btn-text">
-          <FontAwesomeIcon icon={faPlus} className="me-2" /> Add Student
-        </button>
+        <Link to="/addStudent" className="text-decoration-none text-dark">
+          <button className="btn btn-primary px-4 py-2 d-flex align-items-center dashbord-upload-btn-text">
+            <FontAwesomeIcon icon={faPlus} className="me-2" /> Add Student
+          </button>
+        </Link>
       </div>
 
       {/* Filters and Search */}
@@ -83,7 +95,6 @@ const StudentManagement = () => {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="">ALL </option>
               <option value="active">Active</option>
               <option value="inactive">In Active</option>
             </select>
@@ -147,9 +158,14 @@ const StudentManagement = () => {
                       <button className="btn btn-outline-primary" title="Edit">
                         <FontAwesomeIcon icon={faEdit} />
                       </button>
-                      <button className="btn btn-outline-warning" title="Block">
-                        <FontAwesomeIcon icon={faLock} />
-                      </button>
+                      {student?.Status === "active" ?
+                        <><button className="btn btn-outline-warning" title="Block" onClick={() => { chnageStatus(student) }}>
+                          <FontAwesomeIcon icon={faLock} />
+                        </button></> :
+                        <><button className="btn btn-outline-info" title="Block" onClick={() => { chnageStatus(student) }}>
+                          <FontAwesomeIcon icon={faUnlock} />
+                        </button></>
+                      }
                       <button className="btn btn-outline-danger" title="Delete">
                         <FontAwesomeIcon icon={faTrash} />
                       </button>

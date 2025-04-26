@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ContentContext from "./ContentContext";
-import { getData, postData } from "../services/HttpService"
+import { getData, postData, patchData, deleteData } from "../services/HttpService"
 import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
@@ -234,28 +234,70 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.DASHANALYTICS_URL}`,
       );
-      if(json.success === true){
+      if (json.success === true) {
         setDashAnalytics(json);
       }
       return json;
     } catch (error) {
       console.log("Do not fetch dash analytics due to some error", error);
     }
-  };  //GETSTUDENTSBYROLE_URL
+  };
 
+  //---Get Students By role----------------
   const getStudentsByRole = async (URL) => {
     try {
       const json = await getData(
         URL || `${GlobalUrls.GETSTUDENTSBYROLE_URL}`,
       );
-      if(json.success === true){
+      if (json.success === true) {
         setStudentsByRole(json.students);
       }
       return json;
     } catch (error) {
       console.log("Do not fetch students due to some error", error);
     }
-  }; 
+  };
+
+  //--Add Student () using Post Httpservice 
+  const addStudent = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ADDSTUDENS_URL}`,
+        Data
+      );
+      if (json.success === true) {
+        setStudentsByRole(studentsByRole.concat(json.user));
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not add student due to some error", error);
+    }
+  };
+
+  //---Delete Student details and mylibrary
+  const deleteStudent = async (id) => {
+    try {
+      const json = await deleteData(
+        `${GlobalUrls.DELETESTUDENT_URL}/${id}`,
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not delete student due to some error", error);
+    }
+  };
+
+  //--Change student status () using Post Httpservice 
+  const changeStudentStatus = async (id) => {
+    try {
+      const json = await patchData(
+        `${GlobalUrls.CHANGESTUDENTSTATUS_URL}/${id}`,
+      );
+      getStudentsByRole();
+      return json;
+    } catch (error) { 
+      console.log("Do not change student status due to some error", error);
+    }
+  };
 
 
   // eslint-disable-next-line
@@ -285,17 +327,17 @@ const ContentState = (props) => {
   const [dasVideo, setdasVideo] = useState([]);
 
   const [dashAnalytics, setDashAnalytics] = useState([]);
-
   const [studentsByRole, setStudentsByRole] = useState([]);
   return (
     <ContentContext.Provider
-      value={{ 
-        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, 
+      value={{
+        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,
         LatestData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
-        searchContent, setSearchContentData, searchContentData, 
-        searchDashContent, dashNotes, dashPYQ, dasVideo, getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole
-         }}>
+        searchContent, setSearchContentData, searchContentData,
+        searchDashContent, dashNotes, dashPYQ, dasVideo,
+        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, deleteStudent, changeStudentStatus
+      }}>
       {props.children}
     </ContentContext.Provider>
   );

@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Note = require('../model/notesModel');
 const PYQ = require("../model/pyqModel");
 const Video = require("../model/videoModel");
@@ -325,7 +326,7 @@ const dashbordAnlytics = async (req, res) => {
 };
 
 
-// ------[  Get studen by roles ] -------
+// ------[  Get student by roles ] -------
 const getStudentsByRole = async (req, res) => {
     try {
         const userId = req.user._id;
@@ -351,15 +352,13 @@ const getStudentsByRole = async (req, res) => {
             ? "active"
             : req.query.status;
 
-            const search = req.query.search || "gmail";
-            if (!search) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Search Field is empty !',
-                })
-            }
-
-        console.log(status, search)
+        const search = req.query.search || "gmail";
+        if (!search) {
+            return res.status(400).json({
+                success: false,
+                message: 'Search Field is empty !',
+            })
+        }
 
         if (!search) {
             return res.status(400).json({
@@ -443,7 +442,161 @@ const getStudentsByRole = async (req, res) => {
 };
 
 
+// ------- [ add student ] ------------
+const addStudent = async (req, res) => {
+    try {
+        const { Username, Email, Password, Role, Status, isVerified } = req.body;
+
+        const userId = req.user._id;
+        const requester = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+
+        // Check if requester is Admin or Instructor
+        if (!requester || (requester.Role !== 'Admin' && requester.Role !== 'Instructor')) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only Admin or Instructor can add students.'
+            });
+        }
+
+        // Basic validation
+        if (!Username || !Email || !Password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Username, Email, and Password are required.'
+            });
+        }
+
+        // Check if email already exists
+        const existingUser = await userModel.findOne({ Email });
+        if (existingUser) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email already exists.'
+            });
+        }
+
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(Password, salt);
+
+        // create ExmeeUserIdBasedOnEmail for uniq id
+        function userIdBasedOnEmail(userEmail) {
+            const hash = [...userEmail].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            return hash + Math.floor(Math.random() * 10000);
+        }
+        const ExmeeUserIdBasedOnEmail = userIdBasedOnEmail(Email);
+        const ExmeeUserId = "Exa" + ExmeeUserIdBasedOnEmail;
+
+        // Create new user
+        const newUser = new userModel({
+            Username,
+            Email,
+            Password: hashedPassword,
+            Role: 'Student', // Force role to Student even if something else comes
+            Status: Status || 'active',
+            isVerified: isVerified || false,
+            ExmeeUserId: ExmeeUserId
+        });
+
+        await newUser.save();
+
+        return res.status(201).json({
+            success: true,
+            message: 'Student created successfully.',
+            userId: newUser._id,
+            ExameeId: newUser.ExmeeUserId,
+            user: newUser
+        });
+    } catch (error) {
+        console.error('Error adding student:', error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error. Please try again later.'
+        });
+    }
+};
+
+
+// Change status active/inactive
+const changeStudentStatus = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const requester = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+
+        // Check if requester is Admin or Instructor
+        if (!requester || (requester.Role !== 'Admin' && requester.Role !== 'Instructor')) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only Admin or Instructor can change status.'
+            });
+        }
+
+        const { id } = req.params;
+
+        const user = await userModel.findById(id);
+        if (!user)
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+
+        user.Status = user.Status === 'active' ? 'inactive' : 'active';
+        await user.save();
+
+        return res.json({
+            success: true,
+            message: `User status changed to ${user.Status}`,
+            user
+        });
+    } catch (error) {
+        console.error('Change status error:', error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// Delete user
+const deleteStudent = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const requester = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+
+        // Check if requester is Admin or Instructor
+        if (!requester || (requester.Role !== 'Admin' && requester.Role !== 'Instructor')) {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Only Admin or Instructor can change status.'
+            });
+        }
+
+        const { id } = req.params;
+
+        // First, delete the user
+        const user = await userModel.findByIdAndDelete(id);
+        if (!user)
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+
+        // Then, delete user's MyLearning content
+        await MyLearningContent.deleteMany({ UserId: id });
+
+        return res.json({
+            success: true,
+            message: 'User and their learning content deleted successfully'
+        });
+    } catch (error) {
+        console.error('Delete user error:', error.message);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
 
 
 
-module.exports = { dasContentDeatails, dashbordAnlytics, getStudentsByRole }
+module.exports = { dasContentDeatails, dashbordAnlytics, getStudentsByRole, addStudent, changeStudentStatus, deleteStudent }

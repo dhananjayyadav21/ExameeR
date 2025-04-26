@@ -37,6 +37,7 @@ import UploadPYQ from "./Dashbord/components/UploadPYQ";
 import UploadVideo from "./Dashbord/components/UploadVideo";
 import UploadCourse from "./Dashbord/components/UploadCourse";
 import { useState } from "react";
+import AddStudent from "./Dashbord/components/AddStudent";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -131,6 +132,7 @@ function App() {
             <Route path="/uploadPYQ" element={<UploadPYQ />} />
             <Route path="/uploadVideo" element={<UploadVideo />} />
             <Route path="/uploadCourse" element={<UploadCourse />} />
+            <Route path="/addStudent" element={<AddStudent />} />
 
             {/* Authentication Routes */}
             <Route path="/auth" element={<GuardedRoute

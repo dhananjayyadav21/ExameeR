@@ -19,7 +19,10 @@ const router = require('express').Router();
 
   router.get('/dashbordContent',fetchUser, dashboardContentControllers.dasContentDeatails);
   router.get('/dashbordAnlytics',fetchUser, dashboardContentControllers.dashbordAnlytics);
-  router.get('/getStudentsByRole',fetchUser, dashboardContentControllers.getStudentsByRole);//
+  router.get('/getStudentsByRole',fetchUser, dashboardContentControllers.getStudentsByRole); 
+  router.post('/addStudent',fetchUser, dashboardContentControllers.addStudent);
+  router.patch('/changeStudentStatus/:id',fetchUser, dashboardContentControllers.changeStudentStatus);
+  router.delete('/deleteStudent/:id',fetchUser, dashboardContentControllers.deleteStudent);
 
   router.post('/addInMylearning',fetchUser, MylearningControllers.addInMylearning);
   router.post('/removeFromMyLearning',fetchUser, MylearningControllers.removeFromMyLearning);

@@ -52,6 +52,24 @@ export const putData = async (URL, payload) => {
   }
 };
 
+// PATCH Request -----------------------------
+export const patchData = async (URL, payload) => {
+  try {
+    const response = await fetch(URL, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.json();
+    return result; // return JSON
+
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 // DELETE Request ---------------------------
 export const deleteData = async (URL) => {
   try {
