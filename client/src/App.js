@@ -40,6 +40,8 @@ import { useState } from "react";
 import AddStudent from "./Dashbord/components/AddStudent";
 import UpdateStudent from "./Dashbord/components/UpdateStudent";
 import UpdatesNotes from "./Dashbord/components/UpdatesNotes";
+import UpdatePYQ from "./Dashbord/components/UpdatesPYQ";
+import UpdateVideo from "./Dashbord/components/UpdatesVideo";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -136,6 +138,8 @@ function App() {
             <Route path="/uploadCourse" element={<UploadCourse />} /> 
 
             <Route path="/updatesnotes" element={<UpdatesNotes />} /> 
+            <Route path="/updatespyq" element={<UpdatePYQ />} /> 
+            <Route path="/updatesvideo" element={<UpdateVideo />} /> 
 
             <Route path="/addStudent" element={<AddStudent />} />
             <Route path="/updatestudent" element={<UpdateStudent />} />

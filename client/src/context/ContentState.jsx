@@ -53,6 +53,8 @@ const ContentState = (props) => {
     }
   };
 
+
+
   //---GET Note() using Get Httpservice 
   const getNote = async (URL) => {
     try {
@@ -137,6 +139,8 @@ const ContentState = (props) => {
     }
   };
 
+
+
   //---UPDATE Notes() using Get Httpservice  
   const updateNotes = async (Data, id) => {
     try {
@@ -148,7 +152,34 @@ const ContentState = (props) => {
     } catch (error) {
       console.log("Do not update note due to some error", error);
     }
-  }; 
+  };
+
+  //---UPDATE PYQ() using Get Httpservice  
+  const updatePYQ = async (Data, id) => {
+    try {
+      const json = await putData(
+        `${GlobalUrls.UPDATEPYQS_URL}/${id}`,
+        Data
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not update pyq due to some error", error);
+    }
+  };
+
+  //---UPDATE VIDEO() using Get Httpservice  
+  const updateVideo = async (Data, id) => {
+    try {
+      const json = await putData(
+        `${GlobalUrls.UPDATEVIDEOS_URL}/${id}`,
+        Data
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not update video due to some error", error);
+    }
+  };
+
 
 
   //---DELETE Notes() using Get Httpservice  
@@ -159,9 +190,21 @@ const ContentState = (props) => {
       );
       return json;
     } catch (error) {
-      console.log("Do not delete note due to some error", error);
+      console.log("Do not delete note due to some error", error); 
     }
-  }; 
+  };
+
+  //---DELETE PYQ() using Get Httpservice  
+  const deletePYQ = async (id) => {
+    try {
+      const json = await deleteData(
+        `${GlobalUrls.DELETEPYQ_URL}/${id}`,
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not delete pyq due to some error", error); 
+    }
+  };
 
 
 
@@ -373,10 +416,10 @@ const ContentState = (props) => {
     <ContentContext.Provider
       value={{
         Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,
-        LatestData, 
+        LatestData,
         addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
-        updateNotes,
-        deleteNotes,
+        updateNotes, updatePYQ, updateVideo,
+        deleteNotes, deletePYQ,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo,

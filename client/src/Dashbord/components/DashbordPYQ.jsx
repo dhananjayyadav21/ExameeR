@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaPlusCircle, FaEdit, FaDownload, FaTrash, FaFileAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaPlusCircle, FaEdit, FaTrash, FaFileAlt } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL"
 import { toast } from "react-toastify";
+import Modal from "../../utils/Modal";
 
 const PreviousQuestions = () => {
   const context = useContext(ContentContext);
-  const { searchDashContent, dashPYQ, getPYQ } = context;
+  const { searchDashContent, dashPYQ, getPYQ, deletePYQ } = context;
 
+  const navigate = useNavigate();
+
+  //-- define states
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState("sciTechnology");
   const [status, setStatus] = useState("public");
@@ -30,6 +34,7 @@ const PreviousQuestions = () => {
     // eslint-disable-next-line
   }, []);
 
+  //-- handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
@@ -47,6 +52,7 @@ const PreviousQuestions = () => {
     }
   }
 
+  //-- handle badge color on status
   let badgeColor = {};
   dashPYQ.forEach(e => {
     if (`${e.status} === "public"`) {
@@ -57,6 +63,26 @@ const PreviousQuestions = () => {
       badgeColor = "danger";
     }
   });
+
+
+  //-- handle note delete
+  const [showModal, setShowModal] = useState(false);
+  const [modalPYQ, setModalPYQ] = useState("");
+  const deleteCoinfirm = async (PYQ) => {
+    const res = await deletePYQ(PYQ._id);
+    setShowModal(false);
+    getPYQ();
+    toast.success(res.message || "Successfully delete student !", {
+      position: "top-right"
+    });
+  }
+
+  //---- handle pyq update
+  const handleUpdate = (PYQ) => {
+    navigate("/updatespyq", {
+      state: PYQ
+    });
+  }
 
   return (
     <div id="previousQuestions" className="min-vh-100 p-3 py-4 px-md-4">
@@ -70,6 +96,14 @@ const PreviousQuestions = () => {
           </button>
         </Link>
       </div>
+
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => deleteCoinfirm(modalPYQ)}
+        heading={`Do You Want To Delete "${modalPYQ?.title}" PYQ.`}
+        subHeading={`“Yes or No”`}
+      />
 
       {/* Filters and Search */}
       <form
@@ -146,13 +180,14 @@ const PreviousQuestions = () => {
                     <td className={`badge bg-${badgeColor} mt-2 `}>{data?.status}</td>
                     <td>
                       <div className="d-flex justify-content-start gap-2">
-                        <button className="btn btn-link text-primary" title="Edit">
+                        <button className="btn btn-outline-primary" title="Edit" onClick={() => { handleUpdate(data) }}>
                           <FaEdit />
                         </button>
-                        <button className="btn btn-link text-success" title="Download">
+                        {/* <button className="btn btn-link text-success" title="Download">
                           <FaDownload />
-                        </button>
-                        <button className="btn btn-link text-danger" title="Delete">
+                        </button> */}
+                        <button className="btn btn-outline-danger" title="Delete" onClick={()=>{
+                          setModalPYQ(data); setShowModal(true);}}>
                           <FaTrash />
                         </button>
                       </div>

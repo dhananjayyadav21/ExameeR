@@ -2,6 +2,7 @@ const Note = require('../model/notesModel');
 const userModel = require("../model/User");
 const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
+const  MyLearningContent = require('../model/myLearning')
 
 
 //===========================================[ ADD ]=========================================
@@ -615,7 +616,7 @@ const getLatestUpload = async (req, res) => {
 
 
 //===========================================[ UPDATE ]=========================================
-// Update Note
+//--- Update Note
 const updateNotes = async (req, res) => {
   try {
     let userId = req.user._id;
@@ -664,7 +665,110 @@ const updateNotes = async (req, res) => {
 };
 
 
-// Delete Note
+//--- Update PYQ
+const updatePyq = async (req, res) => {
+  try {
+    let userId = req.user._id;
+
+    // Check user exists
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    // Check role
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can update PYQs!",
+      });
+    }
+
+    const pyqId = req.params.id;
+    const updatedData = req.body;  // fields from frontend
+
+    const updatedPyq = await PYQModel.findByIdAndUpdate(pyqId, updatedData, { new: true });
+
+    if (!updatedPyq) {
+      return res.status(404).json({
+        success: false,
+        message: 'PYQ not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'PYQ updated successfully',
+      pyq: updatedPyq
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update PYQ',
+      error: error.message
+    });
+  }
+};
+
+
+//--- update video
+const updateVideo = async (req, res) => {
+  try {
+    let userId = req.user._id;
+
+    // Check user exists
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    // Check role
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can update Videos!",
+      });
+    }
+
+    const videoId = req.params.id;
+    const updatedData = req.body;  // fields from frontend
+
+    const updatedVideo = await VideoModel.findByIdAndUpdate(videoId, updatedData, { new: true });
+
+    if (!updatedVideo) {
+      return res.status(404).json({
+        success: false,
+        message: 'Video not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Video updated successfully',
+      video: updatedVideo
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update video',
+      error: error.message
+    });
+  }
+};
+
+
+
+
+
+//---- Delete Note
 const deleteNote = async (req, res) => {
   try {
     let userId = req.user._id;
@@ -695,6 +799,9 @@ const deleteNote = async (req, res) => {
         message: 'Notes not found' });
     }
 
+    // Delete associated MyLearning content entries
+    await MyLearningContent.deleteMany({ contentId: noteId });
+
     res.status(200).json({ 
       success: true, 
       message: 'Notes deleted successfully' });
@@ -705,6 +812,56 @@ const deleteNote = async (req, res) => {
       error: error.message });
   }
 };
+
+
+//--- Delete PYQ
+const deletePYQ = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    // check user role
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can delete PYQs!",
+      });
+    }
+
+    const pyqId = req.params.id;
+
+    const deletedPYQ = await PYQModel.findByIdAndDelete(pyqId);
+
+    if (!deletedPYQ) {
+      return res.status(404).json({
+        success: false,
+        message: 'PYQ not found',
+      });
+    }
+
+    // Delete associated MyLearning content entries
+    await MyLearningContent.deleteMany({ contentId: pyqId });
+
+    res.status(200).json({
+      success: true,
+      message: 'PYQ deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete PYQ',
+      error: error.message,
+    });
+  }
+};
+
 
 
 
@@ -724,6 +881,6 @@ const deleteNote = async (req, res) => {
 module.exports = { 
   uploadNotes, uploadPYQ, uploadVideo, 
   getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload, 
-  updateNotes,
-  deleteNote,
+  updateNotes, updatePyq, updateVideo,
+  deleteNote, deletePYQ,
  }

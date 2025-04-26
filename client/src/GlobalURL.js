@@ -20,7 +20,10 @@ export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
 export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ`
 export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
 export const UPDATENOTES_URL = `${BASEURL}content/updateNotes`
+export const UPDATEPYQS_URL = `${BASEURL}content/updatePyq`
+export const UPDATEVIDEOS_URL = `${BASEURL}content/updateVideo`
 export const DELETENOTE_URL = `${BASEURL}content/deleteNote`
+export const DELETEPYQ_URL = `${BASEURL}content/deletePYQ`
 
 
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 

@@ -14,7 +14,10 @@ const router = require('express').Router();
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
   router.put('/updateNotes/:id',fetchUser, ContentController.updateNotes); 
+  router.put('/updatePyq/:id',fetchUser, ContentController.updatePyq); 
+  router.put('/updateVideo/:id',fetchUser, ContentController.updateVideo); 
   router.delete('/deleteNote/:id',fetchUser, ContentController.deleteNote);  
+  router.delete('/deletePYQ/:id',fetchUser, ContentController.deletePYQ);  
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);
