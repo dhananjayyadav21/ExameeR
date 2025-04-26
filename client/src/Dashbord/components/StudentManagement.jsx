@@ -130,7 +130,7 @@ const StudentManagement = () => {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={() => deleteStudentCoinfirm(modalStudent)}
-        heading={`Do you want to remove ${modalStudent?.Username} user.`}
+        heading={`Do You Want To Delete  "${modalStudent?.Username}" Student.`}
         subHeading={`“Yes or No”`}
       />
 

@@ -198,7 +198,7 @@ const UploadNotes = () => {
                         onChange={handleChange}
                         className="form-select"
                       >
-                        <option value="sciTechnology">sciTechnology</option>
+                        <option value="sciTechnology">Sci - Technology</option>
                         <option value="commerce">Commerce</option>
                         <option value="artscivils">Arts & civils</option>
                       </select>

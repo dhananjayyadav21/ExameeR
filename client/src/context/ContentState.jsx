@@ -137,6 +137,33 @@ const ContentState = (props) => {
     }
   };
 
+  //---UPDATE Notes() using Get Httpservice  
+  const updateNotes = async (Data, id) => {
+    try {
+      const json = await putData(
+        `${GlobalUrls.UPDATENOTES_URL}/${id}`,
+        Data
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not update note due to some error", error);
+    }
+  }; 
+
+
+  //---DELETE Notes() using Get Httpservice  
+  const deleteNotes = async (id) => {
+    try {
+      const json = await deleteData(
+        `${GlobalUrls.DELETENOTE_URL}/${id}`,
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not delete note due to some error", error);
+    }
+  }; 
+
+
 
   //========================================  [ MY Learning ]=================================================
   //--- Add INMYLEARNING() using Post Httpservice 
@@ -275,12 +302,12 @@ const ContentState = (props) => {
   };
 
 
-   //--Update student info () using Post Httpservice 
-   const updateStudent = async (Data,id) => {
+  //--Update student info () using Post Httpservice 
+  const updateStudent = async (Data, id) => {
     try {
       const json = await putData(
         `${GlobalUrls.UPDATESTUDENT_URL}/${id}`,
-        Data 
+        Data
       );
       return json;
     } catch (error) {
@@ -308,7 +335,7 @@ const ContentState = (props) => {
       );
       getStudentsByRole();
       return json;
-    } catch (error) { 
+    } catch (error) {
       console.log("Do not change student status due to some error", error);
     }
   };
@@ -346,7 +373,10 @@ const ContentState = (props) => {
     <ContentContext.Provider
       value={{
         Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,
-        LatestData, addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
+        LatestData, 
+        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
+        updateNotes,
+        deleteNotes,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo,

@@ -13,6 +13,8 @@ const router = require('express').Router();
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
+  router.put('/updateNotes/:id',fetchUser, ContentController.updateNotes); 
+  router.delete('/deleteNote/:id',fetchUser, ContentController.deleteNote);  
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);

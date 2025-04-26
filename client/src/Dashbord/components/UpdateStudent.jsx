@@ -10,7 +10,6 @@ const UpdateStudent = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { Username, Email, Password, Status, Role, isVerified , _id} = location.state || {}; 
-  console.log(_id);
   
   //--- formdata of the update form
   const [formData, setFormData] = useState({
@@ -170,7 +169,7 @@ const UpdateStudent = () => {
                       disabled={uploading}
                       className="btn btn-warning"
                     >
-                      {uploading ? 'Saving...' : 'UpdateStudent'}
+                      {uploading ? 'Saving...' : 'Update Student'}
                     </button>
 
                   </form>

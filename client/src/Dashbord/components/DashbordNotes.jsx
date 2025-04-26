@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "../../utils/Modal";
 import {
   faPlusCircle,
   faEdit,
-  faDownload,
+  // faDownload,
   faTrashAlt,
   faFileAlt
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL"
 import { toast } from "react-toastify";
@@ -15,7 +16,9 @@ import { toast } from "react-toastify";
 
 const StudyNotes = () => {
   const context = useContext(ContentContext);
-  const { searchDashContent, dashNotes, getNote } = context;
+  const { searchDashContent, dashNotes, getNote, deleteNotes } = context;
+
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState("sciTechnology");
@@ -38,6 +41,7 @@ const StudyNotes = () => {
     // eslint-disable-next-line
   }, []);
 
+  //-- handle form sumbit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
@@ -55,6 +59,7 @@ const StudyNotes = () => {
     }
   }
 
+  //-- badge color on status
   let badgeColor = {};
   dashNotes.forEach(e => {
     if (`${e.status} === "public"`) {
@@ -65,6 +70,25 @@ const StudyNotes = () => {
       badgeColor = "danger";
     }
   });
+
+  //-- handle note delete
+  const [showModal, setShowModal] = useState(false);
+  const [modalNote, setModalNote] = useState("");
+  const deleteCoinfirm = async (Note) => {
+    const res = await deleteNotes(Note._id);
+    setShowModal(false);
+    getNote();
+    toast.success(res.message || "Successfully delete student !", {
+      position: "top-right"
+    });
+  }
+
+  //---- handle Notes update
+  const handleUpdate = (Notes) => {
+    navigate("/updatesnotes", {
+      state: Notes
+    });
+  }
 
   return (
     <>
@@ -80,6 +104,13 @@ const StudyNotes = () => {
           </Link>
         </div>
 
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          onConfirm={() => deleteCoinfirm(modalNote)}
+          heading={`Do You Want To Delete "${modalNote?.title}" Notes.`}
+          subHeading={`“Yes or No”`}
+        />
 
         {/* Filters and Search */}
         <form
@@ -161,13 +192,13 @@ const StudyNotes = () => {
                       <td className={`badge bg-${badgeColor} mt-2 `}>{data?.status}</td>
                       <td>
                         <div className="d-flex gap-2">
-                          <button className="btn btn-link text-primary" title="Edit">
-                            <FontAwesomeIcon icon={faEdit} />
+                          <button className="btn btn-outline-primary" title="Edit">
+                            <FontAwesomeIcon icon={faEdit} onClick={() => { handleUpdate(data) }} />
                           </button>
-                          <button className="btn btn-link text-success" title="Download">
+                          {/* <button className="btn btn-link text-success" title="Download">
                             <FontAwesomeIcon icon={faDownload} />
-                          </button>
-                          <button className="btn btn-link text-danger" title="Delete">
+                          </button> */}
+                          <button className="btn btn-outline-danger" title="Delete" onClick={()=>{setShowModal(true);setModalNote(data);}}>
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
                         </div>

@@ -4,7 +4,8 @@ const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
 
 
-//-----[ NOTES: uplodeNotes Controller ] ------------
+//===========================================[ ADD ]=========================================
+//--[ NOTES: uplodeNotes Controller ]
 const uploadNotes = async (req, res) => {
   try {
 
@@ -22,7 +23,7 @@ const uploadNotes = async (req, res) => {
     if (user.Role !== "Admin" && user.Role !== "Instructor") {
       return res.status(401).json({
         success: false,
-        message: "You are not allowed to upload notes!",
+        message: "Access denied. Only Admin or Instructor can upload notes !",
       })
     }
 
@@ -80,7 +81,7 @@ const uploadNotes = async (req, res) => {
     return res.status(201).json({ // send result as true
       success: true,
       message: 'Note uploaded successfully',
-      data : note
+      data: note
     })
 
   } catch (error) { // if accuerd error
@@ -92,7 +93,7 @@ const uploadNotes = async (req, res) => {
   }
 };
 
-//-----[ PYQ: uplodePYQ Controller ] --------
+//--[ PYQ: uplodePYQ Controller ] 
 const uploadPYQ = async (req, res) => {
   try {
 
@@ -142,7 +143,7 @@ const uploadPYQ = async (req, res) => {
     }
 
     const newPYQ = new PYQModel({ //create pyq
-      title, 
+      title,
       year,
       subject,
       category,
@@ -177,7 +178,7 @@ const uploadPYQ = async (req, res) => {
   }
 };
 
-//------[ VIDEO: uploadVideo Controller ] ---------
+//--[ VIDEO: uploadVideo Controller ] 
 const uploadVideo = async (req, res) => {
   try {
 
@@ -228,7 +229,7 @@ const uploadVideo = async (req, res) => {
     }
 
     const newVideo = new VideoModel({ //create newVideo
-      title,  
+      title,
       description,
       category,
       tags: Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim()),
@@ -249,7 +250,7 @@ const uploadVideo = async (req, res) => {
     return res.status(201).json({ // send result as true
       success: true,
       message: 'Video uploaded successfully',
-      data : Video
+      data: Video
     })
 
   } catch (error) { // if accuerd error
@@ -263,7 +264,9 @@ const uploadVideo = async (req, res) => {
 
 
 
-// ------[ NOTES: Get all public notes ] -------
+
+//===========================================[ GET ]=========================================
+//--[ NOTES: Get all public notes ] 
 const getAllPublicNotes = async (req, res) => {
 
   try {
@@ -361,7 +364,7 @@ const getAllPublicNotes = async (req, res) => {
   }
 };
 
-// ------[ PYQ: Get all public PYQ ] ---------
+//--[ PYQ: Get all public PYQ ] 
 const getAllPublicPYQ = async (req, res) => {
 
   try {
@@ -458,11 +461,11 @@ const getAllPublicPYQ = async (req, res) => {
   }
 };
 
-// ------[ VIDEO: Get all public VIDEO ] -----------------
+//--[ VIDEO: Get all public VIDEO ] 
 const getAllPublicVIDEO = async (req, res) => {
   try {
     let userId = req.user._id;
-    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category.trim() !==" ")
+    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category.trim() !== " ")
       ? req.query.category
       : "sciTechnology";
 
@@ -552,11 +555,11 @@ const getAllPublicVIDEO = async (req, res) => {
 };
 
 
-// ------[ ALLLatest: Get all public ALLLatest ] -----------------
+//---[ ALLLatest: Get all public ALLLatest ] 
 const getLatestUpload = async (req, res) => {
   try {
     let userId = req.user._id;
-    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category !=="")
+    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category !== "")
       ? req.query.category
       : "sciTechnology";
 
@@ -611,6 +614,97 @@ const getLatestUpload = async (req, res) => {
 
 
 
+//===========================================[ UPDATE ]=========================================
+// Update Note
+const updateNotes = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    // check user role 
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can updates notes !",
+      })
+    }
+
+    const noteId = req.params.id;
+    const updatedData = req.body;  // all fields coming from frontend
+
+    const updatedNote = await Note.findByIdAndUpdate(noteId, updatedData, { new: true });
+
+    if (!updatedNote) {
+      return res.status(404).json({
+        success: false,
+        message: 'Notes not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Notes updated successfully',
+      note: updatedNote
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update notes',
+      error: error.message
+    });
+  }
+};
+
+
+// Delete Note
+const deleteNote = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    // check user role 
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can delete notes !",
+      })
+    }
+
+    const noteId = req.params.id;
+
+    const deletedNote = await Note.findByIdAndDelete(noteId);
+
+    if (!deletedNote) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Notes not found' });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: 'Notes deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to delete notes', 
+      error: error.message });
+  }
+};
 
 
 
@@ -619,4 +713,17 @@ const getLatestUpload = async (req, res) => {
 
 
 
-module.exports = { uploadNotes, uploadPYQ, uploadVideo, getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload }
+
+
+
+
+
+
+
+
+module.exports = { 
+  uploadNotes, uploadPYQ, uploadVideo, 
+  getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload, 
+  updateNotes,
+  deleteNote,
+ }
