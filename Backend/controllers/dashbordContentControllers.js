@@ -347,12 +347,41 @@ const getStudentsByRole = async (req, res) => {
             });
         }
 
+        const status = (req.query.status === undefined || req.query.status === null || req.query.status === '')
+            ? "active"
+            : req.query.status;
+
+            const search = req.query.search || "gmail";
+            if (!search) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Search Field is empty !',
+                })
+            }
+
+        console.log(status, search)
+
+        if (!search) {
+            return res.status(400).json({
+                success: false,
+                message: 'Search Field is empty !',
+            })
+        }
+
+        const regex = new RegExp(search, 'i');
 
         let studentIds = [];
 
         if (user.Role === 'Admin') {
             // Admin gets all users
-            const students = await userModel.find({ Role: 'Student' }).select('-Password -ForgotPasswordCode');
+            const students = await userModel.find({
+                Role: 'Student',
+                Status: status,
+                $or: [
+                    { Username: regex },
+                    { Email: regex }
+                ]
+            }).select('-Password -ForgotPasswordCode');
             return res.status(200).json({
                 success: true,
                 message: 'students found!',
@@ -386,7 +415,12 @@ const getStudentsByRole = async (req, res) => {
             // Fetch student details
             const students = await userModel.find({
                 _id: { $in: studentIds },
-                Role: 'Student'
+                Role: 'Student',
+                Status: status,
+                $or: [
+                    { Username: regex },
+                    { Email: regex }
+                ]
             }).select('-Password -ForgotPasswordCode');
 
             return res.status(200).json({

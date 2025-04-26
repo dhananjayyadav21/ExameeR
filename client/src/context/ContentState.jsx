@@ -248,7 +248,6 @@ const ContentState = (props) => {
       const json = await getData(
         URL || `${GlobalUrls.GETSTUDENTSBYROLE_URL}`,
       );
-      console.log("////////",json)
       if(json.success === true){
         setStudentsByRole(json.students);
       }
