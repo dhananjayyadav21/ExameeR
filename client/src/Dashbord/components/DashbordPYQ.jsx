@@ -16,7 +16,7 @@ const PreviousQuestions = () => {
 
   // Calculate current page pyq
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(4);
   const indexOfLastPYQ = currentPage * itemsPerPage;
   const indexOfFirstPYQ = indexOfLastPYQ - itemsPerPage;
   const currentPYQ = dashPYQ.slice(indexOfFirstPYQ, indexOfLastPYQ);
@@ -170,26 +170,40 @@ const PreviousQuestions = () => {
         </div>
 
         <div>
+          {/* Previous Button */}
           <button
-            className="btn btn-outline-secondary me-2"
+            className="btn btn-sm btn-outline-dark me-2"
             disabled={currentPage === 1}
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          >
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} >
             Previous
           </button>
 
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
-              onClick={() => setCurrentPage(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter(page =>
+              page === 1 ||
+              page === totalPages ||
+              (page >= currentPage - 1 && page <= currentPage + 1)
+            )
+            .map((page, idx, arr) => (
+              <React.Fragment key={page}>
+                {/* Add dots if needed */}
+                {idx > 0 && page - arr[idx - 1] > 1 && (
+                  <button className="btn btn-sm btn-outline-dark me-2" disabled>...</button>
+                )}
 
+                <button
+                  className={`btn btn-sm me-2 ${currentPage === page ? 'btn-warning' : 'btn-outline-dark'}`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </button>
+              </React.Fragment>
+            ))}
+
+          {/* Next Button */}
           <button
-            className="btn btn-outline-secondary"
+            className="btn btn-sm btn-outline-dark"
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
           >
@@ -197,6 +211,7 @@ const PreviousQuestions = () => {
           </button>
         </div>
       </div>
+
 
     </div >
   );

@@ -117,7 +117,7 @@ const UpdateStudent = () => {
                     {/* Password */}
                     <div className="mb-3">
                       <label className="form-label">
-                        Password<span className="text-danger">*</span>
+                        Password
                       </label>
                       <input
                         type="password"
@@ -125,6 +125,7 @@ const UpdateStudent = () => {
                         value={formData.Password}
                         onChange={handleChange}
                         className="form-control"
+                        placeholder='If you want change..'
                       />
                     </div>
 

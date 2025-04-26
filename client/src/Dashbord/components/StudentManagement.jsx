@@ -25,7 +25,7 @@ const StudentManagement = () => {
 
   // Calculate current page students
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(4);
+  const [itemsPerPage] = useState(3);
   const indexOfLastStudent = currentPage * itemsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - itemsPerPage;
   const currentStudents = studentsByRole.slice(indexOfFirstStudent, indexOfLastStudent);
@@ -67,6 +67,7 @@ const StudentManagement = () => {
 
   //-- delete students and its records ------ /dashboard-student-managemen/updatestudent
   const [showModal, setShowModal] = useState(false);
+  const [modalStudent, setModalStudent] = useState("");
   const deleteStudentCoinfirm = async (student) => {
     const res = await deleteStudent(student._id);
     setShowModal(false);
@@ -77,7 +78,7 @@ const StudentManagement = () => {
   }
 
   //---- handle student update
-  const handleUpdate = (student)=>{
+  const handleUpdate = (student) => {
     navigate("/updatestudent", {
       state: student
     });
@@ -125,6 +126,14 @@ const StudentManagement = () => {
         </div>
       </form>
 
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => deleteStudentCoinfirm(modalStudent)}
+        heading={`Do you want to remove ${modalStudent?.Username} user.`}
+        subHeading={`“Yes or No”`}
+      />
+
       {isloading && <h4 className="my-4">Loding.....</h4>}
       {/* Students Table */}
       <div className="bg-white rounded-3 border border-gray-200 overflow-hidden my-4">
@@ -155,13 +164,6 @@ const StudentManagement = () => {
             <tbody>
               {currentStudents.map((student, i) => (
                 <>
-                  <Modal
-                    isOpen={showModal}
-                    onClose={() => setShowModal(false)}
-                    onConfirm={() => deleteStudentCoinfirm(student)}
-                    heading={`Do you want to remove ${student?.Username} user.`}
-                    subHeading={`“Yes or No”`}
-                  />
                   <tr className="table-row hover:bg-gray-50" key={i}>
                     <td className="py-3 px-4">
                       <div className="d-flex align-items-center">
@@ -187,7 +189,7 @@ const StudentManagement = () => {
                     <td className="py-3 px-4">
                       <div className="d-flex gap-2 justify-content-end">
                         <button className="btn btn-outline-primary" title="Edit">
-                          <FontAwesomeIcon icon={faEdit}  onClick={()=>{handleUpdate(student)}} />
+                          <FontAwesomeIcon icon={faEdit} onClick={() => { handleUpdate(student) }} />
                         </button>
 
                         {student?.Status === "active" ?
@@ -199,7 +201,7 @@ const StudentManagement = () => {
                           </button></>
                         }
 
-                        <button className="btn btn-outline-danger" title="Delete" onClick={() => { setShowModal(true) }}>
+                        <button className="btn btn-outline-danger" title="Delete" onClick={() => { setShowModal(true); setModalStudent(student); }}>
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </div>
@@ -217,33 +219,40 @@ const StudentManagement = () => {
         </div>
 
         <div>
-          <button
-            className="btn btn-outline-secondary me-2"
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          >
+          {/* Previous Button */}
+          <button className="btn btn-sm btn-outline-dark me-2" disabled={currentPage === 1} onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>
             Previous
           </button>
 
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              className={`btn me-2 ${currentPage === index + 1 ? 'btn-success' : 'btn-outline-secondary'}`}
-              onClick={() => setCurrentPage(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter(page =>
+              page === 1 ||
+              page === totalPages ||
+              (page >= currentPage - 1 && page <= currentPage + 1)
+            )
+            .map((page, idx, arr) => (
+              <React.Fragment key={page}>
+                {/* Add dots if needed */}
+                {idx > 0 && page - arr[idx - 1] > 1 && (
+                  <button className="btn btn-outline-dark me-2" disabled>...</button>
+                )}
 
-          <button
-            className="btn btn-outline-secondary"
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          >
+                <button
+                  className={`btn btn-sm me-2 ${currentPage === page ? 'btn-primary' : 'btn-outline-dark'}`}
+                  onClick={() => setCurrentPage(page)}>
+                  {page}
+                </button>
+              </React.Fragment>
+            ))}
+
+          {/* Next Button */}
+          <button className="btn btn-sm btn-outline-dark" disabled={currentPage === totalPages} onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}>
             Next
           </button>
         </div>
       </div>
+
 
     </div>
   );
