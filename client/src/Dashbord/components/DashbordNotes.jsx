@@ -74,13 +74,20 @@ const StudyNotes = () => {
   //-- handle note delete
   const [showModal, setShowModal] = useState(false);
   const [modalNote, setModalNote] = useState("");
+
   const deleteCoinfirm = async (Note) => {
     const res = await deleteNotes(Note._id);
     setShowModal(false);
     getNote();
-    toast.success(res.message || "Successfully delete student !", {
-      position: "top-right"
-    });
+    if (res.success === true) {
+      toast.success(res.message || "Successfully delete Notes !", {
+        position: "top-right"
+      });
+    } if (res.success === false) {
+      toast.error(res.message || "Faild to  delete Notes !", {
+        position: "top-right"
+      });
+    }
   }
 
   //---- handle Notes update
@@ -198,7 +205,7 @@ const StudyNotes = () => {
                           {/* <button className="btn btn-link text-success" title="Download">
                             <FontAwesomeIcon icon={faDownload} />
                           </button> */}
-                          <button className="btn btn-outline-danger" title="Delete" onClick={()=>{setShowModal(true);setModalNote(data);}}>
+                          <button className="btn btn-outline-danger" title="Delete" onClick={() => { setShowModal(true); setModalNote(data); }}>
                             <FontAwesomeIcon icon={faTrashAlt} />
                           </button>
                         </div>

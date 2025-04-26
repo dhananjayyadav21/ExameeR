@@ -9,6 +9,7 @@ const UploadPYQ = () => {
   const { addPYQ } = context;
   const navigate = useNavigate();
 
+  //--- define form data
   const [formData, setFormData] = useState({
     title: '',
     year: '',
@@ -23,7 +24,7 @@ const UploadPYQ = () => {
   const [fileUrl, setFileUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  //**********************************************************************************
+  //--- handle onChange
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -32,7 +33,7 @@ const UploadPYQ = () => {
     }));
   };
 
-  //**********************************************************************************
+  //--- handle on File Change
   const handleFileChange = async (e) => {
     setUploading(true);
     const selectedFile = e.target.files[0];
@@ -57,7 +58,7 @@ const UploadPYQ = () => {
     setUploading(false);
   };
 
-   //**********************************************************************************
+   //--- handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -206,7 +207,7 @@ const UploadPYQ = () => {
                         onChange={handleChange}
                         className="form-select"
                       >
-                        <option value="sciTechnology">sciTechnology</option>
+                        <option value="sciTechnology">Sci - Technology</option>
                         <option value="commerce">Commerce</option>
                         <option value="artscivils">Arts & civils</option>
                       </select>

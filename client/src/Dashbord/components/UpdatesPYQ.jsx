@@ -68,7 +68,7 @@ const UpdatePYQ = () => {
         // check file and file type
         if (!fileurl) {
             setUploading(false);
-            return toast.warning("Please upload a PDF or valid PDF file", {
+            return toast.warning("Pleaseupdatea PDF or valid PDF file", {
                 position: "top-right"
             });
         } else {
@@ -117,12 +117,12 @@ const UpdatePYQ = () => {
                             status: 'public',
                         });
                         navigate(-1);
-                        toast.success("PYQ uploaded successfully!", {
+                        toast.success("PYQ updated successfully!", {
                             position: "top-right"
                         });
                     } else if (response.success === false) {
                         setUploading(false);
-                        toast.error(response.message || "Failed to upload pyq.!", {
+                        toast.error(response.message || "Failed to update pyq.!", {
                             position: "top-right"
                         });
                     }
@@ -130,7 +130,7 @@ const UpdatePYQ = () => {
                 // if accured error in calling api
             } catch (error) {
                 setUploading(false);
-                return toast.error("Failed to upload pyq. Try again", {
+                return toast.error("Failed to update pyq. Try again", {
                     position: "top-right"
                 });
             }
@@ -147,7 +147,7 @@ const UpdatePYQ = () => {
                         <div className="container-fluid mt-4 shadow-sm">
                             <div className="text-start">
                                 <h5 className="card-title mb-0 py-2">
-                                    Upload Your<span className="text-warning"> Previous Year Question</span>
+                                   Update Your<span className="text-warning"> Previous Year Question</span>
                                 </h5>
                             </div>
                         </div>
@@ -208,7 +208,7 @@ const UpdatePYQ = () => {
                                                 onChange={handleChange}
                                                 className="form-select"
                                             >
-                                                <option value="sciTechnology">sciTechnology</option>
+                                                <option value="sciTechnology">Sci - Technology</option>
                                                 <option value="commerce">Commerce</option>
                                                 <option value="artscivils">Arts & civils</option>
                                             </select>
@@ -242,10 +242,10 @@ const UpdatePYQ = () => {
                                             </select>
                                         </div>
 
-                                        {/* File Upload */}
+                                        {/* Fileupdate*/}
                                         <div className="mb-3">
                                             <label className="form-label">
-                                                Upload PDF<span className="text-danger">*</span>
+                                               Update PDF<span className="text-danger">*</span>
                                             </label>
                                             <input
                                                 type="file"

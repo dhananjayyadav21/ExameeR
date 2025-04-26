@@ -2,7 +2,7 @@ const Note = require('../model/notesModel');
 const userModel = require("../model/User");
 const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
-const  MyLearningContent = require('../model/myLearning')
+const MyLearningContent = require('../model/myLearning')
 
 
 //===========================================[ ADD ]=========================================
@@ -766,8 +766,7 @@ const updateVideo = async (req, res) => {
 
 
 
-
-
+//===========================================[ DELETE ]=========================================
 //---- Delete Note
 const deleteNote = async (req, res) => {
   try {
@@ -794,22 +793,25 @@ const deleteNote = async (req, res) => {
     const deletedNote = await Note.findByIdAndDelete(noteId);
 
     if (!deletedNote) {
-      return res.status(404).json({ 
-        success: false, 
-        message: 'Notes not found' });
+      return res.status(404).json({
+        success: false,
+        message: 'Notes not found'
+      });
     }
 
     // Delete associated MyLearning content entries
     await MyLearningContent.deleteMany({ contentId: noteId });
 
-    res.status(200).json({ 
-      success: true, 
-      message: 'Notes deleted successfully' });
+    res.status(200).json({
+      success: true,
+      message: 'Notes deleted successfully'
+    });
   } catch (error) {
-    res.status(500).json({ 
-      success: false, 
-      message: 'Failed to delete notes', 
-      error: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete notes',
+      error: error.message
+    });
   }
 };
 
@@ -863,24 +865,59 @@ const deletePYQ = async (req, res) => {
 };
 
 
+//---- Delete Video
+const deleteVideo = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    // check user role
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can delete videos!",
+      });
+    }
+
+    const videoId = req.params.id;
+
+    const deletedVideo = await VideoModel.findByIdAndDelete(videoId);
+
+    if (!deletedVideo) {
+      return res.status(404).json({
+        success: false,
+        message: 'Video not found',
+      });
+    }
+
+    // Delete associated MyLearning content entries
+    await MyLearningContent.deleteMany({ contentId: videoId });
+
+    res.status(200).json({
+      success: true,
+      message: 'Video deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete video',
+      error: error.message,
+    });
+  }
+};
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = { 
-  uploadNotes, uploadPYQ, uploadVideo, 
-  getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload, 
+module.exports = {
+  uploadNotes, uploadPYQ, uploadVideo,
+  getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload,
   updateNotes, updatePyq, updateVideo,
-  deleteNote, deletePYQ,
- }
+  deleteNote, deletePYQ, deleteVideo,
+}

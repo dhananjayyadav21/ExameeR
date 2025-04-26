@@ -10,6 +10,7 @@ const UploadNotes = () => {
 
   const navigate = useNavigate();
   
+  //--- define form data
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -24,6 +25,7 @@ const UploadNotes = () => {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  //--- handle onChange 
   const handleChange = (e) => { //handle Field Data Change 
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -32,6 +34,7 @@ const UploadNotes = () => {
     }));
   };
 
+  //--- handle filechange data
   const handleFileChange = async (e) => { //handle file Change 
     setUploading(true);
     const selectedFile = e.target.files[0];
@@ -56,6 +59,7 @@ const UploadNotes = () => {
     setUploading(false);
   };
 
+  //--- handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -78,7 +82,7 @@ const UploadNotes = () => {
         fileUrl: fileUrl
       };
 
-      try {
+      try { // try block to call api
         const { title, professor, category, status } = data;
             
         if(!title || !professor || !category || !status ){
@@ -98,7 +102,7 @@ const UploadNotes = () => {
             });
           }
         }else{
-          const response = await addNote(data);
+          const response = await addNote(data); // call api
           if (response.success === true) {
             setFormData({
               title: '',

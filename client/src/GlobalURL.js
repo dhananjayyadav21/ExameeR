@@ -24,6 +24,7 @@ export const UPDATEPYQS_URL = `${BASEURL}content/updatePyq`
 export const UPDATEVIDEOS_URL = `${BASEURL}content/updateVideo`
 export const DELETENOTE_URL = `${BASEURL}content/deleteNote`
 export const DELETEPYQ_URL = `${BASEURL}content/deletePYQ`
+export const DELETEVIDEO_URL = `${BASEURL}content/deleteVideo`
 
 
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 

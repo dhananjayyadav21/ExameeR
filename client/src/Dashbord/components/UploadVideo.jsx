@@ -8,6 +8,7 @@ const UploadVideo = () => {
   const { addVideo } = context;
   const navigate = useNavigate();
 
+  //--- define form data
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -20,7 +21,7 @@ const UploadVideo = () => {
 
   const [uploading, setUploading] = useState(false);
 
-  //**********************************************************************************
+  //--- handle onChange
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -29,7 +30,7 @@ const UploadVideo = () => {
     }));
   };
 
-  //**********************************************************************************
+  //--- handle form submit 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUploading(true);
@@ -44,7 +45,7 @@ const UploadVideo = () => {
         fileUrl: formData.fileUrl
       };
 
-      try {
+      try { // try block to call api
         const { title, category, status, fileUrl } = data;
 
         if (!fileUrl) {
@@ -71,7 +72,7 @@ const UploadVideo = () => {
             });
           }
         }else{
-          const response = await addVideo(data);
+          const response = await addVideo(data); //call api
           if (response.success === true) {
             setFormData({
               title: '',
@@ -156,7 +157,7 @@ const UploadVideo = () => {
                       onChange={handleChange}
                       className="form-select"
                     >
-                      <option value="sciTechnology">sciTechnology</option>
+                      <option value="sciTechnology">Sci - Technology</option>
                       <option value="commerce">Commerce</option>
                       <option value="artscivils">Arts & civils</option>
                     </select>

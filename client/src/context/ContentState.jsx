@@ -206,6 +206,18 @@ const ContentState = (props) => {
     }
   };
 
+  //---DELETE VIDEO() using Get Httpservice  
+  const deleteVideo = async (id) => {
+    try {
+      const json = await deleteData(
+        `${GlobalUrls.DELETEVIDEO_URL}/${id}`,
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not delete pyq due to some error", error); 
+    }
+  };
+
 
 
   //========================================  [ MY Learning ]=================================================
@@ -419,7 +431,7 @@ const ContentState = (props) => {
         LatestData,
         addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
         updateNotes, updatePYQ, updateVideo,
-        deleteNotes, deletePYQ,
+        deleteNotes, deletePYQ, deleteVideo,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo,

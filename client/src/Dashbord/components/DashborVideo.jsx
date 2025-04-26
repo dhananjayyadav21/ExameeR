@@ -5,16 +5,20 @@ import {
   faEdit,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL"
 import { toast } from "react-toastify";
+import Modal from "../../utils/Modal";
 
 
 const VideoLectures = () => {
   const context = useContext(ContentContext);
-  const { searchDashContent, dasVideo, getVideo } = context;
+  const { searchDashContent, dasVideo, getVideo, deleteVideo } = context;
 
+  const navigate = useNavigate();
+
+  //-- define states
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState("sciTechnology");
   const [status, setStatus] = useState("public");
@@ -36,6 +40,7 @@ const VideoLectures = () => {
     // eslint-disable-next-line
   }, []);
 
+  //-- handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
@@ -53,6 +58,8 @@ const VideoLectures = () => {
     }
   }
 
+
+  //-- handle badge color based on status
   let btnColor = {};
   dasVideo.forEach(e => {
     if (`${e.status} === "public"`) {
@@ -63,6 +70,35 @@ const VideoLectures = () => {
       btnColor = "danger";
     }
   });
+
+
+  //-- handle note delete
+  const [showModal, setShowModal] = useState(false);
+  const [modalVideo, setModalVideo] = useState("");
+
+  const deleteCoinfirm = async (Video) => {
+    const res = await deleteVideo(Video._id);
+    setShowModal(false);
+    getVideo();
+    if(res.success === true){
+      toast.success(res.message || "Successfully delete Video !", {
+        position: "top-right"
+      });
+    }if(res.success === false){
+      toast.error(res.message || "Faild to  delete Video !", {
+        position: "top-right"
+      });
+    }
+    
+  }
+
+
+  //---- handle pyq update
+  const handleUpdate = (Video) => {
+    navigate("/updatesvideo", {
+      state: Video
+    });
+  }
   return (
     <div id="videoLectures" className="min-vh-100 p-2 py-4 px-md-4">
       {/* Header with Add Video Button */}
@@ -74,6 +110,14 @@ const VideoLectures = () => {
           </button>
         </Link>
       </div>
+
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => deleteCoinfirm(modalVideo)}
+        heading={`Do You Want To Delete "${modalVideo?.title}" Video.`}
+        subHeading={`“Yes or No”`}
+      />
 
       {/* Filters and Search */}
       <form
@@ -152,18 +196,18 @@ const VideoLectures = () => {
                 <div className="p-3">
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <h3 className="h5 text-dark">{(data?.title).slice(0, 50)}</h3>
-                    <div className={`px-2 py-1 text-xs font-weight-bold text-dark bg-${btnColor} rounded-2`}>{data?.status}</div>
+                    <div className={`px-2 py-1 text-xs font-weight-bold text-white bg-${btnColor} rounded-2`}>{data?.status}</div>
                   </div>
                   <p className="text-muted mb-4">
                     {(data?.description).slice(0, 90)}
                   </p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <span className="text-muted">Uploaded: {(data?.createdAt).slice(0, 10)}</span>
+                    <span className="text-muted">Uploaded: {(data?.updatedAt).slice(0, 10)}</span>
                     <div className="d-flex gap-2">
-                      <span className="p-2 text-primary" title="Edit">
+                      <span className="p-2 text-primary" title="Edit" onClick={() => { handleUpdate(data) }}>
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span className="p-2 text-danger" title="Delete">
+                      <span className="p-2 text-danger" title="Delete" onClick={()=>{setModalVideo(data); setShowModal(true)}}>
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </span>
                     </div>

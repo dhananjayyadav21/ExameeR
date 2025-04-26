@@ -68,13 +68,20 @@ const PreviousQuestions = () => {
   //-- handle note delete
   const [showModal, setShowModal] = useState(false);
   const [modalPYQ, setModalPYQ] = useState("");
+
   const deleteCoinfirm = async (PYQ) => {
     const res = await deletePYQ(PYQ._id);
     setShowModal(false);
     getPYQ();
-    toast.success(res.message || "Successfully delete student !", {
-      position: "top-right"
-    });
+    if (res.success === true) {
+      toast.success(res.message || "Successfully delete PYQ !", {
+        position: "top-right"
+      });
+    } if (res.success === false) {
+      toast.error(res.message || "Faild to  delete PYQ !", {
+        position: "top-right"
+      });
+    }
   }
 
   //---- handle pyq update
@@ -186,8 +193,9 @@ const PreviousQuestions = () => {
                         {/* <button className="btn btn-link text-success" title="Download">
                           <FaDownload />
                         </button> */}
-                        <button className="btn btn-outline-danger" title="Delete" onClick={()=>{
-                          setModalPYQ(data); setShowModal(true);}}>
+                        <button className="btn btn-outline-danger" title="Delete" onClick={() => {
+                          setModalPYQ(data); setShowModal(true);
+                        }}>
                           <FaTrash />
                         </button>
                       </div>

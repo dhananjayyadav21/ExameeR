@@ -16,8 +16,9 @@ const router = require('express').Router();
   router.put('/updateNotes/:id',fetchUser, ContentController.updateNotes); 
   router.put('/updatePyq/:id',fetchUser, ContentController.updatePyq); 
   router.put('/updateVideo/:id',fetchUser, ContentController.updateVideo); 
-  router.delete('/deleteNote/:id',fetchUser, ContentController.deleteNote);  
+  router.delete('/deleteNote/:id',fetchUser, ContentController.deleteNote); 
   router.delete('/deletePYQ/:id',fetchUser, ContentController.deletePYQ);  
+  router.delete('/deleteVideo/:id',fetchUser, ContentController.deleteVideo);  
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);

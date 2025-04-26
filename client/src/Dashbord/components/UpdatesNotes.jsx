@@ -143,7 +143,7 @@ const UpdatesNotes = () => {
                         <div className="container-fluid mt-4 shadow-sm">
                             <div className="text-start">
                                 <h5 className="card-title mb-0 py-2">
-                                    Upload<span className="text-warning"> Your Notes</span>
+                                    Update<span className="text-warning"> Your Notes</span>
                                 </h5>
                             </div>
                         </div>
