@@ -62,6 +62,7 @@ const ProfileCardWithBanner = ({setProgress}) => {
           </div>
 
           <div>
+            <h6 className="fw-semibold">Role : <span className="text-muted">{user?.Role}</span></h6>
             <h6 className="fw-semibold">About</h6>
             <p className="text-muted mb-0">{user?.About || "One lesson at a time, one step closer to greatness."}</p>
           </div>
