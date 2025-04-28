@@ -56,19 +56,13 @@ const Cource = ({ setProgress }) => {
                     Sort By <i className="fa-solid fa-sort"></i>
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a className="dropdown-item" href="/">Sem-I</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-II</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-III</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-IV</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-V</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-VI</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-VII</a></li>
-                    <li><a className="dropdown-item" href="/">Sem-VIII</a></li>
+                    <li><a className="dropdown-item" href="/cource">oldest</a></li>
+                    <li><a className="dropdown-item" href="/cource">latest</a></li>
                   </ul>
                 </div>
               </div>
 
-              <div className="mt-2">
+              <div className="mt-4">
                 <div className="row g-4">
                   {Aarr.map((e, index) => <CourceIteam key={index} />)}
                 </div>
