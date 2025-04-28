@@ -1,11 +1,10 @@
 const googleAuth = require('../controllers/googleAuthControllers');
 const Authcontroller = require('../controllers/AuthController');
 const fetchUser = require("../middleware/fetchUser");
-const createAdmin = require("../middleware/CreateAdmin");
 const router = require('express').Router();
 
   //--- user Authenticate using manual crendential ---------
-  router.post('/register',createAdmin ,Authcontroller.register);
+  router.post('/register',Authcontroller.register);
 
   router.post('/login',Authcontroller.login);
 

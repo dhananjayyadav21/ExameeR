@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { sendVerificationEamil } = require("../services/sendEmails");
 require("dotenv").config();
 
-const createAdmin = async (req, res, next) => {
+const createAdmin = async () => {
   try {
 
     let adminUser = await userModel.findOne({ Username:"admin" });
@@ -38,7 +38,6 @@ const createAdmin = async (req, res, next) => {
         sendVerificationEamil("youaretopperofficial@gmail.com", VerificationCode); // send verification code
         await adminUser.save();
     }
-    next();
   } catch (error) {
     console.error(error.message);
     console.log("Error accured during the creating admin user");
