@@ -458,6 +458,14 @@ const addStudent = async (req, res) => {
             });
         }
 
+        // Check Username cannot admin
+        if(Username === "Admin" || Username === "admin"){
+            return res.status(400).json({
+                success: false,
+                message: "You cannot create an account with the username 'admin'!"
+            });
+        }
+
         // Basic validation
         if (!Username || !Email || !Password) {
             return res.status(400).json({
