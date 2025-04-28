@@ -30,7 +30,7 @@ const Notes = ({setProgress}) => {
 
   return (
     <>
-      <div className="container-lg">
+      <div className="container-lg" style={{minHeight:"50vh"}}>
         <div className="notes-heroSection card container-lg mt-4 shadow-sm">
           <div className="text-center py-4">
             <h2 className="card-title">Explore & Discover<span className="notes-span-section"> Your Notes</span></h2>
@@ -55,8 +55,10 @@ const Notes = ({setProgress}) => {
           </div>
         </div>
 
+        
         <div className="container-lg mt-2 mb-5">
           <div className="row g-4">
+            {Notes.length === 0 && <h5 className="d-flex justify-content-center text-center my-5">No Data Found! <br/> Plese Check internet connection</h5>}
             {Notes?.map((note, index) => <NotesIteam key={index} Notes={note} />)}
           </div>
         </div>

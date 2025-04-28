@@ -72,6 +72,7 @@ const Video = ({setProgress}) => {
 
                                 <div className="mt-2">
                                     <div className="row g-4">
+                                        {Video.length === 0 && <h5 className="d-flex justify-content-center text-center my-5">No Data Found! <br/> Plese Check internet connection</h5>}
                                         {Video?.map((video, index) => <VideoItem key={index} Video={video} />)}
                                     </div>
                                 </div>

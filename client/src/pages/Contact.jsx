@@ -92,7 +92,7 @@ const Contact = ({setProgress}) => {
                                     </div>
                                     <div>
                                         <h5 className="fw-bold mb-0">Phone</h5>
-                                        <p className="text-muted mb-0">+91 (800) 123-4567</p>
+                                        <p className="text-muted mb-0">+91 9769 XXX XXX</p>
                                     </div>
                                 </div>
 
@@ -102,7 +102,7 @@ const Contact = ({setProgress}) => {
                                     </div>
                                     <div>
                                         <h5 className="fw-bold mb-0">Email</h5>
-                                        <p className="text-muted mb-0">support@examee.com</p>
+                                        <a className="text-muted mb-0 text-decoration-none" href="mailto:youaretopperofficial+exameesupport@gmail.com">support@examee.com</a>
                                     </div>
                                 </div>
 
@@ -112,7 +112,7 @@ const Contact = ({setProgress}) => {
                                     </div>
                                     <div>
                                         <h5 className="fw-bold mb-0">Location</h5>
-                                        <p className="text-muted mb-0">Delhi, India</p>
+                                        <p className="text-muted mb-0">Mumbai, India</p>
                                     </div>
                                 </div>
                             </div>
