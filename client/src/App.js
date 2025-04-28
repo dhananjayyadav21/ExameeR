@@ -42,6 +42,7 @@ import UpdateStudent from "./Dashbord/components/UpdateStudent";
 import UpdatesNotes from "./Dashbord/components/UpdatesNotes";
 import UpdatePYQ from "./Dashbord/components/UpdatesPYQ";
 import UpdateVideo from "./Dashbord/components/UpdatesVideo";
+import EnrollmentPage from "./components/Enrollment";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -59,13 +60,13 @@ function App() {
       <ContentState>
         <BrowserRouter>
           <Navbar setProgress={setProgress} />
-          <LoadingBar color='#f11946' height={3}  progress={progress} onLoaderFinished={() => setProgress(0)} />
+          <LoadingBar color='#f11946' height={3} progress={progress} onLoaderFinished={() => setProgress(0)} />
           <Routes>
-            <Route path="/" element={<Home setProgress={setProgress}/>} />
+            <Route path="/" element={<Home setProgress={setProgress} />} />
 
             <Route path="/profile" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<ProfileCard  setProgress={setProgress} />}
+              element={<ProfileCard setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
@@ -77,7 +78,7 @@ function App() {
 
             <Route path="/notes" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Notes setProgress={setProgress}/>}
+              element={<Notes setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
@@ -95,7 +96,7 @@ function App() {
 
             <Route path="/video" element={<GuardedRoute
               hasToBeAuthenticated={true}
-              element={<Video setProgress={setProgress}/>}
+              element={<Video setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 
@@ -112,13 +113,15 @@ function App() {
             />} />
 
             <Route path="/searchcontent" element={<SearchContent setProgress={setProgress} />} />
+            <Route path="/enrollmentcource" element={<EnrollmentPage setProgress={setProgress} />} />
+
 
 
             {/* Fix: Add '*' to the dashboard route -------------------------------- */}
             <Route path="/dashboard" element={
               <RoleBasedRoute
                 allowedRoles={["Admin", "Instructor"]}
-                element={<Dashboard/>}
+                element={<Dashboard />}
               />
             }>
               <Route index element={<DashbordHead />} />
@@ -132,17 +135,66 @@ function App() {
               <Route path="dashboard-settings" element={<DashbordSettings />} />
             </Route>
 
-            <Route path="/uploadNotes" element={<UploadNotes />} />
-            <Route path="/uploadPYQ" element={<UploadPYQ />} />
-            <Route path="/uploadVideo" element={<UploadVideo />} />
-            <Route path="/uploadCourse" element={<UploadCourse />} /> 
+            <Route path="/uploadNotes" element={<RoleBasedRoute
+              allowedRoles={["Admin", "Instructor"]}
+              element={<UploadNotes />}
+            />} />
 
-            <Route path="/updatesnotes" element={<UpdatesNotes />} /> 
-            <Route path="/updatespyq" element={<UpdatePYQ />} /> 
-            <Route path="/updatesvideo" element={<UpdateVideo />} /> 
+            <Route path="/uploadPYQ" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UploadPYQ />}
+              />
+            } />
 
-            <Route path="/addStudent" element={<AddStudent />} />
-            <Route path="/updatestudent" element={<UpdateStudent />} />
+            <Route path="/uploadVideo" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UploadVideo />}
+              />
+            } />
+
+            <Route path="/uploadCourse" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UploadCourse />}
+              />
+            } />
+
+            <Route path="/updatesnotes" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UpdatesNotes />}
+              />
+            } />
+
+            <Route path="/updatespyq" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UpdatePYQ />}
+              />
+            } />
+
+            <Route path="/updatesvideo" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UpdateVideo />}
+              />
+            } />
+
+            <Route path="/addStudent" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<AddStudent />}
+              />
+            } />
+
+            <Route path="/updatestudent" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UpdateStudent />}
+              />
+            } />
 
 
             {/* Authentication Routes */}
@@ -166,16 +218,16 @@ function App() {
 
             <Route path="/verifyEmail" element={<GuardedRoute
               hasToBeAuthenticated={false}
-              element={<VerifyEmail setProgress={setProgress}/>}
+              element={<VerifyEmail setProgress={setProgress} />}
               redirectTo="/"
             />} />
 
             <Route path="/forgotPassword" element={<GuardedRoute
               hasToBeAuthenticated={false}
-              element={<ForgotPassword setProgress={setProgress}/>}
+              element={<ForgotPassword setProgress={setProgress} />}
               redirectTo="/"
             />} />
-            <Route path="*" element={<ErrorPage setProgress={setProgress}/>} />
+            <Route path="*" element={<ErrorPage setProgress={setProgress} />} />
 
           </Routes>
         </BrowserRouter>

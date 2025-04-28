@@ -15,7 +15,7 @@ const Home = ({setProgress}) => {
   const { getNote, searchContent, setSearchContentData } = context
   const navigate = useNavigate();
 
-  //--get note-------------------
+  //--get note--------
   useEffect(() => {
     setProgress(0);
     if (localStorage.getItem('token')) {
@@ -55,7 +55,74 @@ const Home = ({setProgress}) => {
     }
   };
 
-  let arr = [{}, {}, {}, {}]
+  const dummyCourses = [
+    {
+      id: 1,
+      title: "C Programming",
+      level: "Beginner",
+      duration: "10 weeks",
+      content: "OOPs, Variables, Identifiers, Keywords, Looping, Control Statements",
+      thumbnail: "/assets/img/C-Programming-Courses.png",
+      offer: "50%",
+      lectures: [
+        { title: 'Introduction to C', duration: '30 mins' },
+        { title: 'Variables and Data Types', duration: '45 mins' },
+        { title: 'Control Structures in C', duration: '50 mins' },
+        { title: 'Functions in C', duration: '40 mins' },
+        { title: 'Arrays and Pointers', duration: '60 mins' },
+      ]
+    },
+    {
+      id: 2,
+      title: "Python for Data Science",
+      level: "Intermediate",
+      duration: "8 weeks",
+      content: "Numpy, Pandas, Data Cleaning, Data Visualization, ML Basics",
+      thumbnail: "/assets/img/python-cource.jpg",
+      offer: "80%",
+      lectures: [
+        { title: 'Introduction to Python', duration: '35 mins' },
+        { title: 'Working with Numpy', duration: '50 mins' },
+        { title: 'Data Analysis with Pandas', duration: '60 mins' },
+        { title: 'Data Visualization Basics', duration: '45 mins' },
+        { title: 'Intro to Machine Learning', duration: '70 mins' },
+      ]
+    },
+    {
+      id: 3,
+      title: "Web Development Bootcamp",
+      level: "Beginner",
+      duration: "12 weeks",
+      content: "HTML, CSS, JavaScript, Bootstrap, React.js",
+      thumbnail: "/assets/img/webdev-cource.png",
+      offer: "40%",
+      lectures: [
+        { title: 'HTML Basics', duration: '50 mins' },
+        { title: 'CSS Styling', duration: '40 mins' },
+        { title: 'JavaScript Fundamentals', duration: '60 mins' },
+        { title: 'Responsive Web Design with Bootstrap', duration: '55 mins' },
+        { title: 'Introduction to React.js', duration: '75 mins' },
+      ]
+    },
+    {
+      id: 4,
+      title: "Java Fullstack Development",
+      level: "Advanced",
+      duration: "14 weeks",
+      content: "Core Java, Spring Boot, Hibernate, REST APIs, React.js",
+      thumbnail: "/assets/img/java-cource.jpg",
+      offer: "70%",
+      lectures: [
+        { title: 'Java Basics', duration: '50 mins' },
+        { title: 'Object-Oriented Programming with Java', duration: '65 mins' },
+        { title: 'Spring Boot Introduction', duration: '70 mins' },
+        { title: 'Working with Hibernate', duration: '60 mins' },
+        { title: 'Building REST APIs', duration: '80 mins' },
+      ]
+    }
+  ];
+  
+
   let team = [
     {
       "name": "Sanjay Yadav",
@@ -176,7 +243,7 @@ const Home = ({setProgress}) => {
 
 
       {/*==================================== New And Latest Cources Section =====================================*/}
-      <section className='container-lg px-4 my-5 home-banner-section'>
+      <section className='container-lg px-4 px-md-0 my-5 home-banner-section'>
         <div className='text-center'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
           <h1 className='fw-bolder'>Our Latest Featured Cources</h1>
@@ -184,7 +251,7 @@ const Home = ({setProgress}) => {
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
         <div className='mt-2 mt-md-3'>
-          <div className="row g-4 mt-4">{arr.map((e, index) => <CourceIteam key={index} />)}</div>
+          <div className="row g-4 mt-4">{dummyCourses.map((e, index) => <CourceIteam key={index} data={e} />)}</div>
         </div>
         <div className='d-flex justify-content-center'>
           <button className='btn btn-dark px-5 py-2 mt-5' onClick={() => navigate('/cource')} >View All Courses</button>

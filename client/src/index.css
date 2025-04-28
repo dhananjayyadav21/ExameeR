@@ -434,6 +434,12 @@ form label {
   background-color: rgba(192, 192, 236, 0.779);
 }
 
+.cource-offer-badge{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 /*========================================== support section  ==================================================*/
 .support-call {
   background-color: rgba(221, 230, 250, 0.671);
