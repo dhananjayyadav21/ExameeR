@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
@@ -6,9 +6,18 @@ import { toast } from "react-toastify";
 
 const VideoItem = ({ Video }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning, removeFromMylearning } = context;
+  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningVideo } = context;
+
+  //--[useEffect]----
+  useEffect(() => {
+    getDataFromMyLearning();
+    // eslint-disable-next-line
+  }, []);
+
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
+  const isAlreadyAdded = MyLearningVideo?.some(item => item._id === Video._id);
+
 
   const [showModal, setShowModal] = useState(false);
 
@@ -68,7 +77,7 @@ const VideoItem = ({ Video }) => {
   return (
     <>
 
-      {isMyLearning ?
+      {isMyLearning || isAlreadyAdded ?
         <>
           <Modal
             isOpen={showModal}
@@ -104,10 +113,15 @@ const VideoItem = ({ Video }) => {
           </div>
           <div className="card-body">
             <h5 className="card-title">{(Video.title).slice(0, 20)}</h5>
-            {isMyLearning ?
-              <> <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button></> :
-              <><button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button></>
-            }
+            {isMyLearning ? (
+              <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button>
+            ) : (
+              isAlreadyAdded ? (
+                <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning</button>
+              ) : (
+                <button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button>
+              )
+            )}
             <p className="card-text">{(Video.description).slice(0, 90)}..</p>
           </div>
         </div>

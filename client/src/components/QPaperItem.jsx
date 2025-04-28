@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
@@ -6,10 +6,17 @@ import { toast } from "react-toastify";
 
 const QPaperItem = ({ PYQ }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning, removeFromMylearning } = context;
+  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningPYQ } = context;
+
+  //--[useEffect]----
+  useEffect(() => {
+    getDataFromMyLearning();
+    // eslint-disable-next-line
+  }, []);
 
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
+  const isAlreadyAdded = MyLearningPYQ?.some(item => item._id === PYQ._id);
 
   const navigate = useNavigate();
   const handleViewPDF = () => {
@@ -73,13 +80,13 @@ const QPaperItem = ({ PYQ }) => {
 
   return (
     <>
-      {isMyLearning ?
+      {isMyLearning || isAlreadyAdded ?
         <>
           <Modal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleRemoveToMyLearning}
-            heading={`Do you want to remove ${PYQ.title} PYQ from My Learning? `}
+            heading={`Do You Want To Remove "${PYQ.title}" PYQ Rrom My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           />
         </> :
@@ -88,7 +95,7 @@ const QPaperItem = ({ PYQ }) => {
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleAddToMyLearning}
-            heading={`Do you want to add ${PYQ.title} PYQ in My Learning? `}
+            heading={`Do You Want To Add "${PYQ.title}" PYQ In My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           />
         </>
@@ -105,10 +112,24 @@ const QPaperItem = ({ PYQ }) => {
             <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer"><h6 className='m-0'>Year - {PYQ.year}</h6></span>
             <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View PYQ</h6></span>
           </div>
-          {isMyLearning ?
-            <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1" onClick={() => setShowModal(true)}></i></> :
-            <><i className="fa-solid fa-plus position-absolute add-mylearning z-1" onClick={() => setShowModal(true)}></i></>
-          }
+          {isMyLearning ? (
+            <i
+              className="fa-solid fa-minus position-absolute remove-mylearning z-1"
+              onClick={() => setShowModal(true)}
+            ></i>
+          ) : (
+            isAlreadyAdded ? (
+              <i
+                className="fa-solid fa-minus position-absolute remove-mylearning z-1"
+                onClick={() => setShowModal(true)}
+              ></i>
+            ) : (
+              <i
+                className="fa-solid fa-plus position-absolute add-mylearning z-1"
+                onClick={() => setShowModal(true)}
+              ></i>
+            )
+          )}
         </div>
       </div>
     </>

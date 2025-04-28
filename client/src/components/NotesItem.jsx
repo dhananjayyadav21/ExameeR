@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
@@ -6,10 +6,17 @@ import { toast } from "react-toastify";
 
 const NotesItem = ({ Notes }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning, removeFromMylearning } = context;
+  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes } = context;
+
+  //--[useEffect]----
+  useEffect(() => {
+    getDataFromMyLearning();
+    // eslint-disable-next-line
+  }, []);
 
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
+  const isAlreadyAdded = MyLearningNotes?.some(item => item._id === Notes._id);
 
   const navigate = useNavigate();
   const handleViewPDF = () => {
@@ -73,13 +80,13 @@ const NotesItem = ({ Notes }) => {
   return (
     <>
 
-      {isMyLearning ?
+      {isMyLearning || isAlreadyAdded ? 
         <>
           <Modal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleRemoveToMyLearning}
-            heading={`Do you want to remove ${Notes.title} Notes from My Learning? `}
+            heading={`Do You Want To Remove "${Notes.title}" Notes From My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></> :
         <>
@@ -87,7 +94,7 @@ const NotesItem = ({ Notes }) => {
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleAddToMyLearning}
-            heading={`Do you want to add ${Notes.title} Notes in My Learning? `}
+            heading={`Do You Want To Add "${Notes.title}" Notes In My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></>}
 
@@ -99,10 +106,24 @@ const NotesItem = ({ Notes }) => {
             <p className="card-text text-muted">{Notes.professor}</p>
           </div>
           <span className="btn-light-gray p-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View Notes</h6></span>
-          {isMyLearning ?
-            <><i className="fa-solid fa-minus  position-absolute remove-mylearning z-1" onClick={() => setShowModal(true)}></i></> :
-            <><i className="fa-solid fa-plus position-absolute add-mylearning z-1" onClick={() => setShowModal(true)}></i></>
-          }
+          {isMyLearning ? (
+            <i
+              className="fa-solid fa-minus position-absolute remove-mylearning z-1"
+              onClick={() => setShowModal(true)}
+            ></i>
+          ) : (
+            isAlreadyAdded ? (
+              <i
+                className="fa-solid fa-minus position-absolute remove-mylearning z-1"
+                onClick={() => setShowModal(true)}
+              ></i>
+            ) : (
+              <i
+                className="fa-solid fa-plus position-absolute add-mylearning z-1"
+                onClick={() => setShowModal(true)}
+              ></i>
+            )
+          )}
         </div>
       </div>
     </>
