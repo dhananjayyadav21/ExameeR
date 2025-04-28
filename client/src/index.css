@@ -641,6 +641,127 @@ form label {
   background-color: #e5e7eb;
 }
 
+/*=========================================== plan page =================================================*/
+/* Payment Page Styles */
+.payment-header h2 {
+  font-size: 1.75rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.payment-header p {
+  color: #555;
+  font-size: 1rem;
+}
+
+.plan-summary h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.plan-summary p.plan-price {
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.plan-benefits {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.plan-benefits li {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.user-details h5 {
+  font-size: 1.25rem;
+  color: #333;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  color: #333;
+}
+
+.form-group input,
+.form-group textarea {
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.payment-options h5 {
+  font-size: 1.25rem;
+  color: #333;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
+.methods {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.method:hover {
+  background-color: #f0f0f0;
+}
+
+.method i {
+  font-size: 1.5rem;
+  color: #ffcc00;
+  margin-right: 10px;
+}
+
+.method span {
+  font-size: 1rem;
+  color: #333;
+}
+
+.payment-options button {
+  width: 100%;
+  padding: 15px;
+  background-color: #ffc000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.payment-options button:hover {
+  background-color: #ffc000;
+}
+
+
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 20px;
+  }
+}
+
+
 
 /*=========================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {

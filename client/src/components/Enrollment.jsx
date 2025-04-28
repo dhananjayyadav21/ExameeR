@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const EnrollmentPage = () => {
+const EnrollmentPage = ({ setProgress }) => {
   const location = useLocation();
-  const { course } = location.state || {};  // Get course data from state
+  const { course } = location.state || {};
+
+  //--[useEffect]---
+  useEffect(() => {
+    setProgress(0);
+    setProgress(100);
+    // eslint-disable-next-line
+  }, []);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -17,7 +24,7 @@ const EnrollmentPage = () => {
   const [submitted, setSubmitted] = useState(false);
 
   // Simulate checking login status
-  const isLoggedIn = localStorage.getItem('token'); 
+  const isLoggedIn = localStorage.getItem('token');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +36,7 @@ const EnrollmentPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!isLoggedIn) {
       toast.error('Please login to enroll!');
       return;
@@ -40,7 +47,7 @@ const EnrollmentPage = () => {
   };
 
   if (!course) {
-    return <div className="text-center my-4">Course not found! <br/> Please try again</div>;
+    return <div className="text-center my-4">Course not found! <br /> Please try again</div>;
   }
 
   return (
@@ -91,7 +98,7 @@ const EnrollmentPage = () => {
         <h5>Enrollment Form</h5>
         {submitted ? (
           <div className="alert alert-success text-center">
-            Thank you for enrolling! We will contact you shortly. <br/> Start your learning with Examee.
+            Thank you for enrolling! We will contact you shortly. <br /> Start your learning with Examee.
           </div>
         ) : (
           <form onSubmit={handleSubmit}>

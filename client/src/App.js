@@ -43,6 +43,7 @@ import UpdatesNotes from "./Dashbord/components/UpdatesNotes";
 import UpdatePYQ from "./Dashbord/components/UpdatesPYQ";
 import UpdateVideo from "./Dashbord/components/UpdatesVideo";
 import EnrollmentPage from "./components/Enrollment";
+import PaymentPage from "./components/PymentPage";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -112,9 +113,14 @@ function App() {
               redirectTo="/auth"
             />} />
 
+            <Route path="/plan-detail" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<PaymentPage setProgress={setProgress} />}
+              redirectTo="/auth"
+            />} />
+
             <Route path="/searchcontent" element={<SearchContent setProgress={setProgress} />} />
             <Route path="/enrollmentcource" element={<EnrollmentPage setProgress={setProgress} />} />
-
 
 
             {/* Fix: Add '*' to the dashboard route -------------------------------- */}

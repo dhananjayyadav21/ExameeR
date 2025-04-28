@@ -4,6 +4,49 @@ import { useNavigate } from 'react-router-dom';
 const Offers = () => {
   const navigate = useNavigate();
 
+  let Basic = {
+    title: "Basic Plan",
+    price: "₹499",
+    duration: "month",
+    benefits: [
+      "Access to Basic Notes",
+      "5 Course Downloads",
+      "Email Support",
+      "1- Chat per day"
+    ]
+  }
+
+  let Pro = {
+    title: "Pro Plan",
+    price: "₹999",
+    duration: "month",
+    benefits: [
+      "Everything in Basic",
+      "Unlimited Downloads",
+      "Priority Support",
+      "Live Sessions"
+    ]
+  }
+
+  let Premium = {
+    title: "Basic Plan",
+    price: "₹1499",
+    duration: "month",
+    benefits: [
+      "Everything in Pro",
+      "1-on-1 Mentoring",
+      "Custom Study Plan",
+      "Certificate"
+    ]
+  }
+
+  const handlestart = (plan) => {
+    navigate('/plan-detail', {
+      state: { plan }
+    })
+  }
+
+
   return (
     <>
       <section id="pricing" className="py-5">
@@ -20,27 +63,18 @@ const Offers = () => {
             <div className="col-md-4">
               <div className="card card-transition border rounded-4 shadow py-4 h-100">
                 <div className='text-center'>
-                    <h3 className="card-title fw-bold mb-3">Basic Plan</h3>
+                    <h3 className="card-title fw-bold mb-3">{Basic.title}</h3>
                     <div className="h1 fw-bold text-primary mb-4">
-                        ₹499<span className="fs-6 text-muted">/month</span>
+                        {Basic.price}<span className="fs-6 text-muted">/{Basic.duration}</span>
                     </div>
                 </div>
                 <div className="card-body">
-                  <ul className="list-unstyled mb-4">
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i  fa-check"></i>
-                      Access to Basic Notes
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      5 Course Downloads
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Email Support
-                    </li>
+                  <ul className="list-unstyled text-start mb-4">
+                  {Basic.benefits.map((benefit, index) => (
+                      <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
+                    ))}
                   </ul>
-                  <button className="btn btn-primary w-100" onClick={()=>navigate('/plans')}>Get Started</button>
+                  <button className="btn btn-primary w-100"onClick={()=>{handlestart(Basic)}}>Get Started</button>
                 </div>
               </div>
             </div>
@@ -52,31 +86,18 @@ const Offers = () => {
                   <span className="badge bg-primary text-white">Popular</span>
                 </div>
                 <div className='text-center'>
-                    <h3 className="card-title fw-bold mb-3">Pro Plan</h3>
-                    <div className="h1 fw-bold text-primary mb-4">
-                        ₹999<span className="fs-6 text-light">/month</span>
-                    </div>
+                  <h3 className="card-title fw-bold mb-3">{Pro.title}</h3>
+                  <div className="h1 fw-bold text-primary mb-4">
+                    {Pro.price}<span className="fs-6 text-light">/{Pro.duration}</span>
+                  </div>
                 </div>
                 <div className="card-body">
-                  <ul className="list-unstyled mb-4">
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Everything in Basic
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Unlimited Downloads
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Priority Support
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Live Sessions
-                    </li>
+                <ul className="list-unstyled text-start mb-4">
+                  {Pro.benefits.map((benefit, index) => (
+                      <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
+                    ))}
                   </ul>
-                  <button className="btn btn-primary w-100" onClick={()=>navigate('/plans')}>Get Started</button>
+                  <button className="btn btn-primary w-100" onClick={() => { handlestart(Pro) }}>Get Started</button>
                 </div>
               </div>
             </div>
@@ -85,31 +106,18 @@ const Offers = () => {
             <div className="col-md-4">
               <div className="card card-transition border rounded-4 shadow py-4 h-100">
                 <div className='text-center'>
-                    <h3 className="card-title fw-bold mb-3">Premium Plan</h3>
-                    <div className="h1 fw-bold text-primary mb-4">
-                        ₹1499<span className="fs-6 text-muted">/month</span>
-                    </div>
+                  <h3 className="card-title fw-bold mb-3">{Premium.title}</h3>
+                  <div className="h1 fw-bold text-primary mb-4">
+                    {Premium.price}<span className="fs-6 text-muted">/{Premium.duration}</span>
+                  </div>
                 </div>
                 <div className="card-body">
-                  <ul className="list-unstyled text-start mb-4">
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Everything in Pro
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      1-on-1 Mentoring
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Custom Study Plan
-                    </li>
-                    <li className="mb-2">
-                      <i className="fa-solid mx-3 green-i fa-check"></i>
-                      Certificate
-                    </li>
+                <ul className="list-unstyled text-start mb-4">
+                  {Premium.benefits.map((benefit, index) => (
+                      <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
+                    ))}
                   </ul>
-                  <button className="btn btn-primary w-100"onClick={()=>navigate('/plans')}>Get Started</button>
+                  <button className="btn btn-primary w-100" onClick={() => { handlestart(Premium) }}>Get Started</button>
                 </div>
               </div>
             </div>
