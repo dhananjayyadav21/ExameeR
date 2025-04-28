@@ -89,7 +89,6 @@ const VideoLectures = () => {
         position: "top-right"
       });
     }
-    
   }
 
 
