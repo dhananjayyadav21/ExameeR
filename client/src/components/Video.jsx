@@ -30,7 +30,7 @@ const Video = ({setProgress}) => {
 
     return (
         <>
-            <div className="container-fluid">
+            <div>
                 <div className="row g-4">
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-VideoSection">
@@ -42,7 +42,7 @@ const Video = ({setProgress}) => {
                             </div>
                         </div>
                         {/* Temporary it controlled from backend */}
-                        <div className="d-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
+                        <div className="d-none d-md-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
                             <a href="https://www.youtube.com/@exameecode"><img className="rounded-3" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} /></a>
                         </div>
                     </div>
