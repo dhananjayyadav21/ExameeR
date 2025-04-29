@@ -220,6 +220,20 @@ const ContentState = (props) => {
     } catch (error) {
       console.log("Do not update video due to some error", error);
     }
+  }; //UPDATECOURSE_URL
+
+
+  //---UPDATE COURSE() using Get Httpservice  
+  const updateCourse = async (Data, id) => {
+    try {
+      const json = await putData(
+        `${GlobalUrls.UPDATECOURSE_URL}/${id}`,
+        Data
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not update course due to some error", error);
+    }
   };
 
 
@@ -248,7 +262,7 @@ const ContentState = (props) => {
     }
   };
 
-  //---DELETE VIDEO() using Get Httpservice  
+  //---DELETE VIDEO() using Get Httpservice   
   const deleteVideo = async (id) => {
     try {
       const json = await deleteData(
@@ -257,6 +271,18 @@ const ContentState = (props) => {
       return json;
     } catch (error) {
       console.log("Do not delete pyq due to some error", error);
+    }
+  };
+
+   //---DELETE VIDEO() using Get Httpservice 
+   const deleteCourse = async (id) => {
+    try {
+      const json = await deleteData(
+        `${GlobalUrls.DELETECOURSE_URL}/${id}`,
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not delete course due to some error", error);
     }
   };
 
@@ -480,8 +506,8 @@ const ContentState = (props) => {
         Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
         LatestData,
         addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
-        updateNotes, updatePYQ, updateVideo,
-        deleteNotes, deletePYQ, deleteVideo,
+        updateNotes, updatePYQ, updateVideo, updateCourse,
+        deleteNotes, deletePYQ, deleteVideo, deleteCourse,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,

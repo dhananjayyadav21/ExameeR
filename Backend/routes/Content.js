@@ -20,9 +20,12 @@ const router = require('express').Router();
   router.put('/updateNotes/:id',fetchUser, ContentController.updateNotes); 
   router.put('/updatePyq/:id',fetchUser, ContentController.updatePyq); 
   router.put('/updateVideo/:id',fetchUser, ContentController.updateVideo); 
+  router.put('/updateCourse/:id',fetchUser, ContentController.updateCourse); 
+
   router.delete('/deleteNote/:id',fetchUser, ContentController.deleteNote); 
   router.delete('/deletePYQ/:id',fetchUser, ContentController.deletePYQ);  
-  router.delete('/deleteVideo/:id',fetchUser, ContentController.deleteVideo);  
+  router.delete('/deleteVideo/:id',fetchUser, ContentController.deleteVideo); 
+  router.delete('/deleteCourse/:id',fetchUser, ContentController.deleteCourse);  
 
   router.get('/getLatestUpload',fetchUser, ContentController.getLatestUpload); 
   router.get('/searchContent', searchController.searchContent);

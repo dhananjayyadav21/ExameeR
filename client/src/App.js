@@ -44,6 +44,7 @@ import UpdatePYQ from "./Dashbord/components/UpdatesPYQ";
 import UpdateVideo from "./Dashbord/components/UpdatesVideo";
 import EnrollmentPage from "./components/Enrollment";
 import PaymentPage from "./components/PymentPage";
+import UpdateCourse from "./Dashbord/components/UpdateCourse";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -185,6 +186,13 @@ function App() {
               <RoleBasedRoute
                 allowedRoles={["Admin", "Instructor"]}
                 element={<UpdateVideo />}
+              />
+            } />
+
+            <Route path="/updatecourse" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin", "Instructor"]}
+                element={<UpdateCourse />}
               />
             } />
 

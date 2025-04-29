@@ -372,8 +372,6 @@ const uploadCourse = async (req, res) => {
 
 
 
-
-
 //===========================================[ GET ]=========================================
 //--[ NOTES: Get all public notes ] 
 const getAllPublicNotes = async (req, res) => {
@@ -663,7 +661,6 @@ const getAllPublicVIDEO = async (req, res) => {
   }
 };
 
-
 //--[ COURSE: Get all public Course ] 
 const getAllPublicCourse = async (req, res) => {
   try {
@@ -758,7 +755,6 @@ const getAllPublicCourse = async (req, res) => {
     });
   }
 };
-
 
 //---[ ALLLatest: Get all public ALLLatest ] 
 const getLatestUpload = async (req, res) => {
@@ -868,7 +864,6 @@ const updateNotes = async (req, res) => {
   }
 };
 
-
 //--- Update PYQ
 const updatePyq = async (req, res) => {
   try {
@@ -918,7 +913,6 @@ const updatePyq = async (req, res) => {
   }
 };
 
-
 //--- update video
 const updateVideo = async (req, res) => {
   try {
@@ -967,6 +961,97 @@ const updateVideo = async (req, res) => {
     });
   }
 };
+
+//-- update course
+const updateCourse = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const courseId = req.params.id;
+
+    // Check if user exists
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found!' });
+    }
+
+    // Check if the user has permission
+    if (user.Role !== 'Admin' && user.Role !== 'Instructor') {
+      return res.status(401).json({
+        success: false,
+        message: 'Access denied. Only Admin or Instructor can update courses!',
+      });
+    }
+
+    const {
+      title,
+      description,
+      mentor,
+      courseLevel,
+      duration,
+      price,
+      offerPercent,
+      offerPrice,
+      startDate,
+      courseContents,
+      whyChoose,
+      benefits,
+      category,
+      isPublic,
+      status,
+      courseImage,
+      trialVideo,
+      lectures,
+    } = req.body;
+
+    // Validate important fields
+    if (!title || !mentor || !price || !trialVideo) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title, Mentor, Price & Trial Video are required!',
+      });
+    }
+
+    const course = await CourseModel.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found!' });
+    }
+
+    // Update fields
+    course.title = title;
+    course.description = description;
+    course.mentor = mentor;
+    course.courseLevel = courseLevel;
+    course.duration = duration;
+    course.price = price;
+    course.offerPercent = offerPercent;
+    course.offerPrice = offerPrice;
+    course.startDate = startDate;
+    course.courseContents = courseContents;
+    course.whyChoose = whyChoose;
+    course.benefits = benefits;
+    course.category = category;
+    course.isPublic = isPublic;
+    course.status = status;
+    course.courseImage = courseImage;
+    course.trialVideo = trialVideo;
+    course.lectures = Array.isArray(lectures) ? lectures : [];
+
+    await course.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Course updated successfully!',
+      data: { title, mentor, price },
+    });
+  } catch (error) {
+    console.error('Update Course Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while updating course!',
+    });
+  }
+};
+
 
 
 
@@ -1019,7 +1104,6 @@ const deleteNote = async (req, res) => {
   }
 };
 
-
 //--- Delete PYQ
 const deletePYQ = async (req, res) => {
   try {
@@ -1067,7 +1151,6 @@ const deletePYQ = async (req, res) => {
     });
   }
 };
-
 
 //---- Delete Video
 const deleteVideo = async (req, res) => {
@@ -1117,11 +1200,52 @@ const deleteVideo = async (req, res) => {
   }
 };
 
+//-- delete course
+const deleteCourse = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const courseId = req.params.id;
+
+    // Check if user exists
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found!' });
+    }
+
+    // Check permission
+    if (user.Role !== 'Admin' && user.Role !== 'Instructor') {
+      return res.status(401).json({
+        success: false,
+        message: 'Access denied. Only Admin or Instructor can delete courses!',
+      });
+    }
+
+    const course = await CourseModel.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ success: false, message: 'Course not found!' });
+    }
+
+    await CourseModel.findByIdAndDelete(courseId);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Course deleted successfully!',
+    });
+  } catch (error) {
+    console.error('Delete Course Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while deleting course!',
+    });
+  }
+};
+
+
 
 
 module.exports = {
   uploadNotes, uploadPYQ, uploadVideo, uploadCourse,
   getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getAllPublicCourse, getLatestUpload,
-  updateNotes, updatePyq, updateVideo,
-  deleteNote, deletePYQ, deleteVideo,
+  updateNotes, updatePyq, updateVideo, updateCourse,
+  deleteNote, deletePYQ, deleteVideo, deleteCourse,
 }

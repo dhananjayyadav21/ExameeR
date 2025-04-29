@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Modal from "../../utils/Modal";
 import {
   faEdit,
   faTrashAlt,
@@ -9,14 +10,16 @@ import {
   faTag,
   faUserTie
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../GlobalURL"
 import { toast } from "react-toastify";
 
 const Courses = () => {
   const context = useContext(ContentContext);
-  const { searchDashContent, dasCourse, getCourse } = context;
+  const { searchDashContent, dasCourse, getCourse, deleteCourse } = context;
+
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState("sciTechnology");
@@ -26,7 +29,7 @@ const Courses = () => {
 
   // Calculate current page Notes
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(3);
   const indexOfLastCourse = currentPage * itemsPerPage;
   const indexOfFirstCourse = indexOfLastCourse - itemsPerPage;
   const currentNotes = dasCourse.slice(indexOfFirstCourse, indexOfLastCourse);
@@ -71,6 +74,32 @@ const Courses = () => {
     }
   });
 
+  //-- handle note delete
+  const [showModal, setShowModal] = useState(false);
+  const [modalCourse, setModalCourse] = useState("");
+
+  const deleteCoinfirm = async (Course) => {
+    const res = await deleteCourse(Course._id);
+    setShowModal(false);
+    getCourse();
+    if (res.success === true) {
+      toast.success(res.message || "Successfully delete Course !", {
+        position: "top-right"
+      });
+    } if (res.success === false) {
+      toast.error(res.message || "Faild to  delete Course !", {
+        position: "top-right"
+      });
+    }
+  }
+
+  //---- handle course update
+  const handleUpdate = (Course) => {
+    navigate("/updatecourse", {
+      state: Course
+    });
+  }
+
   return (
     <div id="courses" className="min-vh-100 p-3 py-4 px-md-4">
       {/* Header with Add Course Button */}
@@ -86,6 +115,14 @@ const Courses = () => {
           </button>
         </Link>
       </div>
+
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        onConfirm={() => deleteCoinfirm(modalCourse)}
+        heading={`Do You Want To Delete "${modalCourse?.title}" Course.`}
+        subHeading={`“Yes or No”`}
+      />
 
       {/* Filters and Search */}
       <form onSubmit={handleSubmit}
@@ -132,11 +169,11 @@ const Courses = () => {
       {/* Courses Grid */}
       {isloading && <h4 className="my-4">Loding.....</h4>}
       {!isloading && (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
           {/* Course Card 1 */}
           {currentNotes?.map((course, i) => (
             <div className="col">
-              <div className="card h-100 border">
+              <div className="card h-100 border shadow-sm">
                 <div style={{ minHeight: '180px' }}>
                   <img
                     src={`https://lh3.googleusercontent.com/d/${course.courseImage}` || "/assets/img/cource.jpg"}
@@ -180,10 +217,10 @@ const Courses = () => {
                     </div>
 
                     <div className="d-flex gap-2">
-                      <span className="p-2 text-primary" title="Edit">
+                      <span className="p-2 btn btn-sm btn-outline-primary" title="Edit" onClick={() => { handleUpdate(course) }}>
                         <FontAwesomeIcon icon={faEdit} />
                       </span>
-                      <span className="p-2 text-danger" title="Delete">
+                      <span className="p-2 btn btn-sm btn-outline-danger" title="Delete" onClick={() => { setShowModal(true); setModalCourse(course); }}>
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </span>
                     </div>
