@@ -10,18 +10,16 @@ import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { toast } from 'react-toastify'
 
-const Home = ({setProgress}) => {
+const Home = ({ setProgress }) => {
   const context = useContext(ContentContext);
-  const { getNote, searchContent, setSearchContentData, Course, getCourse  } = context
+  const { getNote, searchContent, setSearchContentData, Course, getCourse } = context
   const navigate = useNavigate();
 
   //--get note--------
   useEffect(() => {
     setProgress(0);
-    if (localStorage.getItem('token')) {
-      getNote();
-      getCourse();
-    }
+    getNote();
+    getCourse();
     setProgress(100);
     // eslint-disable-next-line
   }, []);
@@ -109,13 +107,13 @@ const Home = ({setProgress}) => {
                   </button>
                 </div>
               </form>
-       
+
               {/*----------------------------------------------------------------------------------*/}
               <div className='d-flex my-4 gap-2 justify-content-center justify-content-md-start'>
                 {!localStorage.getItem("token") ?
                   <><Link className='nav-link' to="/auth"><button type="button" className="btn btn-green px-4  rounded-3">Login</button></Link>
                     <Link className='nav-link' to="/auth"><button type="button" className="btn btn-green px-4 rounded-3">Register</button></Link>
-                  </> : 
+                  </> :
                   <> <div className='mt-3' style={{ display: 'flex', gap: '10px' }}>
                     <button
                       className={`btn btn-sm shadow-sm ${searchType === 'notes' ? 'btn-dark' : 'btn-white'}`}
@@ -184,7 +182,7 @@ const Home = ({setProgress}) => {
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
         <div className='mt-2 mt-md-3'>
-          <div className="row g-4 mt-4">{Course.map((e, index) => <CourceIteam key={index} Course={Course} />)}</div>
+          <div className="row g-4 mt-4">{Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}</div>
         </div>
         <div className='d-flex justify-content-center'>
           <button className='btn btn-dark px-5 py-2 mt-5' onClick={() => navigate('/cource')} >View All Courses</button>

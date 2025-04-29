@@ -77,7 +77,7 @@ const UploadCourse = () => {
       if (result?.success && result?.fileId) {
         setFormData((prev) => ({
           ...prev,
-          courseImage: result.fileIdS,
+          courseImage: result.fileId,
         }));
         toast.success("Thumbnail uploaded successfully!");
       } else {
