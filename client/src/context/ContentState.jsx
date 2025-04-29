@@ -37,7 +37,7 @@ const ContentState = (props) => {
     }
   };
 
-  //---Add VIDEO() using Post Httpservice 
+  //---Add VIDEO() using Post Httpservice  
   const addVideo = async (Data) => {
     try {
       const json = await postData(
@@ -52,6 +52,25 @@ const ContentState = (props) => {
       console.log("Do not add Video due to some error", error);
     }
   };
+
+   //---Add COURSE() using Post Httpservice  
+   const addCourse = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ADDCOURSE_URL}`,
+        Data
+      );
+      console.log("json---------->",json);
+      if (json.success === true) {
+        setCourse(Course.concat(json.data));
+
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not add Course due to some error", error);
+    }
+  };
+
 
 
 
@@ -409,6 +428,10 @@ const ContentState = (props) => {
   const [MyVideo, setMyVideo] = useState([]);
   const [AllVideo, setAllVideo] = useState([]);
 
+  const [Course, setCourse] = useState([]);
+  const [MyCourse, setMyCourse] = useState([]);
+  const [AllCourse, setAllCourse] = useState([]);
+
   const [LatestData, setLatestData] = useState([]);
 
   const [MyLearningData, setMyLearningData] = useState([]);
@@ -429,7 +452,7 @@ const ContentState = (props) => {
       value={{
         Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,
         LatestData,
-        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, getLatestUpload,
+        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getLatestUpload,
         updateNotes, updatePYQ, updateVideo,
         deleteNotes, deletePYQ, deleteVideo,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,

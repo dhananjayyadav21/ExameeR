@@ -1,73 +1,125 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from "react";
+import DriveUpload from "../../services/DriveUpload";
+import ContentContext from '../../context/ContentContext';
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const UploadCourse = ({ userId }) => {
+const UploadCourse = () => {
+  const navigate = useNavigate();
+  const context = useContext(ContentContext);
+  const { addCourse } = context
+
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    category: '',
-    tags: '',
+    title: "",
+    description: "",
+    mentor: "",
+    courseLevel: "",
+    duration: "",
+    price: "",
+    offerPercent: "",
+    offerPrice: "",
+    startDate: "",
+    courseContents: "",
+    whyChoose: "",
+    benefits: "",
+    courseImage: null,
+    trialVideo: "",
+    category: 'sciTechnology',
     isPublic: true,
     status: 'public',
+    lectures: [
+      { title: "", videoUrl: "" },
+    ],
   });
 
-  const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
-
+  
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: value,
     }));
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+  const handleLectureChange = (index, field, value) => {
+    const updatedLectures = [...formData.lectures];
+    updatedLectures[index][field] = value;
+    setFormData((prev) => ({
+      ...prev,
+      lectures: updatedLectures,
+    }));
+  };
+
+  const addLectureField = () => {
+    setFormData((prev) => ({
+      ...prev,
+      lectures: [...prev.lectures, { title: "", videoUrl: "" }],
+    }));
+  };
+
+  const removeLectureField = (index) => {
+    const updatedLectures = formData.lectures.filter((_, idx) => idx !== index);
+    setFormData((prev) => ({
+      ...prev,
+      lectures: updatedLectures,
+    }));
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const result = await DriveUpload(file);
+      if (result?.success && result?.fileId) {
+        setFormData((prev) => ({
+          ...prev,
+          courseImage: result.fileId,
+        }));
+        toast.success("Thumbnail uploaded successfully!");
+      } else {
+        toast.warning("Failed to upload thumbnail.");
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+    setUploading(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
-    if (!file || file.type !== 'application/pdf') {
-      return setMessage('Please upload a valid course PDF file.');
+    const { title, mentor, price, courseImage, trialVideo } = formData;
+
+    if (!title || !mentor || !price || !courseImage || !trialVideo) {
+      toast.warning("Please fill all required fields!");
+      setUploading(false);
+      return;
     }
 
-    const data = new FormData();
-    data.append('title', formData.title);
-    data.append('description', formData.description);
-    data.append('category', formData.category);
-    data.append('tags', formData.tags.split(',').map(tag => tag.trim()));
-    data.append('isPublic', formData.isPublic);
-    data.append('status', formData.status);
-    data.append('uploadedBy', userId);
-    data.append('file', file);
+    if (!trialVideo) {
+      toast.warning("Please paste a valid YouTube video URL.");
+      setUploading(false);
+      return;
+    }
 
     try {
-      setUploading(true);
-      const response = await fetch('/api/course/upload', {
-        method: 'POST',
-        body: data,
-      });
-
-      if (!response.ok) throw new Error('Upload failed');
-
-      setMessage('Course uploaded successfully!');
-      setFormData({
-        title: '',
-        description: '',
-        category: '',
-        tags: '',
-        isPublic: true,
-        status: 'public',
-      });
-      setFile(null);
-    } catch (error) {
-      setMessage('Failed to upload course. Try again.');
-    } finally {
-      setUploading(false);
+      console.log("formData---------->",formData);
+      const response = await addCourse(formData);
+      console.log("response---------->",response);
+      if (response.success) {
+        toast.success("Course uploaded successfully!");
+        navigate(-1);
+      } else {
+        toast.error(response.message || "Failed to upload course.");
+      }
+    } catch (err) {
+      toast.error("Something went wrong.");
     }
+    setUploading(false);
   };
 
   return (
@@ -84,64 +136,145 @@ const UploadCourse = ({ userId }) => {
                 </h5>
               </div>
             </div>
-
             <div className="container-fluid my-3">
               <div className="card shadow m-0 p-0">
                 <div className="card-body">
-                  {message && <div className="alert alert-info">{message}</div>}
-
                   <form onSubmit={handleSubmit}>
+
                     {/* Title */}
                     <div className="mb-3">
-                      <label className="form-label">
-                        Title<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="title"
-                        required
-                        value={formData.title}
-                        onChange={handleChange}
-                        className="form-control"
-                      />
+                      <label className="form-label">Title <span className="text-danger">*</span></label>
+                      <input type="text" name="title" value={formData.title} onChange={handleChange} className="form-control" />
                     </div>
 
                     {/* Description */}
                     <div className="mb-3">
                       <label className="form-label">Description</label>
-                      <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className="form-control"
-                        rows="3"
-                      />
+                      <textarea name="description" value={formData.description} onChange={handleChange} className="form-control" rows="3" />
+                    </div>
+
+                    {/* Mentor */}
+                    <div className="mb-3">
+                      <label className="form-label">Mentor <span className="text-danger">*</span></label>
+                      <input type="text" name="mentor" value={formData.mentor} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Course Level */}
+                    <div className="mb-3">
+                      <label className="form-label">Course Level</label>
+                      <input type="text" name="courseLevel" value={formData.courseLevel} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Duration */}
+                    <div className="mb-3">
+                      <label className="form-label">Duration</label>
+                      <input type="text" name="duration" value={formData.duration} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Price */}
+                    <div className="mb-3">
+                      <label className="form-label">Price <span className="text-danger">*</span></label>
+                      <input type="number" name="price" value={formData.price} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Offer Percent */}
+                    <div className="mb-3">
+                      <label className="form-label">Offer Percent</label>
+                      <input type="number" name="offerPercent" value={formData.offerPercent} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Offer Price */}
+                    <div className="mb-3">
+                      <label className="form-label">Offer Price</label>
+                      <input type="number" name="offerPrice" value={formData.offerPrice} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Start Date */}
+                    <div className="mb-3">
+                      <label className="form-label">Start Date</label>
+                      <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} className="form-control" />
+                    </div>
+
+                    {/* Course Contents */}
+                    <div className="mb-3">
+                      <label className="form-label">Course Contents</label>
+                      <textarea name="courseContents" value={formData.courseContents} onChange={handleChange} className="form-control" rows="3" />
+                    </div>
+
+                      {/* Lectures Section */}
+                      <div className="mb-3">
+                      <label className="form-label">Lectures</label>
+                      {formData.lectures.map((lecture, index) => (
+                        <div key={index} className="card p-3 mb-2">
+                          <div className="mb-2">
+                            <input
+                              type="text"
+                              className="form-control"
+                              placeholder="Lecture Title"
+                              value={lecture.title}
+                              onChange={(e) => handleLectureChange(index, "title", e.target.value)}
+                            />
+                          </div>
+                          <div className="mb-2">
+                            <input
+                              type="url"
+                              className="form-control"
+                              placeholder="Lecture Video URL (YouTube)"
+                              value={lecture.videoUrl}
+                              onChange={(e) => handleLectureChange(index, "videoUrl", e.target.value)}
+                            />
+                          </div>
+                          <button type="button" className="btn btn-danger btn-sm" onClick={() => removeLectureField(index)}>Remove</button>
+                        </div>
+                      ))}
+                      <button type="button" className="btn btn-info btn-sm m-2 text-white" onClick={addLectureField}>
+                        Add Lecture
+                      </button>
+                    </div>
+
+                    {/* Why Choose */}
+                    <div className="mb-3">
+                      <label className="form-label">Why Choose this Course</label>
+                      <textarea name="whyChoose" value={formData.whyChoose} onChange={handleChange} className="form-control" rows="2" />
+                    </div>
+
+                    {/* Benefits */}
+                    <div className="mb-3">
+                      <label className="form-label">Benefits</label>
+                      <textarea name="benefits" value={formData.benefits} onChange={handleChange} className="form-control" rows="2" />
+                    </div>
+
+                    {/* Upload Thumbnail */}
+                    <div className="mb-3">
+                      <label className="form-label">Upload Thumbnail Image <span className="text-danger">*</span></label>
+                      <input type="file" accept="image/*" onChange={handleImageUpload} className="form-control" />
+                    </div>
+
+                    {uploading && (
+                      <div className="text-center">
+                      <div className="spinner-border mt-3" role="status"></div>
+                      </div>
+                    )}
+
+                    {/* YouTube Video URL */}
+                    <div className="mb-3">
+                      <label className="form-label">Trial Video (YouTube IFrame Id) <span className="text-danger">*</span></label>
+                      <input type="url" name="trialVideo" value={formData.trialVideo} onChange={handleChange} className="form-control" placeholder="https://www.youtube.com/watch?v=..." />
                     </div>
 
                     {/* Category */}
                     <div className="mb-3">
                       <label className="form-label">Category (Stream)</label>
-                      <input
-                        type="text"
+                      <select
                         name="category"
                         value={formData.category}
                         onChange={handleChange}
-                        className="form-control"
-                        placeholder="e.g. Computer Science, Commerce, etc."
-                      />
-                    </div>
-
-                    {/* Tags */}
-                    <div className="mb-3">
-                      <label className="form-label">Tags</label>
-                      <input
-                        type="text"
-                        name="tags"
-                        value={formData.tags}
-                        onChange={handleChange}
-                        className="form-control"
-                        placeholder="Comma-separated tags (e.g., algorithms, os)"
-                      />
+                        className="form-select"
+                      >
+                        <option value="sciTechnology">Sci - Technology</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="artscivils">Arts & civils</option>
+                      </select>
                     </div>
 
                     {/* Status */}
@@ -159,19 +292,6 @@ const UploadCourse = ({ userId }) => {
                       </select>
                     </div>
 
-                    {/* File Upload */}
-                    <div className="mb-3">
-                      <label className="form-label">
-                        Upload Course PDF<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={handleFileChange}
-                        className="form-control"
-                      />
-                    </div>
-
                     {/* Public/Private Toggle */}
                     <div className="form-check form-switch mb-3">
                       <input
@@ -183,17 +303,14 @@ const UploadCourse = ({ userId }) => {
                         onChange={handleChange}
                       />
                       <label className="form-check-label" htmlFor="isPublic">
-                        Make course public
+                        Make note public
                       </label>
                     </div>
 
+
                     {/* Submit */}
-                    <button
-                      type="submit"
-                      disabled={uploading}
-                      className="btn btn-primary"
-                    >
-                      {uploading ? 'Uploading...' : 'Upload Course'}
+                    <button type="submit" disabled={uploading} className="btn btn-primary">
+                      {uploading ? "Uploading..." : "Upload Course"}
                     </button>
                   </form>
                 </div>
@@ -210,7 +327,7 @@ const UploadCourse = ({ userId }) => {
               style={{ transform: 'rotate(90deg)' }}
               width={200}
             />
-          </div> 
+          </div>
         </div>
       </div>
     </>

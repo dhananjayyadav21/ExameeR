@@ -4,6 +4,7 @@ import {
   faEdit,
   faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Courses = () => {
   return (
@@ -11,20 +12,15 @@ const Courses = () => {
       {/* Header with Add Course Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h4 fw-bold text-dark dashbord-heading-text">Courses</h1>
+        <Link to="/uploadCourse" className="text-decoration-none text-dark">
         <button className="btn btn-primary d-flex align-items-center gap-2 dashbord-upload-btn-text">
-          <svg
-            className="bi bi-plus-circle"
-            width="20"
-            height="20"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16 8a.5.5 0 0 1-.5.5H8.5v7.5a.5.5 0 0 1-1 0V8.5H.5a.5.5 0 0 1 0-1h7V.5a.5.5 0 0 1 1 0v7h7a.5.5 0 0 1 .5.5z"
+          <svg className="bi bi-plus-circle" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 8a.5.5 0 0 1-.5.5H8.5v7.5a.5.5 0 0 1-1 0V8.5H.5a.5.5 0 0 1 0-1h7V.5a.5.5 0 0 1 1 0v7h7a.5.5 0 0 1 .5.5z"
             />
           </svg>
           Add New Course
         </button>
+        </Link>
       </div>
 
       {/* Filters */}

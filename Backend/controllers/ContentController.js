@@ -2,7 +2,8 @@ const Note = require('../model/notesModel');
 const userModel = require("../model/User");
 const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
-const MyLearningContent = require('../model/myLearning')
+const MyLearningContent = require('../model/myLearning');
+const CourseModel = require("../model/courseModel");
 
 
 //===========================================[ ADD ]=========================================
@@ -262,6 +263,113 @@ const uploadVideo = async (req, res) => {
     })
   }
 };
+
+
+//--[ Cource : uploade Cource ]
+const uploadCourse = async (req, res) => {
+  try {
+    let userId = req.user._id;
+
+    // Check if user exists
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found!',
+      });
+    }
+
+    // Check user role
+    if (user.Role !== "Admin" && user.Role !== "Instructor") {
+      return res.status(401).json({
+        success: false,
+        message: "Access denied. Only Admin or Instructor can upload courses!",
+      });
+    }
+
+    const { 
+      title, 
+      description, 
+      mentor, 
+      courseLevel, 
+      duration, 
+      price, 
+      offerPercent, 
+      offerPrice, 
+      startDate, 
+      courseContents, 
+      whyChoose, 
+      benefits, 
+      courseImage, 
+      trialVideo, 
+      lectures 
+    } = req.body;
+
+    // Validate important fields
+    if (!title || !mentor || !price || !courseImage || !trialVideo) {
+      return res.status(400).json({
+        success: false,
+        message: "Title, Mentor, Price, Thumbnail (courseImage) & Trial Video are required!",
+      });
+    }
+
+    // Validate trialVideo URL (basic check)
+    if (!trialVideo) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide YouTube video URL!",
+      });
+    }
+
+    // Prepare new Course object
+    const newCourse = new CourseModel({
+      title,
+      description,
+      mentor,
+      courseLevel,
+      duration,
+      price,
+      offerPercent,
+      offerPrice,
+      startDate,
+      courseContents,
+      whyChoose,
+      benefits,
+      courseImage,
+      trialVideo,
+      lectures: Array.isArray(lectures) ? lectures : [],
+      uploadedBy: userId,
+    });
+
+    // Save to DB
+    await newCourse.save();
+
+    return res.status(201).json({
+      success: true,
+      message: 'Course uploaded successfully!',
+      data: {
+        title,
+        mentor,
+        price,
+      },
+    });
+
+  } catch (error) {
+    console.error('Upload Course Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server error while uploading course!',
+    });
+  }
+};
+
+
+
+
+
+
+
+
 
 
 
@@ -916,7 +1024,7 @@ const deleteVideo = async (req, res) => {
 
 
 module.exports = {
-  uploadNotes, uploadPYQ, uploadVideo,
+  uploadNotes, uploadPYQ, uploadVideo, uploadCourse,
   getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload,
   updateNotes, updatePyq, updateVideo,
   deleteNote, deletePYQ, deleteVideo,

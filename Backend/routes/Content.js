@@ -10,6 +10,7 @@ const router = require('express').Router();
   router.post('/addNotes',fetchUser, ContentController.uploadNotes);
   router.post('/addPYQ',fetchUser, ContentController.uploadPYQ);
   router.post('/addVideo',fetchUser, ContentController.uploadVideo);
+  router.post('/addCourse',fetchUser, ContentController.uploadCourse);
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
