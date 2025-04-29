@@ -11,9 +11,12 @@ const router = require('express').Router();
   router.post('/addPYQ',fetchUser, ContentController.uploadPYQ);
   router.post('/addVideo',fetchUser, ContentController.uploadVideo);
   router.post('/addCourse',fetchUser, ContentController.uploadCourse);
+
   router.get('/getAllPublicNotes',fetchUser, ContentController.getAllPublicNotes);
   router.get('/getAllPublicPYQ',fetchUser, ContentController.getAllPublicPYQ);
   router.get('/getAllPublicVideo',fetchUser, ContentController.getAllPublicVIDEO);
+  router.get('/getAllPublicCourse',fetchUser, ContentController.getAllPublicCourse);
+
   router.put('/updateNotes/:id',fetchUser, ContentController.updateNotes); 
   router.put('/updatePyq/:id',fetchUser, ContentController.updatePyq); 
   router.put('/updateVideo/:id',fetchUser, ContentController.updateVideo); 

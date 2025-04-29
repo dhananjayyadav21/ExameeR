@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const CourceIteam = ({ data }) => {
+const CourceIteam = ({ Course }) => {
   const navigate = useNavigate();
 
   const handleEnroll = (course) => {
@@ -15,7 +15,7 @@ const CourceIteam = ({ data }) => {
       <div className="col-12 col-sm-6 col-lg-3">
         <div className="card card-transition shadow-sm Courses-item p-2 rounded-3" style={{ minHeight: "380px" }}>
           <div className='position-relative'>
-            <img className="card-img-top rounded-3" src={data?.thumbnail || "/assets/img/cource.jpg"} alt="Cardcap" style={{
+            <img className="card-img-top rounded-3" src={`https://lh3.googleusercontent.com/d/${Course.courseImage}` || "/assets/img/cource.jpg"} alt="Cardcap" style={{
               width: "100%",
               height: "150px",
               objectFit: "cover"
@@ -23,16 +23,16 @@ const CourceIteam = ({ data }) => {
             <div className="Play-btn bg-danger cursor-pointer">
               <i className="fa-solid fa-play"></i>
             </div>
-            <span className='badge bg-warning cource-offer-badge'>{data?.offer} off</span>
+            <span className='badge bg-warning cource-offer-badge'>{Course?.offerPercent}% off</span>
           </div>
           <div className="card-body pb-0 px-1">
             <div className='d-flex justify-content-between align-items-center py-2'>
-              <span className="badge-blue px-2 py-1 rounded-2">{data?.level}</span>
-              <span>Duration:{data?.duration}</span>
+              <span className="badge-blue px-2 py-1 rounded-2">{Course?.courseLevel}</span>
+              <span>Duration:{Course?.duration}</span>
             </div>
-            <h5 className="card-title px-0">{(data?.title).slice(0, 30)}</h5>
-            <p className="card-text px-0"><span>Cource Content :{(data?.content).slice(0, 56)}</span></p>
-            <button className='btn btn-info text-white fw-bold col-12 m-0' onClick={()=> handleEnroll(data)}>Enrolled Now</button>
+            <h5 className="card-title px-0">{(Course?.title).slice(0, 30)}</h5>
+            <p className="card-text px-0"><span>Cource Content :{(Course?.courseContents).slice(0, 56)}</span></p>
+            <button className='btn btn-info text-white fw-bold col-12 m-0' onClick={()=> handleEnroll(Course)}>Enrolled Now</button>
           </div>
         </div>
       </div>

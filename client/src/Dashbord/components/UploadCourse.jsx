@@ -35,12 +35,13 @@ const UploadCourse = () => {
   const [uploading, setUploading] = useState(false);
   
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
+  
 
   const handleLectureChange = (index, field, value) => {
     const updatedLectures = [...formData.lectures];
@@ -76,7 +77,7 @@ const UploadCourse = () => {
       if (result?.success && result?.fileId) {
         setFormData((prev) => ({
           ...prev,
-          courseImage: result.fileId,
+          courseImage: result.fileIdS,
         }));
         toast.success("Thumbnail uploaded successfully!");
       } else {
@@ -107,9 +108,7 @@ const UploadCourse = () => {
     }
 
     try {
-      console.log("formData---------->",formData);
       const response = await addCourse(formData);
-      console.log("response---------->",response);
       if (response.success) {
         toast.success("Course uploaded successfully!");
         navigate(-1);

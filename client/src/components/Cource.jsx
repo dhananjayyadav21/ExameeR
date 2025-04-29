@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CourceIteam from './CourceIteam'
 import Footer from './Footer'
+import ContentContext from '../context/ContentContext';
+import * as GlobalUrls from "../GlobalURL";
+
 
 const Cource = ({ setProgress }) => {
 
@@ -10,73 +14,27 @@ const Cource = ({ setProgress }) => {
     // eslint-disable-next-line
   }, []);
 
-  const dummyCourses = [
-    {
-      id: 1,
-      title: "C Programming",
-      level: "Beginner",
-      duration: "10 weeks",
-      content: "OOPs, Variables, Identifiers, Keywords, Looping, Control Statements",
-      thumbnail: "/assets/img/C-Programming-Courses.png",
-      offer: "50%",
-      lectures: [
-        { title: 'Introduction to C', duration: '30 mins' },
-        { title: 'Variables and Data Types', duration: '45 mins' },
-        { title: 'Control Structures in C', duration: '50 mins' },
-        { title: 'Functions in C', duration: '40 mins' },
-        { title: 'Arrays and Pointers', duration: '60 mins' },
-      ]
-    },
-    {
-      id: 2,
-      title: "Python for Data Science",
-      level: "Intermediate",
-      duration: "8 weeks",
-      content: "Numpy, Pandas, Data Cleaning, Data Visualization, ML Basics",
-      thumbnail: "/assets/img/python-cource.jpg",
-      offer: "80%",
-      lectures: [
-        { title: 'Introduction to Python', duration: '35 mins' },
-        { title: 'Working with Numpy', duration: '50 mins' },
-        { title: 'Data Analysis with Pandas', duration: '60 mins' },
-        { title: 'Data Visualization Basics', duration: '45 mins' },
-        { title: 'Intro to Machine Learning', duration: '70 mins' },
-      ]
-    },
-    {
-      id: 3,
-      title: "Web Development Bootcamp",
-      level: "Beginner",
-      duration: "12 weeks",
-      content: "HTML, CSS, JavaScript, Bootstrap, React.js",
-      thumbnail: "/assets/img/webdev-cource.png",
-      offer: "40%",
-      lectures: [
-        { title: 'HTML Basics', duration: '50 mins' },
-        { title: 'CSS Styling', duration: '40 mins' },
-        { title: 'JavaScript Fundamentals', duration: '60 mins' },
-        { title: 'Responsive Web Design with Bootstrap', duration: '55 mins' },
-        { title: 'Introduction to React.js', duration: '75 mins' },
-      ]
-    },
-    {
-      id: 4,
-      title: "Java Fullstack Development",
-      level: "Advanced",
-      duration: "14 weeks",
-      content: "Core Java, Spring Boot, Hibernate, REST APIs, React.js",
-      thumbnail: "/assets/img/java-cource.jpg",
-      offer: "70%",
-      lectures: [
-        { title: 'Java Basics', duration: '50 mins' },
-        { title: 'Object-Oriented Programming with Java', duration: '65 mins' },
-        { title: 'Spring Boot Introduction', duration: '70 mins' },
-        { title: 'Working with Hibernate', duration: '60 mins' },
-        { title: 'Building REST APIs', duration: '80 mins' },
-      ]
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const context = useContext(ContentContext);
+  const { Course, getCourse } = context;
+
+  const category = searchParams.get('category') || 'sciTechnology';
+  const sortBy = searchParams.get('sortBy') || 'latest';
+
+  useEffect(() => {
+    setProgress(0);
+    if (localStorage.getItem('token')) {
+      getCourse(`${GlobalUrls.GETCourse_URL}?category=${category}&sortBy=${sortBy}`);
     }
-  ];
-  
+    setProgress(100);
+    // eslint-disable-next-line
+  }, [category, sortBy]);
+
+  const handleShortByChange = (sortBy) => {
+    searchParams.set('sortBy', sortBy);
+    navigate(`?${searchParams.toString()}`);
+  }
 
 
   return (
@@ -124,15 +82,16 @@ const Cource = ({ setProgress }) => {
                     Sort By <i className="fa-solid fa-sort"></i>
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a className="dropdown-item" href="/cource">oldest</a></li>
-                    <li><a className="dropdown-item" href="/cource">latest</a></li>
+                    <li><button className="dropdown-item" onClick={() => { handleShortByChange('latest') }}>Latest-Notes</button></li>
+                    <li><button className="dropdown-item" onClick={() => { handleShortByChange('oldest') }}>Oldest-Notes</button></li>
                   </ul>
                 </div>
               </div>
 
               <div className="mt-4">
                 <div className="row g-4">
-                  {dummyCourses.map((e, index) => <CourceIteam key={index} data={e} />)}
+                  {Course.length === 0 && <h5 className="d-flex justify-content-center text-center my-5">No Data Found! <br /> Plese Check internet connection</h5>}
+                  {Course?.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
                 </div>
               </div>
             </div>

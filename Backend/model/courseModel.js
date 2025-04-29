@@ -23,6 +23,20 @@ const courseSchema = new mongoose.Schema({
     lectures: [lectureSchema],
     uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     ExmeeUserId: { type: String },
+    category: {
+        type: String,
+        enum: ['sciTechnology', 'commerce', 'artscivils'],
+        default: 'sciTechnology',
+    },
+    isPublic: {
+        type: Boolean,
+        default: true,
+    },
+    status: {
+        type: String,
+        enum: ['public', 'draft', 'archived'],
+        default: 'public',
+    },
 }, {
     timestamps: true
 }

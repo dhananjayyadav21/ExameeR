@@ -264,7 +264,6 @@ const uploadVideo = async (req, res) => {
   }
 };
 
-
 //--[ Cource : uploade Cource ]
 const uploadCourse = async (req, res) => {
   try {
@@ -300,6 +299,9 @@ const uploadCourse = async (req, res) => {
       courseContents, 
       whyChoose, 
       benefits, 
+      category,
+      isPublic,
+      status,
       courseImage, 
       trialVideo, 
       lectures 
@@ -335,6 +337,9 @@ const uploadCourse = async (req, res) => {
       courseContents,
       whyChoose,
       benefits,
+      category,
+      isPublic,
+      status,
       courseImage,
       trialVideo,
       lectures: Array.isArray(lectures) ? lectures : [],
@@ -362,11 +367,6 @@ const uploadCourse = async (req, res) => {
     });
   }
 };
-
-
-
-
-
 
 
 
@@ -659,6 +659,100 @@ const getAllPublicVIDEO = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server Error while fetching public Video',
+    });
+  }
+};
+
+
+//--[ COURSE: Get all public Course ] 
+const getAllPublicCourse = async (req, res) => {
+  try {
+    let userId = req.user._id;
+    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category.trim() !== " ")
+      ? req.query.category
+      : "sciTechnology";
+
+    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null)
+      ? req.query.sortBy
+      : "latest";
+
+    let sortOption = {};
+    if (sortBy === "latest") {
+      sortOption = { createdAt: -1 }; // Newest first
+    } else if (sortBy === "oldest") {
+      sortOption = { createdAt: 1 }; // Oldest first
+    }
+
+    // check user exist or not
+    const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found !',
+      })
+    }
+
+    if (user.Role === "Student") {
+      const Course = await CourseModel.find({ // all course find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption).select("-uploadedBy ");
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Public Course ",
+        count: Course.length,
+        data: Course,
+      });
+    }
+
+    if (user.Role === "Instructor") {
+      const Course = await CourseModel.find({ // all Course find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption).select("-uploadedBy");
+
+      const myCourse = await CourseModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy");  // my Course (any status)
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All My & Public Video ",
+        count: Course.length,
+        data: Course,
+        myCourse: myCourse,
+        myCourseCount: myCourse.length
+
+      });
+    }
+
+    if (user.Role === "Admin") {
+      const Course = await CourseModel.find({ // all Course find from db
+        isPublic: true,
+        status: 'public',
+        category: category
+      }).sort(sortOption);
+
+      const myCourse = await CourseModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy"); // my Course (any status)
+      const allCourse = await CourseModel.find({ category: category }).sort(sortOption); // all Course find from db
+
+      res.status(200).json({ // return result as true
+        success: true,
+        message: "Fetch All Course ",
+        count: Course.length,
+        data: Course,
+        myCourse: myCourse,
+        myCourseCount: myCourse.length,
+        allCourse: allCourse,
+        allCourseCount: allCourse.length
+      });
+    }
+  } catch (error) { // if accured some error
+    console.error('Error fetching public Course:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error while fetching public Course',
     });
   }
 };
@@ -1025,7 +1119,7 @@ const deleteVideo = async (req, res) => {
 
 module.exports = {
   uploadNotes, uploadPYQ, uploadVideo, uploadCourse,
-  getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getLatestUpload,
+  getAllPublicNotes, getAllPublicPYQ, getAllPublicVIDEO, getAllPublicCourse, getLatestUpload,
   updateNotes, updatePyq, updateVideo,
   deleteNote, deletePYQ, deleteVideo,
 }

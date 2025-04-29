@@ -17,9 +17,12 @@ export const ADDNOTE_URL = `${BASEURL}content/addNotes`
 export const ADDPYQ_URL = `${BASEURL}content/addPYQ`
 export const ADDVIDEO_URL = `${BASEURL}content/addVideo`
 export const ADDCOURSE_URL = `${BASEURL}content/addCourse`
+
 export const GETNOTE_URL = `${BASEURL}content/getAllPublicNotes`
 export const GETPYQ_URL = `${BASEURL}content/getAllPublicPYQ`
 export const GETVideo_URL = `${BASEURL}content/getAllPublicVideo`
+export const GETCourse_URL = `${BASEURL}content/getAllPublicCourse`
+
 export const UPDATENOTES_URL = `${BASEURL}content/updateNotes`
 export const UPDATEPYQS_URL = `${BASEURL}content/updatePyq`
 export const UPDATEVIDEOS_URL = `${BASEURL}content/updateVideo`

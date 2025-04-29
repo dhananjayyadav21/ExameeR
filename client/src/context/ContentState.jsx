@@ -53,14 +53,14 @@ const ContentState = (props) => {
     }
   };
 
-   //---Add COURSE() using Post Httpservice  
-   const addCourse = async (Data) => {
+  //---Add COURSE() using Post Httpservice  
+  const addCourse = async (Data) => {
     try {
       const json = await postData(
         `${GlobalUrls.ADDCOURSE_URL}`,
         Data
       );
-      console.log("json---------->",json);
+      console.log("json---------->", json);
       if (json.success === true) {
         setCourse(Course.concat(json.data));
 
@@ -120,7 +120,7 @@ const ContentState = (props) => {
     }
   };
 
-  //---GET VIDEO() using Get Httpservice  
+  //---GET VIDEO() using Get Httpservice 
   const getVideo = async (URL) => {
     try {
       const json = await getData(
@@ -140,6 +140,29 @@ const ContentState = (props) => {
       return json;
     } catch (error) {
       console.log("Do not fetch PYQ due to some error", error);
+    }
+  };
+
+  //---GET COURSE() using Get Httpservice 
+  const getCourse = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETCourse_URL}`,
+      );
+      if (json.success === true) {
+        setCourse(json.data);
+        if (json.myVideo) {
+          setMyCourse(json.myCourse);
+          // setdasVideo(json.myCourse);
+        }
+        if (json.allVideo) {
+          setAllCourse(json.allCourse);
+          // setdasVideo(json.allCourse);
+        }
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch course due to some error", error);
     }
   };
 
@@ -209,7 +232,7 @@ const ContentState = (props) => {
       );
       return json;
     } catch (error) {
-      console.log("Do not delete note due to some error", error); 
+      console.log("Do not delete note due to some error", error);
     }
   };
 
@@ -221,7 +244,7 @@ const ContentState = (props) => {
       );
       return json;
     } catch (error) {
-      console.log("Do not delete pyq due to some error", error); 
+      console.log("Do not delete pyq due to some error", error);
     }
   };
 
@@ -233,7 +256,7 @@ const ContentState = (props) => {
       );
       return json;
     } catch (error) {
-      console.log("Do not delete pyq due to some error", error); 
+      console.log("Do not delete pyq due to some error", error);
     }
   };
 
@@ -308,7 +331,7 @@ const ContentState = (props) => {
 
 
   //======================================================[ DASHBOARD ]=========================================
-  //---SEARCH FROM CONTENT () using Get Httpservice   //DASHANALYTICS_URL
+  //---SEARCH FROM CONTENT () using Get Httpservice 
   const searchDashContent = async (URL) => {
     try {
       const json = await getData(
@@ -450,9 +473,9 @@ const ContentState = (props) => {
   return (
     <ContentContext.Provider
       value={{
-        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo,
+        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
         LatestData,
-        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getLatestUpload,
+        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
         updateNotes, updatePYQ, updateVideo,
         deleteNotes, deletePYQ, deleteVideo,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
