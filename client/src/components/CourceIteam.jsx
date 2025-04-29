@@ -30,8 +30,8 @@ const CourceIteam = ({ Course }) => {
               <span className="badge-blue px-2 py-1 rounded-2">{Course?.courseLevel}</span>
               <span>Duration:{Course?.duration}</span>
             </div>
-            <h5 className="card-title px-0">{(Course?.title).slice(0, 30)}</h5>
-            <p className="card-text px-0"><span>Cource Content :{(Course?.courseContents).slice(0, 56)}</span></p>
+            <h5 className="card-title px-0">{Course?.title}</h5>
+            <p className="card-text px-0"><span>Cource Content :{(Course?.courseContents).slice(0, 56)}...</span></p>
             <button className='btn btn-info text-white fw-bold col-12 m-0' onClick={()=> handleEnroll(Course)}>Enrolled Now</button>
           </div>
         </div>

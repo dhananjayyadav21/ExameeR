@@ -2,10 +2,11 @@ const bcrypt = require('bcrypt');
 const Note = require('../model/notesModel');
 const PYQ = require("../model/pyqModel");
 const Video = require("../model/videoModel");
+const Course = require("../model/courseModel");
 const userModel = require("../model/User");
 const MyLearningContent = require('../model/myLearning');
 
-// ------[  Get all notes, pyq, video, detail ] -------
+// ------[  Get all notes, pyq, video, course detail ] -------
 const dasContentDeatails = async (req, res) => {
 
     try {
@@ -135,6 +136,37 @@ const dasContentDeatails = async (req, res) => {
                     results: result
                 })
             }
+
+
+            //------ if serch Course--------------------------
+            if (searchType === "course") {
+
+                const result = await Course.find({
+                    status: status,
+                    category: category,
+                    ExmeeUserId: user.ExmeeUserId,
+                    $or: [
+                        { title: regex },
+                        { description: regex },
+                        { professor: regex },
+                        { tags: regex }
+                    ]
+                }).lean().then(data => data.map(item => ({ ...item, type: 'course' })))
+
+                if (result.length === 0) { // if not match data
+                    return res.status(404).json({
+                        success: false,
+                        message: 'No matching content found',
+                    })
+                }
+
+                return res.status(200).json({ // successfully found data
+                    success: true,
+                    message: 'Here found some result!',
+                    type: "course",
+                    results: result
+                })
+            }
         }
 
         if (user.Role === "Admin") {
@@ -223,6 +255,36 @@ const dasContentDeatails = async (req, res) => {
                     success: true,
                     message: 'Here found some result!',
                     type: "video",
+                    results: result
+                })
+            }
+
+
+             //------ if serch course--------------------------
+             if (searchType === "course") {
+
+                const result = await Course.find({
+                    status: status,
+                    category: category,
+                    $or: [
+                        { title: regex },
+                        { description: regex },
+                        { professor: regex },
+                        { tags: regex }
+                    ]
+                }).lean().then(data => data.map(item => ({ ...item, type: 'course' })))
+
+                if (result.length === 0) { // if not match data
+                    return res.status(404).json({
+                        success: false,
+                        message: 'No matching content found',
+                    })
+                }
+
+                return res.status(200).json({ // successfully found data
+                    success: true,
+                    message: 'Here found some result!',
+                    type: "course",
                     results: result
                 })
             }

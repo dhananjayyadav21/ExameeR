@@ -714,7 +714,9 @@ const getAllPublicCourse = async (req, res) => {
         category: category
       }).sort(sortOption).select("-uploadedBy");
 
-      const myCourse = await CourseModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy");  // my Course (any status)
+      const myCourse = await CourseModel.find({ uploadedBy: userId, category: category }).select("-uploadedBy");  // my Course (any status)
+
+      console.log(myCourse);
 
       res.status(200).json({ // return result as true
         success: true,

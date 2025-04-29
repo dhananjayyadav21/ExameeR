@@ -151,13 +151,13 @@ const ContentState = (props) => {
       );
       if (json.success === true) {
         setCourse(json.data);
-        if (json.myVideo) {
+        if (json.myCourse) {
           setMyCourse(json.myCourse);
-          // setdasVideo(json.myCourse);
+          setdasCourse(json.myCourse);
         }
-        if (json.allVideo) {
+        if (json.allCourse) {
           setAllCourse(json.allCourse);
-          // setdasVideo(json.allCourse);
+          setdasCourse(json.allCourse);
         }
       }
       return json;
@@ -182,7 +182,7 @@ const ContentState = (props) => {
   };
 
 
-
+ //======================================================[ Update Content ]=========================================
   //---UPDATE Notes() using Get Httpservice  
   const updateNotes = async (Data, id) => {
     try {
@@ -223,7 +223,7 @@ const ContentState = (props) => {
   };
 
 
-
+ //======================================================[ Delete Content ]=========================================
   //---DELETE Notes() using Get Httpservice  
   const deleteNotes = async (id) => {
     try {
@@ -346,6 +346,9 @@ const ContentState = (props) => {
       if (json.type === "video") {
         setdasVideo(json.results);
       }
+      if (json.type === "course") {
+        setdasCourse(json.results);
+      }
       return json;
     } catch (error) {
       console.log("Do not fetch dashContent Data due to some error", error);
@@ -467,6 +470,7 @@ const ContentState = (props) => {
   const [dashNotes, setdashNotes] = useState([]);
   const [dashPYQ, setdashPYQ] = useState([]);
   const [dasVideo, setdasVideo] = useState([]);
+  const [dasCourse, setdasCourse] = useState([]);
 
   const [dashAnalytics, setDashAnalytics] = useState([]);
   const [studentsByRole, setStudentsByRole] = useState([]);
@@ -480,7 +484,7 @@ const ContentState = (props) => {
         deleteNotes, deletePYQ, deleteVideo,
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
         searchContent, setSearchContentData, searchContentData,
-        searchDashContent, dashNotes, dashPYQ, dasVideo,
+        searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
         getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus
       }}>
       {props.children}
