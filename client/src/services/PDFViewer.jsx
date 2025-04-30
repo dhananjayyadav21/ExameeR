@@ -26,8 +26,8 @@ const PdfViewer = ({setProgress}) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="btn btn-dark position-fixed p-4"
-          style={{ top: 70, right: 10, zIndex: 1100 }}
+          className="btn btn-dark position-fixed px-2 py-4"
+          style={{ top: 66, right: 8, zIndex: 1100 }}
         >
           Close
         </button>
