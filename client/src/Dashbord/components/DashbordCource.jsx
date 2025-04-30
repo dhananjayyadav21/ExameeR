@@ -169,7 +169,7 @@ const Courses = () => {
       {/* Courses Grid */}
       {isloading && <h4 className="my-4">Loding.....</h4>}
       {!isloading && (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
           {/* Course Card 1 */}
           {currentNotes?.map((course, i) => (
             <div className="col">

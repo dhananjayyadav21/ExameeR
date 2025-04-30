@@ -48,10 +48,10 @@ const Cource = ({ setProgress }) => {
         </div>
       </div>
 
-      <div className="container-fluid ">
+      <div className="container-md ">
         <div className="row g-4">
           {/*=========================================== left container ===========================================*/}
-          <div className="col-12 col-md-2 sidebar-CoursesSection">
+          {/* <div className="col-12 col-md-2 sidebar-CoursesSection">
             <div className='px-2 my-4 rounded-3'>
               <h5>Filter Courses</h5>
               <div className='row g-2 px-2 rounded-3' >
@@ -69,10 +69,10 @@ const Cource = ({ setProgress }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/*=========================================== right container ===========================================*/}
-          <div className="col-12 col-md-10 main-CoursesSection">
+          <div className="col-12 col-md-12 main-CoursesSection">
             <div className="px-2 py-4">
               {/*========= Cource Section =============*/}
               <div className="my-md-4 d-sm-flex justify-content-between">
