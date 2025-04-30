@@ -95,8 +95,8 @@ const VideoItem = ({ Video }) => {
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></>}
 
-      <div className="col-12 col-sm-6 col-lg-4 rounded-3">
-        <div className="card card-transition shadow-sm video-item p-2 rounded-4">
+      <div className="col-12 col-sm-6 col-lg-4">
+        <div className="card card-transition shadow-sm video-item p-2 rounded-3" style={{minHeight:"400px"}}>
           <div className='position-relative'>
             <iframe
               width="100%"
@@ -122,7 +122,7 @@ const VideoItem = ({ Video }) => {
                 <button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button>
               )
             )}
-            <p className="card-text">{(Video.description).slice(0, 90)}..</p>
+            <p className="card-text">{(Video.description).slice(0, 85)}..</p>
           </div>
         </div>
       </div>

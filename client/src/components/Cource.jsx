@@ -44,11 +44,14 @@ const Cource = ({ setProgress }) => {
         <div className='container-lg p-3'>
           <p className='my-3'> Your Cources   <span><i className="fa-solid fa-laptop-code"></i> Enroll Courses</span></p>
           <h5 className='my-3'>Discover Your Courses online</h5>
-          <p>Explore Web Development courses that cover skills in HTML, CSS, JavaScript, and responsive design. Build expertise for careers in front-end development, full-stack development, and web design.</p>
+          <p>Explore a world of knowledge, curated by passionate mentors.
+            From foundational skills to advanced mastery, every course is built to empower you.
+            Learn at your pace, on your terms.
+            Your journey to growth starts here.</p>
         </div>
       </div>
 
-      <div className="container-md ">
+      <div className="container">
         <div className="row g-4">
           {/*=========================================== left container ===========================================*/}
           {/* <div className="col-12 col-md-2 sidebar-CoursesSection">
@@ -73,11 +76,11 @@ const Cource = ({ setProgress }) => {
 
           {/*=========================================== right container ===========================================*/}
           <div className="col-12 col-md-12 main-CoursesSection">
-            <div className="px-2 py-4">
+            <div className="px-2 pb-4 pt-md-4">
               {/*========= Cource Section =============*/}
               <div className="my-md-4 d-sm-flex justify-content-between">
-                <div className='my-4 my-sm-0'><h5>Explore the Web Development Courses</h5> </div>
-                <div className="col-3 col-sm-2 text-center">
+                <div className='my-4 my-sm-0'><h5>{`<> Find courses that fit your pace and passion`}</h5> </div>
+                <div className="col-4 col-md-2 col-lg-1 text-center">
                   <a className="nav-text nav-link p-1 border border-dark border-1 rounded-2 " href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort By <i className="fa-solid fa-sort"></i>
                   </a>

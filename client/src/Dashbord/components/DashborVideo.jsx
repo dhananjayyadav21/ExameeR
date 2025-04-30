@@ -168,7 +168,7 @@ const VideoLectures = () => {
           {/* Video Card 1 */}
           {currentVideo.map((data, i) => (
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="bg-white rounded border border-light overflow-hidden" style={{ minHeight: '400px' }}>
+              <div className="bg-white rounded-3 shadow-sm border border-light overflow-hidden" style={{ minHeight: '410px' }}>
                 <div className="position-relative">
                   <iframe
                     width="100%"

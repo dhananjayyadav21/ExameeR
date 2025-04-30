@@ -214,7 +214,7 @@ code {
 .MobileBar-container {
   top: 57px;
   background: #faf9f9f0;
-  position: absolute;
+  position: fixed;
   width: 100%;
   display: block;
 }
@@ -816,7 +816,8 @@ form label {
   }
 
   .mobile-h,
-  .dashbord-heading-text {
+  .dashbord-heading-text,
+  .main-CoursesSection h5 {
     font-size: medium;
   }
 

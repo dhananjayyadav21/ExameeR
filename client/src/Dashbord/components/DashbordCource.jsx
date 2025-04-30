@@ -173,14 +173,14 @@ const Courses = () => {
           {/* Course Card 1 */}
           {currentNotes?.map((course, i) => (
             <div className="col">
-              <div className="card h-100 border shadow-sm">
+              <div className="card h-100 rounded-3 border shadow-sm">
                 <div style={{ minHeight: '180px' }}>
                   <img
                     src={`https://lh3.googleusercontent.com/d/${course.courseImage}` || "/assets/img/cource.jpg"}
                     alt=""
                     width="100%"
                     height="180px"
-                    className="card-img-top"
+                    className="card-img-top rounded-top"
                   />
                 </div>
                 <div className="card-body">

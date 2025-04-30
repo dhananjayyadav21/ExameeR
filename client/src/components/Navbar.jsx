@@ -170,7 +170,7 @@ const Navbar = ({setProgress}) => {
         </nav>    
 
         {/*========================================= mobilebar ==============================================*/}
-        <div className='MobileBar-container sticky-top'>
+        <div className='MobileBar-container'>
         <div className={`MobileBar p-2 d-flex d-${display}`}>
             <div className="navbar-nav me-auto mb-2 mb-lg-0 ">
             

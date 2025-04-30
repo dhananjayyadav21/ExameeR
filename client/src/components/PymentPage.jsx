@@ -50,7 +50,7 @@ const PaymentPage = ({ setProgress }) => {
             <p className="text-center">You're just one step away from getting access to {plan.title}.</p>
           </div>
 
-          <div className="border bg-white p-5 shadow-sm rounded-4 mt-4">
+          <div className="border bg-white px-3 py-4 p-md-5 shadow-sm rounded-4 mt-4">
             <div className="row">
               {/* Plan Details Section */}
               <div className="col-md-6">

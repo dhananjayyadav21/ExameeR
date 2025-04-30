@@ -30,7 +30,7 @@ const Video = ({setProgress}) => {
 
     return (
         <>
-            <div>
+            <div className="container-fluid">
                 <div className="row g-4">
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-md-3 sidebar-VideoSection">
@@ -49,13 +49,13 @@ const Video = ({setProgress}) => {
 
                     {/*=========================================== right container ===========================================*/}
                     <div className="col-12 col-md-9 main-VideoSection scrollable">
-                        <div className="video-heroSection card container-lg mt-4 shadow-sm">
+                        <div className="video-heroSection card container-lg mt-md-4 shadow-sm">
                             <div className="text-center py-3">
                                 <h4 className="card-title">Explore Your <span className="notes-span-section">Video Lectures</span></h4>
                                 <p>"Learn Anytime, Anywhere with Expert-Led Video Lectures" || "Your Digital Classroom, One Video at a Time"</p>
                             </div>
                         </div>
-                        <div className="p-4">
+                        <div className="pb-4 p-md-4">
                             {/*========= video Section =============*/}
                             <div>
                                 <div className="mt-2 d-flex justify-content-end">
