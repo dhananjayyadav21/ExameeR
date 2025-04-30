@@ -15,7 +15,8 @@ const myLearningContentSchema = new mongoose.Schema({
     enum: ['Note', 'Video', 'PYQ'],
     required: true,
   }
-}, {
+}, 
+{
   timestamps: true
 });
 
