@@ -7,13 +7,7 @@ const EnrollmentPage = ({ setProgress }) => {
   const location = useLocation();
   const { course } = location.state || {};
 
-  //--[useEffect]---
-  useEffect(() => {
-    setProgress(0);
-    setProgress(100);
-    // eslint-disable-next-line
-  }, []);
-
+  // Track form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,9 +17,17 @@ const EnrollmentPage = ({ setProgress }) => {
 
   const [submitted, setSubmitted] = useState(false);
 
-  // Simulate checking login status
+  // Simulate user login check
   const isLoggedIn = localStorage.getItem('token');
 
+  // Handle progress bar on mount
+  useEffect(() => {
+    setProgress(0);
+    setProgress(100);
+    // eslint-disable-next-line
+  }, []);
+
+  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -34,64 +36,52 @@ const EnrollmentPage = ({ setProgress }) => {
     }));
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!isLoggedIn) {
       toast.error('Please login to enroll!');
       return;
     }
-
     console.log('Enrollment Data:', formData);
     setSubmitted(true);
   };
 
+  // If no course data is found
   if (!course) {
-    return <div className="text-center my-4">Course not found! <br /> Please try again</div>;
+    return <div className="text-center my-4">Course not found! <br /> Please try again.</div>;
   }
 
   return (
-    <div id="enrollment" className="container-lg min-vh-100 my-4 p-3 py-4 px-md-4">
-      <h1 className="h4 fw-bold text-center text-dark mb-4">{course.title} Enrollment</h1>
+    <div id="enrollment" className="min-vh-100 bg-body-tertiary">
+      {/* Header with Course Title and Badge */}
+      <div className="p-5 bg-dark text-white position-relative">
+        <h2 className="rubik-font mb-3">{course?.title} Enrollment</h2>
+        <h5 className="text-light-emphasis my-3">{course?.description}</h5>
+        <span className="badge position-absolute bottom-0 end-0 m-3 bg-warning text-dark fw-semibold px-3 py-2 rounded-pill shadow">
+          {course?.courseLevel || "Intermediate"}
+        </span>
+        <p>Mentor: <strong>{course?.mentor}</strong></p>
+        <p>Start Date: <strong>{course?.startDate ? course?.startDate.slice(0, 10) : "Coming Soon"}</strong></p>
+      </div>
 
-      {/* Course Details Section */}
-      <div className="card shadow-sm mb-4 border">
-        <div className="row g-0">
-          <div className="col-md-4">
-            <img
-              src={course.thumbnail || "/assets/img/cource.jpg"}
-              alt={course.title}
-              className="img-fluid rounded-start"
-            />
-          </div>
-          <div className="col-md-8">
-            <div className="card-body">
-              <h5 className="card-title">{course.title}</h5>
-              <p><strong>Level:</strong> {course.level}</p>
-              <p><strong>Duration:</strong> {course.duration}</p>
-              <p><strong>Content:</strong> {course.content}</p>
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <span className="badge bg-success">{course.offer} Off</span>
-              </div>
+      {/* Main Container */}
+      <div className="container my-5">
+        <div className="row g-4">
+
+          {/* Left Column - Why & Enrollment Form */}
+          <div className="col-md-7">
+            {/* Why Choose Section */}
+            <div className="bg-white border-start border-4 border-primary p-4 shadow-sm rounded-3 mb-4">
+              <h4 className="rubik-font mb-2">Why Choose This Course?</h4>
+              <p className="text-muted mb-0">{course?.whyChoose}</p>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Lectures Section */}
-      <div className="card shadow-sm mb-4 border">
-        <div className="card-body">
-          <h5>Course Lectures:</h5>
-          <ul className="list-group">
-            {course.lectures.map((lecture, index) => (
-              <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                <span>{lecture.title}</span>
-                <span className="badge bg-info">{lecture.duration}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+            {/* Benefits Section */}
+            <div className="bg-white border-start border-4 border-success p-4 shadow-sm rounded-3 mb-4">
+              <h4 className="rubik-font mb-2">Course Benefits</h4>
+              <p className="text-muted mb-0">{course?.benefits}</p>
+            </div>
 
             {/* Enrollment Form */}
             <div className="bg-white p-4 shadow-sm rounded-3">
