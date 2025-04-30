@@ -13,7 +13,7 @@ const CourceIteam = ({ Course }) => {
   return (
     <>
       <div className="col-12 col-sm-6 col-lg-3">
-        <div className="card card-transition shadow-sm Courses-item p-2 rounded-3" style={{ minHeight: "380px" }}>
+        <div className="card card-transition shadow-sm Courses-item my-3 p-2 rounded-3" style={{ minHeight: "380px" }}>
           <div className='position-relative' style={{minHeight:"150px"}}>
             <img className="card-img-top rounded-3" src={`https://lh3.googleusercontent.com/d/${Course.courseImage}` || "/assets/img/cource.jpg"} alt="" style={{
               width: "100%",

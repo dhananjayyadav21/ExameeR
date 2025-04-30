@@ -215,6 +215,7 @@ code {
   top: 57px;
   background: #faf9f9f0;
   position: fixed;
+  z-index: 100;
   width: 100%;
   display: block;
 }

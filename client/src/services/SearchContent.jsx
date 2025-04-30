@@ -4,21 +4,21 @@ import VideoItem from '../components/VideoItem';
 import QPaperItem from '../components/QPaperItem';
 import ContentContext from '../context/ContentContext';
 
-const SearchContent = ({setProgress}) => {
+const SearchContent = ({ setProgress }) => {
     const context = useContext(ContentContext);
     const { searchContentData } = context
 
     //----[useEffect]---------
-      useEffect(() => {
+    useEffect(() => {
         setProgress(0);
         setProgress(100);
         // eslint-disable-next-line
-      }, []);
+    }, []);
 
     return (
-        <div className='container-lg'>
-            <div className="row w-100">
-                <div className="serchContent-heroSection card container-lg my-5 shadow-sm">
+        <div className='container-md'>
+            <div className="row px-2">
+                <div className="serchContent-heroSection card container-lg my-3 shadow-sm">
                     <div className="text-center py-4">
                         <h2 className="card-title">Content Found For<span className="serchContent-span-section text-info"> Your Search </span></h2>
                         <p className="card-text">
@@ -50,7 +50,7 @@ const SearchContent = ({setProgress}) => {
                     })
                 ) : (
                     <div className="text-center w-100">
-                        <h5 className="text-muted mt-4">No content found for your search.</h5>
+                        <h6 className="text-muted mt-4">No content found for your search.</h6>
                     </div>
                 )}
             </div>

@@ -96,7 +96,7 @@ const VideoItem = ({ Video }) => {
           /></>}
 
       <div className="col-12 col-sm-6 col-lg-4">
-        <div className="card card-transition shadow-sm video-item p-2 rounded-3" style={{minHeight:"400px"}}>
+        <div className="card card-transition shadow-sm video-item my-3 p-2 rounded-3" style={{minHeight:"400px"}}>
           <div className='position-relative'>
             <iframe
               width="100%"
