@@ -55,7 +55,7 @@ const Video = ({setProgress}) => {
                                 <p>"Learn Anytime, Anywhere with Expert-Led Video Lectures" || "Your Digital Classroom, One Video at a Time"</p>
                             </div>
                         </div>
-                        <div className="pb-4 p-md-4">
+                        <div className="px-2 pb-4 p-md-4">
                             {/*========= video Section =============*/}
                             <div>
                                 <div className="mt-2 d-flex justify-content-end">
