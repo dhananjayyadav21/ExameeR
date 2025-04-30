@@ -296,9 +296,6 @@ const ContentState = (props) => {
         `${GlobalUrls.ADDINMYLEARNING_URL}`,
         Data
       );
-      if (json.success === true) {
-        setMyLearningData(MyLearningData.concat(json.data));
-      }
       return json;
     } catch (error) {
       console.log("Do not add in mylearning due to some error", error);
@@ -312,16 +309,24 @@ const ContentState = (props) => {
         `${GlobalUrls.REMOVEFROMMYLEARNING_URL}`,
         Data
       );
-      if (json.success === true) {
-        setMyLearningNotes(json.notesData);
-        setMyLearningVideo(json.videoData)
-        setMyLearningPYQ(json.pyqData)
-      }
       return json;
     } catch (error) {
       console.log("Do not remove mylearning data due to some error", error);
     }
   };
+  const RemoveMyLearningNotes = async(id)=>{
+    const filtered = MyLearningNotes.filter(x=>x._id!==id)??[];
+    setMyLearningNotes(filtered)
+  }
+  const RemoveMyLearningPYQ = async(id)=>{
+    const filtered = MyLearningPYQ.filter(x=>x._id!==id)??[];
+    setMyLearningPYQ(filtered)
+  }
+  const RemoveMyLearningVideo = async(id)=>{
+    const filtered = MyLearningVideo.filter(x=>x._id!==id)??[];
+    setMyLearningVideo(filtered)
+  }
+
 
   //---GETDATA FROM MY LEARNING() using Get Httpservice  
   const getDataFromMyLearning = async (URL) => {
@@ -466,7 +471,6 @@ const ContentState = (props) => {
     }
   };
 
-
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
   const [MyNotes, setMyNotes] = useState([]);
@@ -486,7 +490,6 @@ const ContentState = (props) => {
 
   const [LatestData, setLatestData] = useState([]);
 
-  const [MyLearningData, setMyLearningData] = useState([]);
   const [MyLearningNotes, setMyLearningNotes] = useState([]);
   const [MyLearningVideo, setMyLearningVideo] = useState([]);
   const [MyLearningPYQ, setMyLearningPYQ] = useState([]);
@@ -500,6 +503,7 @@ const ContentState = (props) => {
 
   const [dashAnalytics, setDashAnalytics] = useState([]);
   const [studentsByRole, setStudentsByRole] = useState([]);
+
   return (
     <ContentContext.Provider
       value={{
@@ -508,7 +512,7 @@ const ContentState = (props) => {
         addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
         updateNotes, updatePYQ, updateVideo, updateCourse,
         deleteNotes, deletePYQ, deleteVideo, deleteCourse,
-        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ,
+        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes,RemoveMyLearningPYQ, RemoveMyLearningVideo,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
         getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus

@@ -38,7 +38,6 @@ const addInMylearning = async (req, res) => {
         return res.status(201).json({
             success: true,
             message: 'Content added to MyLearning',
-            data: entry
         });
     } catch (err) {
         console.error('Error while Adding in mylearning', err);
@@ -130,33 +129,9 @@ const removeFromMyLearning = async (req, res) => {
             });
         }
 
-        const learningEntries = await MyLearningModel.find({ userId });
-
-        const notesIds = learningEntries
-            .filter(entry => entry.contentType === 'Note')
-            .map(entry => entry.contentId);
-
-        const videoIds = learningEntries
-            .filter(entry => entry.contentType === 'Video')
-            .map(entry => entry.contentId);
-
-        const pyqIds = learningEntries
-            .filter(entry => entry.contentType === 'PYQ')
-            .map(entry => entry.contentId);
-
-        const [notesData, videoData, pyqData] = await Promise.all([
-            Note.find({ _id: { $in: notesIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
-            Video.find({ _id: { $in: videoIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
-            PYQ.find({ _id: { $in: pyqIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
-        ]);
-
-
         return res.status(200).json({
             success: true,
             message: 'Content removed from MyLearning successfully',
-            notesData,
-            videoData,
-            pyqData
         });
     } catch (err) {
         console.error('Error removing content from MyLearning:', err);

@@ -12,7 +12,7 @@ import {
     faQuestionCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-const MyLearning = ({setProgress}) => {
+const MyLearning = ({ setProgress }) => {
     const context = useContext(ContentContext);
     const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ } = context;
 
@@ -121,10 +121,45 @@ const MyLearning = ({setProgress}) => {
 
                     <div className="container-lg mt-2 mt-md-4">
                         <div className="row g-4">
-                            {MyLearningNotes?.map((e, index) => <NotesIteam key={index} Notes={e} />)}
+                            {MyLearningNotes?.map((e) => <NotesIteam key={e._id} notes={e} />)}
                         </div>
                     </div>
                 </div>
+
+
+                {MyLearningVideo && MyLearningVideo.length > 0 && (
+                    <div className='my-5'>
+                        <div className="container-lg d-flex justify-content-start">
+                            <div className="container-lg mt-4 shadow-sm">
+                                <div className="text-start mylearning-section-heading">
+                                    <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your Lectures</span></h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="container-lg mt-2 mt-md-4">
+                            <div className="row g-4">
+                                {MyLearningVideo?.map((e) => <VideoIteam key={e._d} video={e} />)}
+                            </div>
+                        </div>
+                    </div>)}
+
+                {MyLearningPYQ && MyLearningPYQ.length > 0 && (
+                    <div className='my-5'>
+                        <div className="container-lg d-flex justify-content-start">
+                            <div className="container-lg mt-4 shadow-sm">
+                                <div className="text-start mylearning-section-heading">
+                                    <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your PYQ</span></h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="container-lg mt-2 mt-md-4">
+                            <div className="row g-4">
+                                {MyLearningPYQ?.map((e) => <PyqIteam key={e._id} pyq={e} />)}
+                            </div>
+                        </div>
+                    </div>)}
 
 
                 {/* <div className='my-5'>
@@ -142,41 +177,6 @@ const MyLearning = ({setProgress}) => {
                         </div>
                     </div>
                 </div> */}
-
-
-            {MyLearningVideo && MyLearningVideo.length > 0 &&( 
-                <div className='my-5'>
-                    <div className="container-lg d-flex justify-content-start">
-                        <div className="container-lg mt-4 shadow-sm">
-                            <div className="text-start mylearning-section-heading">
-                                <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your Lectures</span></h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="container-lg mt-2 mt-md-4">
-                        <div className="row g-4">
-                            {MyLearningVideo?.map((e, index) => <VideoIteam key={index} Video={e} />)}
-                        </div>
-                    </div>
-                </div>)}
-
-                {MyLearningPYQ && MyLearningPYQ.length > 0 &&(
-                    <div className='my-5'>
-                        <div className="container-lg d-flex justify-content-start">
-                            <div className="container-lg mt-4 shadow-sm">
-                                <div className="text-start mylearning-section-heading">
-                                    <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your PYQ</span></h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="container-lg mt-2 mt-md-4">
-                            <div className="row g-4">
-                                {MyLearningPYQ?.map((e, index) => <PyqIteam key={index} PYQ={e} />)}
-                            </div>
-                        </div>
-                    </div>)}
             </div>
 
             {/* ====================================== footer ======================================================== */}

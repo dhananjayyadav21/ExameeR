@@ -4,10 +4,11 @@ import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
 import { toast } from "react-toastify";
 
-const VideoItem = ({ Video }) => {
+const VideoItem = ({ video }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningVideo } = context;
+  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, RemoveMyLearningVideo } = context;
 
+  const [Video, setVideo] = useState(video);
   //--[useEffect]----
   useEffect(() => {
     getDataFromMyLearning();
@@ -16,23 +17,21 @@ const VideoItem = ({ Video }) => {
 
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
-  const isAlreadyAdded = MyLearningVideo?.some(item => item._id === Video._id);
 
 
+   //-- handle add to mylearning
   const [showModal, setShowModal] = useState(false);
-
   const handleAddToMyLearning = async () => {
     try {
       let data = {
         contentId: Video._id,
         contentType: "Video"
       }
+      setShowModal(false);
       const response = await addInMylearning(data);
       if (response.success === true) {
+        setVideo({ ...Video, isWatching: true });
         setShowModal(false);
-        toast.success("Video added successfully in my learning!", {
-          position: "top-right"
-        });
       } else if (response.success === false) {
         setShowModal(false);
         toast.error(response.message || "Failed to add Video!", {
@@ -45,7 +44,6 @@ const VideoItem = ({ Video }) => {
         position: "top-right"
       });
     }
-
     setShowModal(false);
   };
 
@@ -57,10 +55,9 @@ const VideoItem = ({ Video }) => {
       }
       const response = await removeFromMylearning(data);
       if (response.success === true) {
+        setVideo({ ...Video, isWatching: false });
         setShowModal(false);
-        toast.success("Video remove successfully from my learning!", {
-          position: "top-right"
-        });
+        RemoveMyLearningVideo(Video._id)
       } else if (response.success === false) {
         setShowModal(false);
         toast.error(response.message || "Failed to remove Video!", {
@@ -77,7 +74,7 @@ const VideoItem = ({ Video }) => {
   return (
     <>
 
-      {isMyLearning || isAlreadyAdded ?
+      {isMyLearning || Video.isWatching ?
         <>
           <Modal
             isOpen={showModal}
@@ -116,7 +113,7 @@ const VideoItem = ({ Video }) => {
             {isMyLearning ? (
               <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button>
             ) : (
-              isAlreadyAdded ? (
+              Video.isWatching ? (
                 <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning</button>
               ) : (
                 <button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button>

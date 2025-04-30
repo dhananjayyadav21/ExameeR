@@ -59,7 +59,7 @@ const Notes = ({setProgress}) => {
         <div className="container-lg mt-4 mb-5">
           <div className="row g-4">
             {Notes.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
-            {Notes?.map((note, index) => <NotesIteam key={index} Notes={note} />)}
+            {Notes?.map((note) => <NotesIteam key={note._id} notes={note} />)}
           </div>
         </div>
       </div>
