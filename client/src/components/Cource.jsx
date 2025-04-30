@@ -93,7 +93,7 @@ const Cource = ({ setProgress }) => {
 
               <div className="mt-4">
                 <div className="row g-4">
-                  {Course.length === 0 && <h5 className="d-flex justify-content-center text-muted text-center my-5">No Data Found! <br /> Plese Check internet connection</h5>}
+                  {Course.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
                   {Course?.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
                 </div>
               </div>

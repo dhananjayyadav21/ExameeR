@@ -127,8 +127,8 @@ const EnrollmentPage = ({ setProgress }) => {
                 <p className="text-muted"><strong>Duration:</strong> {course?.duration}</p>
                 <ul className="list-group mb-3">
                   {course?.lectures?.map((lecture, index) => (
-                    <li key={index} className="list-group-item d-flex align-items-center">
-                      <i className="fa fa-play-circle text-primary me-2"></i>
+                    <li key={index} className="list-group-item d-flex align-items-center my-1 shadow-sm">
+                      <i className="fa fa-play-circle text-warning me-2"></i>
                       {lecture.title}
                     </li>
                   ))}
@@ -138,7 +138,7 @@ const EnrollmentPage = ({ setProgress }) => {
                   <h6 className="d-flex justify-content-between"><span>Price:</span><span>₹ {course?.price}</span></h6>
                   <h6 className="d-flex justify-content-between"><span>Discount:</span><span className="text-success">{course?.offerPercent}%</span></h6>
                   <hr />
-                  <h5 className="fw-bold d-flex justify-content-between"><span>Total:</span><span className="text-primary">₹ {course?.offerPrice}</span></h5>
+                  <h5 className="fw-bold d-flex justify-content-between"><span>Total:</span><span className="text-black">₹ {course?.offerPrice}</span></h5>
                 </div>
               </div>
             </div>
