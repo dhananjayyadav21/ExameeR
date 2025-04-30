@@ -8,6 +8,10 @@ const createAdmin = async () => {
   try {
 
     let adminUser = await userModel.findOne({ Username:"admin" });
+    if(adminUser){
+      console.log("admin alrady exists");
+    }
+
 
     if(!adminUser){
 
@@ -37,6 +41,7 @@ const createAdmin = async () => {
         });
         sendVerificationEamil("youaretopperofficial@gmail.com", VerificationCode); // send verification code
         await adminUser.save();
+        console.log("admin created");
     }
   } catch (error) {
     console.error(error.message);
