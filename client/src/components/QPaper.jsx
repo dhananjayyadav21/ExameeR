@@ -67,8 +67,8 @@ const QPaper = ({setProgress}) => {
                                             Sort By <i className="fa-solid fa-sort"></i>
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('latest') }}>Latest-Notes</button></li>
-                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('oldest') }}>Oldest-Notes</button></li>
+                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('latest') }}>Latest-PYQ</button></li>
+                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('oldest') }}>Oldest-PYQ</button></li>
                                         </ul>
                                     </div>
                                 </div>

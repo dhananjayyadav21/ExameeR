@@ -64,8 +64,8 @@ const Video = ({setProgress}) => {
                                             Sort By <i className="fa-solid fa-sort"></i>
                                         </a>
                                         <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('latest') }}>Latest-Notes</button></li>
-                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('oldest') }}>Oldest-Notes</button></li>
+                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('latest') }}>Latest-Videos</button></li>
+                                            <li><button className="dropdown-item" onClick={() => { handleShortByChange('oldest') }}>Oldest-Videos</button></li>
                                         </ul>
                                     </div>
                                 </div>
