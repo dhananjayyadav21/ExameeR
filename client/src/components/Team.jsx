@@ -3,7 +3,6 @@ import React from 'react'
 const Team = (props) => {
 
     const {name,role,description,profile} = props
-    console.log(profile)
 
   return (
     <>

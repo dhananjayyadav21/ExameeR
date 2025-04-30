@@ -29,7 +29,7 @@ const Offers = () => {
   }
 
   let Premium = {
-    title: "Basic Plan",
+    title: "Premium Plan",
     price: "₹1499",
     duration: "month",
     benefits: [
