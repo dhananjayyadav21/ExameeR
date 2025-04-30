@@ -132,9 +132,15 @@ const login = async (req, res) => {
             }
         );
 
+        if(user.lastActive === null || user.lastActive === undefined){
+           sendWelcomeEmail(user.Email, user.Username);
+        }
 
-        // sendWelcomeEmail(user.Email, user.Username);
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || null;
+        user.lastActive = new Date().toISOString();
+        user.IPAddress = ip;
 
+        await user.save();
         user = {
             Email: user.Email,
             Role : user.Role,
@@ -387,7 +393,7 @@ const verifyToken = async (req, res) => {
     }
 }
 
-// ====================================== [ VerifyToken ] ==========================================
+// ====================================== [ support ] ==========================================
 const support = async (req, res) => {
     try {
         let userId = req.user._id;

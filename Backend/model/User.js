@@ -39,9 +39,16 @@ const UserSchema = new Schema({
     ForgotPasswordCode: {
         type: String
     },
+    lastActive: {
+        type: Date,
+        default: null
+    },
     Profile: {
         type: String
-    }
+    },
+    IPAddress: {
+        type: String
+    },
 
 }, { timestamps: true }
 );
