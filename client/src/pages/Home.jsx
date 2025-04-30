@@ -56,16 +56,14 @@ const Home = ({ setProgress }) => {
 
   let team = [
     {
-      "name": "Dhananjay Yadav",
-      "role": "RAD'27",
-      "description": "Guides resource management, teaches workflow strategies, and mentor.",
-      "profile":"/assets/img/Dhananjay.jpg"
-    },
-    {
       "name": "Sanjay Yadav",
       "role": "Software Engineer",
-      "description": "Teaches technical concepts, facilitates teamwork, and ensures project success.",
-      "profile":""
+      "description": "Teaches technical concepts, facilitates teamwork, and ensures project success."
+    },
+    {
+      "name": "Dhananjay Yadav",
+      "role": "RAD'27",
+      "description": "Guides resource management, teaches workflow strategies, and mentor."
     },
     {
       "name": "Neel Singh",
@@ -202,7 +200,7 @@ const Home = ({ setProgress }) => {
               <p className='p-gray'>We are a team of professionals providing the best Study Material for all your needs. Examee's has been designing and developing Study Material for more than 2 years</p>
             </div>
             <div className='mt-5'>
-              <div className="row g-4">{team.map((team, index) => <Team key={index} profile={team.profile} name={team.name} role={team.role} description={team.description} />)}</div>
+              <div className="row g-4">{team.map((team, index) => <Team key={index} name={team.name} role={team.role} description={team.description} />)}</div>
             </div>
           </div>
 
