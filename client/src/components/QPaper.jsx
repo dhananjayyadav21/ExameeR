@@ -76,7 +76,7 @@ const QPaper = ({setProgress}) => {
                                 <div className="container-lg mt-4">
                                     <div className="row g-4">
                                         {PYQS.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
-                                        {PYQS?.map((pyq, index) => <QPaperItem key={index} PYQ={pyq} />)}
+                                        {PYQS?.map((pyq) => <QPaperItem key={pyq._id} pyq={pyq} />)}
                                     </div>
                                 </div>
 

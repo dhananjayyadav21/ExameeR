@@ -4,10 +4,11 @@ import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
 import { toast } from "react-toastify";
 
-const NotesItem = ({ Notes }) => {
+const NotesItem = ({ notes }) => {
   const context = useContext(ContentContext);
-  const { addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes } = context;
+  const { addInMylearning, removeFromMylearning, getDataFromMyLearning,RemoveMyLearningNotes} = context;
 
+  const [Notes, setNotes] = useState(notes);
   //--[useEffect]----
   useEffect(() => {
     getDataFromMyLearning();
@@ -16,13 +17,14 @@ const NotesItem = ({ Notes }) => {
 
   const location = useLocation();
   const isMyLearning = location.pathname === '/myLearning';
-  const isAlreadyAdded = MyLearningNotes?.some(item => item._id === Notes._id);
-
   const navigate = useNavigate();
+
+  //-- handle pdf viewer
   const handleViewPDF = () => {
     navigate(`/pdfviewer?view=${encodeURIComponent(Notes.fileUrl)}`);
   };
 
+  //-- handle add to mylearning
   const [showModal, setShowModal] = useState(false);
   const handleAddToMyLearning = async () => {
     try {
@@ -30,12 +32,11 @@ const NotesItem = ({ Notes }) => {
         contentId: Notes._id,
         contentType: "Note"
       }
+      setShowModal(false);
       const response = await addInMylearning(data);
       if (response.success === true) {
+        setNotes({ ...Notes, isWatching: true });
         setShowModal(false);
-        toast.success("Notes added successfully in my learning!", {
-          position: "top-right"
-        });
       } else if (response.success === false) {
         setShowModal(false);
         toast.error(response.message || "Failed to add notes!", {
@@ -47,22 +48,22 @@ const NotesItem = ({ Notes }) => {
         position: "top-right"
       });
     }
-
     setShowModal(false);
   };
 
+  //-- handle remove to mylearning
   const handleRemoveToMyLearning = async () => {
     try {
       let data = {
         contentId: Notes._id,
         contentType: "Note"
       }
+      setShowModal(false);
       const response = await removeFromMylearning(data);
       if (response.success === true) {
+        setNotes({ ...Notes, isWatching: false });
         setShowModal(false);
-        toast.success("Notes remove successfully from my learning!", {
-          position: "top-right"
-        });
+        RemoveMyLearningNotes(Notes._id)
       } else if (response.success === false) {
         setShowModal(false);
         toast.error(response.message || "Failed to remove Notes!", {
@@ -80,7 +81,7 @@ const NotesItem = ({ Notes }) => {
   return (
     <>
 
-      {isMyLearning || isAlreadyAdded ? 
+      {isMyLearning || Notes.isWatching ? 
         <>
           <Modal
             isOpen={showModal}
@@ -112,7 +113,7 @@ const NotesItem = ({ Notes }) => {
               onClick={() => setShowModal(true)}
             ></i>
           ) : (
-            isAlreadyAdded ? (
+            Notes.isWatching ? (
               <i
                 className="fa-solid fa-minus position-absolute remove-mylearning z-1"
                 onClick={() => setShowModal(true)}

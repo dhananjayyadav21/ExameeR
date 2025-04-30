@@ -4,7 +4,7 @@ const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
 const MyLearningContent = require('../model/myLearning');
 const CourseModel = require("../model/courseModel");
-
+const mongoose = require('mongoose');
 
 //===========================================[ ADD ]=========================================
 //--[ NOTES: uplodeNotes Controller ]
@@ -286,25 +286,25 @@ const uploadCourse = async (req, res) => {
       });
     }
 
-    const { 
-      title, 
-      description, 
-      mentor, 
-      courseLevel, 
-      duration, 
-      price, 
-      offerPercent, 
-      offerPrice, 
-      startDate, 
-      courseContents, 
-      whyChoose, 
-      benefits, 
+    const {
+      title,
+      description,
+      mentor,
+      courseLevel,
+      duration,
+      price,
+      offerPercent,
+      offerPrice,
+      startDate,
+      courseContents,
+      whyChoose,
+      benefits,
       category,
       isPublic,
       status,
-      courseImage, 
-      trialVideo, 
-      lectures 
+      courseImage,
+      trialVideo,
+      lectures
     } = req.body;
 
     // Validate important fields
@@ -402,13 +402,63 @@ const getAllPublicNotes = async (req, res) => {
       })
     }
 
-    if (user.Role === "Student") {
-      const notes = await Note.find({ // all notes find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
+    //-- set criteria for notes
+    let criteria = {
+      isPublic: true,
+      status: 'public',
+      category: category
+    };
 
+    //-- find notes
+    const notes = await Note.aggregate([
+      {
+        $match: criteria
+      },
+      // Convert ObjectId to string
+      {
+        $addFields: {
+          noteIdString: { $toString: '$_id' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'mylearningcontents',
+          let: { noteIdStr: '$noteIdString' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$contentId', '$$noteIdStr'] },
+                    { $eq: ['$contentType', 'Note'] },
+                    { $eq: ['$userId', new mongoose.Types.ObjectId(userId)] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'learningMatch'
+        }
+      },
+      {
+        $addFields: {
+          isWatching: { $gt: [{ $size: '$learningMatch' }, 0] }
+        }
+      },
+      {
+        $project: {
+          uploadedBy: 0,
+          deletedOn: 0,
+          learningMatch: 0,
+          noteIdString: 0
+        }
+      },
+      {
+        $sort: sortOption
+      }
+    ]);
+
+    if (user.Role === "Student") {
       res.status(200).json({ // return result as true
         success: true,
         message: "Fetch All Public Notes ",
@@ -418,12 +468,6 @@ const getAllPublicNotes = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const notes = await Note.find({ // all notes find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
-
       // my notes (any status)
       const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
@@ -439,13 +483,6 @@ const getAllPublicNotes = async (req, res) => {
     }
 
     if (user.Role === "Admin") {
-      const notes = await Note.find({ // all notes find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption);
-
-
       // my notes (any status)
       const myNotes = await Note.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
@@ -500,13 +537,64 @@ const getAllPublicPYQ = async (req, res) => {
       })
     }
 
-    if (user.Role === "Student") {
-      const pyq = await PYQModel.find({ // all PYQ find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
 
+    //-- set criteria for pyq
+    let criteria = {
+      isPublic: true,
+      status: 'public',
+      category: category
+    };
+
+    //--find Pyq
+    const pyq = await PYQModel.aggregate([
+      {
+        $match: criteria
+      },
+      {
+        $addFields: {
+          pyqIdString: { $toString: '$_id' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'mylearningcontents',
+          let: { pyqIdStr: '$pyqIdString' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$contentId', '$$pyqIdStr'] },
+                    { $eq: ['$contentType', 'PYQ'] },
+                    { $eq: ['$userId', new mongoose.Types.ObjectId(userId)] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'learningMatch'
+        }
+      },
+      {
+        $addFields: {
+          isWatching: { $gt: [{ $size: '$learningMatch' }, 0] }
+        }
+      },
+      {
+        $project: {
+          uploadedBy: 0,
+          deletedOn: 0,
+          learningMatch: 0,
+          pyqIdString: 0
+        }
+      },
+      {
+        $sort: sortOption
+      }
+    ]);
+
+
+    if (user.Role === "Student") {
       res.status(200).json({ // return result as true
         success: true,
         message: "Fetch All Public PYQ ",
@@ -516,12 +604,6 @@ const getAllPublicPYQ = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const pyq = await PYQModel.find({ // all PYQ find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
-
       // my PYQ (any status)
       const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
@@ -537,12 +619,6 @@ const getAllPublicPYQ = async (req, res) => {
     }
 
     if (user.Role === "Admin") {
-      const pyq = await PYQModel.find({ // all PYQ find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption);
-
       // my PYQ (any status)
       const myPYQ = await PYQModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");
 
@@ -596,13 +672,59 @@ const getAllPublicVIDEO = async (req, res) => {
       })
     }
 
-    if (user.Role === "Student") {
-      const Video = await VideoModel.find({ // all Video find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
+    //-- set criteria for video
+    let criteria = {
+      isPublic: true,
+      status: 'public',
+      category: category
+    };
 
+    //--find Video
+    const Video = await VideoModel.aggregate([
+      { $match: criteria },
+      {
+        $addFields: {
+          videoIdString: { $toString: '$_id' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'mylearningcontents',
+          let: { videoIdStr: '$videoIdString' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$contentId', '$$videoIdStr'] },
+                    { $eq: ['$contentType', 'Video'] },
+                    { $eq: ['$userId', new mongoose.Types.ObjectId(userId)] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: 'learningMatch'
+        }
+      },
+      {
+        $addFields: {
+          isWatching: { $gt: [{ $size: '$learningMatch' }, 0] }
+        }
+      },
+      {
+        $project: {
+          uploadedBy: 0,
+          deletedOn: 0,
+          learningMatch: 0,
+          videoIdString: 0
+        }
+      },
+      { $sort: sortOption }
+    ]);
+
+
+    if (user.Role === "Student") {
       res.status(200).json({ // return result as true
         success: true,
         message: "Fetch All Public PYQ ",
@@ -612,12 +734,6 @@ const getAllPublicVIDEO = async (req, res) => {
     }
 
     if (user.Role === "Instructor") {
-      const Video = await VideoModel.find({ // all Video find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy -deletedOn ");
-
       const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn ");  // my Video (any status)
 
       res.status(200).json({ // return result as true
@@ -632,12 +748,6 @@ const getAllPublicVIDEO = async (req, res) => {
     }
 
     if (user.Role === "Admin") {
-      const Video = await VideoModel.find({ // all Video find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption);
-
       const myVideo = await VideoModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy -deletedOn "); // my Video (any status)
       const allVideo = await VideoModel.find({ category: category }).sort(sortOption); // all Video find from db
 
