@@ -45,6 +45,7 @@ import UpdateVideo from "./Dashbord/components/UpdatesVideo";
 import EnrollmentPage from "./components/Enrollment";
 import PaymentPage from "./components/PymentPage";
 import UpdateCourse from "./Dashbord/components/UpdateCourse";
+import About from "./components/About";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -122,6 +123,8 @@ function App() {
 
             <Route path="/searchcontent" element={<SearchContent setProgress={setProgress} />} />
             <Route path="/enrollmentcource" element={<EnrollmentPage setProgress={setProgress} />} />
+            <Route path="/about" element={<About setProgress={setProgress} />} />
+
 
 
             {/* Fix: Add '*' to the dashboard route -------------------------------- */}
@@ -241,6 +244,7 @@ function App() {
               element={<ForgotPassword setProgress={setProgress} />}
               redirectTo="/"
             />} />
+
             <Route path="*" element={<ErrorPage setProgress={setProgress} />} />
 
           </Routes>

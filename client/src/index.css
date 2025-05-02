@@ -197,6 +197,9 @@ code {
 }
 
 /*===================================== navbar custom css ======================================================*/
+.navbar-brand{
+  outline: none;
+}
 .nav-color {
   background-color: var(--primary-white);
 }
@@ -385,12 +388,6 @@ form label {
 
 .Qp-get-cources-btn-container {
   position: relative;
-}
-
-.Qp-get-cources-btn {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
 }
 
 .Pyq-year-Badge{
@@ -807,6 +804,108 @@ form label {
   bottom: 30px;
   right: 10px;
 }
+
+
+/*============================================ About =======================================================*/
+/* About.css */
+
+.about {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #fdfdfd;
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-header h1 {
+  font-size: 2.5rem;
+  color: #2e7d32; /* subtle green */
+}
+
+.about-header p {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.about-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.about-image,
+.about-text {
+  flex: 1 1 300px;
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.about-text h2 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-top: 1rem;
+}
+
+.about-text p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.about-text ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.about-text li {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+}
+
+.about-text li i {
+  color: #1abc9c; /* teal tone for icons */
+  margin-right: 0.6rem;
+}
+
+.about-footer {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 1.1rem;
+  color: #2e7d32;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+  .about-flex {
+    flex-direction: column;
+  }
+
+  .about-header h1 {
+    font-size: 2rem;
+  }
+
+  .about-text h2 {
+    font-size: 1.3rem;
+  }
+}
+
+
 
 /*=========================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {

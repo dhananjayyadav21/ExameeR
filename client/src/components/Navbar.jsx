@@ -162,6 +162,9 @@ const Navbar = ({setProgress}) => {
                             <Link className="nav-text nav-link " to="/cource">Course</Link>
                             </li>
                             <li className="nav-item">
+                            <Link className="nav-text nav-link" to="/about">About</Link>
+                            </li>
+                            <li className="nav-item">
                             <Link className="nav-text nav-link" to="/contact">Support</Link>
                             </li>
                         </ul>
@@ -201,7 +204,10 @@ const Navbar = ({setProgress}) => {
                     <Link className="nav-text nav-link " to="/cource"><i className="fa-solid fa-laptop mx-2"></i>Course</Link>
                     </li>
                     <li className="nav-item">
-                    <Link className="nav-text nav-link" to="/contact"><i className="fa-regular fa-paste mx-2"></i>Support</Link>
+                    <Link className="nav-text nav-link" to="/about"><i className="fa-regular fa-paste mx-2"></i>About</Link>
+                    </li>
+                    <li className="nav-item">
+                    <Link className="nav-text nav-link" to="/contact"><i className="fas fa-file-alt mx-2"></i>Support</Link>
                     </li>
                 </div>
             </div>
