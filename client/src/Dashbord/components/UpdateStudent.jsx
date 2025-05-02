@@ -66,7 +66,7 @@ const UpdateStudent = () => {
 
   return (
     <> 
-      <div className="container-fluid">
+      <div className="container-fluid ">
         <div className="row">
 
           {/* Form Column */}
@@ -79,7 +79,7 @@ const UpdateStudent = () => {
               </div>
             </div>
 
-            <div className="container-fluid my-3">
+            <div className="container-fluid my-3 px-0">
               <div className="card shadow m-0 p-0">
                 <div className="card-body">
 

@@ -69,8 +69,8 @@ const StudentManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalStudent, setModalStudent] = useState("");
   const deleteStudentCoinfirm = async (student) => {
-    const res = await deleteStudent(student._id);
     setShowModal(false);
+    const res = await deleteStudent(student._id);
     getStudentsByRole();
     toast.success(res.message || "Successfully delete student !", {
       position: "top-right"

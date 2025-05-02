@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import QPaperItem from "./QPaperItem.jsx";
 import Footer from "./Footer.jsx";
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-const QPaper = ({setProgress}) => {
+const QPaper = ({ setProgress }) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const context = useContext(ContentContext);
@@ -22,10 +22,31 @@ const QPaper = ({setProgress}) => {
         // eslint-disable-next-line
     }, [category, sortBy]);
 
+    //-- handle shorting
     const handleShortByChange = (sortBy) => {
         searchParams.set('sortBy', sortBy);
         navigate(`?${searchParams.toString()}`);
     }
+
+    //-- handle paging nation 
+    const [currentPage, setCurrentPage] = useState(1);
+    const pyqPerPage = 8;
+    // Calculate total pages
+    const totalPages = Math.ceil(PYQS.length / pyqPerPage);
+    // Slice pyq for current page
+    const indexOfLastPYQ = currentPage * pyqPerPage;
+    const indexOfFirstPYQ = indexOfLastPYQ - pyqPerPage;
+    const currentPYQS = PYQS.slice(indexOfFirstPYQ, indexOfLastPYQ);
+
+    const getPageNumbers = () => {
+        const pages = [];
+
+        if (currentPage > 1) pages.push(currentPage - 1);
+        pages.push(currentPage);
+        if (currentPage < totalPages) pages.push(currentPage + 1);
+
+        return pages;
+    };
 
     return (
         <>
@@ -33,7 +54,7 @@ const QPaper = ({setProgress}) => {
                 <div className="row g-4">
 
                     {/*=========================================== left container ===========================================*/}
-                    <div className="col-12 col-md-3 sidebar-Qpaper Qp-get-cources-btn-container">
+                    <div className="col-12 col-lg-3 sidebar-Qpaper Qp-get-cources-btn-container">
                         {/* Temporary it controlled from backend */}
                         <div className="d-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(100vh - 70px - 125px)' }}>
                             <a href="https://www.youtube.com/@exameecode">
@@ -47,7 +68,7 @@ const QPaper = ({setProgress}) => {
                     </div>
 
                     {/*=========================================== right container ===========================================*/}
-                    <div className="col-12 col-md-9 main-Qpaper scrollable">
+                    <div className="col-12 col-lg-9 main-Qpaper scrollable">
                         <div className="container-lg p-lg-4 py-4">
                             {/*========= heroSection ============== */}
                             <div className="Qpaper-heroSection p-4 rounded-4 text-center ">
@@ -75,11 +96,56 @@ const QPaper = ({setProgress}) => {
 
                                 <div className="container-lg mt-4">
                                     <div className="row g-4">
-                                        {PYQS.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
-                                        {PYQS?.map((pyq) => <QPaperItem key={pyq._id} pyq={pyq} />)}
+                                        {PYQS.length === 0 &&
+                                            <div className="text-center">
+                                                <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                            </div>
+                                        }
+                                        {currentPYQS?.map((pyq) => <QPaperItem key={pyq._id} pyq={pyq} />)}
                                     </div>
                                 </div>
 
+                                {/* Pagination controls */}
+                                {currentPYQS.length !== 0 && (
+                                    <div className="pagination my-4 d-flex justify-content-center gap-2">
+                                        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="btn btn-outline-dark btn-sm">
+                                            Previous
+                                        </button>
+
+                                        {currentPage > 2 && (
+                                            <>
+                                                <button onClick={() => setCurrentPage(1)} className="btn btn-outline-dark btn-sm">
+                                                    1
+                                                </button>
+                                                {currentPage > 3 && <span className="btn btn-sm disabled">...</span>}
+                                            </>
+                                        )}
+
+                                        {getPageNumbers().map((page) => (
+                                            <button key={page} onClick={() => setCurrentPage(page)} className={`btn btn-sm ${currentPage === page ? 'btn-dark' : 'btn-outline-dark'}`} >
+                                                {page}
+                                            </button>
+                                        ))}
+
+                                        {currentPage < totalPages - 1 && (
+                                            <>
+                                                {currentPage < totalPages - 2 && <span className="btn btn-sm disabled">...</span>}
+                                                <button onClick={() => setCurrentPage(totalPages)} className="btn btn-outline-dark btn-sm">
+                                                    {totalPages}
+                                                </button>
+                                            </>
+                                        )}
+
+                                        <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}
+                                            className="btn btn-outline-dark btn-sm">
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

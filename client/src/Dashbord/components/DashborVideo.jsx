@@ -103,7 +103,7 @@ const VideoLectures = () => {
       {/* Header with Add Video Button */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h2 font-weight-bold text-dark dashbord-heading-text">Video Lectures</h1>
-        <Link to="/uploadPYQ" className="text-decoration-none text-dark">
+        <Link to="/uploadVideo" className="text-decoration-none text-dark">
           <button className="btn btn-info px-4 py-2 d-flex align-items-center dashbord-upload-btn-text">
             <FontAwesomeIcon icon={faPlus} className="me-2" /> Upload Video Lecture
           </button>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import NotesIteam from "./NotesItem.jsx"
 import Footer from "./Footer.jsx";
@@ -6,7 +6,7 @@ import ContentContext from '../context/ContentContext'
 import * as GlobalUrls from "../GlobalURL"
 
 
-const Notes = ({setProgress}) => {
+const Notes = ({ setProgress }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const context = useContext(ContentContext);
@@ -23,14 +23,37 @@ const Notes = ({setProgress}) => {
     // eslint-disable-next-line
   }, [category, sortBy]);
 
+  //-- handel sort
   const handleShortByChange = (sortBy) => {
     searchParams.set('sortBy', sortBy);
     navigate(`?${searchParams.toString()}`);
   }
 
+  //-- handle paging nation 
+  const [currentPage, setCurrentPage] = useState(1);
+  const notesPerPage = 1;
+  // Calculate total pages
+  const totalPages = Math.ceil(Notes.length / notesPerPage);
+  // Slice notes for current page
+  const indexOfLastNote = currentPage * notesPerPage;
+  const indexOfFirstNote = indexOfLastNote - notesPerPage;
+  const currentNotes = Notes.slice(indexOfFirstNote, indexOfLastNote);
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const startPage = Math.max(1, currentPage - 1);
+    const endPage = Math.min(totalPages, currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+
+    return pages;
+  };
+
   return (
     <>
-      <div className="container-lg" style={{minHeight:"50vh"}}>
+      <div className="container-lg" style={{ minHeight: "70vh" }}>
         <div className="notes-heroSection card container-lg mt-4 shadow-sm">
           <div className="text-center py-4">
             <h2 className="card-title">Explore & Discover<span className="notes-span-section"> Your Notes</span></h2>
@@ -55,13 +78,61 @@ const Notes = ({setProgress}) => {
           </div>
         </div>
 
-        
+
         <div className="container-lg mt-4 mb-5">
           <div className="row g-4">
-            {Notes.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
-            {Notes?.map((note) => <NotesIteam key={note._id} notes={note} />)}
+            {Notes.length === 0 &&
+              <div className="text-center">
+                <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+              </div>
+            }
+            {currentNotes?.map((note) => <NotesIteam key={note._id} notes={note} />)}
           </div>
         </div>
+
+
+
+        {/* Pagination controls */}
+        {currentNotes.length !== 0 && (
+          <div className="pagination my-4 d-flex justify-content-center gap-2">
+            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="btn btn-outline-dark btn-sm">
+              Previous
+            </button>
+
+            {currentPage > 2 && (
+              <>
+                <button onClick={() => setCurrentPage(1)} className="btn btn-outline-dark btn-sm">
+                  1
+                </button>
+                {currentPage > 3 && <span className="btn btn-sm disabled">...</span>}
+              </>
+            )}
+
+            {getPageNumbers().map((page) => (
+              <button key={page} onClick={() => setCurrentPage(page)} className={`btn btn-sm ${currentPage === page ? 'btn-dark' : 'btn-outline-dark'}`} >
+                {page}
+              </button>
+            ))}
+
+            {currentPage < totalPages - 1 && (
+              <>
+                {currentPage < totalPages - 2 && <span className="btn btn-sm disabled">...</span>}
+                <button onClick={() => setCurrentPage(totalPages)} className="btn btn-outline-dark btn-sm">
+                  {totalPages}
+                </button>
+              </>
+            )}
+
+            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}
+              className="btn btn-outline-dark btn-sm">
+              Next
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ====================================== footer ================================================================= */}

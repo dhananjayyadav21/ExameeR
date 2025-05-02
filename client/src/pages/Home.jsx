@@ -182,8 +182,19 @@ const Home = ({ setProgress }) => {
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br />
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
-        <div className='mt-2 mt-md-3'>
-          <div className="row g-4 mt-4">{Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}</div>
+        <div className='container-md mt-3'>
+          <div className="row g-4 mt-4">
+            {Course.length === 0 &&
+              <div className="text-center">
+                  <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                  <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                  <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                  <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                  <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+              </div>
+            }
+            {Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
+          </div>
         </div>
         <div className='d-flex justify-content-center'>
           <button className='btn btn-dark px-5 py-2 mt-5' onClick={() => navigate('/cource')} >View All Courses</button>

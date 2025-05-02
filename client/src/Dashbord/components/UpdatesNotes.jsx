@@ -148,7 +148,7 @@ const UpdatesNotes = () => {
                             </div>
                         </div>
 
-                        <div className="container-fluid my-3">
+                        <div className="container-fluid my-3 px-0">
                             <div className="card shadow m-0 p-0">
                                 <div className="card-body">
 
@@ -249,7 +249,7 @@ const UpdatesNotes = () => {
 
                                         {uploading && (
                                             <div className="text-center">
-                                                <div className="spinner-border mt-3" role="status"></div>
+                                                <div className="spinner-border my-3" role="status"></div>
                                             </div>
                                         )}
 

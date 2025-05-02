@@ -120,7 +120,7 @@ const UpdateVideo = () => {
                         </div>
                     </div>
 
-                    <div className="container my-3">
+                    <div className="container-fluid my-3 px-0">
                         <div className="card shadow">
                             <div className="card-body">
 

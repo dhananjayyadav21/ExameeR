@@ -66,7 +66,7 @@ const EnrollmentPage = ({ setProgress }) => {
       </div>
 
       {/* Main Container */}
-      <div className="container my-5">
+      <div className="container py-5">
         <div className="row g-4">
 
           {/* Left Column - Why & Enrollment Form */}

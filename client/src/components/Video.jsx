@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import VideoItem from "./VideoItem";
 import Footer from './Footer';
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-const Video = ({setProgress}) => {
+const Video = ({ setProgress }) => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const context = useContext(ContentContext);
@@ -13,7 +13,7 @@ const Video = ({setProgress}) => {
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
-    
+
     useEffect(() => {
         setProgress(0);
         if (localStorage.getItem('token')) {
@@ -23,17 +23,38 @@ const Video = ({setProgress}) => {
         // eslint-disable-next-line
     }, [category, sortBy]);
 
+    //-- handle sorting
     const handleShortByChange = (sortBy) => {
         searchParams.set('sortBy', sortBy);
         navigate(`?${searchParams.toString()}`);
     }
+
+    //-- handle paging nation 
+    const [currentPage, setCurrentPage] = useState(1);
+    const videoPerPage = 8;
+    // Calculate total pages
+    const totalPages = Math.ceil(Video.length / videoPerPage);
+    // Slice video for current page
+    const indexOfLastVideo = currentPage * videoPerPage;
+    const indexOfFirstVideo = indexOfLastVideo - videoPerPage;
+    const currentVideo = Video.slice(indexOfFirstVideo, indexOfLastVideo);
+
+    const getPageNumbers = () => {
+        const pages = [];
+
+        if (currentPage > 1) pages.push(currentPage - 1);
+        pages.push(currentPage);
+        if (currentPage < totalPages) pages.push(currentPage + 1);
+
+        return pages;
+    };
 
     return (
         <>
             <div className="container-fluid">
                 <div className="row g-4">
                     {/*=========================================== left container ===========================================*/}
-                    <div className="col-12 col-md-3 sidebar-VideoSection">
+                    <div className="col-12 col-lg-3 sidebar-VideoSection">
                         <div className='p-4 my-3 rounded-3 text-center' style={{ backgroundColor: "white" }}>
                             <h4>LEARN WITH LECTURES</h4>
                             <div className='row g-2 p-2 mt-3 rounded-3' >
@@ -42,13 +63,13 @@ const Video = ({setProgress}) => {
                             </div>
                         </div>
                         {/* Temporary it controlled from backend */}
-                        <div className="d-none d-md-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
+                        <div className="d-none d-lg-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
                             <a href="https://www.youtube.com/@exameecode"><img className="rounded-3" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} /></a>
                         </div>
                     </div>
 
                     {/*=========================================== right container ===========================================*/}
-                    <div className="col-12 col-md-9 main-VideoSection scrollable">
+                    <div className="col-12 col-lg-9 main-VideoSection scrollable">
                         <div className="video-heroSection card container-lg mt-md-4 shadow-sm">
                             <div className="text-center py-3">
                                 <h4 className="card-title">Explore Your <span className="notes-span-section">Video Lectures</span></h4>
@@ -72,10 +93,56 @@ const Video = ({setProgress}) => {
 
                                 <div className="mt-4">
                                     <div className="row g-4">
-                                        {Video.length === 0 && <h6 className="d-flex justify-content-center text-muted text-center my-5">No Data Found!  Plese Check internet connection</h6>}
+                                        {currentVideo.length === 0 &&
+                                            <div className="text-center">
+                                                <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                                <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
+                                            </div>
+                                        }
                                         {Video?.map((video) => <VideoItem key={video._id} video={video} />)}
                                     </div>
                                 </div>
+
+                                {/* Pagination controls */}
+                                {currentVideo.length !== 0 && (
+                                    <div className="pagination my-4 d-flex justify-content-center gap-2">
+                                        <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="btn btn-outline-dark btn-sm">
+                                            Previous
+                                        </button>
+
+                                        {currentPage > 2 && (
+                                            <>
+                                                <button onClick={() => setCurrentPage(1)} className="btn btn-outline-dark btn-sm">
+                                                    1
+                                                </button>
+                                                {currentPage > 3 && <span className="btn btn-sm disabled">...</span>}
+                                            </>
+                                        )}
+
+                                        {getPageNumbers().map((page) => (
+                                            <button key={page} onClick={() => setCurrentPage(page)} className={`btn btn-sm ${currentPage === page ? 'btn-dark' : 'btn-outline-dark'}`} >
+                                                {page}
+                                            </button>
+                                        ))}
+
+                                        {currentPage < totalPages - 1 && (
+                                            <>
+                                                {currentPage < totalPages - 2 && <span className="btn btn-sm disabled">...</span>}
+                                                <button onClick={() => setCurrentPage(totalPages)} className="btn btn-outline-dark btn-sm">
+                                                    {totalPages}
+                                                </button>
+                                            </>
+                                        )}
+
+                                        <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}
+                                            className="btn btn-outline-dark btn-sm">
+                                            Next
+                                        </button>
+                                    </div>
+                                )}
 
                             </div>
                         </div>
