@@ -76,8 +76,8 @@ const StudyNotes = () => {
   const [modalNote, setModalNote] = useState("");
 
   const deleteCoinfirm = async (Note) => {
-    const res = await deleteNotes(Note._id);
     setShowModal(false);
+    const res = await deleteNotes(Note._id);
     getNote();
     if (res.success === true) {
       toast.success(res.message || "Successfully delete Notes !", {
@@ -218,10 +218,6 @@ const StudyNotes = () => {
 
         {/* Pagination Controls */}
         <div className="d-flex justify-content-between align-items-center p-3">
-          <div className="text-muted">
-            Showing {indexOfFirstNotes + 1} to {Math.min(indexOfLastNotes, dashNotes.length)} of {dashNotes.length} Students
-          </div>
-
           <div>
             {/* Previous Button */}
             <button

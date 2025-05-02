@@ -62,7 +62,7 @@ const EnrollmentPage = ({ setProgress }) => {
           {course?.courseLevel || "Intermediate"}
         </span>
         <p>Mentor: <strong>{course?.mentor}</strong></p>
-        <p>Start Date: <strong>{course?.startDate ? course?.startDate.slice(0, 10) : "Coming Soon"}</strong></p>
+        <p>Start Date: <strong>{course?.startDate ? course?.startDate?.slice(0, 10) : "Coming Soon"}</strong></p>
       </div>
 
       {/* Main Container */}

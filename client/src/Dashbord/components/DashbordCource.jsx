@@ -79,8 +79,8 @@ const Courses = () => {
   const [modalCourse, setModalCourse] = useState("");
 
   const deleteCoinfirm = async (Course) => {
-    const res = await deleteCourse(Course._id);
     setShowModal(false);
+    const res = await deleteCourse(Course._id);
     getCourse();
     if (res.success === true) {
       toast.success(res.message || "Successfully delete Course !", {
@@ -232,10 +232,6 @@ const Courses = () => {
 
       {/* Pagination Controls */}
       <div className="d-flex justify-content-between align-items-center p-3">
-        <div className="text-muted">
-          Showing {indexOfFirstCourse + 1} to {Math.min(indexOfLastCourse, dasCourse.length)} of {dasCourse.length} Students
-        </div>
-
         <div>
           {/* Previous Button */}
           <button

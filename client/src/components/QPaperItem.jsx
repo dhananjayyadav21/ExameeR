@@ -78,13 +78,13 @@ const QPaperItem = ({ pyq }) => {
 
   return (
     <>
-      {isMyLearning || PYQ.isWatching ?
+      {isMyLearning || PYQ?.isWatching ?
         <>
           <Modal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleRemoveToMyLearning}
-            heading={`Do You Want To Remove "${PYQ.title}" PYQ Rrom My Learning? `}
+            heading={`Do You Want To Remove "${PYQ?.title}" PYQ Rrom My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           />
         </> :
@@ -93,7 +93,7 @@ const QPaperItem = ({ pyq }) => {
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleAddToMyLearning}
-            heading={`Do You Want To Add "${PYQ.title}" PYQ In My Learning? `}
+            heading={`Do You Want To Add "${PYQ?.title}" PYQ In My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           />
         </>
@@ -103,11 +103,11 @@ const QPaperItem = ({ pyq }) => {
         <div className="card card-transition my-3 p-2 py-3 text-center qp-item rounded-3 shadow-sm position-relative" >
           <img src="/assets/img/brandlog.png" alt='Notes Img' className="card-img-top align-self-center" style={{ width: "100px" }} />
           <div className="card-body ">
-            <h6 className="card-title">{(PYQ.subject).substring(0, 25)}</h6>
+            <h6 className="card-title">{(PYQ?.subject).substring(0, 25)}</h6>
             <h6 className="text-muted">View PYQ Here</h6>
           </div>
           <div className='d-flex justify-content-between w-100'>
-            <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer"><h6 className='m-0'>Year - {PYQ.year}</h6></span>
+            <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer"><h6 className='m-0'>Year - {PYQ?.year}</h6></span>
             <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View PYQ</h6></span>
           </div>
           {isMyLearning ? (
@@ -116,7 +116,7 @@ const QPaperItem = ({ pyq }) => {
               onClick={() => setShowModal(true)}
             ></i>
           ) : (
-            PYQ.isWatching ? (
+            PYQ?.isWatching ? (
               <i
                 className="fa-solid fa-minus position-absolute remove-mylearning z-1"
                 onClick={() => setShowModal(true)}

@@ -21,7 +21,7 @@ const NotesItem = ({ notes }) => {
 
   //-- handle pdf viewer
   const handleViewPDF = () => {
-    navigate(`/pdfviewer?view=${encodeURIComponent(Notes.fileUrl)}`);
+    navigate(`/pdfviewer?view=${encodeURIComponent(Notes?.fileUrl)}`);
   };
 
   //-- handle add to mylearning
@@ -29,7 +29,7 @@ const NotesItem = ({ notes }) => {
   const handleAddToMyLearning = async () => {
     try {
       let data = {
-        contentId: Notes._id,
+        contentId: Notes?._id,
         contentType: "Note"
       }
       setShowModal(false);
@@ -81,13 +81,13 @@ const NotesItem = ({ notes }) => {
   return (
     <>
 
-      {isMyLearning || Notes.isWatching ? 
+      {isMyLearning || Notes?.isWatching ? 
         <>
           <Modal
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleRemoveToMyLearning}
-            heading={`Do You Want To Remove "${Notes.title}" Notes From My Learning? `}
+            heading={`Do You Want To Remove "${Notes?.title}" Notes From My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></> :
         <>
@@ -95,7 +95,7 @@ const NotesItem = ({ notes }) => {
             isOpen={showModal}
             onClose={() => setShowModal(false)}
             onConfirm={handleAddToMyLearning}
-            heading={`Do You Want To Add "${Notes.title}" Notes In My Learning? `}
+            heading={`Do You Want To Add "${Notes?.title}" Notes In My Learning? `}
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></>}
 
@@ -103,8 +103,8 @@ const NotesItem = ({ notes }) => {
         <div className="card card-transition p-4 my-3 text-center notes-item rounded-3 shadow-sm" >
           <img src="/assets/img/brandlog.png" alt='Notes Img' className="card-img-top align-self-center" style={{ width: "100px" }} />
           <div className="card-body">
-            <h5 className="card-title">{Notes.title}</h5>
-            <p className="card-text text-muted">{Notes.professor}</p>
+            <h5 className="card-title">{Notes?.title}</h5>
+            <p className="card-text text-muted">{Notes?.professor}</p>
           </div>
           <span className="btn-light-gray p-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View Notes</h6></span>
           {isMyLearning ? (
@@ -113,7 +113,7 @@ const NotesItem = ({ notes }) => {
               onClick={() => setShowModal(true)}
             ></i>
           ) : (
-            Notes.isWatching ? (
+            Notes?.isWatching ? (
               <i
                 className="fa-solid fa-minus position-absolute remove-mylearning z-1"
                 onClick={() => setShowModal(true)}
