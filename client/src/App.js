@@ -62,7 +62,7 @@ function App() {
       <ContentState>
         <BrowserRouter>
           <Navbar setProgress={setProgress} />
-          <LoadingBar color='#f11946' height={3} progress={progress} onLoaderFinished={() => setProgress(0)} />
+          <LoadingBar color='#04bd20' height={3} progress={progress} onLoaderFinished={() => setProgress(0)} />
           <Routes>
             <Route path="/" element={<Home setProgress={setProgress} />} />
 

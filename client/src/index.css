@@ -763,6 +763,50 @@ form label {
 }
 
 
+/*============================================= loder =================================================*/
+@keyframes blink {
+  0% { opacity: 0; }
+  25% { opacity: 0.3; }
+  50% { opacity: 1; }
+  75% { opacity: 0.3; }
+  100% { opacity: 0; }
+}
+
+.blinking-spinner {
+  width: 0.8rem;
+  height: 0.8rem;
+  animation: blink 1s infinite ease-in-out;
+}
+
+.blinking-spinner:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.blinking-spinner:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.blinking-spinner:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+.blinking-spinner:nth-child(4) {
+  animation-delay: 0.12s;
+}
+
+
+/*=========================================== video player ===============================================*/
+.videoPlayer{
+  height: 100%;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.play-cource-demo{
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+}
 
 /*=========================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
@@ -782,11 +826,6 @@ form label {
     font-size: large;
   }
 
-  /* Q-paper Section */
-  .sidebar-Qpaper {
-    display: none;
-  }
-
   .Qpaper-heroSection {
     font-size: x-small;
   }
@@ -799,12 +838,21 @@ form label {
   .Qpaper-heroSection button {
     font-size: x-small;
   }
+}
 
+@media only screen and (max-width: 990px) {
   /* Video section */
   .sidebar-VideoSection {
     height: auto;
     background: var(--primary-sidebar-bg);
   }
+
+  
+  /* Q-paper Section */
+  .sidebar-Qpaper {
+    display: none;
+  }
+
 }
 
 @media only screen and (max-width: 500px) {

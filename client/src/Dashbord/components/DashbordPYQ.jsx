@@ -70,8 +70,8 @@ const PreviousQuestions = () => {
   const [modalPYQ, setModalPYQ] = useState("");
 
   const deleteCoinfirm = async (PYQ) => {
-    const res = await deletePYQ(PYQ._id);
     setShowModal(false);
+    const res = await deletePYQ(PYQ._id);
     getPYQ();
     if (res.success === true) {
       toast.success(res.message || "Successfully delete PYQ !", {
@@ -208,10 +208,6 @@ const PreviousQuestions = () => {
 
       {/* Pagination Controls */}
       <div className="d-flex justify-content-between align-items-center p-3">
-        <div className="text-muted">
-          Showing {indexOfFirstPYQ + 1} to {Math.min(indexOfLastPYQ, dashPYQ.length)} of {dashPYQ.length} Students
-        </div>
-
         <div>
           {/* Previous Button */}
           <button

@@ -823,8 +823,6 @@ const getAllPublicCourse = async (req, res) => {
 
       const myCourse = await CourseModel.find({ uploadedBy: userId, category: category }).select("-uploadedBy");  // my Course (any status)
 
-      console.log(myCourse);
-
       res.status(200).json({ // return result as true
         success: true,
         message: "Fetch All My & Public Video ",
@@ -843,7 +841,7 @@ const getAllPublicCourse = async (req, res) => {
         category: category
       }).sort(sortOption);
 
-      const myCourse = await CourseModel.find({ ExmeeUserId: user.ExmeeUserId, category: category }).select("-uploadedBy"); // my Course (any status)
+      const myCourse = await CourseModel.find({ uploadedBy: userId, category: category }).select("-uploadedBy"); // my Course (any status)
       const allCourse = await CourseModel.find({ category: category }).sort(sortOption); // all Course find from db
 
       res.status(200).json({ // return result as true

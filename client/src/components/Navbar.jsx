@@ -30,6 +30,7 @@ const Navbar = ({setProgress}) => {
         setProgress(0);
         searchParams.set('category', category);
         navigate(`?${searchParams.toString()}`);
+        closeMobileBar();
         setProgress(100);
     }
 
@@ -50,12 +51,12 @@ const Navbar = ({setProgress}) => {
                     
                 {/* Brand-Logo For App */}
                 <ul className="d-flex flex-row align-items-center mb-0 pl-0">
-                    <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}} /></Link>
+                    <Link className="nav-text navbar-brand mt-0" to="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{width:"110px"}}   onClick={closeMobileBar}/></Link>
 
                     {/*=========================== profile icon for MobileBar ==========================*/}
                     {localStorage.getItem("token")?
                         <>
-                            <div className="nav-item dropdown d-lg-none">  
+                            <div className="nav-item dropdown d-lg-none"  onClick={closeMobileBar}>  
                                 <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div><img
                                         className="profile-img rounded-circle"
@@ -107,7 +108,7 @@ const Navbar = ({setProgress}) => {
                             <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i className="fa-solid fa-layer-group m-2"></i>Category
                             </a>
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown"  onClick={closeMobileBar}>
                                 <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('sciTechnology')}}>Sci-Technology</button></li>
                                 <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('commerce')}}>Commerce</button></li>
                                 <li><button className="dropdown-item" onClick={()=>{ handleCategoryChange('artscivils')}}>Arts & civils</button></li>

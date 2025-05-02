@@ -31,17 +31,17 @@ const SearchContent = ({ setProgress }) => {
                         switch (item.type) {
                             case 'note':
                                 return (
-                                    <NotesItem key={index} Notes={item} />
+                                    <NotesItem key={index} notes={item} />
                                 );
 
                             case 'pyq':
                                 return (
-                                    <QPaperItem key={index} PYQ={item} />
+                                    <QPaperItem key={index} pyq={item} />
                                 );
 
                             case 'video':
                                 return (
-                                    <VideoItem key={index} Video={item} />
+                                    <VideoItem key={index} video={item} />
                                 );
 
                             default:

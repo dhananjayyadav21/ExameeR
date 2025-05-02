@@ -69,8 +69,8 @@ const StudentManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalStudent, setModalStudent] = useState("");
   const deleteStudentCoinfirm = async (student) => {
-    const res = await deleteStudent(student._id);
     setShowModal(false);
+    const res = await deleteStudent(student._id);
     getStudentsByRole();
     toast.success(res.message || "Successfully delete student !", {
       position: "top-right"
@@ -214,10 +214,6 @@ const StudentManagement = () => {
 
       {/* Pagination Controls */}
       <div className="d-flex justify-content-between align-items-center p-3">
-        <div className="text-muted">
-          Showing {indexOfFirstStudent + 1} to {Math.min(indexOfLastStudent, studentsByRole.length)} of {studentsByRole.length} Students
-        </div>
-
         <div>
           {/* Previous Button */}
           <button className="btn btn-sm btn-outline-dark me-2" disabled={currentPage === 1} onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}>
