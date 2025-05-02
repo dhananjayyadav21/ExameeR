@@ -18,7 +18,7 @@ import hasUserRole from "../../utils/hasUserRole";
 const DashbordHead = () => {
   const [searchParams] = useSearchParams();
   const context = useContext(ContentContext);
-  const { MyNotes, MyPYQS, MyVideo, LatestData, getNote, getPYQ, getVideo, getLatestUpload } = context;
+  const { MyNotes, MyPYQS, MyVideo, MyCourse, LatestData, getNote, getPYQ, getVideo, getCourse, getLatestUpload } = context;
 
   const category = searchParams.get('category') || 'sciTechnology';
   useEffect(() => {
@@ -26,6 +26,7 @@ const DashbordHead = () => {
       getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}`);
       getPYQ(`${GlobalUrls.GETPYQ_URL}?category=${category}`);
       getVideo(`${GlobalUrls.GETVideo_URL}?category=${category}`);
+      getCourse(`${GlobalUrls.GETCourse_URL}?category=${category}`);
       if (hasUserRole("Admin", "Instructor")) {
         getLatestUpload(`${GlobalUrls.GETLATESTDATA_URL}?category=${category}`);
       }
@@ -60,7 +61,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Total Notes</p>
-                  <h3 className="fw-bold text-dark">{MyNotes.length}</h3>
+                  <h3 className="fw-bold text-dark">{MyNotes?.length}</h3>
                 </div>
                 <div className="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon
@@ -77,7 +78,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Total Courses</p>
-                  <h3 className="fw-bold text-dark">0</h3>
+                  <h3 className="fw-bold text-dark">{MyCourse?.length}</h3>
                 </div>
                 <div className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon icon={faBook} className="text-primary fs-4" />
@@ -91,7 +92,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Video Lectures</p>
-                  <h3 className="fw-bold text-dark">{MyVideo.length}</h3>
+                  <h3 className="fw-bold text-dark">{MyVideo?.length}</h3>
                 </div>
                 <div className="rounded-circle bg-purple bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon
@@ -108,7 +109,7 @@ const DashbordHead = () => {
               <div className="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <p className="small text-secondary">Previous Questions</p>
-                  <h3 className="fw-bold text-dark">{MyPYQS.length}</h3>
+                  <h3 className="fw-bold text-dark">{MyPYQS?.length}</h3>
                 </div>
                 <div className="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                   <FontAwesomeIcon
@@ -140,10 +141,10 @@ const DashbordHead = () => {
                     <tr className="border-bottom">
                       <td>{e?.type}</td>
                       <td>{e?.title}</td>
-                      <td>{(e?.createdAt).slice(0, 10)}</td>
+                      <td>{(e?.createdAt)?.slice(0, 10)}</td>
                       <td>
                         <span className={`badge bg-${badgeColor} text-white`}>
-                          {e.status}
+                          {e?.status}
                         </span>
                       </td>
                     </tr>))}
