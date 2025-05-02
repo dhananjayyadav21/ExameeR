@@ -31,7 +31,7 @@ const Notes = ({ setProgress }) => {
 
   //-- handle paging nation 
   const [currentPage, setCurrentPage] = useState(1);
-  const notesPerPage = 1;
+  const notesPerPage = 8;
   // Calculate total pages
   const totalPages = Math.ceil(Notes.length / notesPerPage);
   // Slice notes for current page

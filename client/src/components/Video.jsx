@@ -31,7 +31,7 @@ const Video = ({ setProgress }) => {
 
     //-- handle paging nation 
     const [currentPage, setCurrentPage] = useState(1);
-    const videoPerPage = 8;
+    const videoPerPage = 5;
     // Calculate total pages
     const totalPages = Math.ceil(Video.length / videoPerPage);
     // Slice video for current page

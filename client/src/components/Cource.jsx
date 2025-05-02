@@ -98,7 +98,7 @@ const Cource = ({ setProgress }) => {
           </div> */}
 
           {/*=========================================== right container ===========================================*/}
-          <div className="col-12 col-md-12 main-CoursesSection" style={{minHeight:"70vh"}}>
+          <div className="col-12 col-md-12 main-CoursesSection" style={{minHeight:"40vh"}}>
             <div className="px-2 pb-4 pt-md-4">
               {/*========= Cource Section =============*/}
               <div className="d-sm-flex justify-content-between">
