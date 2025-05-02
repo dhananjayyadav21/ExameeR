@@ -63,18 +63,18 @@ const Offers = () => {
             <div className="col-md-4">
               <div className="card card-transition border rounded-4 shadow py-4 h-100">
                 <div className='text-center'>
-                    <h3 className="card-title fw-bold mb-3">{Basic.title}</h3>
-                    <div className="h1 fw-bold text-primary mb-4">
-                        {Basic.price}<span className="fs-6 text-muted">/{Basic.duration}</span>
-                    </div>
+                  <h3 className="card-title fw-bold mb-3">{Basic.title}</h3>
+                  <div className="h1 fw-bold text-primary mb-4">
+                    {Basic.price}<span className="fs-6 text-muted">/{Basic.duration}</span>
+                  </div>
                 </div>
                 <div className="card-body">
                   <ul className="list-unstyled text-start mb-4">
-                  {Basic.benefits.map((benefit, index) => (
+                    {Basic.benefits.map((benefit, index) => (
                       <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
                     ))}
                   </ul>
-                  <button className="btn btn-primary w-100"onClick={()=>{handlestart(Basic)}}>Get Started</button>
+                  <button className="btn btn-primary w-100" onClick={() => { handlestart(Basic) }}>Get Started</button>
                 </div>
               </div>
             </div>
@@ -92,8 +92,8 @@ const Offers = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                <ul className="list-unstyled text-start mb-4">
-                  {Pro.benefits.map((benefit, index) => (
+                  <ul className="list-unstyled text-start mb-4">
+                    {Pro.benefits.map((benefit, index) => (
                       <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
                     ))}
                   </ul>
@@ -112,8 +112,8 @@ const Offers = () => {
                   </div>
                 </div>
                 <div className="card-body">
-                <ul className="list-unstyled text-start mb-4">
-                  {Premium.benefits.map((benefit, index) => (
+                  <ul className="list-unstyled text-start mb-4">
+                    {Premium.benefits.map((benefit, index) => (
                       <li className="mb-2" key={index}><i className="fa-solid mx-3 green-i fa-check"></i>{benefit}</li>
                     ))}
                   </ul>

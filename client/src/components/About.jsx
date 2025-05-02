@@ -11,7 +11,7 @@ const About = ({ setProgress }) => {
 
     return (
         <>
-            <div className='about p-5'>
+            <div className='about py-5 d-flex align-items-center' style={{minHeight:"70vh"}}>
                 <div className="container-md">
                     <div className="about-header">
                         <h1><i className="fas fa-leaf"></i> About Examee</h1>
@@ -51,7 +51,7 @@ const About = ({ setProgress }) => {
             </div>
 
             {/* ====================================== footer ================================================================= */}
-            <footer className="footer bottom-0">
+            <footer className="footer">
                 <Footer />
             </footer>
         </>

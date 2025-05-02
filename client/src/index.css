@@ -891,7 +891,7 @@ form label {
 }
 
 /* Responsive layout */
-@media (max-width: 768px) {
+@media (max-width: 990px) {
   .about-flex {
     flex-direction: column;
   }
@@ -940,19 +940,18 @@ form label {
 }
 
 @media only screen and (max-width: 990px) {
-  /* Video section */
-  .sidebar-VideoSection {
-    height: auto;
-    background: var(--primary-sidebar-bg);
-  }
-
-  
   /* Q-paper Section */
   .sidebar-Qpaper {
     display: none;
   }
 
+  /* Video section */
+  .sidebar-VideoSection {
+    height: auto;
+    background: var(--primary-sidebar-bg);
+  }
 }
+
 
 @media only screen and (max-width: 500px) {
   .mylearning-section-heading h5{
@@ -974,3 +973,4 @@ form label {
     font-size: x-small;
   }
 }
+

@@ -175,14 +175,14 @@ const Home = ({ setProgress }) => {
 
 
       {/*==================================== New And Latest Cources Section =====================================*/}
-      <section className='container-lg px-4 px-md-0 my-5 home-banner-section'>
+      <section className='container-lg px-3 my-5 home-banner-section'>
         <div className='text-center'>
           <h5 className='fw-bolder purple'>Cources We Deliver</h5>
           <h1 className='fw-bolder'>Our Latest Featured Cources</h1>
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br />
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
-        <div className='container-md mt-3'>
+        <div className='container-lg mt-3'>
           <div className="row g-4 mt-4">
             {Course.length === 0 &&
               <div className="text-center">
