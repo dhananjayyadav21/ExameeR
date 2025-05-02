@@ -20,9 +20,6 @@ const CourceIteam = ({ Course }) => {
               height: "150px",
               objectFit: "cover"
             }} />
-            <div className="Play-btn bg-danger cursor-pointer"  onClick={()=> handleEnroll(Course)}>
-              <i className="fa-solid fa-play"></i>
-            </div>
             <span className='badge bg-warning cource-offer-badge'>{Course?.offerPercent}% off</span>
           </div>
           <div className="card-body pb-0 px-1">

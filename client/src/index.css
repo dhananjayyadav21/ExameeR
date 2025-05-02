@@ -795,6 +795,19 @@ form label {
 }
 
 
+/*=========================================== video player ===============================================*/
+.videoPlayer{
+  height: 100%;
+  width: 100%;
+  border-radius: 16px;
+}
+
+.play-cource-demo{
+  position: absolute;
+  bottom: 30px;
+  right: 10px;
+}
+
 /*=========================================== media Queri ===============================================*/
 @media only screen and (max-width: 770px) {
   /* Notes section */
