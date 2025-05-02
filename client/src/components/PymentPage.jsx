@@ -44,7 +44,7 @@ const PaymentPage = ({ setProgress }) => {
 
   return (
     <>
-      <div className='bg-light d-flex align-items-center'  style={{minHeight:"70vh"}}>
+      <div className='bg-light'  style={{minHeight:"70vh"}}>
         <div className="container py-5">
           <div className="payment-header">
             <h2 className="text-center">Complete Your Payment</h2>

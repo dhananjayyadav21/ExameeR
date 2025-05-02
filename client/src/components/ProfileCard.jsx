@@ -38,7 +38,7 @@ const ProfileCardWithBanner = ({ setProgress }) => {
 
   return (
     <>
-      <div className="container p-4 d-flex align-items-center"  style={{minHeight:"70vh"}}>
+      <div className="container p-4"  style={{minHeight:"70vh"}}>
         <div className="row bg-white rounded-3 shadow overflow-hidden">
 
           {/* User Details d-flex align-items-center d-flex flex-column justify-content-center */}

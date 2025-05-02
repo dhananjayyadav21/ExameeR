@@ -69,7 +69,7 @@ const EnrollmentPage = ({ setProgress }) => {
         show={showModal}
         onClose={() => setShowModal(false)}
       />
-      <div id="enrollment" className="bg-body-tertiary d-flex align-items-center"  style={{minHeight:"70vh"}}>
+      <div id="enrollment" className="bg-body-tertiary"  style={{minHeight:"70vh"}}>
         {/* Header with Course Title and Badge */}
         <div className="p-5 bg-dark text-white position-relative">
           <h2 className="rubik-font mb-3">{course?.title} Enrollment</h2>
