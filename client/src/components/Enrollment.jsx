@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import VideoModalService from '../services/VideoPlay';
+import VideoModalService from '../utils/VideoPlay';
 
 const EnrollmentPage = ({ setProgress }) => {
   const location = useLocation();
