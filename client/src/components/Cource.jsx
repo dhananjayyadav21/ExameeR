@@ -39,7 +39,7 @@ const Cource = ({ setProgress }) => {
 
   //-- handle paging nation 
   const [currentPage, setCurrentPage] = useState(1);
-  const CoursePerPage = 1;
+  const CoursePerPage = 4;
   // Calculate total pages
   const totalPages = Math.ceil(Course.length / CoursePerPage);
   // Slice Course for current page
@@ -74,31 +74,10 @@ const Cource = ({ setProgress }) => {
         </div>
       </div>
 
-      <div className="container-lg my-3">
+      <div className="container-lg my-3" style={{minHeight:"70vh"}}>
         <div className="row g-4">
-          {/*=========================================== left container ===========================================*/}
-          {/* <div className="col-12 col-md-2 sidebar-CoursesSection">
-            <div className='px-2 my-4 rounded-3'>
-              <h5>Filter Courses</h5>
-              <div className='row g-2 px-2 rounded-3' >
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" value="" id="FreeCourses" />
-                  <label className="form-check-label" htmlFor="FreeCourses">
-                    Free Courses
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input className="form-check-input" type="checkbox" value="" id="PaidCourses" />
-                  <label className="form-check-label" htmlFor="PaidCourses">
-                    Paid Courses
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           {/*=========================================== right container ===========================================*/}
-          <div className="col-12 col-md-12 main-CoursesSection" style={{minHeight:"40vh"}}>
+          <div className="col-12 col-md-12 main-CoursesSection">
             <div className="px-2 pb-4 pt-md-4">
               {/*========= Cource Section =============*/}
               <div className="d-sm-flex justify-content-between">
@@ -173,7 +152,7 @@ const Cource = ({ setProgress }) => {
       </div>
 
       {/* ====================================== footer ================================================================= */}
-      <footer className="footer bottom-0">
+      <footer className="footer">
         <Footer />
       </footer>
 

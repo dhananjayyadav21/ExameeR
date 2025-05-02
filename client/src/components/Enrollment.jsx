@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VideoModalService from '../utils/VideoPlay';
+import Footer from './Footer';
 
 const EnrollmentPage = ({ setProgress }) => {
   const location = useLocation();
@@ -68,7 +69,7 @@ const EnrollmentPage = ({ setProgress }) => {
         show={showModal}
         onClose={() => setShowModal(false)}
       />
-      <div id="enrollment" className="min-vh-100 bg-body-tertiary">
+      <div id="enrollment" className="bg-body-tertiary"  style={{minHeight:"70vh"}}>
         {/* Header with Course Title and Badge */}
         <div className="p-5 bg-dark text-white position-relative">
           <h2 className="rubik-font mb-3">{course?.title} Enrollment</h2>
@@ -166,6 +167,11 @@ const EnrollmentPage = ({ setProgress }) => {
           </div>
         </div> {/* End container */}
       </div>
+
+      {/* ====================================== footer ======================================================== */}
+      <footer className="footer">
+        <Footer />
+      </footer>
     </>
   );
 };

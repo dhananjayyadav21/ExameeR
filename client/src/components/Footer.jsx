@@ -22,7 +22,7 @@ const Footer = () => {
                     <li><Link to="/about" className="nav-link cursor-pointer my-2">About Us</Link></li>
                     <li><Link to="/cource" className="nav-link cursor-pointer my-2">Courses</Link></li>
                     <li><Link to="/notes" className="nav-link cursor-pointer my-2">Notes</Link></li>
-                    <li><Link to="/Q-paper" className="nav-link cursor-pointer my-2">Contact</Link></li>
+                    <li><Link to="/contact" className="nav-link cursor-pointer my-2">Contact</Link></li>
                   </ul>
                 </div>
               </div>

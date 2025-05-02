@@ -75,8 +75,8 @@ const Contact = ({setProgress}) => {
 
     return (
         <div>
-            <section id="contact" className="py-5">
-                <div className="container-lg px-3 px-lg-5">
+            <section id="contact" className="py-5 d-flex align-items-center"  style={{minHeight:"70vh"}}>
+                <div className="container-md px-3 px-lg-5">
                     <div className="row g-4 align-items-center">
                         {/* Contact Information */}
                         <div className="col-lg-6">
@@ -119,7 +119,7 @@ const Contact = ({setProgress}) => {
                         </div>
 
                         {/* Contact Form */}
-                        <div className="col-lg-6">
+                        <div className="col-lg-6 my-md-5 my-lg-1">
                             <div className="p-4 py-lg-5 shadow-sm bg-light rounded-4">
                                 <form onSubmit={handleOnSumbit}>
                                     <div className="mb-3">
@@ -180,9 +180,10 @@ const Contact = ({setProgress}) => {
                 </div>
             </section>
 
-            <section className='footer bottom-0'>
+            {/* ===================================== footer ================================================= */}
+            <footer className='footer'>
                 <Footer />
-            </section>
+            </footer>
         </div>
     );
 };

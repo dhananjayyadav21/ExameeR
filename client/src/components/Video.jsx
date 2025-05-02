@@ -54,22 +54,24 @@ const Video = ({ setProgress }) => {
             <div className="container-fluid">
                 <div className="row g-4">
                     {/*=========================================== left container ===========================================*/}
-                    <div className="col-12 col-lg-3 sidebar-VideoSection">
-                        <div className='p-4 my-3 rounded-3 text-center' style={{ backgroundColor: "white" }}>
+                    <div className="col-12 col-lg-3 py-3 overflow-hidden sidebar-VideoSection">
+
+                        <div className="bg-white p-4 rounded-3 text-center">
                             <h4>LEARN WITH LECTURES</h4>
                             <div className='row g-2 p-2 mt-3 rounded-3' >
                                 <span className="btn-light-gray p-2">Your Journey, Our Voice.</span>
                                 <span className='btn-light-gray p-2'>Learn Smarter, Not Harder</span>
                             </div>
                         </div>
-                        {/* Temporary it controlled from backend */}
-                        <div className="d-none d-lg-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(56vh)' }}>
-                            <a href="https://www.youtube.com/@exameecode"><img className="rounded-3" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} /></a>
+                        <div className="py-2 d-none d-lg-flex" style={{ height: "58vh" }}>
+                            <a className="rounded-3" href="https://www.youtube.com/@exameecode">
+                                <img className="rounded-3 shadow" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
+                            </a>
                         </div>
                     </div>
 
                     {/*=========================================== right container ===========================================*/}
-                    <div className="col-12 col-lg-9 main-VideoSection scrollable">
+                    <div className="col-12 col-lg-9 main-VideoSection scrollable"  style={{minHeight:"40vh"}}>
                         <div className="video-heroSection card container-lg mt-md-4 shadow-sm">
                             <div className="text-center py-3">
                                 <h4 className="card-title">Explore Your <span className="notes-span-section">Video Lectures</span></h4>
@@ -152,7 +154,7 @@ const Video = ({ setProgress }) => {
             </div>
 
             {/* ====================================== footer ================================================================= */}
-            <footer className="footer bottom-0">
+            <footer className="footer">
                 <Footer />
             </footer>
         </>

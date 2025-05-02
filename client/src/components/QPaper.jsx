@@ -30,7 +30,7 @@ const QPaper = ({ setProgress }) => {
 
     //-- handle paging nation 
     const [currentPage, setCurrentPage] = useState(1);
-    const pyqPerPage = 8;
+    const pyqPerPage = 10;
     // Calculate total pages
     const totalPages = Math.ceil(PYQS.length / pyqPerPage);
     // Slice pyq for current page
@@ -50,25 +50,28 @@ const QPaper = ({ setProgress }) => {
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container-fluid" >
                 <div className="row g-4">
 
                     {/*=========================================== left container ===========================================*/}
-                    <div className="col-12 col-lg-3 sidebar-Qpaper Qp-get-cources-btn-container">
+                    <div className="col-12 col-lg-3 py-2 overflow-hidden sidebar-Qpaper Qp-get-cources-btn-container">
                         {/* Temporary it controlled from backend */}
-                        <div className="d-flex flex-column justify-content-center" style={{ marginTop: '20px', minHeight: 'calc(100vh - 70px - 125px)' }}>
+                        <div className="overflow-hidden rounded-3">
                             <a href="https://www.youtube.com/@exameecode">
-                                <img className="rounded-top" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
-                                <img className="rounded-bottom" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
+                                <img className="rounded-3" src="/assets/img/Sidebaneer.png" alt="E" style={{ maxWidth: '100%', height: '700px' }} />
                             </a>
                         </div>
-                        <div className="container Qp-get-cources-btn">
-                            <button className='btn btn-dark mt-2 my-sm-0 w-100 fs-5 rounded-4 py-3'><Link className='nav-link' to="/cource">Get New Cources<i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i></Link></button>
+                        <div className="Qp-get-cources-btn d-flex align-items-center" style={{ height: "12%" }}>
+                            <button className='btn btn-dark w-100 fs-5 rounded-4 py-3'>
+                                <Link className='nav-link' to="/cource">Get New Cources
+                                    <i className="fa-solid fa-up-right-from-square mx-1 mx-md-3"></i>
+                                </Link>
+                            </button>
                         </div>
                     </div>
 
                     {/*=========================================== right container ===========================================*/}
-                    <div className="col-12 col-lg-9 main-Qpaper scrollable">
+                    <div className="col-12 col-lg-9 main-Qpaper scrollable"  style={{minHeight:"40vh"}}>
                         <div className="container-lg p-lg-4 py-4">
                             {/*========= heroSection ============== */}
                             <div className="Qpaper-heroSection p-4 rounded-4 text-center ">
@@ -154,7 +157,7 @@ const QPaper = ({ setProgress }) => {
             </div>
 
             {/* ====================================== footer ================================================================= */}
-            <footer className="footer bottom-0">
+            <footer className="footer">
                 <Footer />
             </footer>
         </>

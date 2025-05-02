@@ -26,7 +26,7 @@ const MyLearning = ({ setProgress }) => {
     }, []);
     return (
         <>
-            <div className="container-lg">
+            <div className="container-lg"  style={{minHeight:"70vh"}}>
                 <div className="mylearning-heroSection card container-lg mt-4 shadow-sm">
                     <div className="text-center py-4">
                         <h2 className="card-title">Explore & Discover<span className="mylearning-span-section"> Your Learning </span></h2>
@@ -180,7 +180,7 @@ const MyLearning = ({ setProgress }) => {
             </div>
 
             {/* ====================================== footer ======================================================== */}
-            <footer className="footer bottom-0">
+            <footer className="footer">
                 <Footer />
             </footer>
         </>

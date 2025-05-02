@@ -16,9 +16,9 @@ const SearchContent = ({ setProgress }) => {
     }, []);
 
     return (
-        <div className='container-md'>
+        <div className='container-lg'>
             <div className="row px-2">
-                <div className="serchContent-heroSection card container-lg my-3 shadow-sm">
+                <div className="serchContent-heroSection card container-lg my-4 shadow-sm">
                     <div className="text-center py-4">
                         <h2 className="card-title">Content Found For<span className="serchContent-span-section text-info"> Your Search </span></h2>
                         <p className="card-text">

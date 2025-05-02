@@ -31,7 +31,7 @@ const Notes = ({ setProgress }) => {
 
   //-- handle paging nation 
   const [currentPage, setCurrentPage] = useState(1);
-  const notesPerPage = 8;
+  const notesPerPage = 10;
   // Calculate total pages
   const totalPages = Math.ceil(Notes.length / notesPerPage);
   // Slice notes for current page
@@ -53,7 +53,7 @@ const Notes = ({ setProgress }) => {
 
   return (
     <>
-      <div className="container-lg" style={{ minHeight: "70vh" }}>
+      <div className="container-lg"  style={{minHeight:"70vh"}}>
         <div className="notes-heroSection card container-lg mt-4 shadow-sm">
           <div className="text-center py-4">
             <h2 className="card-title">Explore & Discover<span className="notes-span-section"> Your Notes</span></h2>
@@ -136,7 +136,7 @@ const Notes = ({ setProgress }) => {
       </div>
 
       {/* ====================================== footer ================================================================= */}
-      <footer className="footer bottom-0">
+      <footer className="footer">
         <Footer />
       </footer>
 

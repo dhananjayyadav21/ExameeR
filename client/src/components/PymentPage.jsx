@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Footer from './Footer';
 
 const PaymentPage = ({ setProgress }) => {
   const navigate = useNavigate();
@@ -38,12 +39,12 @@ const PaymentPage = ({ setProgress }) => {
   };
 
   if (!plan) {
-    return <div>Plan not found</div>;
+    return <div className='p-4'>Plan not found</div>;
   }
 
   return (
     <>
-      <div className='bg-light'>
+      <div className='bg-light'  style={{minHeight:"70vh"}}>
         <div className="container py-5">
           <div className="payment-header">
             <h2 className="text-center">Complete Your Payment</h2>
@@ -144,6 +145,11 @@ const PaymentPage = ({ setProgress }) => {
           </div>
         </div>
       </div>
+
+      {/* ====================================== footer ======================================================== */}
+      <footer className="footer">
+        <Footer />
+      </footer>
     </>
   );
 };
