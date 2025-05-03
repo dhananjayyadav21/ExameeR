@@ -56,7 +56,7 @@ const QPaper = ({ setProgress }) => {
                     {/*=========================================== left container ===========================================*/}
                     <div className="col-12 col-lg-3 py-2 overflow-hidden sidebar-Qpaper Qp-get-cources-btn-container">
                         {/* Temporary it controlled from backend */}
-                        <div className="overflow-hidden rounded-3">
+                        <div className="overflow-hidden rounded-3"style={{ height: "88%" }}>
                             <a href="https://www.youtube.com/@exameecode">
                                 <img className="rounded-3" src="/assets/img/Sidebaneer.png" alt="E" style={{ maxWidth: '100%', height: '700px' }} />
                             </a>

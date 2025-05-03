@@ -3,119 +3,119 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 >
   <url>
-    <loc>https://newexamee.netlify.app/</loc>
+    <loc>https://examee.netlify.app/</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/notes</loc>
+    <loc>https://examee.netlify.app/notes</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/video</loc>
+    <loc>https://examee.netlify.app/video</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/Q-paper</loc>
+    <loc>https://examee.netlify.app/Q-paper</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/cource</loc>
+    <loc>https://examee.netlify.app/cource</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/contact</loc>
+    <loc>https://examee.netlify.app/contact</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/?category=sciTechnology</loc>
+    <loc>https://examee.netlify.app/?category=sciTechnology</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/?category=commerce</loc>
+    <loc>https://examee.netlify.app/?category=commerce</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/?category=artscivils</loc>
+    <loc>https://examee.netlify.app/?category=artscivils</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/about</loc>
+    <loc>https://examee.netlify.app/about</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/plan-detail</loc>
+    <loc>https://examee.netlify.app/plan-detail</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/enrollmentcource</loc>
+    <loc>https://examee.netlify.app/enrollmentcource</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/profile</loc>
+    <loc>https://examee.netlify.app/profile</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/myLearning</loc>
+    <loc>https://examee.netlify.app/myLearning</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/auth</loc>
+    <loc>https://examee.netlify.app/auth</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/register</loc>
+    <loc>https://examee.netlify.app/register</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://newexamee.netlify.app/login</loc>
+    <loc>https://examee.netlify.app/login</loc>
     <lastmod>2025-05-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

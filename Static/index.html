@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examee</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="index.css" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+</head>
+
+<body>
+
+  <nav class="navbar sticky-top navbar-expand-lg shadow-sm nav-color">
+    <div class="container-fluid fs-6">
+      <ul class="d-flex flex-row align-items-center mb-0 pl-0 list-unstyled">
+        <a class="nav-text navbar-brand mt-0" href="https://examee.netlify.app">
+          <img src="assets/img/brandlog.png" alt="Examee" style="width: 110px;" />
+        </a>
+      </ul>
+
+      <!-- Mobile Hamburger -->
+      <span class="d-flex gap-3 d-lg-none">
+        <i class="fa-solid fa-bars mx-2 align-self-center" id="openMobile"></i>
+        <i class="fa-solid fa-xmark fa-2x align-self-center d-none" id="closeMobile"></i>
+      </span>
+
+      <!-- Navbar Items -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-text nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-layer-group m-2"></i>Category
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+              <li><a class="dropdown-item"
+                  href="https://examee.netlify.app/?category=sciTechnology">Sci-Technology</a></li>
+              <li><a class="dropdown-item" href="https://examee.netlify.app/?category=commerce">Commerce</a></li>
+              <li><a class="dropdown-item" href="https://examee.netlify.app/?category=artscivils">Arts & Civils</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="https://examee.netlify.app" role="button" data-bs-toggle="dropdown">
+              <img src="assets/img/Avtar.jpg" alt="Avatar" class="profile-img rounded-circle" />
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="https://examee.netlify.app/myLearning">My Learning</a></li>
+              <li><a class="dropdown-item" href="https://examee.netlify.app/profile">View Profile</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/notes">Notes</a></li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/video">Video</a></li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/Q-paper">Q-Paper</a>
+          </li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/cource">Course</a></li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/about">About</a></li>
+          <li class="nav-item"><a class="nav-text nav-link" href="https://examee.netlify.app/contact">Support</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MobileBar -->
+  <div class="MobileBar-container">
+    <div class="MobileBar p-2 d-none" id="mobileMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="https://examee.netlify.app" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-layer-group mx-2"></i>Category
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="https://examee.netlify.app/?category=sciTechnology">Sci-Technology</a>
+            </li>
+            <li><a class="dropdown-item" href="https://examee.netlify.app/?category=commerce">Commerce</a></li>
+            <li><a class="dropdown-item" href="https://examee.netlify.app/?category=artscivils">Arts & Civils</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/notes"><i
+              class="fa-solid fa-note-sticky mx-2"></i>Notes</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/video"><i
+              class="fa-solid fa-photo-film mx-2"></i>Video</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/Q-paper"><i
+              class="fa-regular fa-paste mx-2"></i>Q-Paper</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/cource"><i
+              class="fa-solid fa-laptop mx-2"></i>Course</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/about"><i
+              class="fa-regular fa-paste mx-2"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://examee.netlify.app/contact"><i
+              class="fas fa-file-alt mx-2"></i>Support</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ======================================== Main baneer Section =================================================== -->
+  <!-- Home Main Section -->
+  <section class="hero bg-light">
+    <section class="container-lg mx-md-3 my-md-5">
+      <section class="row rounded-4 p-md-4">
+        <!-- Left Column -->
+        <div class="col-12 col-md-6 text-md-start px-lg-4 my-5">
+          <h1 class="fw-bold">Discover Your <span class="green">Notes & Courses</span></h1>
+          <h3>Search Our <span class="green"><span id="typed-text"></span></span></h3>
+          <p class="text-secondary">
+            We provide a comprehensive collection of notes, previous year question papers, and specialized courses to
+            enhance your exam preparation. Our resources are designed to assist all college students in achieving
+            academic success.
+          </p>
+
+          <!-- Search Form -->
+          <form class="hero-search d-flex flex-column align-items-center">
+            <div class="bg-white search w-100 rounded-5 d-flex align-items-center px-3" style="max-width: 800px;">
+              <input type="search" class="form-control rounded-5 border-0" placeholder="Search anything..." />
+              <button type="submit" class="btn-purple rounded-5 py-2 px-4 hero-btn">Search</button>
+            </div>
+          </form>
+
+          <!-- Buttons -->
+          <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-sm shadow-sm btn-dark">Notes</button>
+            <button class="btn btn-sm shadow-sm btn-white">PYQ</button>
+            <button class="btn btn-sm shadow-sm btn-white">Video</button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-12 col-md-6 rounded-4 mb-4">
+          <img class="front-img img-fluid" src="assets/img/Front.png" alt="Front Examee" />
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="hero-showcase mt-5 text-secondary">
+        <div class="container-lg mb-4 mb-lg-0">
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 rounded-3 bg-white h-100">
+                <h3 class="m-0 p-0 fw-bolder fs-2 text-primary">4+</h3>
+                <p class="m-0 p-0 fw-bold">Development Notes</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 rounded-3 bg-white h-100">
+                <h3 class="m-0 p-0 fw-bolder fs-2 text-info">3+</h3>
+                <p class="m-0 p-0 fw-bold">Development Courses</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 rounded-3 bg-white h-100">
+                <h3 class="m-0 p-0 fw-bolder fs-2 text-warning">150+</h3>
+                <p class="m-0 p-0 fw-bold">Hours Lectures</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 rounded-3 bg-white h-100">
+                <h3 class="m-0 p-0 fw-bolder fs-2 text-danger">2+</h3>
+                <p class="m-0 p-0 fw-bold">Previous Year QP</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </section>
+
+
+  <!--============================= Our Latest Featured Courses Section =====================================-->
+  <section class="container-lg px-3 my-5 home-banner-section">
+    <div class="text-center">
+      <h5 class="fw-bolder purple">Courses We Deliver</h5>
+      <h1 class="fw-bolder">Our Latest Featured Courses</h1>
+      <p class="p-gray">
+        Our team and professionals provide the best courses for both technical & non-technical needs.<br />
+        Examee has been designing and providing affordable courses for more than 2 years.
+      </p>
+    </div>
+
+    <div class="container-lg mt-3">
+      <div class="row g-4 mt-4" id="courseContainer">
+
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <a href="https://examee.netlify.app/cource">
+        <button class="btn btn-dark px-5 py-2 mt-5">View All Courses</button>
+      </a>
+    </div>
+  </section>
+
+  <!--============================= Team Section =============================-->
+  <section class="bg-light">
+    <div class="container-lg px-lg-5">
+      <div class="px-2 py-4 d-flex flex-column justify-content-center align-items-center">
+        <div class="col-md-10 col-lg-8 text-center">
+          <h1 class="fw-bolder my-4">We Provide Notes & Courses</h1>
+          <p class="p-gray">
+            We are a team of professionals providing the best Study Material for all your needs.
+            Examee has been designing and developing Study Material for more than 2 years.
+          </p>
+        </div>
+
+        <!-- Team Member Cards -->
+        <div class="mt-5">
+          <div class="row g-4">
+            <!-- Team Member 1 -->
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="card rounded-4 shadow-sm p-3 card-transition team h-100">
+                <div class="d-flex gap-2">
+                  <img src="/assets/img/dhananjay.jpg" alt="Professor" class="rounded-circle" loading="lazy"
+                    style="width:60px; height:60px;">
+                  <div>
+                    <h5 class="m-0 p-0">Dhananjay Yadav</h5>
+                    <p class="my-2 text-secondary">Guides resource management, teaches workflow strategies, and mentor.
+                    </p>
+                    <span class="m-0 p-0 text-info fw-normal">RAD'27</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="card rounded-4 shadow-sm p-3 card-transition team h-100">
+                <div class="d-flex gap-2">
+                  <img src="/assets/img/User.jpg" alt="Professor" class="rounded-circle" loading="lazy"
+                    style="width:60px; height:60px;">
+                  <div>
+                    <h5 class="m-0 p-0">Sanjay Yadav</h5>
+                    <p class="my-2 text-secondary">Teaches technical concepts, facilitates teamwork, and ensures project
+                      success.</p>
+                    <span class="m-0 p-0 text-info fw-normal">Software Engineer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="col-12 col-sm-6 col-md-4">
+              <div class="card rounded-4 shadow-sm p-3 card-transition team h-100">
+                <div class="d-flex gap-2">
+                  <img src="/assets/img/User.jpg" alt="Professor" class="rounded-circle" loading="lazy"
+                    style="width:60px; height:60px;">
+                  <div>
+                    <h5 class="m-0 p-0">Neel Singh</h5>
+                    <p class="my-2 text-secondary">Teaches coding basics, fosters collaboration, and support.</p>
+                    <span class="m-0 p-0 text-info fw-normal">Junior Developer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Add more team cards here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Highlights -->
+      <section class="hero-showcase py-1">
+        <div class="container-lg mb-4">
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100">
+                <h6 class="m-0 p-0 fw-bolder">Previous Papers</h6>
+                <p class="m-0 p-0 text-secondary">Access past exam papers</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100">
+                <h6 class="m-0 p-0 fw-bolder">Video Lectures</h6>
+                <p class="m-0 p-0 text-secondary">Watch expert explanations</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100">
+                <h6 class="m-0 p-0">Study Notes</h6>
+                <p class="m-0 p-0 text-secondary">Download detailed notes</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="shadow-sm border text-center p-3 py-lg-4 rounded-3 bg-white h-100">
+                <h6 class="m-0 p-0 fw-bolder">Mock Tests</h6>
+                <p class="m-0 p-0 text-secondary">Practice with sample tests</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- =============================================== how examee work ==========================================  -->
+  <!-- how-examee-works.html -->
+  <div class="py-2 px-lg-5">
+    <section id="howItWorks" class="container-lg pt-5">
+      <div class="px-lg-4">
+
+        <!-- Section Header -->
+        <div class="text-center mb-5">
+          <h2 class="fw-bold mb-2">How Examee Works</h2>
+          <p class="text-secondary">Simple steps to start your learning journey with us</p>
+        </div>
+
+        <div class="row my-5">
+          <!-- Step 1 -->
+          <div class="col-md-4">
+            <div class="text-center py-3">
+              <div class="Step-blue mx-auto">
+                <h1 class="fw-bold">1</h1>
+              </div>
+              <h4 class="my-2 my-md-4">Choose Your Course</h4>
+              <p class="text-neutral-600">Browse through our wide range of courses and select the one that matches your
+                learning goals.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="col-md-4">
+            <div class="text-center py-3">
+              <div class="Step-green mx-auto">
+                <h2 class="fw-bold text-success">2</h2>
+              </div>
+              <h4 class="my-2 my-md-4">Access Materials</h4>
+              <p class="text-neutral-600">Get instant access to comprehensive study materials, notes, and video
+                lectures.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="col-md-4">
+            <div class="text-center py-3">
+              <div class="Step-purple mx-auto">
+                <h2 class="fw-bold">3</h2>
+              </div>
+              <h4 class="my-2 my-md-4">Start Learning</h4>
+              <p class="text-neutral-600">Begin your learning journey with structured content and practice materials.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container my-5 Feature-examee">
+          <div class="row g-3">
+            <!-- Feature 1 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100">
+                <div class="svg-blue mb-4" style="width: 40px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h5 class="font-semibold mb-2">Expert Verified</h5>
+                <p class="text-neutral-600 text-sm">All content verified by subject matter experts</p>
+              </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100">
+                <div class="svg-green mb-3" style="width: 40px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <h5 class="font-semibold mb-2">Regular Updates</h5>
+                <p class="text-neutral-600 text-sm">Content updated as per latest syllabus</p>
+              </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100">
+                <div class="svg-purple mb-3" style="width: 40px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h5 class="font-semibold mb-2">24/7 Access</h5>
+                <p class="text-neutral-600 text-sm">Learn at your own pace, anytime</p>
+              </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="col-md-6 col-lg-3">
+              <div class="shadow-sm rounded-3 border p-3 p-lg-3 bg-light h-100">
+                <div class="svg-red mb-3" style="width: 40px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                    </path>
+                  </svg>
+                </div>
+                <h5 class="font-semibold mb-2">Support</h5>
+                <p class="text-neutral-600 text-sm">Get help whenever you need it</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- =============================================== Plans ==========================================  -->
+  <section class="offers-section px-lg-5">
+    <section id="pricing" class="py-5">
+      <div class="container-lg">
+        <!-- Section Header -->
+        <div class="text-center my-4">
+          <h2 class="fw-bold text-dark">Try With Latest Offers</h2>
+          <p class="fw-5 text-secondary">Get New Offers</p>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="row g-4 mt-5">
+
+          <!-- Basic Plan -->
+          <div class="col-md-4">
+            <div class="card card-transition border rounded-4 shadow py-4 h-100">
+              <div class="text-center">
+                <h3 class="card-title fw-bold mb-3">Basic Plan</h3>
+                <div class="h1 fw-bold text-primary mb-4">₹499<span class="fs-6 text-muted">/month</span></div>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled text-start mb-4">
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Access to Basic Notes</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>5 Course Downloads</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Email Support</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>1- Chat per day</li>
+                </ul>
+                <a href="https://examee.netlify.app"><button class="btn btn-primary w-100">Get Started</button></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pro Plan -->
+          <div class="col-md-4">
+            <div class="card card-transition border-primary bg-dark text-white rounded-4 shadow py-4 position-relative">
+              <div class="position-absolute top-0 end-0 mt-2 me-2">
+                <span class="badge bg-primary text-white">Popular</span>
+              </div>
+              <div class="text-center">
+                <h3 class="card-title fw-bold mb-3">Pro Plan</h3>
+                <div class="h1 fw-bold text-primary mb-4">₹999<span class="fs-6 text-light">/month</span></div>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled text-start mb-4">
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Everything in Basic</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>All notes access</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Priority Support</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Live Sessions</li>
+                </ul>
+                <a href="https://examee.netlify.app"><button class="btn btn-primary w-100">Get Started</button></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Premium Plan -->
+          <div class="col-md-4">
+            <div class="card card-transition border rounded-4 shadow py-4 h-100">
+              <div class="text-center">
+                <h3 class="card-title fw-bold mb-3">Premium Plan</h3>
+                <div class="h1 fw-bold text-primary mb-4">₹1499<span class="fs-6 text-muted">/month</span></div>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled text-start mb-4">
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Everything in Pro</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>1-on-1 mentoring</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Custom Study Plan</li>
+                  <li class="mb-2"><i class="fa-solid mx-3 green-i fa-check"></i>Certificate</li>
+                </ul>
+                <a href="https://examee.netlify.app"><button class="btn btn-primary w-100">Get Started</button></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- =============================================== Footer ==========================================  -->
+  <section class="footer">
+    <div class="container-lg py-4 px-3">
+      <div class="row">
+
+        <!-- Left Column (Logo & Description) -->
+        <div class="col-lg-6">
+          <div class="container-lg">
+            <div class="row">
+              <div class="col-md-6 my-3">
+                <img src="./assets/img/brandlog.png" alt="logo" width="140px" />
+                <p class="py-3 m-0">Providing comprehensive educational resources and courses to help students achieve
+                  academic excellence.</p>
+              </div>
+
+              <!-- Quick Links Section -->
+              <div class="col-md-6 my-3">
+                <h5 class="mb-3">Quick Links</h5>
+                <ul class="list-unstyled">
+                  <li><a href="https://examee.netlify.app" class="nav-link cursor-pointer my-2">Home</a></li>
+                  <li><a href="https://examee.netlify.app/about" class="nav-link cursor-pointer my-2">About Us</a>
+                  </li>
+                  <li><a href="https://examee.netlify.app/cource" class="nav-link cursor-pointer my-2">Courses</a>
+                  </li>
+                  <li><a href="https://examee.netlify.app/notes" class="nav-link cursor-pointer my-2">Notes</a></li>
+                  <li><a href="https://examee.netlify.app/contact" class="nav-link cursor-pointer my-2">Contact</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column (Courses & Social Media Links) -->
+        <div class="col-lg-6">
+          <div class="container-lg">
+            <div class="row">
+
+              <!-- Our Courses Section -->
+              <div class="col-md-6 my-3">
+                <h5 class="mb-3">Our Courses</h5>
+                <ul class="list-unstyled">
+                  <li><a href="https://examee.netlify.app/cource"
+                      class="nav-link cursor-pointer my-2">Sci-Technology</a></li>
+                  <li><a href="https://examee.netlify.app/cource" class="nav-link cursor-pointer my-2">Commerce</a>
+                  </li>
+                  <li><a href="https://examee.netlify.app/cource" class="nav-link cursor-pointer my-2">Arts &
+                      Civils</a></li>
+                  <li><a href="https://examee.netlify.app/Q-paper" class="nav-link cursor-pointer my-2">Previous
+                      Papers</a></li>
+                  <li><a href="https://examee.netlify.app/video" class="nav-link cursor-pointer my-2">Video
+                      Lectures</a></li>
+                </ul>
+              </div>
+
+              <!-- Social Media Links Section -->
+              <div class="col-md-6 my-3">
+                <h5 class="m-0">Connect with me</h5>
+                <p class="py-3 m-0">Connect with me for updates and offers.</p>
+                <ul class="list-unstyled">
+                  <li><a href="https://www.linkedin.com/in/dhananjayyadav18" class="nav-link"><span>Linkedin</span><i
+                        class="fa-brands fa-linkedin mx-2"></i></a></li>
+                  <li><a href="https://www.instagram.com/iamneell_ig/" class="nav-link"><span>Instagram</span><i
+                        class="fa-brands fa-instagram mx-2"></i></a></li>
+                  <li><a href="https://www.youtube.com/@exameecode" class="nav-link"><span>YouTube</span><i
+                        class="fa-brands fa-youtube mx-2"></i></a></li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="container-lg text-center">
+      <div>
+        <hr class="m-0" />
+      </div>
+      <p class="py-4 m-0">&copy; 2024 Examee. All Rights Reserved.</p>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const openBtn = document.getElementById('openMobile');
+    const closeBtn = document.getElementById('closeMobile');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    openBtn.addEventListener('click', () => {
+      mobileMenu.classList.remove('d-none');
+      openBtn.classList.add('d-none');
+      closeBtn.classList.remove('d-none');
+    });
+
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('d-none');
+      openBtn.classList.remove('d-none');
+      closeBtn.classList.add('d-none');
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      new Typed("#typed-text", {
+        strings: ["Notes", "Q-Paper", "Lectures", "Courses"],
+        typeSpeed: 40,
+        backSpeed: 50,
+        loop: true
+      });
+    });
+
+
+    // =====================================================================
+    const dummyCourses = [
+      {
+        title: "Data Science Bootcamp",
+        duration: "12 Week",
+        courseLevel: "Intermediate",
+        courseImage: "/assets/img/python-cource.jpg",
+        offerPercent: 40,
+        courseContents: "Python, Statistics, Pandas, Machine Learning"
+      },
+      {
+        title: "Java Fullstack Development",
+        duration: "14 weeks",
+        courseLevel: "Advanced",
+        courseImage: "/assets/img/java-cource.jpg",
+        offerPercent: 30,
+        courseContents: "Core Java, Spring Boot, Hibernate, REST APIs"
+      },
+      {
+        title: "Web Development Bootcamp",
+        duration: "12 weeks",
+        courseLevel: "Beginner",
+        courseImage: "/assets/img/webdev-cource.png",
+        offerPercent: 40,
+        courseContents: "HTML, CSS, JavaScript, Bootstrap, React.js"
+      },
+      {
+        title: "C Programming",
+        duration: "10 weeks",
+        courseLevel: "Beginner",
+        courseImage: "/assets/img/C-Programming-Courses.png",
+        offerPercent: 50,
+        courseContents: "OOPs, Variables, Identifiers, Keywords, Looping"
+      }
+    ];
+
+    function renderCourses(courses) {
+      const container = document.getElementById("courseContainer");
+      container.innerHTML = '';
+
+      courses.forEach(course => {
+        const imageUrl = course.courseImage
+        const html = `
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="card shadow-sm my-3 p-2 rounded-3" style="min-height: 380px;">
+              <div class="position-relative" style="min-height: 150px;">
+                <img class="card-img-top rounded-3" src="${imageUrl}" alt="${course.title}" style="width: 100%; height: 150px; object-fit: cover;" />
+                <span class="badge bg-warning cource-offer-badge">${course.offerPercent}% off</span>
+              </div>
+              <div class="card-body pb-0 px-1">
+                <div class="d-flex justify-content-between align-items-center py-2">
+                  <span class="badge-blue px-2 py-1 rounded-2">${course.courseLevel}</span>
+                  <span>Duration: ${course.duration}</span>
+                </div>
+                <h5 class="card-title px-0">${course.title}</h5>
+                <p class="card-text px-0">
+                  <span>Course Content: ${course.courseContents.slice(0, 50)}...</span>
+                </p>
+                <a href="https://examee.netlify.app/cource">
+                <button class="btn btn-info text-white fw-bold col-12 m-0">
+                  Enroll Now
+                </button>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    renderCourses(dummyCourses);
+
+    //=======================================================================
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    const loginNav = document.getElementById("loginNav");
+    const logoutNav = document.getElementById("logoutNav");
+
+    if (token) {
+      loginNav.classList.add("d-none");
+      logoutNav.classList.remove("d-none");
+    } else {
+      loginNav.classList.remove("d-none");
+      logoutNav.classList.add("d-none");
+    }
+
+    // Optional logout function
+    function handleLogout() {
+      localStorage.removeItem("token");
+      window.location.href = "https://examee.netlify.app"; // Redirect to home
+    }
+
+  </script>
+
+</body>
+
+</html>
