@@ -9,6 +9,7 @@ import HowExameeWork from '../components/HowExameeWork'
 import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../GlobalURL";
 import { toast } from 'react-toastify'
+const BASEURL = process.env.REACT_APP_API_KEY
 
 const Home = ({ setProgress }) => {
   const context = useContext(ContentContext);
@@ -17,6 +18,7 @@ const Home = ({ setProgress }) => {
 
   //--get note--------
   useEffect(() => {
+    fetch(`${BASEURL}ping`).catch(console.error);
     setProgress(0);
     getNote();
     getCourse();

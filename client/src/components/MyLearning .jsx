@@ -110,6 +110,7 @@ const MyLearning = ({ setProgress }) => {
 
 
                 {/* ================================================================================================== */}
+                {MyLearningNotes && MyLearningNotes.length > 0 && (
                 <div className='my-5'>
                     <div className="container-lg d-flex justify-content-start">
                         <div className="container-lg mt-4 shadow-sm">
@@ -124,7 +125,7 @@ const MyLearning = ({ setProgress }) => {
                             {MyLearningNotes?.map((e) => <NotesIteam key={e._id} notes={e} />)}
                         </div>
                     </div>
-                </div>
+                </div>)}
 
 
                 {MyLearningVideo && MyLearningVideo.length > 0 && (
