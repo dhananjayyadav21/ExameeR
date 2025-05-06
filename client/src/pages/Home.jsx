@@ -184,6 +184,7 @@ const Home = ({ setProgress }) => {
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br />
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
+        {localStorage.getItem('token') && (
         <div className='container-lg mt-3'>
           <div className="row g-4 mt-4">
             {Course.length === 0 &&
@@ -197,7 +198,7 @@ const Home = ({ setProgress }) => {
             }
             {Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
           </div>
-        </div>
+        </div>)}
         <div className='d-flex justify-content-center'>
           <button className='btn btn-dark px-5 py-2 mt-5' onClick={() => navigate('/cource')} >View All Courses</button>
         </div>
