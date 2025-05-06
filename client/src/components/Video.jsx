@@ -65,7 +65,7 @@ const Video = ({ setProgress }) => {
                         </div>
                         <div className="py-2 d-none d-lg-flex" style={{ height: "58vh" }}>
                             <a className="rounded-3" href="https://www.youtube.com/@exameecode">
-                                <img className="rounded-3 shadow" src="/assets/img/Exameeyt.png" alt="E" style={{ width: '100%', height: '100%' }} />
+                                <img className="rounded-3 shadow" src="/assets/img/Sidebarbanner2.png" alt="E" style={{ width: '100%', height: '100%' }} />
                             </a>
                         </div>
                     </div>

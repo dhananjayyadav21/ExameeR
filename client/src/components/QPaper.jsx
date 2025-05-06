@@ -58,7 +58,7 @@ const QPaper = ({ setProgress }) => {
                         {/* Temporary it controlled from backend */}
                         <div className="overflow-hidden rounded-3"style={{ height: "88%" }}>
                             <a href="https://www.youtube.com/@exameecode">
-                                <img className="rounded-3" src="/assets/img/Sidebaneer.png" alt="E" style={{ maxWidth: '100%', height: '700px' }} />
+                                <img className="rounded-3" src="/assets/img/Sidebarbanner2.png" alt="E" style={{ maxWidth: '100%', height: '700px' }} />
                             </a>
                         </div>
                         <div className="Qp-get-cources-btn d-flex align-items-center" style={{ height: "12%" }}>
