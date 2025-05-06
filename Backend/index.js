@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use("/auth", require('./routes/Auth'));
 app.use("/content", require('./routes/Content'));
+app.use("/announce", require('./routes/Announce'));
 
 app.get('/ping', (req, res) => {
     res.send("pong");

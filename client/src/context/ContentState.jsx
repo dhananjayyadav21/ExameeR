@@ -5,6 +5,7 @@ import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
 
+ //======================================================[ ADD Content ]=========================================
   //--Add NOtE() using Post Httpservice
   const addNote = async (Data) => {
     try {
@@ -73,7 +74,7 @@ const ContentState = (props) => {
 
 
 
-
+ //======================================================[ GET Content ]=========================================
   //---GET Note() using Get Httpservice 
   const getNote = async (URL) => {
     try {
@@ -314,19 +315,21 @@ const ContentState = (props) => {
       console.log("Do not remove mylearning data due to some error", error);
     }
   };
+
   const RemoveMyLearningNotes = async(id)=>{
     const filtered = MyLearningNotes.filter(x=>x._id!==id)??[];
     setMyLearningNotes(filtered)
   }
+
   const RemoveMyLearningPYQ = async(id)=>{
     const filtered = MyLearningPYQ.filter(x=>x._id!==id)??[];
     setMyLearningPYQ(filtered)
   }
+
   const RemoveMyLearningVideo = async(id)=>{
     const filtered = MyLearningVideo.filter(x=>x._id!==id)??[];
     setMyLearningVideo(filtered)
   }
-
 
   //---GETDATA FROM MY LEARNING() using Get Httpservice  
   const getDataFromMyLearning = async (URL) => {
@@ -471,6 +474,37 @@ const ContentState = (props) => {
     }
   };
 
+
+  //-------------[ Announce ] ----------------------------------
+  //---GET User() using Get Httpservice 
+  const getAllUser = async (URL) => {
+    try {
+      const json = await getData(
+        URL || `${GlobalUrls.GETALLUSER_URL}`,
+      );
+      if (json.success === true) {
+        setAllUser(json.data);
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not fetch All user due to some error", error);
+    }
+  };
+
+
+  //---GET User() using Get Httpservice 
+  const sendAnnounceMent = async (Data) => {
+    try {
+      const json = await postData(
+      `${GlobalUrls.SENDANNOUNCEMENT_URL}`,
+        Data
+      );
+      return json;
+    } catch (error) {
+      console.log("Do not Send announcsment due to some error", error);
+    }
+  };
+
   // eslint-disable-next-line
   const [Notes, setNotes] = useState([]);
   const [MyNotes, setMyNotes] = useState([]);
@@ -504,6 +538,8 @@ const ContentState = (props) => {
   const [dashAnalytics, setDashAnalytics] = useState([]);
   const [studentsByRole, setStudentsByRole] = useState([]);
 
+  const [allUser, setAllUser] = useState([]);
+
   return (
     <ContentContext.Provider
       value={{
@@ -515,7 +551,9 @@ const ContentState = (props) => {
         addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes,RemoveMyLearningPYQ, RemoveMyLearningVideo,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
-        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus
+        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus,
+        getAllUser, allUser,sendAnnounceMent,
+
       }}>
       {props.children}
     </ContentContext.Provider>

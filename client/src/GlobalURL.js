@@ -11,6 +11,10 @@ export const FOGOTCODE_URL = `${BASEURL}auth/sendResetCode`
 export const GETUSER_URL = `${BASEURL}auth/getUser`
 export const SUPPORTUSER_URL = `${BASEURL}auth/support`
 
+//------[ Announce ]-------------
+export const GETALLUSER_URL = `${BASEURL}announce/getAllUser`
+export const SENDANNOUNCEMENT_URL = `${BASEURL}announce/sendAnnouncement`
+
 
 //------[Contents Urls ]-------------
 export const ADDNOTE_URL = `${BASEURL}content/addNotes`
@@ -33,14 +37,16 @@ export const DELETEPYQ_URL = `${BASEURL}content/deletePYQ`
 export const DELETEVIDEO_URL = `${BASEURL}content/deleteVideo`
 export const DELETECOURSE_URL = `${BASEURL}content/deleteCourse`
 
-
+//----------- [ Search ] ---------------------
 export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
 export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent`
 
+//------------[ MyLearning ] ----------------------
 export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
 export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   
 export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`   
 
+//------------ [ Dasbords ] -------------------
 export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
 export const DASHANALYTICS_URL = `${BASEURL}content/dashbordAnlytics`
 export const GETSTUDENTSBYROLE_URL = `${BASEURL}content/getStudentsByRole`

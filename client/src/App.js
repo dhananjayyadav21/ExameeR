@@ -46,6 +46,7 @@ import EnrollmentPage from "./components/Enrollment";
 import PaymentPage from "./components/PymentPage";
 import UpdateCourse from "./Dashbord/components/UpdateCourse";
 import About from "./components/About";
+import AnnouncementPage from "./pages/Announcement";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -211,8 +212,14 @@ function App() {
                 allowedRoles={["Admin", "Instructor"]}
                 element={<UpdateStudent />}
               />
-            } />
+            } />AnnouncementPage
 
+            <Route path="/announcement" element={
+              <RoleBasedRoute
+                allowedRoles={["Admin"]}
+                element={<AnnouncementPage />}
+              />
+            } />AnnouncementPage
 
             {/* Authentication Routes */}
             <Route path="/auth" element={<GuardedRoute

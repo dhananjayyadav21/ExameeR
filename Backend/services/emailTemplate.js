@@ -8,7 +8,7 @@ export const VerificationEmail_Template = (Email, VerificationCode) => `<!DOCTYP
     <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto;">
         <tr>
             <td style="background-color: #ffffff; padding: 20px 40px; text-align: center;">
-                <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" style="max-width: 150px; margin-bottom: 10px;">
+                <img src="https://examee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" style="max-width: 150px; margin-bottom: 10px;">
             </td>
         </tr>
         <tr>
@@ -24,7 +24,7 @@ export const VerificationEmail_Template = (Email, VerificationCode) => `<!DOCTYP
                     Alternatively, you can click the link below to verify your email:
                 </p>
                 <div style="text-align: center;">
-                    <a href="http://localhost:3000/verifyEmail?Email=${Email}&VerificationCode=${VerificationCode}" style="display: inline-block; background-color: #2e7d32; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                    <a href="http://examee.netlify.app/verifyEmail?Email=${Email}&VerificationCode=${VerificationCode}" style="display: inline-block; background-color: #2e7d32; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
                         Verify Email
                     </a>
                 </div>
@@ -102,7 +102,7 @@ export const WelcomeEmail_Template = `<!DOCTYPE html>
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
+            <img src="https://examee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
             <h1 class="greeting">Welcome to Examee, {{USERNAME}}!</h1>
         </div>
         <div class="body-text">
@@ -114,11 +114,11 @@ export const WelcomeEmail_Template = `<!DOCTYPE html>
             <p>The Examee Team</p>
         </div>
         <div style="text-align: center;">
-            <a href="https://newexamee.netlify.app" class="button" style="color:rgb(255, 255, 255); text-decoration: none;">Go to learn</a>
+            <a href="https://examee.netlify.app" class="button" style="color:rgb(255, 255, 255); text-decoration: none;">Go to learn</a>
         </div>
         <div class="footer">
             <p>© 2025 Examee. All rights reserved.</p>
-            <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
+            <a href="https://examee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
         </div>
     </div>
 </body>
@@ -207,7 +207,7 @@ export const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE h
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
+            <img src="https://examee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
             <h1 class="greeting">Reset Your Password</h1>
         </div>
         <div class="body-text">
@@ -224,7 +224,7 @@ export const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE h
         </div>
         <div class="footer">
             <p>© 2025 Examee. All rights reserved.</p>
-            <a href="https://newexamee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
+            <a href="https://examee.netlify.app" style="color: #2e7d32; text-decoration: none;">Visit us at www.examee.com</a>
         </div>
     </div>
 </body>
@@ -296,7 +296,7 @@ export const SupportEmail_Template = (name, email, subject, body ) => `<!DOCTYPE
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://newexamee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
+            <img src="https://examee.netlify.app/assets/img/brandlog.png" alt="Examee Logo" class="logo" />
             <h1 class="greeting">New Support Request</h1>
         </div>
         <div class="body-text">
