@@ -46,7 +46,7 @@ const getAllUsers = async (req, res) => {
 const sendAnnouncement = async (req, res) => {
     try {
         const userId = req.user._id;
-        const { userIds,subject, emailBody } = req.body;
+        const { userIds, subject, emailBody } = req.body;
 
         // Step 1: Get sender info
         const sender = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
@@ -84,10 +84,18 @@ const sendAnnouncement = async (req, res) => {
         // Step 5: Fetch recipient emails
         const recipients = await userModel.find({ _id: { $in: userIds } }).select('Email');
 
+
         // Step 6: Send email to each recipient
         for (const recipient of recipients) {
             await announceMentEmail(recipient.Email, subject, emailBody);
         }
+
+        // Step 6: Extract email addresses as an array
+        // const recipientsArray = [
+        // ];
+        // console.log(recipientsArray.length);
+        // const recipientEmails = [...new Set(recipientsArray.map(user => user.Email).filter(Boolean))];
+        // await announceMentEmail(recipientEmails, subject, emailBody);
 
         // Step 7: Return success response
         return res.status(200).json({
