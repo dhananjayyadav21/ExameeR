@@ -21,7 +21,7 @@ const About = ({ setProgress }) => {
                     <div className="about-flex">
                         <div className="about-image">
                             <img
-                                src="/assets/img/ExameeLinn.png"
+                                src="/assets/img/Sidebarbanner2.png"
                                 alt="Study Linn"
                                 height="450px"
                             />
