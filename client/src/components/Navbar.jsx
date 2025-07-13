@@ -215,7 +215,7 @@ const Navbar = ({ setProgress }) => {
                             </li>
                             {hasUserRole("Admin") ?
                                 (<li className="nav-item">
-                                    <Link className="nav-text nav-link" to="/announcement">Announcement</Link>
+                                    <Link className="nav-text nav-link" to="/announcement"><i className="fas fa-file-alt mx-2"></i>Announcement</Link>
                                 </li>) : (<></>)}
                         </div>
                     </div>

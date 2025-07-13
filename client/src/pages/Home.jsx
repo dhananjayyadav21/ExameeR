@@ -78,13 +78,13 @@ const Home = ({ setProgress }) => {
 
   let team = [
     {
-      "name": "Dhananjay Yadav",
+      "name": "DHANANJAY",
       "role": "RAD'27",
       "description": "Guides resource management, teaches workflow strategies, and mentor.",
       "profile": "/assets/img/dhananjay.jpg"
     },
     {
-      "name": "Sanjay Yadav",
+      "name": "SANJAY",
       "role": "Software Engineer",
       "description": "Teaches technical concepts, facilitates teamwork, and ensures project success."
     },
@@ -209,7 +209,7 @@ const Home = ({ setProgress }) => {
             <div className="row g-4 mt-4">
               {Course.length === 0 &&
                 <div className="text-center">
-                  <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                  <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found! Wait or refresh page</h6>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>

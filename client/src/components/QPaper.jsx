@@ -101,7 +101,7 @@ const QPaper = ({ setProgress }) => {
                                     <div className="row g-4">
                                         {PYQS.length === 0 &&
                                             <div className="text-center">
-                                                <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+                                                <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found! Wait or refresh page</h6>
                                                 <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                                                 <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                                                 <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
