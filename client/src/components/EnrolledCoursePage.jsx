@@ -70,16 +70,24 @@ const EnrolledCoursePage = ({ setProgress }) => {
             />
 
             <div className="bg-body-tertiary p-md-3" style={{ minHeight: "70vh" }}>
-                <div className="py-3 px-3 px-md-5 shadow-sm bg-white text-black position-relative">
-                    <div className='py-2 py-md-4'>
-                        <h3 className="rubik-font mb-3">{courseData?.title}</h3>
-                        <h6 className="text-light-emphasis my-3">{courseData?.description}</h6>
+                <div className="px-3 py-4 p-md-5 shadow-sm rounded-2 bg-white text-black position-relative">
+                    <div className="pb-3">
+                        <h3 className="rubik-font fw-bold mb-3 text-primary">{courseData?.title}</h3>
+                        <p className="text-secondary fs-6">{courseData?.description}</p>
                     </div>
-                    <div className='d-flex justify-content-end gap-3'>
-                        <span><strong>{courseData?.mentor}</strong></span>
-                        <span><strong>{courseData?.startDate?.slice(0, 10) || "N/A"}</strong></span>
+
+                    <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2 border-top pt-3">
+                        <div>
+                            <span className="fw-semibold me-2 text-muted">Mentor:</span>
+                            <span className="fw-bold text-dark">{courseData?.mentor}</span>
+                        </div>
+                        <div>
+                            <span className="fw-semibold me-2 text-muted">Start Date:</span>
+                            <span className="fw-bold text-dark">{courseData?.startDate?.slice(0, 10) || "N/A"}</span>
+                        </div>
                     </div>
                 </div>
+
 
                 <div className="container py-5">
                     <div className="row">
@@ -108,7 +116,7 @@ const EnrolledCoursePage = ({ setProgress }) => {
 
 
                         {/* Right Side */}
-                        <div className="col-md-7">
+                        <div className="col-md-7 my-3 my-md-0">
                             <div className="bg-white p-4 shadow-sm rounded-3 mb-4">
                                 <h4 className="rubik-font mb-3">Your Learning Progress</h4>
                                 <p>Progress: {courseData?.progress || 0}%</p>
@@ -117,8 +125,8 @@ const EnrolledCoursePage = ({ setProgress }) => {
                                 )}
                             </div>
 
-                            <div className="bg-white p-4 shadow-sm rounded-3 mb-4">
-                                <h4 className="rubik-font mb-3">Lectures</h4>
+                            <div className="bg-white p-2 p-md-4 shadow-sm rounded-3 mb-4">
+                                <h4 className="rubik-font mb-3 p-2">Lectures</h4>
                                 <ul className="list-group">
                                     {courseData?.lectures?.map((lecture, index) => (
                                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
