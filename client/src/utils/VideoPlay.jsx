@@ -26,8 +26,6 @@ const VideoModalService = ({ videoUrl, show, onClose }) => {
             const driveID = driveUrl.split('/view')[0];
             setUrl(driveID);
 
-            console.log("driveid---", driveID, url)
-
         } else {
             setUrl(videoUrl);
         }

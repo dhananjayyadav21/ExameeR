@@ -14,7 +14,6 @@ const EnrollmentPage = ({ setProgress }) => {
 
   const location = useLocation();
   const { course } = location.state || {};
-  console.log("course6666666", course)
 
 
   // Track form state
