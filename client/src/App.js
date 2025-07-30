@@ -47,6 +47,7 @@ import PaymentPage from "./components/PymentPage";
 import UpdateCourse from "./Dashbord/components/UpdateCourse";
 import About from "./components/About";
 import AnnouncementPage from "./pages/Announcement";
+import EnrolledCoursePage from "./components/EnrolledCoursePage";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -89,6 +90,12 @@ function App() {
             <Route path="/cource" element={<GuardedRoute
               hasToBeAuthenticated={true}
               element={<Cource setProgress={setProgress} />}
+              redirectTo="/auth"
+            />} />
+
+            <Route path="/WatchCourse" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<EnrolledCoursePage setProgress={setProgress} />}
               redirectTo="/auth"
             />} />
 

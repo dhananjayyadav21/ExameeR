@@ -4,6 +4,7 @@ const PYQModel = require("../model/pyqModel");
 const VideoModel = require("../model/videoModel");
 const MyLearningContent = require('../model/myLearning');
 const CourseModel = require("../model/courseModel");
+const CourseEnroll = require("../model/courseEnroll");
 const mongoose = require('mongoose');
 
 //===========================================[ ADD ]=========================================
@@ -774,88 +775,94 @@ const getAllPublicVIDEO = async (req, res) => {
 //--[ COURSE: Get all public Course ] 
 const getAllPublicCourse = async (req, res) => {
   try {
-    let userId = req.user._id;
-    const category = (req.query.category !== undefined && req.query.category !== null && req.query.category.trim() !== " ")
+    const userId = req.user._id;
+    const category = (req.query.category && req.query.category.trim() !== "")
       ? req.query.category
       : "sciTechnology";
 
-    const sortBy = (req.query.sortBy !== undefined && req.query.sortBy !== null)
-      ? req.query.sortBy
-      : "latest";
+    const sortBy = req.query.sortBy || "latest";
 
     let sortOption = {};
-    if (sortBy === "latest") {
-      sortOption = { createdAt: -1 }; // Newest first
-    } else if (sortBy === "oldest") {
-      sortOption = { createdAt: 1 }; // Oldest first
-    }
+    if (sortBy === "latest") sortOption = { createdAt: -1 };
+    else if (sortBy === "oldest") sortOption = { createdAt: 1 };
 
-    // check user exist or not
+    // Check user
     const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found !',
-      })
+        message: 'User not found!',
+      });
     }
 
-    if (user.Role === "Student") {
-      const Course = await CourseModel.find({ // all course find from db
-        isPublic: true,
-        status: 'public',
-        category: category
-      }).sort(sortOption).select("-uploadedBy ");
+    // Get all public courses
+    const courses = await CourseModel.find({
+      isPublic: true,
+      status: 'public',
+      category: category
+    }).sort(sortOption).select("-uploadedBy");
 
-      res.status(200).json({ // return result as true
+    // Get enrolled courseIds for user
+    const enrollments = await CourseEnroll.find({ userId });
+    const enrolledCourseIds = enrollments.map(e => e.courseId.toString());
+
+    // Mark enrollment status
+    const coursesWithStatus = courses.map(course => {
+      return {
+        ...course.toObject(),
+        isEnrolled: enrolledCourseIds.includes(course._id.toString())
+      };
+    });
+
+    // Return based on user role
+    if (user.Role === "Student") {
+      return res.status(200).json({
         success: true,
-        message: "Fetch All Public Course ",
-        count: Course.length,
-        data: Course,
+        message: "Fetch All Public Course",
+        count: coursesWithStatus.length,
+        data: coursesWithStatus,
       });
     }
 
     if (user.Role === "Instructor") {
-      const Course = await CourseModel.find({ // all Course find from db
-        isPublic: true,
-        status: 'public',
+      const myCourse = await CourseModel.find({
+        uploadedBy: userId,
         category: category
-      }).sort(sortOption).select("-uploadedBy");
+      }).select("-uploadedBy");
 
-      const myCourse = await CourseModel.find({ uploadedBy: userId, category: category }).select("-uploadedBy");  // my Course (any status)
-
-      res.status(200).json({ // return result as true
+      return res.status(200).json({
         success: true,
-        message: "Fetch All My & Public Video ",
-        count: Course.length,
-        data: Course,
-        myCourse: myCourse,
+        message: "Fetch All My & Public Courses",
+        count: coursesWithStatus.length,
+        data: coursesWithStatus,
+        myCourse,
         myCourseCount: myCourse.length
-
       });
     }
 
     if (user.Role === "Admin") {
-      const Course = await CourseModel.find({ // all Course find from db
-        isPublic: true,
-        status: 'public',
+      const myCourse = await CourseModel.find({
+        uploadedBy: userId,
+        category: category
+      }).select("-uploadedBy");
+
+      const allCourse = await CourseModel.find({
         category: category
       }).sort(sortOption);
 
-      const myCourse = await CourseModel.find({ uploadedBy: userId, category: category }).select("-uploadedBy"); // my Course (any status)
-      const allCourse = await CourseModel.find({ category: category }).sort(sortOption); // all Course find from db
-
-      res.status(200).json({ // return result as true
+      return res.status(200).json({
         success: true,
-        message: "Fetch All Course ",
-        count: Course.length,
-        data: Course,
-        myCourse: myCourse,
+        message: "Fetch All Courses",
+        count: coursesWithStatus.length,
+        data: coursesWithStatus,
+        myCourse,
         myCourseCount: myCourse.length,
-        allCourse: allCourse,
+        allCourse,
         allCourseCount: allCourse.length
       });
     }
-  } catch (error) { // if accured some error
+
+  } catch (error) {
     console.error('Error fetching public Course:', error);
     res.status(500).json({
       success: false,
@@ -863,6 +870,7 @@ const getAllPublicCourse = async (req, res) => {
     });
   }
 };
+
 
 //---[ ALLLatest: Get all public ALLLatest ] 
 const getLatestUpload = async (req, res) => {

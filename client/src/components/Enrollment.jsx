@@ -78,7 +78,7 @@ const EnrollmentPage = ({ setProgress }) => {
 
   //-- watch demo 
   const handlePlayVideo = (trialVideo) => {
-    setVideoUrl(trialVideo); // Your dynamic URL
+    setVideoUrl(trialVideo);
     setShowModal(true);
   };
 

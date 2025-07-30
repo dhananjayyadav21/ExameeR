@@ -98,7 +98,7 @@ const MyLearning = ({ setProgress }) => {
                                 <div className="card-body d-flex justify-content-between align-items-center">
                                     <div>
                                         <p className="small text-secondary">Total Courses</p>
-                                        <h3 className="fw-bold text-dark">0</h3>
+                                        <h3 className="fw-bold text-dark">{MyLearningCourse?.length}</h3>
                                     </div>
                                     <div className="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center p-3">
                                         <FontAwesomeIcon icon={faBook} className="text-primary fs-4" />
@@ -175,7 +175,7 @@ const MyLearning = ({ setProgress }) => {
 
                     <div className="container-lg mt-2 mt-md-4">
                         <div className="row g-4">
-                            {MyLearningCourse.map((e) => <CourceIteam key={e._id} Course={e.courseData} />)}
+                            {MyLearningCourse?.map((e) => <CourceIteam key={e._id} Course={e} />)}
                         </div>
                     </div>
                 </div>

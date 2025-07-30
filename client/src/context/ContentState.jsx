@@ -78,9 +78,8 @@ const ContentState = (props) => {
         `${GlobalUrls.ENROLLINCOURSE_URL}`,
         Data
       );
-      console.log("json---------->", json);
       if (json.success === true) {
-        setMyLearningCourse(MyLearningCourse.concat(json));
+        setMyLearningCourse(MyLearningCourse.concat(json.courseData));
 
       }
       return json;

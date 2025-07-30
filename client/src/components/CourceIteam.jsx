@@ -4,10 +4,14 @@ import { useNavigate } from 'react-router-dom'
 const CourceIteam = ({ Course }) => {
   const navigate = useNavigate();
 
-  console.log("mylearning courese---", Course)
-
   const handleEnroll = (course) => {
     navigate("/enrollmentcource", {
+      state: { course }
+    });
+  };
+
+  const handleWatchCourse = (course) => {
+    navigate("/WatchCourse ", {
       state: { course }
     });
   };
@@ -22,7 +26,7 @@ const CourceIteam = ({ Course }) => {
               height: "150px",
               objectFit: "cover"
             }} />
-            <span className='badge bg-warning cource-offer-badge'>{Course?.offerPercent}% off</span>
+            {!Course?.isEnrolled && (<span className='badge bg-warning cource-offer-badge'>{Course?.offerPercent}% off</span>)}
           </div>
           <div className="card-body pb-0 px-1">
             <div className='d-flex justify-content-between align-items-center py-2'>
@@ -31,7 +35,11 @@ const CourceIteam = ({ Course }) => {
             </div>
             <h5 className="card-title px-0">{Course?.title}</h5>
             <p className="card-text px-0"><span>Cource Content :{(Course?.courseContents)?.slice(0, 50)}...</span></p>
-            <button className='btn btn-info text-white fw-bold col-12 m-0' onClick={() => handleEnroll(Course)}>Enrolled Now</button>
+            {
+              Course?.isEnrolled ?
+                <><button className='btn btn-primary text-white fw-bold col-12 m-0' onClick={() => handleWatchCourse(Course)}>Let's Study</button></> :
+                <><button className='btn btn-info text-white fw-bold col-12 m-0' onClick={() => handleEnroll(Course)}>Enrolled Now</button></>
+            }
           </div>
         </div>
       </div>

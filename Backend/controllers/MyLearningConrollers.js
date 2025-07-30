@@ -3,6 +3,9 @@ const Note = require("../model/notesModel");
 const Video = require("../model/videoModel");
 const PYQ = require("../model/pyqModel");
 const userModel = require("../model/User");
+const Course = require("../model/courseModel");;
+const CourseEnroll = require("../model/courseEnroll");
+
 
 //----- Add Content In My Learning--------
 const addInMylearning = async (req, res) => {
@@ -84,9 +87,15 @@ const getDatafromMyLearning = async (req, res) => {
 
         // Fetch enrolled courses
         const enrollments = await CourseEnroll.find({ userId });
-        const courseIds = enrollments.map(e => e.courseId);
+        const courseIds = enrollments.map(e => String(e.courseId));
 
-        const enrolledCourses = await Course.find({ _id: { $in: courseIds } });
+        const enrolledCoursesRaw = await Course.find({ _id: { $in: courseIds } });
+
+        // Add isEnrolled field
+        const enrolledCourses = enrolledCoursesRaw.map(course => ({
+            ...course.toObject(),
+            isEnrolled: true
+        }));
 
         return res.status(200).json({
             success: true,
