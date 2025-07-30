@@ -16,9 +16,29 @@ const Home = ({ setProgress }) => {
   const { getNote, searchContent, setSearchContentData, Course, getCourse } = context
   const navigate = useNavigate();
 
+  async function fetchUntilPong(url) {
+    let resText = '';
+
+    while (resText !== 'pong') {
+      try {
+        const res = await fetch(url);
+        resText = await res.text(); // or use res.json() if expecting JSON
+        console.log('Received:', resText);
+
+        if (resText !== 'pong') {
+          await new Promise(resolve => setTimeout(resolve, 1000)); // wait 1s before retrying
+        }
+      } catch (error) {
+        console.error('Fetch error:', error);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // wait before retrying
+      }
+    }
+  }
+
+
   //--get note--------
   useEffect(() => {
-    fetch(`${BASEURL}ping`).catch(console.error);
+    fetchUntilPong(`${BASEURL}ping`).catch(console.error);
     setProgress(0);
     getNote();
     getCourse();
@@ -58,13 +78,13 @@ const Home = ({ setProgress }) => {
 
   let team = [
     {
-      "name": "Dhananjay Yadav",
+      "name": "DHANANJAY",
       "role": "RAD'27",
       "description": "Guides resource management, teaches workflow strategies, and mentor.",
-      "profile":"/assets/img/dhananjay.jpg"
+      "profile": "/assets/img/dhananjay.jpg"
     },
     {
-      "name": "Sanjay Yadav",
+      "name": "SANJAY",
       "role": "Software Engineer",
       "description": "Teaches technical concepts, facilitates teamwork, and ensures project success."
     },
@@ -184,20 +204,21 @@ const Home = ({ setProgress }) => {
           <p className='p-gray'>Our team and professionals to provide the best cources for both technical & non-technical for all your problems <br />
             Examee's has been designing and provide afortable cources from more than 2 years</p>
         </div>
-        <div className='container-lg mt-3'>
-          <div className="row g-4 mt-4">
-            {Course.length === 0 &&
-              <div className="text-center">
-                  <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found!  Plese Check internet connection</h6>
+        {localStorage.getItem('token') && (
+          <div className='container-lg mt-3'>
+            <div className="row g-4 mt-4">
+              {Course.length === 0 &&
+                <div className="text-center">
+                  <h6 className="d-flex justify-content-center text-muted text-center my-4">No Data Found! Wait or refresh page</h6>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
                   <div className="spinner-grow spinner-grow-sm me-2 blinking-spinner" role="status"></div>
-              </div>
-            }
-            {Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
-          </div>
-        </div>
+                </div>
+              }
+              {Course.map((Course, index) => <CourceIteam key={index} Course={Course} />)}
+            </div>
+          </div>)}
         <div className='d-flex justify-content-center'>
           <button className='btn btn-dark px-5 py-2 mt-5' onClick={() => navigate('/cource')} >View All Courses</button>
         </div>

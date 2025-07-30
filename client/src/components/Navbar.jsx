@@ -167,10 +167,10 @@ const Navbar = ({ setProgress }) => {
                                 <li className="nav-item">
                                     <Link className="nav-text nav-link" to="/contact">Support</Link>
                                 </li>
-                                {hasUserRole("Admin") &&
-                                    <li className="nav-item">
+                                {hasUserRole("Admin") ?
+                                    (<li className="nav-item">
                                         <Link className="nav-text nav-link" to="/announcement">Announcement</Link>
-                                    </li>}
+                                    </li>) : (<></>)}
                             </ul>
                         </div>
                     </div>
@@ -213,10 +213,10 @@ const Navbar = ({ setProgress }) => {
                             <li className="nav-item">
                                 <Link className="nav-text nav-link" to="/contact"><i className="fas fa-file-alt mx-2"></i>Support</Link>
                             </li>
-                            {hasUserRole("Admin") &&
-                                <li className="nav-item">
+                            {hasUserRole("Admin") ?
+                                (<li className="nav-item">
                                     <Link className="nav-text nav-link" to="/announcement"><i className="fas fa-file-alt mx-2"></i>Announcement</Link>
-                                </li>}
+                                </li>) : (<></>)}
                         </div>
                     </div>
                 </div>

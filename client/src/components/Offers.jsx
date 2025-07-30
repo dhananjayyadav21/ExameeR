@@ -6,7 +6,7 @@ const Offers = () => {
 
   let Basic = {
     title: "Basic Plan",
-    price: "₹499",
+    price: "₹99",
     duration: "month",
     benefits: [
       "Access to Basic Notes",
@@ -18,7 +18,7 @@ const Offers = () => {
 
   let Pro = {
     title: "Pro Plan",
-    price: "₹999",
+    price: "₹299",
     duration: "month",
     benefits: [
       "Everything in Basic",
@@ -30,7 +30,7 @@ const Offers = () => {
 
   let Premium = {
     title: "Premium Plan",
-    price: "₹1499",
+    price: "₹499",
     duration: "month",
     benefits: [
       "Everything in Pro",

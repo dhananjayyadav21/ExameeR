@@ -217,7 +217,7 @@ const UpdateCourse = () => {
                                                     </div>
                                                     <div className="mb-2">
                                                         <input
-                                                            type="url"
+                                                            type="text"
                                                             className="form-control"
                                                             placeholder="Lecture Video URL (YouTube)"
                                                             value={lecture.videoUrl}

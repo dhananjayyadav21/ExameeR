@@ -11,7 +11,7 @@ Improves Exam Prep: A robust repository of notes, videos, and past papers.
 
 Examee is the perfect platform for students looking to excel in their exams and administrators aiming to provide top-notch learning resources.
 
-Explore ExamEase today at [Examee](newexamee.netlify.app.) 🚀
+Explore ExamEase today at [Examee](examee.netlify.app.) 🚀
 
 ## Flow
 ![diagram-export-1-1-2025-4_08_07-AM](https://github.com/user-attachments/assets/51ef3145-0455-45e2-b2e1-d86b158ef9f8)

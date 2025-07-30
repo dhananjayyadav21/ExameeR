@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ContentContext from '../../context/ContentContext'; // Assume you have addStudent function here
+import ContentContext from '../../context/ContentContext';
 import { toast } from 'react-toastify';
 
 const AddStudent = () => {
