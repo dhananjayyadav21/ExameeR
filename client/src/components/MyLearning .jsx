@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import NotesIteam from "./NotesItem.jsx"
 import VideoIteam from "./VideoItem.jsx"
 import PyqIteam from "./QPaperItem.jsx"
+import CourceIteam from "./CourceIteam.jsx"
 import Footer from './Footer';
 import ContentContext from '../context/ContentContext'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +15,7 @@ import {
 
 const MyLearning = ({ setProgress }) => {
     const context = useContext(ContentContext);
-    const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ } = context;
+    const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, MyLearningCourse } = context;
 
     useEffect(() => {
         setProgress(0);
@@ -26,7 +27,7 @@ const MyLearning = ({ setProgress }) => {
     }, []);
     return (
         <>
-            <div className="container-lg"  style={{minHeight:"70vh"}}>
+            <div className="container-lg" style={{ minHeight: "70vh" }}>
                 <div className="mylearning-heroSection card container-lg mt-4 shadow-sm">
                     <div className="text-center py-4">
                         <h2 className="card-title">Explore & Discover<span className="mylearning-span-section"> Your Learning </span></h2>
@@ -111,21 +112,21 @@ const MyLearning = ({ setProgress }) => {
 
                 {/* ================================================================================================== */}
                 {MyLearningNotes && MyLearningNotes.length > 0 && (
-                <div className='my-5'>
-                    <div className="container-lg d-flex justify-content-start">
-                        <div className="container-lg mt-4 shadow-sm">
-                            <div className="text-start mylearning-section-heading">
-                                <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your Notes</span></h5>
+                    <div className='my-5'>
+                        <div className="container-lg d-flex justify-content-start">
+                            <div className="container-lg mt-4 shadow-sm">
+                                <div className="text-start mylearning-section-heading">
+                                    <h5 className="card-title mb-0 p-2">Explore & Learn<span className="mylearning-span-section"> Your Notes</span></h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="container-lg mt-2 mt-md-4">
-                        <div className="row g-4">
-                            {MyLearningNotes?.map((e) => <NotesIteam key={e._id} notes={e} />)}
+                        <div className="container-lg mt-2 mt-md-4">
+                            <div className="row g-4">
+                                {MyLearningNotes?.map((e) => <NotesIteam key={e._id} notes={e} />)}
+                            </div>
                         </div>
-                    </div>
-                </div>)}
+                    </div>)}
 
 
                 {MyLearningVideo && MyLearningVideo.length > 0 && (
@@ -163,7 +164,7 @@ const MyLearning = ({ setProgress }) => {
                     </div>)}
 
 
-                {/* <div className='my-5'>
+                <div className='my-5'>
                     <div className="container-lg d-flex justify-content-start">
                         <div className="container-lg mt-4 shadow-sm">
                             <div className="text-start mylearning-section-heading">
@@ -174,10 +175,10 @@ const MyLearning = ({ setProgress }) => {
 
                     <div className="container-lg mt-2 mt-md-4">
                         <div className="row g-4">
-                            {Aarr.map((e, index) => <CourceIteam key={index} />)}
+                            {MyLearningCourse.map((e) => <CourceIteam key={e._id} Course={e.courseData} />)}
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
 
             {/* ====================================== footer ======================================================== */}

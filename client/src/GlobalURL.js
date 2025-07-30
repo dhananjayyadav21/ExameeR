@@ -38,23 +38,23 @@ export const DELETEVIDEO_URL = `${BASEURL}content/deleteVideo`
 export const DELETECOURSE_URL = `${BASEURL}content/deleteCourse`
 
 //----------- [ Search ] ---------------------
-export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload` 
+export const GETLATESTDATA_URL = `${BASEURL}content/getLatestUpload`
 export const SEARCHCONTENT_URL = `${BASEURL}content/searchContent`
 
 //------------[ MyLearning ] ----------------------
-export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning` 
-export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`   
-export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`   
+export const ADDINMYLEARNING_URL = `${BASEURL}content/addInMylearning`
+export const GETDATAFROMMYLEARNING_URL = `${BASEURL}content/getDatafromMyLearning`
+export const REMOVEFROMMYLEARNING_URL = `${BASEURL}content/removeFromMyLearning`
 
 //------------ [ Dasbords ] -------------------
 export const SEARDASHCHCONTENT_URL = `${BASEURL}content/dashbordContent`
 export const DASHANALYTICS_URL = `${BASEURL}content/dashbordAnlytics`
 export const GETSTUDENTSBYROLE_URL = `${BASEURL}content/getStudentsByRole`
-export const ADDSTUDENS_URL = `${BASEURL}content/addStudent` 
+export const ADDSTUDENS_URL = `${BASEURL}content/addStudent`
 export const CHANGESTUDENTSTATUS_URL = `${BASEURL}content/changeStudentStatus`
-export const DELETESTUDENT_URL = `${BASEURL}content/deleteStudent` 
-export const UPDATESTUDENT_URL = `${BASEURL}content/updateStudent`  
+export const DELETESTUDENT_URL = `${BASEURL}content/deleteStudent`
+export const UPDATESTUDENT_URL = `${BASEURL}content/updateStudent`
 
-  
-
+//------------[ Enroll In Course]----------------------
+export const ENROLLINCOURSE_URL = `${BASEURL}courseEnroll/enroll`
 

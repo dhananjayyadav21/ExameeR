@@ -13,12 +13,14 @@ app.use(express.json());
 app.use("/auth", require('./routes/Auth'));
 app.use("/content", require('./routes/Content'));
 app.use("/announce", require('./routes/Announce'));
+app.use("/courseEnroll", require('./routes/courseEnroll'));
+
 
 app.get('/ping', (req, res) => {
-    res.send("pong");
-  });
+  res.send("pong");
+});
 
-app.listen(port, ()=>{
-    createAdmin();
-    console.log(`app listening at ${port}`);
+app.listen(port, () => {
+  createAdmin();
+  console.log(`app listening at ${port}`);
 });

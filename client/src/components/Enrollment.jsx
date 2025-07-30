@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VideoModalService from '../utils/VideoPlay';
 import Footer from './Footer';
+import ContentContext from '../context/ContentContext';
+import { useContext } from 'react';
 
 const EnrollmentPage = ({ setProgress }) => {
+  const navigate = useNavigate();
+  const context = useContext(ContentContext);
+  const { enrollCourse } = context;
+
   const location = useLocation();
   const { course } = location.state || {};
+  console.log("course6666666", course)
+
 
   // Track form state
   const [formData, setFormData] = useState({
@@ -18,6 +26,7 @@ const EnrollmentPage = ({ setProgress }) => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submittedmsg, setSubmittedmsg] = useState("Thank you for enrolling! We will contact you soon.");
   const [showModal, setShowModal] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
 
@@ -37,17 +46,28 @@ const EnrollmentPage = ({ setProgress }) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+      courseId: course._id
     }));
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
       toast.error('Please login to enroll!');
       return;
     }
-    console.log('Enrollment Data:', formData);
+    try {
+      const response = await enrollCourse(formData); //call api and add user
+      if (response.success === true) {
+        navigate('/myLearning');
+        toast.success('You are enrolled in course!', { position: 'top-right' });
+      } else {
+        setSubmittedmsg(response.message || 'Failed to enrolled in course.')
+      }
+    } catch (error) { //handle error
+      setSubmittedmsg('Failed to enrolled in course. Try again.')
+    }
     setSubmitted(true);
   };
 
@@ -69,7 +89,7 @@ const EnrollmentPage = ({ setProgress }) => {
         show={showModal}
         onClose={() => setShowModal(false)}
       />
-      <div id="enrollment" className="bg-body-tertiary"  style={{minHeight:"70vh"}}>
+      <div id="enrollment" className="bg-body-tertiary" style={{ minHeight: "70vh" }}>
         {/* Header with Course Title and Badge */}
         <div className="p-5 bg-dark text-white position-relative">
           <h2 className="rubik-font mb-3">{course?.title} Enrollment</h2>
@@ -105,7 +125,7 @@ const EnrollmentPage = ({ setProgress }) => {
                 <p className="text-muted mb-4">Complete your details to enroll in this course.</p>
                 {submitted ? (
                   <div className="alert alert-success text-center">
-                    Thank you for enrolling! We will contact you soon.
+                    {submittedmsg}
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit}>

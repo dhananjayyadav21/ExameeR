@@ -5,7 +5,7 @@ import * as GlobalUrls from "../GlobalURL"
 
 const ContentState = (props) => {
 
- //======================================================[ ADD Content ]=========================================
+  //======================================================[ ADD Content ]=========================================
   //--Add NOtE() using Post Httpservice
   const addNote = async (Data) => {
     try {
@@ -61,7 +61,6 @@ const ContentState = (props) => {
         `${GlobalUrls.ADDCOURSE_URL}`,
         Data
       );
-      console.log("json---------->", json);
       if (json.success === true) {
         setCourse(Course.concat(json.data));
 
@@ -72,9 +71,27 @@ const ContentState = (props) => {
     }
   };
 
+  //---ENROLL IN COURSE() using Post Httpservice  
+  const enrollCourse = async (Data) => {
+    try {
+      const json = await postData(
+        `${GlobalUrls.ENROLLINCOURSE_URL}`,
+        Data
+      );
+      console.log("json---------->", json);
+      if (json.success === true) {
+        setMyLearningCourse(MyLearningCourse.concat(json));
+
+      }
+      return json;
+    } catch (error) {
+      console.log("Do not enroll in course due to some error", error);
+    }
+  };
 
 
- //======================================================[ GET Content ]=========================================
+
+  //======================================================[ GET Content ]=========================================
   //---GET Note() using Get Httpservice 
   const getNote = async (URL) => {
     try {
@@ -183,7 +200,7 @@ const ContentState = (props) => {
   };
 
 
- //======================================================[ Update Content ]=========================================
+  //======================================================[ Update Content ]=========================================
   //---UPDATE Notes() using Get Httpservice  
   const updateNotes = async (Data, id) => {
     try {
@@ -238,7 +255,7 @@ const ContentState = (props) => {
   };
 
 
- //======================================================[ Delete Content ]=========================================
+  //======================================================[ Delete Content ]=========================================
   //---DELETE Notes() using Get Httpservice  
   const deleteNotes = async (id) => {
     try {
@@ -275,8 +292,8 @@ const ContentState = (props) => {
     }
   };
 
-   //---DELETE VIDEO() using Get Httpservice 
-   const deleteCourse = async (id) => {
+  //---DELETE VIDEO() using Get Httpservice 
+  const deleteCourse = async (id) => {
     try {
       const json = await deleteData(
         `${GlobalUrls.DELETECOURSE_URL}/${id}`,
@@ -316,18 +333,18 @@ const ContentState = (props) => {
     }
   };
 
-  const RemoveMyLearningNotes = async(id)=>{
-    const filtered = MyLearningNotes.filter(x=>x._id!==id)??[];
+  const RemoveMyLearningNotes = async (id) => {
+    const filtered = MyLearningNotes.filter(x => x._id !== id) ?? [];
     setMyLearningNotes(filtered)
   }
 
-  const RemoveMyLearningPYQ = async(id)=>{
-    const filtered = MyLearningPYQ.filter(x=>x._id!==id)??[];
+  const RemoveMyLearningPYQ = async (id) => {
+    const filtered = MyLearningPYQ.filter(x => x._id !== id) ?? [];
     setMyLearningPYQ(filtered)
   }
 
-  const RemoveMyLearningVideo = async(id)=>{
-    const filtered = MyLearningVideo.filter(x=>x._id!==id)??[];
+  const RemoveMyLearningVideo = async (id) => {
+    const filtered = MyLearningVideo.filter(x => x._id !== id) ?? [];
     setMyLearningVideo(filtered)
   }
 
@@ -339,8 +356,9 @@ const ContentState = (props) => {
       );
       if (json.success === true) {
         setMyLearningNotes(json.notesData);
-        setMyLearningVideo(json.videoData)
-        setMyLearningPYQ(json.pyqData)
+        setMyLearningVideo(json.videoData);
+        setMyLearningPYQ(json.pyqData);
+        setMyLearningCourse(json.enrolledCourses);
       }
       return json;
     } catch (error) {
@@ -496,7 +514,7 @@ const ContentState = (props) => {
   const sendAnnounceMent = async (Data) => {
     try {
       const json = await postData(
-      `${GlobalUrls.SENDANNOUNCEMENT_URL}`,
+        `${GlobalUrls.SENDANNOUNCEMENT_URL}`,
         Data
       );
       return json;
@@ -527,6 +545,7 @@ const ContentState = (props) => {
   const [MyLearningNotes, setMyLearningNotes] = useState([]);
   const [MyLearningVideo, setMyLearningVideo] = useState([]);
   const [MyLearningPYQ, setMyLearningPYQ] = useState([]);
+  const [MyLearningCourse, setMyLearningCourse] = useState([]);
 
   const [searchContentData, setSearchContentData] = useState([]);
 
@@ -548,11 +567,12 @@ const ContentState = (props) => {
         addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
         updateNotes, updatePYQ, updateVideo, updateCourse,
         deleteNotes, deletePYQ, deleteVideo, deleteCourse,
-        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes,RemoveMyLearningPYQ, RemoveMyLearningVideo,
+        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes, RemoveMyLearningPYQ, RemoveMyLearningVideo,
         searchContent, setSearchContentData, searchContentData,
         searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
         getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus,
-        getAllUser, allUser,sendAnnounceMent,
+        getAllUser, allUser, sendAnnounceMent,
+        enrollCourse, MyLearningCourse
 
       }}>
       {props.children}

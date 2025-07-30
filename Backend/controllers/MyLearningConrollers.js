@@ -52,15 +52,16 @@ const addInMylearning = async (req, res) => {
 const getDatafromMyLearning = async (req, res) => {
     try {
         const userId = req.user._id;
+
         const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'You are not unauthorized user!',
-            })
+                message: 'You are not an authorized user!',
+            });
         }
 
-
+        // Fetch learning content references
         const learningEntries = await MyLearningModel.find({ userId });
 
         const notesIds = learningEntries
@@ -81,20 +82,26 @@ const getDatafromMyLearning = async (req, res) => {
             PYQ.find({ _id: { $in: pyqIds } }).select("-uploadedBy -ExmeeUserId -createdAt -updatedAt -deletedAt"),
         ]);
 
+        // Fetch enrolled courses
+        const enrollments = await CourseEnroll.find({ userId });
+        const courseIds = enrollments.map(e => e.courseId);
+
+        const enrolledCourses = await Course.find({ _id: { $in: courseIds } });
+
         return res.status(200).json({
             success: true,
-            message: 'Successfully fetch learning content from  mylearning ',
+            message: 'Successfully fetched learning content from MyLearning',
             notesData,
             videoData,
-            pyqData
+            pyqData,
+            enrolledCourses
         });
 
     } catch (err) {
-        console.error(err);
-        console.error('Error while fetch learning content from  mylearning', err);
+        console.error('Error while fetching MyLearning content:', err);
         return res.status(500).json({
             success: false,
-            message: 'Failed to fetch My learning content',
+            message: 'Failed to fetch MyLearning content',
         });
     }
 };
