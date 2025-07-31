@@ -50,8 +50,8 @@ const Footer = () => {
                   <h5 className="m-0">Connect with me</h5>
                   <p className='py-3 m-0'>Connect with me for updates and offers.</p>
                   <ul className="list-unstyled">
-                    <li><a href="https://www.linkedin.com/in/dhananjayyadav18" className="nav-link"><span>Linkedin</span><i className="fa-brands fa fa-linkedin mx-2"></i></a></li>
-                    <li><a href="https://www.instagram.com/iamneell_ig/" className="nav-link"> <span>Instagram</span><i className="fa-brands fa fa-instagram  mx-2"></i></a></li>
+                    <li><a href="https://www.linkedin.com/company/exameeforstudents" className="nav-link"><span>Linkedin</span><i className="fa-brands fa fa-linkedin mx-2"></i></a></li>
+                    <li><a href="https://chat.whatsapp.com/KqCJUL9ix1HH53IZDC1Y8Q" className="nav-link"> <span>Whatsapp</span><i className="fa-brands fa fa-whatsapp  mx-2"></i></a></li>
                     <li><a href="https://www.youtube.com/@exameecode" className="nav-link"><span>You Tube</span><i className="fa-brands fa fa-youtube  mx-2"></i></a></li>
                   </ul>
                 </div>
