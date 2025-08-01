@@ -123,59 +123,6 @@ code {
 
 /* ------------------- for the video-palyer card ----------------- */
 
-/* .enrolled-course-player-header {
-  height: 62px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.enrolled-course-frame {
-  margin: 1%;
-  width: 98%;
-  height: 400px;
-}
-
-/* @media only screen and (max-width: 475px) {
-
-  .video-frame {
-    height: 300px;
-  }
-
-  .video-player-footer {
-    height: 74px;
-    padding: 10px;
-  }
-
-  .video-zoom-mobile {
-    height: 30px;
-    width: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 101;
-    bottom: 94px;
-    right: 14px;
-  }
-
-} */
-
-/* When fullscreen is active */
-/* .video-container:fullscreen .video-frame {
-  margin-top: 2vh;
-  height: 94vh;
-}
-
-.video-container:fullscreen .enrolled-course-player-header {
-  height: 74px;
-} */
-
-
 .video-player-header {
   height: 62px;
   width: 100%;
