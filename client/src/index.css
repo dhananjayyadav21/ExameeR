@@ -516,6 +516,18 @@ form label {
 
 }
 
+/* When fullscreen is active */
+.video-container:fullscreen .enrolled-course-frame {
+  margin-top: 2vh;
+  height: 94vh;
+}
+
+.video-container:fullscreen .enrolled-course-player-header {
+  height: 74px;
+}
+
+
+
 
 /*========================================== support section  ==================================================*/
 .support-call {
