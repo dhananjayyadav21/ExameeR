@@ -1060,6 +1060,130 @@ textarea.form-control {
   transform: scale(1.01);
 }
 
+/*=========================================== floatingWhatsappbutton =========================================*/
+.whatsapp-float {
+  position: fixed;
+  bottom: 30px;
+  left: 25px;
+  z-index: 999;
+  background-color: #25D366;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.5);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-icon {
+  font-size: 28px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.05);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  75% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 576px) {
+  .whatsapp-float {
+    width: 40px;
+    height: 40px;
+    bottom: 30px;
+    left: 10px;
+  }
+
+  .whatsapp-icon {
+    font-size: 20px;
+  }
+}
+
+
+
+/*============================================ goToImpsPage =======================================*/
+.go-to-imps {
+  position: fixed;
+  bottom: 90px;
+  left: 25px;
+  z-index: 999;
+  background-color: black;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.go-to-imps:hover {
+  transform: scale(1.5);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.arrow-icon {
+  font-size: 28px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 576px) {
+  .go-to-imps {
+    width: 40px;
+    height: 40px;
+    bottom: 80px;
+    left: 10px;
+  }
+
+  .arrow-icon {
+    font-size: 20px;
+  }
+}
+
+
+
 
 
 
