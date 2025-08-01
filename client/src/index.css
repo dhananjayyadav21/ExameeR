@@ -514,6 +514,23 @@ form label {
     height: 300px;
   }
 
+  .video-player-footer {
+    height: 74px;
+    padding: 10px;
+  }
+
+  .video-zoom-mobile {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 101;
+    bottom: 94px;
+    right: 14px;
+  }
+
 }
 
 /* When fullscreen is active */
@@ -525,8 +542,6 @@ form label {
 .video-container:fullscreen .enrolled-course-player-header {
   height: 74px;
 }
-
-
 
 
 /*========================================== support section  ==================================================*/

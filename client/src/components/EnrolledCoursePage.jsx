@@ -137,8 +137,11 @@ const EnrolledCoursePage = ({ setProgress }) => {
                                                 <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen}>
                                                     <img src="assets/img/zoom-in.png" alt="zoom" height={30} width={30} />
                                                 </div>
-                                                <h5 className="card-title px-2">{(startLecture).slice(0, 50)}..</h5>
+                                                <h6 className="card-title px-2">{(startLecture).slice(0, 50)}..</h6>
                                             </div>
+                                            {/* <div className="video-zoom-mobile bg-danger d-none">
+                                                <img src="assets/img/zoom-in.png" alt="zoom" height={20} width={20} />
+                                            </div> */}
                                             <iframe
                                                 className='enrolled-course-frame'
                                                 src={`https://www.youtube.com/embed/${extractId(videoUrl)}`}
