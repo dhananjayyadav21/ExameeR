@@ -121,17 +121,52 @@ code {
   cursor: default;
 }
 
-.Play-btn {
-  background: #dc0000;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
+.video-player-header {
+  height: 52px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  top: 0;
+  left: 0;
+}
+
+.video-zoom {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.video-frame {
+  width: 100%;
+  height: 300px;
+}
+
+.video-player-footer {
+  height: 44px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* When fullscreen is active */
+.video-container:fullscreen .video-frame {
+  margin-top: 2vh;
+  height: 94vh;
+}
+
+.video-container:fullscreen .video-player-header {
+  height: 72px;
+}
+
+.video-container:fullscreen .video-player-footer {
+  height: 64px;
+  padding: 10px;
 }
 
 .Play-btn i {
@@ -142,9 +177,9 @@ code {
   transition: transform 0.3s ease;
 }
 
-.card-transition:hover {
+/* .card-transition:hover {
   transform: scale(1.05);
-}
+} */
 
 .green-i {
   color: #039419;

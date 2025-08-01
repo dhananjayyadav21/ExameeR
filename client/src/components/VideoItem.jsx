@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 import Modal from '../utils/Modal';
 import ContentContext from '../context/ContentContext'
@@ -7,6 +7,19 @@ import { toast } from "react-toastify";
 const VideoItem = ({ video }) => {
   const context = useContext(ContentContext);
   const { addInMylearning, removeFromMylearning, getDataFromMyLearning, RemoveMyLearningVideo } = context;
+
+  const videoContainerRef = useRef();
+
+  const handleFullscreen = () => {
+    if (videoContainerRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        videoContainerRef.current.requestFullscreen();
+      }
+    }
+  };
+
 
   const [Video, setVideo] = useState(video);
   //--[useEffect]----
@@ -19,7 +32,7 @@ const VideoItem = ({ video }) => {
   const isMyLearning = location.pathname === '/myLearning';
 
 
-   //-- handle add to mylearning
+  //-- handle add to mylearning
   const [showModal, setShowModal] = useState(false);
   const handleAddToMyLearning = async () => {
     try {
@@ -93,32 +106,37 @@ const VideoItem = ({ video }) => {
           /></>}
 
       <div className="col-12 col-sm-6 col-lg-4">
-        <div className="card card-transition shadow-sm video-item my-3 p-2 rounded-3" style={{minHeight:"400px"}}>
-          <div className='position-relative'>
+        <div className="card card-transition shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
+          <div className='position-relative video-container' ref={videoContainerRef}>
+            <div className="video-player-header bg-white d-flex justify-content-start align-items-center p-1">
+              <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen}>
+                <img src="assets/img/zoom-in.png" alt="zoom" height={30} width={30} />
+              </div>
+              <h5 className="card-title px-2">{(Video?.title).slice(0, 20)}..</h5>
+            </div>
             <iframe
-              width="100%"
-              height="200"
+              className='video-frame'
               src={`https://www.youtube.com/embed/${Video?.fileUrl}`}
               title="YouTube video player"
               FrameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
             ></iframe>
-            {/* <div className="Play-btn bg-danger">
-              <a href={Video.fileUrl}><i className="fa-solid fa-play"></i></a>
-            </div> */}
+            <div className="video-player-footer bg-white d-flex justify-content-start py-3">
+              <div className='my-3'>
+                {isMyLearning ? (
+                  <button className='btn-gray-sm text-danger' onClick={() => setShowModal(true)} ><small>Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></small></button>
+                ) : (
+                  Video?.isWatching ? (
+                    <button className='btn-gray-sm text-danger' onClick={() => setShowModal(true)} ><small>Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></small></button>
+                  ) : (
+                    <button className='btn-gray-sm' onClick={() => setShowModal(true)}><small>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></small></button>
+                  )
+                )}
+              </div>
+            </div>
           </div>
-          <div className="card-body">
-            <h5 className="card-title">{(Video?.title).slice(0, 20)}</h5>
-            {isMyLearning ? (
-              <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning <i className="fa-solid fa-minus mb-0"></i></button>
-            ) : (
-              Video?.isWatching ? (
-                <button className='btn-gray-sm my-2 text-danger' onClick={() => setShowModal(true)} >Remove From Mylearning</button>
-              ) : (
-                <button className='btn-gray-sm my-2' onClick={() => setShowModal(true)}>Add In Mylearning <i className="fa-solid fa-plus me-2 mb-0"></i></button>
-              )
-            )}
+          <div className="card-body m-0 py-0 px-1">
             <p className="card-text">{(Video?.description).slice(0, 85)}..</p>
           </div>
         </div>
