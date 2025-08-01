@@ -121,6 +121,8 @@ code {
   cursor: default;
 }
 
+/* -------------------for the video palyer card ----------------- */
+
 .video-player-header {
   height: 52px;
   width: 100%;
@@ -129,7 +131,11 @@ code {
   align-items: center;
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
+}
+
+.video-player-header {
+  height: 56px;
 }
 
 .video-zoom {
@@ -139,7 +145,12 @@ code {
 }
 
 .video-frame {
-  width: 100%;
+  margin: 1%;
+  width: 98%;
+  height: 270px;
+}
+
+.video-frame:hover {
   height: 300px;
 }
 
@@ -169,6 +180,8 @@ code {
   padding: 10px;
 }
 
+/* ---------------------------------------------------------------------- */
+
 .Play-btn i {
   color: rgb(0, 0, 0);
 }
@@ -177,9 +190,9 @@ code {
   transition: transform 0.3s ease;
 }
 
-/* .card-transition:hover {
+.card-transition:hover {
   transform: scale(1.05);
-} */
+}
 
 .green-i {
   color: #039419;
@@ -477,6 +490,32 @@ form label {
   top: 0;
   left: 0;
 }
+
+.enrolled-course-player-header {
+  height: 62px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.enrolled-course-frame {
+  margin: 1%;
+  width: 98%;
+  height: 400px;
+}
+
+@media only screen and (max-width: 475px) {
+
+  .enrolled-course-frame {
+    height: 300px;
+  }
+
+}
+
 
 /*========================================== support section  ==================================================*/
 .support-call {

@@ -1,22 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import ContentContext from '../context/ContentContext';
-import VideoModalService from '../utils/VideoPlay';
 import Footer from './Footer';
 import { toast } from 'react-toastify';
+// import ContentContext from '../context/ContentContext';
 
 const EnrolledCoursePage = ({ setProgress }) => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { course } = location.state || {};
     // const context = useContext(ContentContext);
     // const { getEnrolledCourseDetails } = context;
 
-    const location = useLocation();
-    const { course } = location.state || {};
-
     // eslint-disable-next-line
     const [courseData, setCourseData] = useState(course);
-    const [showModal, setShowModal] = useState(false);
     const [videoUrl, setVideoUrl] = useState('');
+    const [startLecture, setStartLecture] = useState('');
+
+
+    // handle full screen and exit
+    const videoContainerRef = useRef();
+
+    const handleFullscreen = () => {
+        if (videoContainerRef.current) {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                videoContainerRef.current.requestFullscreen();
+            }
+        }
+    };
+
+    // extract id from videourl
+    const extractId = (VideoUrl) => {
+        const match = VideoUrl.match(/src="([^"]+)"/);
+        const srcUrl = match ? match[1] : videoUrl;
+
+        const iframeVideoId = srcUrl.split('/embed/')[1];
+
+        return iframeVideoId;
+    };
 
     useEffect(() => {
         setProgress(100);
@@ -45,9 +67,10 @@ const EnrolledCoursePage = ({ setProgress }) => {
         // eslint-disable-next-line
     }, []);
 
-    const handlePlayVideo = (url) => {
+    // handle video play 
+    const handlePlayVideo = (url, lecture) => {
         setVideoUrl(url);
-        setShowModal(true);
+        setStartLecture(lecture)
     };
 
     if (!courseData) {
@@ -63,12 +86,6 @@ const EnrolledCoursePage = ({ setProgress }) => {
 
     return (
         <>
-            <VideoModalService
-                videoUrl={videoUrl}
-                show={showModal}
-                onClose={() => setShowModal(false)}
-            />
-
             <div className="bg-body-tertiary p-md-3" style={{ minHeight: "70vh" }}>
                 <div className="px-3 py-4 p-md-5 shadow-sm rounded-2 bg-white text-black position-relative">
                     <div className="pb-3">
@@ -93,25 +110,60 @@ const EnrolledCoursePage = ({ setProgress }) => {
                     <div className="row">
                         {/* Left Side */}
                         <div className="col-md-5">
-                            <div className="card shadow-sm bg-white">
-                                <div className="card-body">
-                                    <img
-                                        src={`https://lh3.googleusercontent.com/d/${courseData?.courseImage}` || "/assets/img/cource.jpg"}
-                                        alt={courseData.title}
-                                        className="img-fluid rounded-3 mb-4"
-                                    />
-                                    <div className="border-top pt-3">
-                                        <h6 className="fw-bold">Benefits:</h6>
-                                        <ul className="ps-3">
-                                            {courseData?.benefits?.split(',').map((benefit, index) => (
-                                                <li className='text-muted' key={index}>
-                                                    {benefit.trim().charAt(0).toUpperCase() + benefit.trim().slice(1) + "."}
-                                                </li>
-                                            ))}
-                                        </ul>
+                            {!videoUrl ? (
+                                <div className="card shadow-sm bg-white">
+                                    <div className="card-body">
+                                        <img
+                                            src={`https://lh3.googleusercontent.com/d/${courseData?.courseImage}` || "/assets/img/cource.jpg"}
+                                            alt={courseData?.title}
+                                            className="img-fluid rounded-3 mb-4"
+                                        />
+                                        <div className="border-top pt-3">
+                                            <h6 className="fw-bold">Benefits:</h6>
+                                            <ul className="ps-3">
+                                                {courseData?.benefits?.split(',').map((benefit, index) => (
+                                                    <li className='text-muted' key={index}>
+                                                        {benefit.trim().charAt(0).toUpperCase() + benefit.trim().slice(1) + "."}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>) :
+                                (
+                                    <div className="card shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
+                                        <div className='position-relative video-container' ref={videoContainerRef}>
+                                            <div className="enrolled-course-player-header bg-white d-flex justify-content-start align-items-center p-1">
+                                                <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen}>
+                                                    <img src="assets/img/zoom-in.png" alt="zoom" height={30} width={30} />
+                                                </div>
+                                                <h5 className="card-title px-2">{(startLecture).slice(0, 50)}..</h5>
+                                            </div>
+                                            <iframe
+                                                className='enrolled-course-frame'
+                                                src={`https://www.youtube.com/embed/${extractId(videoUrl)}`}
+                                                title="YouTube video player"
+                                                FrameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
+                                            ></iframe>
+                                            <div className="video-player-footer bg-white d-flex justify-content-start">
+                                                <h6 className="fw-bold px-2">Benefits:</h6>
+                                            </div>
+                                        </div>
+
+                                        <div className="border-top p-2">
+
+                                            <ul className="ps-3">
+                                                {courseData?.benefits?.split(',').map((benefit, index) => (
+                                                    <li className='text-muted' key={index}>
+                                                        {benefit.trim().charAt(0).toUpperCase() + benefit.trim().slice(1) + "."}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
                         </div>
 
 
@@ -130,8 +182,8 @@ const EnrolledCoursePage = ({ setProgress }) => {
                                 <ul className="list-group">
                                     {courseData?.lectures?.map((lecture, index) => (
                                         <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                            <span>{lecture.title}</span>
-                                            <button className="btn btn-outline-warning btn-sm" onClick={() => handlePlayVideo(lecture.videoUrl)}>
+                                            <span>{lecture?.title}</span>
+                                            <button className="btn btn-outline-warning btn-sm" onClick={() => handlePlayVideo(lecture?.videoUrl, lecture?.title)}>
                                                 Watch
                                             </button>
                                         </li>
