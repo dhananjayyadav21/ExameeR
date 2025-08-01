@@ -1182,7 +1182,117 @@ textarea.form-control {
   }
 }
 
+/*======================================= imps component ======================================*/
+/* Main container */
+.imps-wrapper {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
 
+/* Banner styles */
+.imps-banner {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.imps-banner h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.imps-banner p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* Content area */
+.imps-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 40px 20px;
+  justify-content: center;
+}
+
+/* Card styles */
+.imps-card {
+  background: white;
+  width: 280px;
+  padding: 25px;
+  text-align: center;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.imps-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.imps-icon {
+  font-size: 40px;
+  color: #25D366;
+  margin-bottom: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .imps-banner h1 {
+    font-size: 28px;
+  }
+
+  .imps-banner p {
+    font-size: 16px;
+  }
+
+  .imps-card {
+    width: 90%;
+  }
+}
+
+
+.notes-banner {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: white;
+  padding: 20px 16px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 40px auto 10px;
+  max-width: 900px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.notes-banner h2 {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 700;
+}
+
+.notes-subtitle {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #d3e0e9;
+}
+
+@media (max-width: 768px) {
+  .notes-banner h2 {
+    font-size: 20px;
+  }
+
+  .notes-subtitle {
+    font-size: 13px;
+  }
+}
 
 
 
