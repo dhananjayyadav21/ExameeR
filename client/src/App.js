@@ -5,6 +5,7 @@ import ContentState from "./context/ContentState";
 import LoadingBar from 'react-top-loading-bar';
 import FloatingWhatsAppButton from "./utils/FloatingWhatsAppButton";
 import GoToImpsButton from "./utils/GoToImpsButton";
+import ImpsPage from "./components/ImpsPage";
 
 import Navbar from "./components/Navbar";
 import Notes from "./components/Notes";
@@ -262,6 +263,12 @@ function App() {
             />} />
 
             <Route path="*" element={<ErrorPage setProgress={setProgress} />} />
+
+            <Route path="/ImpsPage" element={<GuardedRoute
+              hasToBeAuthenticated={true}
+              element={<ImpsPage setProgress={setProgress} />}
+              redirectTo="/"
+            />} />
 
           </Routes>
 
