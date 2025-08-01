@@ -121,10 +121,10 @@ code {
   cursor: default;
 }
 
-/* -------------------for the video palyer card ----------------- */
+/* ------------------- for the video-palyer card ----------------- */
 
-.video-player-header {
-  height: 52px;
+/* .enrolled-course-player-header {
+  height: 62px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -134,28 +134,61 @@ code {
   right: 0;
 }
 
-.video-player-header {
-  height: 56px;
-}
-
-.video-zoom {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-}
-
-.video-frame {
+.enrolled-course-frame {
   margin: 1%;
   width: 98%;
-  height: 270px;
+  height: 400px;
 }
 
-.video-frame:hover {
-  height: 300px;
+/* @media only screen and (max-width: 475px) {
+
+  .video-frame {
+    height: 300px;
+  }
+
+  .video-player-footer {
+    height: 74px;
+    padding: 10px;
+  }
+
+  .video-zoom-mobile {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 101;
+    bottom: 94px;
+    right: 14px;
+  }
+
+} */
+
+/* When fullscreen is active */
+/* .video-container:fullscreen .video-frame {
+  margin-top: 2vh;
+  height: 94vh;
+}
+
+.video-container:fullscreen .enrolled-course-player-header {
+  height: 74px;
+} */
+
+
+.video-player-header {
+  height: 62px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .video-player-footer {
-  height: 44px;
+  height: 50px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -165,6 +198,18 @@ code {
   right: 0;
 }
 
+.video-frame {
+  margin: 1%;
+  width: 98%;
+  height: 360px;
+}
+
+.video-zoom {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
 /* When fullscreen is active */
 .video-container:fullscreen .video-frame {
   margin-top: 2vh;
@@ -172,12 +217,64 @@ code {
 }
 
 .video-container:fullscreen .video-player-header {
-  height: 72px;
+  height: 74px;
+  background-color: black !important;
+  color: white;
 }
 
 .video-container:fullscreen .video-player-footer {
   height: 64px;
   padding: 10px;
+  background-color: black !important;
+  color: white;
+}
+
+@media only screen and (max-width: 475px) {
+
+  .video-container:fullscreen .video-frame {
+    margin-top: 0;
+    height: 100vh;
+  }
+
+  .video-container:fullscreen .video-player-header {
+    background-color: black !important;
+    color: white;
+    height: 100px;
+  }
+
+  .video-container:fullscreen .video-player-footer {
+    background-color: black !important;
+    color: white;
+  }
+
+  .video-frame {
+    height: 300px;
+  }
+
+  .video-player-header {
+    height: 56px;
+    padding: 10px;
+    font-size: x-small;
+  }
+
+  .video-player-footer {
+    height: 52px;
+    font-size: x-small;
+    font-weight: 900;
+  }
+
+  .video-zoom-mobile {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 101;
+    bottom: 94px;
+    right: 14px;
+  }
+
 }
 
 /* ---------------------------------------------------------------------- */
@@ -489,58 +586,6 @@ form label {
   position: absolute;
   top: 0;
   left: 0;
-}
-
-.enrolled-course-player-header {
-  height: 62px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.enrolled-course-frame {
-  margin: 1%;
-  width: 98%;
-  height: 400px;
-}
-
-@media only screen and (max-width: 475px) {
-
-  .enrolled-course-frame {
-    height: 300px;
-  }
-
-  .video-player-footer {
-    height: 74px;
-    padding: 10px;
-  }
-
-  .video-zoom-mobile {
-    height: 30px;
-    width: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 101;
-    bottom: 94px;
-    right: 14px;
-  }
-
-}
-
-/* When fullscreen is active */
-.video-container:fullscreen .enrolled-course-frame {
-  margin-top: 2vh;
-  height: 94vh;
-}
-
-.video-container:fullscreen .enrolled-course-player-header {
-  height: 74px;
 }
 
 

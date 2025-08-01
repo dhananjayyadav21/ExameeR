@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import { toast } from 'react-toastify';
+import VideoPlayService from '../utils/VideoTemplate';
 // import ContentContext from '../context/ContentContext';
 
 const EnrolledCoursePage = ({ setProgress }) => {
@@ -28,16 +29,6 @@ const EnrolledCoursePage = ({ setProgress }) => {
                 videoContainerRef.current.requestFullscreen();
             }
         }
-    };
-
-    // extract id from videourl
-    const extractId = (VideoUrl) => {
-        const match = VideoUrl.match(/src="([^"]+)"/);
-        const srcUrl = match ? match[1] : videoUrl;
-
-        const iframeVideoId = srcUrl.split('/embed/')[1];
-
-        return iframeVideoId;
     };
 
     useEffect(() => {
@@ -89,7 +80,7 @@ const EnrolledCoursePage = ({ setProgress }) => {
             <div className="bg-body-tertiary p-md-3" style={{ minHeight: "70vh" }}>
                 <div className="px-3 py-4 p-md-5 shadow-sm rounded-2 bg-white text-black position-relative">
                     <div className="pb-3">
-                        <h3 className="rubik-font fw-bold mb-3 text-primary">{courseData?.title}</h3>
+                        <h3 className="rubik-font fw-bold mb-3 text-dark">{courseData?.title}</h3>
                         <p className="text-secondary fs-6">{courseData?.description}</p>
                     </div>
 
@@ -131,44 +122,16 @@ const EnrolledCoursePage = ({ setProgress }) => {
                                     </div>
                                 </div>) :
                                 (
-                                    <div className="card shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
-                                        <div className='position-relative video-container' ref={videoContainerRef}>
-                                            <div className="enrolled-course-player-header bg-white d-flex justify-content-start align-items-center p-1">
-                                                <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen}>
-                                                    <img src="assets/img/zoom-in.png" alt="zoom" height={30} width={30} />
-                                                </div>
-                                                <h6 className="card-title px-2">{(startLecture).slice(0, 50)}..</h6>
-                                            </div>
-                                            {/* <div className="video-zoom-mobile bg-danger d-none">
-                                                <img src="assets/img/zoom-in.png" alt="zoom" height={20} width={20} />
-                                            </div> */}
-                                            <iframe
-                                                className='enrolled-course-frame'
-                                                src={`https://www.youtube.com/embed/${extractId(videoUrl)}`}
-                                                title="YouTube video player"
-                                                FrameBorder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                                allowFullScreen
-                                            ></iframe>
-                                            <div className="video-player-footer bg-white d-flex justify-content-start">
-                                                <h6 className="fw-bold px-2">Benefits:</h6>
-                                            </div>
-                                        </div>
 
-                                        <div className="border-top p-2">
-
-                                            <ul className="ps-3">
-                                                {courseData?.benefits?.split(',').map((benefit, index) => (
-                                                    <li className='text-muted' key={index}>
-                                                        {benefit.trim().charAt(0).toUpperCase() + benefit.trim().slice(1) + "."}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    <VideoPlayService
+                                        videoUrl={videoUrl}
+                                        footer={courseData?.benefits}
+                                        header={startLecture}
+                                        videoContainerRef={videoContainerRef}
+                                        handleFullscreen={handleFullscreen}
+                                    />
                                 )}
                         </div>
-
 
                         {/* Right Side */}
                         <div className="col-md-7 my-3 my-md-0">

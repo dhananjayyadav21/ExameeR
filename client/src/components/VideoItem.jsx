@@ -105,14 +105,14 @@ const VideoItem = ({ video }) => {
             subHeading={`“Stay organized. Keep everything in one place”`}
           /></>}
 
-      <div className="col-12 col-sm-6 col-lg-4">
+      <div className="col-12 col-sm-6">
         <div className="card card-transition shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
           <div className='position-relative video-container' ref={videoContainerRef}>
             <div className="video-player-header bg-white d-flex justify-content-start align-items-center p-1">
               <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen}>
                 <img src="assets/img/zoom-in.png" alt="zoom" height={30} width={30} />
               </div>
-              <h5 className="card-title px-2">{(Video?.title).slice(0, 20)}..</h5>
+              <h6 className="card-title px-2">{(Video?.title).slice(0, 20)}..</h6>
             </div>
             <iframe
               className='video-frame'
@@ -136,7 +136,7 @@ const VideoItem = ({ video }) => {
               </div>
             </div>
           </div>
-          <div className="card-body m-0 py-0 px-1">
+          <div className="card-body pt-0 px-1">
             <p className="card-text">{(Video?.description).slice(0, 85)}..</p>
           </div>
         </div>
