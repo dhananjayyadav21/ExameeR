@@ -10,7 +10,7 @@ const GoToImpsButton = () => {
     };
 
     return (
-        <div className="go-to-imps" onClick={handleClick}
+        <div className="go-to-imps" data-toggle="tooltip" data-placement="left" title="GO TO Imp" onClick={handleClick}
         >
             <FaArrowUp className="arrow-icon" />
         </div>

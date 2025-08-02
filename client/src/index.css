@@ -1077,7 +1077,7 @@ textarea.form-control {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: pulse 2s infinite;
+  animation: puls 2s infinite;
 }
 
 .whatsapp-float:hover {
@@ -1089,20 +1089,44 @@ textarea.form-control {
   font-size: 28px;
 }
 
-@keyframes pulse {
+@keyframes puls {
   0% {
     transform: scale(1);
   }
 
-  25% {
+  10% {
     transform: scale(1.05);
   }
 
-  50% {
+  20% {
     transform: scale(1.1);
   }
 
-  75% {
+  30% {
+    transform: scale(1.15);
+  }
+
+  40% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+
+  60% {
+    transform: scale(1.2);
+  }
+
+  70% {
+    transform: scale(1.15);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+
+  90% {
     transform: scale(1.05);
   }
 
@@ -1116,7 +1140,7 @@ textarea.form-control {
     width: 40px;
     height: 40px;
     bottom: 30px;
-    left: 10px;
+    left: 20px;
   }
 
   .whatsapp-icon {
@@ -1143,38 +1167,25 @@ textarea.form-control {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: pulse 2s infinite;
+  /* animation: pulse 2s infinite; */
 }
 
-.go-to-imps:hover {
+/* .go-to-imps:hover {
   transform: scale(1.5);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .arrow-icon {
   font-size: 28px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.02);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
 
 @media (max-width: 576px) {
   .go-to-imps {
     width: 40px;
     height: 40px;
     bottom: 80px;
-    left: 10px;
+    left: 20px;
   }
 
   .arrow-icon {
