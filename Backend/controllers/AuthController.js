@@ -1,8 +1,8 @@
 const userModel = require('../model/User');
-const suppotModel =  require ('../model/supportModel');
+const suppotModel = require('../model/supportModel');
 const bcrypt = require('bcrypt');
 const Jwt = require('jsonwebtoken');
-const { sendWelcomeEmail,sendSupportEmail, sendVerificationEamil, sendForgotPasswordEmail } = require("../services/sendEmails");
+const { sendWelcomeEmail, sendSupportEmail, sendVerificationEamil, sendForgotPasswordEmail } = require("../services/sendEmails");
 require("dotenv").config();
 
 const AuthToken_Secrate = process.env.AUTHTOKEN_SECRATE;
@@ -19,7 +19,7 @@ const register = async (req, res) => {
         }
 
         // Check Username cannot admin
-        if(Username === "Admin" || Username === "admin"){
+        if (Username === "Admin" || Username === "admin") {
             return res.status(400).json({
                 success: false,
                 message: "You cannot create an account with the username 'admin'!"
@@ -51,9 +51,9 @@ const register = async (req, res) => {
         function userIdBasedOnEmail(userEmail) {
             const hash = [...userEmail].reduce((acc, char) => acc + char.charCodeAt(0), 0);
             return hash + Math.floor(Math.random() * 10000);
-        }  
+        }
         const ExmeeUserIdBasedOnEmail = userIdBasedOnEmail(Email);
-        const ExmeeUserId = Exa+ExmeeUserIdBasedOnEmail;
+        const ExmeeUserId = "Exa" + ExmeeUserIdBasedOnEmail;
 
         // Create new user
         user = new userModel({
@@ -61,7 +61,7 @@ const register = async (req, res) => {
             Email: Email.toLowerCase(),
             Password: securePassword,
             VerificationCode,
-            ExmeeUserId:ExmeeUserId,
+            ExmeeUserId: ExmeeUserId,
         });
 
         sendVerificationEamil(user.Email, user.VerificationCode);
@@ -132,8 +132,8 @@ const login = async (req, res) => {
             }
         );
 
-        if(user.lastActive === null || user.lastActive === undefined){
-           sendWelcomeEmail(user.Email, user.Username);
+        if (user.lastActive === null || user.lastActive === undefined) {
+            sendWelcomeEmail(user.Email, user.Username);
         }
 
         const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress || null;
@@ -143,8 +143,8 @@ const login = async (req, res) => {
         await user.save();
         user = {
             Email: user.Email,
-            Role : user.Role,
-            ExmeeUserId :user.ExmeeUserId
+            Role: user.Role,
+            ExmeeUserId: user.ExmeeUserId
         }
 
         return res.status(200).json({
@@ -340,11 +340,11 @@ const getUser = async (req, res) => {
 
         const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode -_id');
 
-        if(!user){
+        if (!user) {
             return res.status(200).json({
                 success: false,
                 message: 'User not found !',
-            }) 
+            })
         }
 
         return res.status(200).json({
@@ -402,12 +402,12 @@ const support = async (req, res) => {
         const user = await userModel.findById(userId).select('-Password -ForgotPasswordCode');
         if (!user) {
             return res.status(404).json({
-            success: false,
-            message: 'Please create a acount first !',
+                success: false,
+                message: 'Please create a acount first !',
             })
         }
 
-        const {name, email, subject, body } = req.body;
+        const { name, email, subject, body } = req.body;
         if (!name || !email || !subject || !body) {
             return res.status(400).json({
                 success: false,
@@ -421,7 +421,7 @@ const support = async (req, res) => {
             email: email.toLowerCase(),
             subject,
             body,
-            user:userId
+            user: userId
         });
 
         sendSupportEmail(name, email, subject, body);
