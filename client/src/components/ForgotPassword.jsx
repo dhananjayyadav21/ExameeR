@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import * as GlobalUrls from "../GlobalURL"
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const ForgotPassword = ({setProgress}) => {
+const ForgotPassword = ({ setProgress }) => {
 
     //----[useEffect]---------
     useEffect(() => {
@@ -130,6 +131,12 @@ const ForgotPassword = ({setProgress}) => {
         setForgotPassword({ ...ForgotPasswordData, [e.target.name]: e.target.value });
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
 
     return (
         <>
@@ -164,13 +171,25 @@ const ForgotPassword = ({setProgress}) => {
                         </div>
 
                         <div className="mb-3">
-                            <small><label htmlFor="password" className="form-label">New Password</label></small>
-                            <input type="password" className="form-control" id="NewPassword" name='NewPassword' value={ForgotPasswordData.NewPassword} onChange={handlOnchange} placeholder="password" required />
+                            <div className="mb-3 position-relative">
+                                <small><label htmlFor="password" className="form-label">New Password</label></small>
+                                <input type={showPassword ? 'text' : 'password'} className="form-control" id="NewPassword" name='NewPassword' value={ForgotPasswordData.NewPassword} onChange={handlOnchange} placeholder="password" required />
+                                <span onClick={toggleShowPassword}
+                                    style={{ position: 'absolute', top: '36px', right: '12px', cursor: 'pointer' }} >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="mb-3">
-                            <small><label htmlFor="Cpassword" className="form-label">Confirm Password</label></small>
-                            <input type="password" className="form-control" id="ConfirmNewPassword" name='ConfirmNewPassword' value={ForgotPasswordData.ConfirmNewPassword} onChange={handlOnchange} placeholder="Confirm password" required />
+                            <div className="mb-3 position-relative">
+                                <small><label htmlFor="Cpassword" className="form-label">Confirm Password</label></small>
+                                <input type={showPassword ? 'text' : 'password'} className="form-control" id="ConfirmNewPassword" name='ConfirmNewPassword' value={ForgotPasswordData.ConfirmNewPassword} onChange={handlOnchange} placeholder="Confirm password" required />
+                                <span onClick={toggleShowPassword}
+                                    style={{ position: 'absolute', top: '36px', right: '12px', cursor: 'pointer' }} >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
+                            </div>
                         </div>
 
                         <button type="submit" className="btn btn-green w-100">Save Password</button>

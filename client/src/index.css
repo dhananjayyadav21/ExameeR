@@ -30,6 +30,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide built-in show/hide button in Microsoft Edge */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
