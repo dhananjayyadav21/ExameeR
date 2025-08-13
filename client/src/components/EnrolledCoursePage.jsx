@@ -72,6 +72,7 @@ const EnrolledCoursePage = ({ setProgress }) => {
                 </div>
                 <span className='text-bold mx-2' >Loading...</span>
             </div>
+
         );
     };
 
