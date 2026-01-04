@@ -34,6 +34,7 @@ const sendWelcomeEmail = async (Email, Username) => {
 
 const sendForgotPasswordEmail = async (Email, ForgotPasswordCode) => {
   try {
+    console.log(`[DEBUG] Attempting to send forgot password email to: ${Email}`);
     const response = await transporter.sendMail({
       from: `"Examee" <${MyEmail}>`,
       to: Email,
@@ -41,7 +42,7 @@ const sendForgotPasswordEmail = async (Email, ForgotPasswordCode) => {
       text: `Your forgot password verification code is: ${ForgotPasswordCode}`,
       html: ForgotPasswordEmail_Template(ForgotPasswordCode),
     });
-    console.log('Forgot Password Email sent Successfully', response.accepted, response.rejected);
+    console.log('Forgot Password Email sent Successfully. Accepted:', response.accepted, 'Rejected:', response.rejected);
   } catch (error) {
     console.log('Forgot Password Email error', error);
     throw error;
@@ -64,7 +65,7 @@ const sendSupportEmail = async (name, email, subject, body) => {
   }
 };
 
-const announceMentEmail = async ( Email, subject, emailBody) => {
+const announceMentEmail = async (Email, subject, emailBody) => {
   try {
     const response = await transporter.sendMail({
       from: `"Examee" <${MyEmail}>`,

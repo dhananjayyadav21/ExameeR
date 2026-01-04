@@ -1,4 +1,4 @@
-export const VerificationEmail_Template = (Email, VerificationCode) => `<!DOCTYPE html>
+const VerificationEmail_Template = (Email, VerificationCode) => `<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@ export const VerificationEmail_Template = (Email, VerificationCode) => `<!DOCTYP
 </body>
 </html>`;
 
-export const WelcomeEmail_Template = `<!DOCTYPE html>
+const WelcomeEmail_Template = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -124,7 +124,7 @@ export const WelcomeEmail_Template = `<!DOCTYPE html>
 </body>
 </html>`
 
-export const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE html>
+const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -231,7 +231,7 @@ export const ForgotPasswordEmail_Template = (ForgotPasswordCode) => `<!DOCTYPE h
 </html>`
 
 
-export const SupportEmail_Template = (name, email, subject, body ) => `<!DOCTYPE html>
+const SupportEmail_Template = (name, email, subject, body) => `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -320,3 +320,10 @@ export const SupportEmail_Template = (name, email, subject, body ) => `<!DOCTYPE
     </div>
 </body>
 </html>`;
+
+module.exports = {
+    VerificationEmail_Template,
+    WelcomeEmail_Template,
+    ForgotPasswordEmail_Template,
+    SupportEmail_Template
+};
