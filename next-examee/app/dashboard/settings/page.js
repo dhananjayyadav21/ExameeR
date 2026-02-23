@@ -1,118 +1,259 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function SettingsPage() {
+    const [notifications, setNotifications] = useState({ newCourse: true, notesUpdate: true, videoAlert: false });
+    const [saved, setSaved] = useState(false);
+
+    const toggleNotif = (key) => setNotifications(p => ({ ...p, [key]: !p[key] }));
+
+    const handleSave = () => {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2500);
+    };
+
+    const notifPrefs = [
+        { id: 'newCourse', label: 'New Course Notifications', desc: 'Get notified when new courses are published', icon: 'fa-graduation-cap', color: '#0ea5e9' },
+        { id: 'notesUpdate', label: 'Study Material Alerts', desc: 'Receive alerts when new notes or PDFs are added', icon: 'fa-file-pdf', color: '#04bd20' },
+        { id: 'videoAlert', label: 'Video Lecture Uploads', desc: 'Be notified of newly uploaded video lectures', icon: 'fa-circle-play', color: '#8b5cf6' },
+    ];
+
     return (
-        <section id="settings" className="p-0">
-            <div className="mb-4">
-                <h1 className="h4 fw-bold text-dark">Account Settings</h1>
-                <p className="text-secondary">Manage your profile, security, and preferences.</p>
+        <section className="st-page">
+            {/* Header */}
+            <div className="st-header">
+                <div>
+                    <h1 className="st-title">Account Settings</h1>
+                    <p className="st-sub">Manage your profile, security, and notification preferences</p>
+                </div>
+                {saved && (
+                    <div className="st-save-toast">
+                        <i className="fa-solid fa-circle-check me-2"></i>Changes saved successfully!
+                    </div>
+                )}
             </div>
 
-            <div className="container-fluid p-0">
-                {/* Profile Settings */}
-                <div className="card border-0 shadow-sm rounded-4 mb-4" style={{ background: '#1a1a1a' }}>
-                    <div className="card-body p-4 text-white">
-                        <h2 className="h5 fw-bold mb-4 border-bottom border-secondary pb-3">Profile Settings</h2>
+            <div className="row g-4">
+                {/* Left Column */}
+                <div className="col-lg-8">
 
-                        <div className="d-flex align-items-center gap-4 mb-4">
-                            <div className="position-relative">
-                                <img
-                                    src="https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg"
-                                    alt="Profile"
-                                    className="rounded-circle border border-secondary"
-                                    style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                />
-                                <button className="btn btn-sm btn-primary position-absolute bottom-0 end-0 rounded-circle" style={{ width: '32px', height: '32px' }}>
-                                    <i className="fa-solid fa-camera"></i>
-                                </button>
+                    {/* Profile Card */}
+                    <div className="st-card mb-4">
+                        <div className="st-card-head">
+                            <div className="st-card-icon" style={{ background: 'rgba(14,165,233,0.1)', color: '#0ea5e9' }}>
+                                <i className="fa-solid fa-user"></i>
                             </div>
                             <div>
-                                <h6 className="fw-bold mb-1">Profile Picture</h6>
-                                <p className="text-muted small mb-2">PNG, JPG or GIF. Max 2MB.</p>
-                                <button className="btn btn-sm btn-outline-danger">Remove</button>
+                                <div className="st-card-title">Profile Information</div>
+                                <div className="st-card-sub">Update your public profile details</div>
                             </div>
                         </div>
 
-                        <form className="row g-3">
-                            <div className="col-md-6">
-                                <label className="form-label small text-muted">First Name</label>
-                                <input type="text" className="form-control form-control-dark bg-dark text-white border-secondary" defaultValue="Instructor" />
+                        {/* Avatar row */}
+                        <div className="st-avatar-row">
+                            <div className="st-avatar-wrap">
+                                <img src="https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg" alt="Profile" className="st-avatar" />
+                                <button className="st-avatar-cam"><i className="fa-solid fa-camera"></i></button>
                             </div>
-                            <div className="col-md-6">
-                                <label className="form-label small text-muted">Last Name</label>
-                                <input type="text" className="form-control form-control-dark bg-dark text-white border-secondary" defaultValue="User" />
+                            <div>
+                                <div className="st-avatar-label">Profile Picture</div>
+                                <div className="st-avatar-hint">PNG, JPG or GIF · Max 2MB</div>
+                                <button className="st-remove-btn">Remove Photo</button>
                             </div>
-                            <div className="col-12">
-                                <label className="form-label small text-muted">Email Address</label>
-                                <input type="email" className="form-control form-control-dark bg-dark text-white border-secondary" defaultValue="instructor@examee.com" readOnly />
-                            </div>
-                            <div className="col-12">
-                                <label className="form-label small text-muted">Institution</label>
-                                <input type="text" className="form-control form-control-dark bg-dark text-white border-secondary" defaultValue="Examee Education" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                        </div>
 
-                {/* Security Settings */}
-                <div className="card border-0 shadow-sm rounded-4 mb-4" style={{ background: '#1a1a1a' }}>
-                    <div className="card-body p-4 text-white">
-                        <h2 className="h5 fw-bold mb-4 border-bottom border-secondary pb-3">Security Settings</h2>
-                        <form className="row g-3">
-                            <div className="col-12">
-                                <label className="form-label small text-muted">Current Password</label>
-                                <input type="password" architectural className="form-control form-control-dark bg-dark text-white border-secondary" placeholder="••••••••" />
-                            </div>
+                        <div className="row g-3">
                             <div className="col-md-6">
-                                <label className="form-label small text-muted">New Password</label>
-                                <input type="password" architectural className="form-control form-control-dark bg-dark text-white border-secondary" placeholder="••••••••" />
-                            </div>
-                            <div className="col-md-6">
-                                <label className="form-label small text-muted">Confirm New Password</label>
-                                <input type="password" architectural className="form-control form-control-dark bg-dark text-white border-secondary" placeholder="••••••••" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                {/* Notification Preferences */}
-                <div className="card border-0 shadow-sm rounded-4 mb-4" style={{ background: '#1a1a1a' }}>
-                    <div className="card-body p-4 text-white">
-                        <h2 className="h5 fw-bold mb-4 border-bottom border-secondary pb-3">Notification Preferences</h2>
-
-                        {[
-                            { id: 'newCourse', title: 'New Course Notifications', desc: 'Receive notifications when new courses are added' },
-                            { id: 'notesUpdate', title: 'Notes Updates', desc: 'Get notified about new study materials' },
-                            { id: 'videoAlert', title: 'Video Lecture Alerts', desc: 'Receive alerts for new video content' }
-                        ].map((pref, i) => (
-                            <div key={pref.id} className={`d-flex justify-content-between align-items-center py-3 ${i < 2 ? 'border-bottom border-secondary' : ''}`}>
-                                <div>
-                                    <h6 className="fw-bold mb-1">{pref.title}</h6>
-                                    <p className="text-muted small mb-0">{pref.desc}</p>
-                                </div>
-                                <div className="form-check form-switch">
-                                    <input className="form-check-input" type="checkbox" id={pref.id} defaultChecked />
+                                <label className="st-label">First Name</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-user"></i></span>
+                                    <input type="text" className="st-input" defaultValue="Instructor" />
                                 </div>
                             </div>
-                        ))}
+                            <div className="col-md-6">
+                                <label className="st-label">Last Name</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-user"></i></span>
+                                    <input type="text" className="st-input" defaultValue="User" />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <label className="st-label">Email Address <span className="st-readonly-tag">Read only</span></label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-envelope"></i></span>
+                                    <input type="email" className="st-input" defaultValue="instructor@examee.com" readOnly style={{ background: '#f8fafc', color: '#94a3b8', cursor: 'not-allowed' }} />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <label className="st-label">Institution / Organization</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-building"></i></span>
+                                    <input type="text" className="st-input" defaultValue="Examee Education" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Security Card */}
+                    <div className="st-card mb-4">
+                        <div className="st-card-head">
+                            <div className="st-card-icon" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444' }}>
+                                <i className="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <div className="st-card-title">Password &amp; Security</div>
+                                <div className="st-card-sub">Set a unique password to protect your account</div>
+                            </div>
+                        </div>
+                        <div className="row g-3">
+                            <div className="col-12">
+                                <label className="st-label">Current Password</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-lock"></i></span>
+                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <label className="st-label">New Password</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-key"></i></span>
+                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <label className="st-label">Confirm New Password</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-key"></i></span>
+                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <div className="st-password-tips">
+                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Min 8 characters</span>
+                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Mix letters &amp; numbers</span>
+                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Special character</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {/* Save and Cancel Buttons */}
-                <div className="d-flex justify-content-end gap-3 mt-4">
-                    <button className="btn btn-outline-secondary px-4">Reset</button>
-                    <button className="btn btn-primary px-4">Update Profile</button>
+                {/* Right Column */}
+                <div className="col-lg-4">
+
+                    {/* Notifications Card */}
+                    <div className="st-card mb-4">
+                        <div className="st-card-head">
+                            <div className="st-card-icon" style={{ background: 'rgba(245,158,11,0.1)', color: '#f59e0b' }}>
+                                <i className="fa-solid fa-bell"></i>
+                            </div>
+                            <div>
+                                <div className="st-card-title">Notifications</div>
+                                <div className="st-card-sub">Control what alerts you receive</div>
+                            </div>
+                        </div>
+                        <div className="st-notif-list">
+                            {notifPrefs.map((pref, i) => (
+                                <div key={pref.id} className={`st-notif-item ${i < notifPrefs.length - 1 ? 'st-notif-border' : ''}`}>
+                                    <div className="st-notif-icon" style={{ background: `${pref.color}18`, color: pref.color }}>
+                                        <i className={`fa-solid ${pref.icon}`}></i>
+                                    </div>
+                                    <div className="st-notif-body">
+                                        <div className="st-notif-label">{pref.label}</div>
+                                        <div className="st-notif-desc">{pref.desc}</div>
+                                    </div>
+                                    <label className="st-toggle-wrap">
+                                        <input type="checkbox" className="st-toggle-input" checked={notifications[pref.id]} onChange={() => toggleNotif(pref.id)} />
+                                        <span className="st-toggle" style={notifications[pref.id] ? { background: pref.color } : {}}></span>
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Danger Zone */}
+                    <div className="st-card st-danger-card">
+                        <div className="st-danger-head">
+                            <i className="fa-solid fa-triangle-exclamation" style={{ color: '#ef4444' }}></i>
+                            <span>Danger Zone</span>
+                        </div>
+                        <p className="st-danger-desc">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                        <button className="st-danger-btn">Delete Account</button>
+                    </div>
                 </div>
             </div>
 
+            {/* Footer Actions */}
+            <div className="st-footer">
+                <button className="st-reset-btn">Reset All Changes</button>
+                <button className="st-save-btn" onClick={handleSave}>
+                    <i className="fa-solid fa-floppy-disk me-2"></i>Save Changes
+                </button>
+            </div>
+
             <style jsx>{`
-                .form-control-dark:focus {
-                    background-color: #2a2a2a;
-                    border-color: #0d6efd;
-                    color: white;
-                    box-shadow: none;
-                }
+                .st-page { min-height: 100vh; }
+                .st-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+                .st-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0; }
+                .st-sub { font-size: 0.8rem; color: #94a3b8; margin: 3px 0 0; }
+                .st-save-toast { background: rgba(4,189,32,0.1); color: #04bd20; border: 1px solid rgba(4,189,32,0.2); border-radius: 10px; padding: 10px 18px; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; animation: fadeIn 0.3s ease; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+                .st-card { background: white; border-radius: 18px; padding: 24px; border: 1px solid #f1f5f9; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+                .st-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #f1f5f9; }
+                .st-card-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+                .st-card-title { font-size: 0.9rem; font-weight: 700; color: #1e293b; }
+                .st-card-sub { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+
+                /* Avatar */
+                .st-avatar-row { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; padding: 16px; background: #f8fafc; border-radius: 12px; }
+                .st-avatar-wrap { position: relative; flex-shrink: 0; }
+                .st-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+                .st-avatar-cam { position: absolute; bottom: 0; right: 0; width: 28px; height: 28px; background: #0ea5e9; color: white; border: 2px solid white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; cursor: pointer; }
+                .st-avatar-label { font-size: 0.85rem; font-weight: 700; color: #1e293b; }
+                .st-avatar-hint { font-size: 0.72rem; color: #94a3b8; margin: 2px 0 8px; }
+                .st-remove-btn { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; font-size: 0.75rem; font-weight: 600; padding: 4px 12px; border-radius: 7px; cursor: pointer; transition: all 0.2s; }
+                .st-remove-btn:hover { background: rgba(239,68,68,0.15); }
+
+                /* Inputs */
+                .st-label { font-size: 0.75rem; font-weight: 700; color: #374151; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+                .st-readonly-tag { background: #f1f5f9; color: #94a3b8; font-size: 0.68rem; font-weight: 600; padding: 2px 7px; border-radius: 5px; }
+                .st-input-wrap { position: relative; }
+                .st-input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.8rem; pointer-events: none; }
+                .st-input { width: 100%; padding: 10px 13px 10px 36px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; color: #0f172a; background: #f8fafc; outline: none; transition: all 0.2s; font-family: inherit; }
+                .st-input:focus { border-color: #0ea5e9; background: white; box-shadow: 0 0 0 3px rgba(14,165,233,0.1); }
+
+                /* Password tips */
+                .st-password-tips { display: flex; flex-wrap: wrap; gap: 10px; }
+                .st-tip { font-size: 0.75rem; color: #64748b; font-weight: 500; }
+
+                /* Notifications */
+                .st-notif-list { display: flex; flex-direction: column; gap: 4px; }
+                .st-notif-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; }
+                .st-notif-border { border-bottom: 1px solid #f1f5f9; }
+                .st-notif-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+                .st-notif-body { flex: 1; min-width: 0; }
+                .st-notif-label { font-size: 0.82rem; font-weight: 700; color: #1e293b; }
+                .st-notif-desc { font-size: 0.7rem; color: #94a3b8; margin-top: 1px; }
+                .st-toggle-wrap { cursor: pointer; flex-shrink: 0; }
+                .st-toggle-input { display: none; }
+                .st-toggle { display: block; width: 40px; height: 22px; background: #e2e8f0; border-radius: 50px; position: relative; transition: background 0.2s; }
+                .st-toggle::after { content: ''; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+                .st-toggle-input:checked ~ .st-toggle::after { transform: translateX(18px); }
+
+                /* Danger */
+                .st-danger-card { border-color: rgba(239,68,68,0.15) !important; }
+                .st-danger-head { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: #ef4444; margin-bottom: 10px; }
+                .st-danger-desc { font-size: 0.78rem; color: #94a3b8; margin-bottom: 14px; line-height: 1.5; }
+                .st-danger-btn { width: 100%; padding: 10px; background: rgba(239,68,68,0.07); border: 1.5px solid rgba(239,68,68,0.2); color: #ef4444; font-size: 0.85rem; font-weight: 700; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+                .st-danger-btn:hover { background: rgba(239,68,68,0.12); }
+
+                /* Footer */
+                .st-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #f1f5f9; }
+                .st-reset-btn { padding: 11px 24px; border-radius: 11px; border: 1.5px solid #e2e8f0; background: transparent; color: #64748b; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+                .st-reset-btn:hover { border-color: #94a3b8; background: #f8fafc; }
+                .st-save-btn { padding: 11px 28px; border-radius: 11px; border: none; background: linear-gradient(135deg,#0ea5e9,#6366f1); color: white; font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(14,165,233,0.3); }
+                .st-save-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(14,165,233,0.45); }
             `}</style>
         </section>
     );
