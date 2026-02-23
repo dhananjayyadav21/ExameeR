@@ -15,12 +15,17 @@ const Navbar = ({ setProgress = () => { } }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [token, setToken] = useState(null);
     const [profile, setProfile] = useState("/assets/img/Avtar.jpg");
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         setToken(localStorage.getItem("token"));
         const storedProfile = localStorage.getItem("Profile");
         if (storedProfile && storedProfile !== "undefined") {
             setProfile(storedProfile);
+        }
+        const storedUsername = localStorage.getItem("Username");
+        if (storedUsername && storedUsername !== "undefined") {
+            setUsername(storedUsername);
         }
 
         const handleScroll = () => {
@@ -77,18 +82,45 @@ const Navbar = ({ setProgress = () => { } }) => {
                         {/* Mobile Profile & Toggle */}
                         {token && (
                             <div className="nav-item dropdown d-lg-none">
-                                <a className="nav-link p-0" href="#" id="mobileProfileDropdown" role="button" data-bs-toggle="dropdown">
-                                    <img className="profile-img rounded-circle" src={profile} alt="Avatar" style={{ width: '32px', height: '32px', border: '2px solid var(--primary-color)' }} />
+                                <a className="nav-link p-0" href="#" id="mobileProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img className="rounded-circle" src={profile} alt="Avatar"
+                                        style={{ width: '34px', height: '34px', border: '2.5px solid #04bd20', objectFit: 'cover' }} />
                                 </a>
-                                <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
-                                    <li><Link className="dropdown-item py-2" href="/myLearning">My Learning</Link></li>
-                                    <li><Link className="dropdown-item py-2" href="/profile">View Profile</Link></li>
-                                    {hasUserRole("Admin", "Instructor") && (
-                                        <li><Link className="dropdown-item py-2 fw-bold text-primary" href="/dashboard">Dashboard</Link></li>
-                                    )}
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li><button className="dropdown-item py-2 text-danger" onClick={handleLogout}>Logout</button></li>
-                                </ul>
+                                <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '230px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
+                                    {/* Header */}
+                                    <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
+                                        <img src={profile} alt="Avatar" className="rounded-circle flex-shrink-0" style={{ width: '42px', height: '42px', border: '2px solid #04bd20', objectFit: 'cover' }} />
+                                        <div className="overflow-hidden">
+                                            <p className="fw-bold text-white mb-0 text-truncate" style={{ fontSize: '0.9rem' }}>@{username || 'Profile'}</p>
+                                            <span className="badge rounded-pill" style={{ background: 'rgba(4,189,32,0.25)', color: '#4dfa6a', fontSize: '0.68rem' }}>Student</span>
+                                        </div>
+                                    </div>
+                                    {/* Links */}
+                                    <div className="py-2 px-2">
+                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/profile">
+                                            <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user fa-fw"></i></span>
+                                            View Profile
+                                        </Link>
+                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/myLearning">
+                                            <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap fa-fw"></i></span>
+                                            My Learning
+                                        </Link>
+                                        {hasUserRole("Admin", "Instructor") && (
+                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
+                                                <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
+                                                Dashboard
+                                            </Link>
+                                        )}
+                                    </div>
+                                    <div className="px-2 pb-2">
+                                        <div className="dropdown-divider my-0 mb-2"></div>
+                                        <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 text-danger" onClick={handleLogout}
+                                            style={{ fontWeight: 600 }}>
+                                            <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-right-from-bracket fa-fw"></i></span>
+                                            Sign Out
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
@@ -122,22 +154,53 @@ const Navbar = ({ setProgress = () => { } }) => {
 
                             {token ? (
                                 <li className="nav-item dropdown d-none d-lg-block">
-                                    <a className="nav-link p-0" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
-                                        <img className="profile-img rounded-circle" src={profile} alt="Avatar" style={{ width: '38px', height: '38px', border: '2px solid var(--primary-color)', padding: '2px' }} />
+                                    <a className="nav-link p-0 d-flex align-items-center gap-2" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img className="rounded-circle" src={profile} alt="Avatar"
+                                            style={{ width: '38px', height: '38px', border: '2.5px solid #04bd20', objectFit: 'cover' }} />
+                                        <i className="fa-solid fa-chevron-down text-muted" style={{ fontSize: '0.65rem' }}></i>
                                     </a>
-                                    <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2" style={{ minWidth: '200px' }}>
-                                        <li className="px-3 py-2 border-bottom mb-1">
-                                            <span className="d-block small text-muted">Signed in as</span>
-                                            <span className="fw-bold">Student</span>
-                                        </li>
-                                        <li><Link className="dropdown-item py-2" href="/myLearning">My Learning</Link></li>
-                                        <li><Link className="dropdown-item py-2" href="/profile">View Profile</Link></li>
-                                        {hasUserRole("Admin", "Instructor") && (
-                                            <li><Link className="dropdown-item py-2 fw-bold text-primary" href="/dashboard">Admin Dashboard</Link></li>
-                                        )}
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li><button className="dropdown-item py-2 text-danger" onClick={handleLogout}>Logout</button></li>
-                                    </ul>
+                                    <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '250px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
+                                        {/* User Header */}
+                                        <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
+                                            <div className="position-relative flex-shrink-0">
+                                                <img src={profile} alt="Avatar" className="rounded-circle" style={{ width: '48px', height: '48px', border: '2px solid #04bd20', objectFit: 'cover' }} />
+                                                <span className="position-absolute bottom-0 end-0 rounded-circle" style={{ width: '13px', height: '13px', background: '#04bd20', border: '2px solid #0f172a' }}></span>
+                                            </div>
+                                            <div className="overflow-hidden">
+                                                <p className="text-white mb-0 text-truncate" style={{ fontWeight: 600, fontSize: '0.9rem', letterSpacing: '-0.01em' }}>@{username || 'Profile'}</p>
+                                                <span className="px-2 py-0" style={{ background: 'rgba(4,189,32,0.22)', color: '#5ef774', fontSize: '0.68rem', fontWeight: 600, borderRadius: '50px', letterSpacing: '0.03em' }}>Student</span>
+                                            </div>
+                                        </div>
+                                        {/* Menu Items */}
+                                        <div className="py-1 px-2">
+                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/profile">
+                                                <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user fa-fw"></i></span>
+                                                <span className="dd-label">View Profile</span>
+                                            </Link>
+                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/myLearning">
+                                                <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap fa-fw"></i></span>
+                                                <span className="dd-label">My Learning</span>
+                                            </Link>
+                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/notes">
+                                                <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-file-lines fa-fw"></i></span>
+                                                <span className="dd-label">Browse Notes</span>
+                                            </Link>
+                                            {hasUserRole("Admin", "Instructor") && (
+                                                <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
+                                                    <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
+                                                    <span className="dd-label">Admin Dashboard</span>
+                                                </Link>
+                                            )}
+                                        </div>
+                                        <div className="px-2 pb-2">
+                                            <div style={{ height: '1px', background: '#f0f0f0', margin: '0 4px 8px' }}></div>
+                                            <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3" onClick={handleLogout}
+                                                style={{ color: '#dc3545', fontWeight: 600, fontSize: '0.875rem' }}>
+                                                <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-right-from-bracket fa-fw"></i></span>
+                                                <span>Sign Out</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </li>
                             ) : (
                                 <li className="nav-item ms-lg-2">
@@ -201,6 +264,14 @@ const Navbar = ({ setProgress = () => { } }) => {
                     </div>
                 </div>
             </div>
+            <style jsx>{`
+                .profile-dropdown { animation: dropIn 0.15s ease; }
+                @keyframes dropIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+                .profile-item { font-size: 0.875rem; font-weight: 500; color: #374151; transition: background 0.12s; }
+                .profile-item:hover { background: #f0fdf4 !important; color: #039419 !important; }
+                .dd-label { font-size: 0.875rem; font-weight: 500; line-height: 1.3; }
+                .dd-icon { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.8rem; }
+            `}</style>
         </>
     )
 }

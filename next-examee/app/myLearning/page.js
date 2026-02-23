@@ -15,6 +15,24 @@ const TABS = [
     { key: 'courses', label: 'Courses', icon: 'fa-book' },
 ];
 
+// Professional section heading with icon, title, and count
+function SectionHeader({ icon, color, title, count, unit }) {
+    return (
+        <div className="d-flex align-items-center gap-3 mb-4 pb-2" style={{ borderBottom: '1px solid #f1f1f1' }}>
+            <div className={`rounded-3 bg-${color} bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0`}
+                style={{ width: '38px', height: '38px' }}>
+                <i className={`fa-solid ${icon} text-${color}`} style={{ fontSize: '0.95rem' }}></i>
+            </div>
+            <div>
+                <h2 className="mb-0 text-dark" style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>{title}</h2>
+                <p className="mb-0" style={{ fontSize: '0.75rem', color: '#9ca3af', fontWeight: 500, marginTop: '1px' }}>
+                    {count} {unit}{count !== 1 ? 's' : ''} saved
+                </p>
+            </div>
+        </div>
+    );
+}
+
 export default function MyLearningPage({ setProgress = () => { } }) {
     const context = useContext(ContentContext);
     const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, MyLearningCourse } = context;
@@ -45,23 +63,27 @@ export default function MyLearningPage({ setProgress = () => { } }) {
 
     return (
         <main className="bg-light min-vh-100">
-            {/* Top Header — clean inline style, no big dark banner */}
-            <div className="bg-white border-bottom py-4">
-                <div className="container-lg px-4">
-                    <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+            {/* Page header — slim, professional */}
+            <div className="bg-white border-bottom">
+                <div className="container-lg px-4 py-3">
+                    <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
                         <div>
-                            <nav aria-label="breadcrumb" className="mb-1">
-                                <ol className="breadcrumb small mb-0">
+                            <nav aria-label="breadcrumb">
+                                <ol className="breadcrumb mb-1" style={{ fontSize: '0.78rem' }}>
                                     <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                                    <li className="breadcrumb-item active text-green fw-medium">My Learning</li>
+                                    <li className="breadcrumb-item active text-green" style={{ fontWeight: 500 }}>My Learning</li>
                                 </ol>
                             </nav>
-                            <h2 className="fw-bold text-dark mb-0 mt-1">My <span className="text-green">Learning Hub</span></h2>
-                            <p className="text-muted small mb-0 mt-1">Your saved resources — all in one place.</p>
+                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.35rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+                                My <span className="text-green">Learning Hub</span>
+                            </h1>
+                            <p className="text-muted mb-0" style={{ fontSize: '0.82rem', marginTop: '2px' }}>Your saved resources — all in one place.</p>
                         </div>
-                        <div className="d-flex align-items-center gap-2">
-                            <span className="badge bg-green-soft text-green fw-bold px-3 py-2 rounded-pill">
-                                <i className="fa-solid fa-layer-group me-1"></i> {totalItems} Total Resources
+                        <div className="flex-shrink-0">
+                            <span className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3"
+                                style={{ background: 'rgba(4,189,32,0.08)', color: '#039419', fontSize: '0.8rem', fontWeight: 600 }}>
+                                <i className="fa-solid fa-layer-group" style={{ fontSize: '0.75rem' }}></i>
+                                {totalItems} Resources
                             </span>
                         </div>
                     </div>
@@ -78,13 +100,13 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                 onClick={() => setActiveTab(activeTab === stat.key ? 'all' : stat.key)}
                                 style={{ cursor: 'pointer' }}
                             >
-                                <div className="card-body d-flex justify-content-between align-items-center p-3 p-md-4">
+                                <div className="card-body d-flex justify-content-between align-items-center px-3 py-3">
                                     <div>
-                                        <p className="small text-muted fw-bold text-uppercase mb-1" style={{ fontSize: '0.72rem', letterSpacing: '0.08em' }}>{stat.label}</p>
-                                        <h2 className="fw-bold m-0">{stat.count}</h2>
+                                        <p className="text-muted text-uppercase mb-1 stat-label">{stat.label}</p>
+                                        <p className="mb-0 stat-count">{stat.count}</p>
                                     </div>
-                                    <div className={`rounded-3 bg-${stat.color} bg-opacity-10 d-flex align-items-center justify-content-center`} style={{ width: '52px', height: '52px' }}>
-                                        <i className={`fa-solid ${stat.icon} text-${stat.color} fs-4`}></i>
+                                    <div className={`rounded-3 bg-${stat.color} bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0`} style={{ width: '44px', height: '44px' }}>
+                                        <i className={`fa-solid ${stat.icon} text-${stat.color}`} style={{ fontSize: '1.15rem' }}></i>
                                     </div>
                                 </div>
                             </div>
@@ -93,18 +115,18 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 </div>
 
                 {/* Category Tabs */}
-                <div className="bg-white rounded-4 shadow-sm border mb-4 p-1">
-                    <ul className="nav nav-pills gap-1 p-1 flex-nowrap overflow-auto" style={{ scrollbarWidth: 'none' }}>
+                <div className="bg-white rounded-3 border mb-4" style={{ padding: '4px' }}>
+                    <ul className="nav gap-1 flex-nowrap overflow-auto" style={{ scrollbarWidth: 'none', padding: '2px' }}>
                         {TABS.map((tab) => (
                             <li key={tab.key} className="nav-item flex-shrink-0">
                                 <button
-                                    className={`nav-link fw-medium px-4 py-2 rounded-3 d-flex align-items-center gap-2 ${activeTab === tab.key ? 'nav-active' : 'text-muted'}`}
+                                    className={`tab-btn d-flex align-items-center gap-2 rounded-3 ${activeTab === tab.key ? 'tab-btn--active' : 'tab-btn--idle'}`}
                                     onClick={() => setActiveTab(tab.key)}
                                 >
-                                    <i className={`fa-solid ${tab.icon}`}></i>
-                                    {tab.label}
+                                    <i className={`fa-solid ${tab.icon}`} style={{ fontSize: '0.8rem' }}></i>
+                                    <span>{tab.label}</span>
                                     {tab.key !== 'all' && (
-                                        <span className={`badge rounded-pill ms-1 ${activeTab === tab.key ? 'bg-white text-green' : 'bg-light text-muted'}`} style={{ fontSize: '0.72rem' }}>
+                                        <span className={`tab-count ${activeTab === tab.key ? 'tab-count--active' : ''}`}>
                                             {tab.key === 'notes' ? MyLearningNotes?.length || 0
                                                 : tab.key === 'videos' ? MyLearningVideo?.length || 0
                                                     : tab.key === 'pyq' ? MyLearningPYQ?.length || 0
@@ -132,15 +154,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                         {/* Notes */}
                         {showNotes && MyLearningNotes?.length > 0 && (
                             <div className="mb-5">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <div className="rounded-3 bg-success bg-opacity-10 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                                        <i className="fa-solid fa-file-lines text-success"></i>
-                                    </div>
-                                    <div>
-                                        <h5 className="fw-bold text-dark mb-0">Saved Notes</h5>
-                                        <p className="text-muted small mb-0">{MyLearningNotes.length} note{MyLearningNotes.length > 1 ? 's' : ''} saved</p>
-                                    </div>
-                                </div>
+                                <SectionHeader icon="fa-file-lines" color="success" title="Saved Notes" count={MyLearningNotes.length} unit="note" />
                                 <div className="row g-4">
                                     {MyLearningNotes.map((note) => (
                                         <div key={note._id} className="col-xl-3 col-lg-4 col-md-6">
@@ -154,15 +168,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                         {/* Videos */}
                         {showVideos && MyLearningVideo?.length > 0 && (
                             <div className="mb-5">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <div className="rounded-3 bg-primary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                                        <i className="fa-solid fa-circle-play text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <h5 className="fw-bold text-dark mb-0">Video Library</h5>
-                                        <p className="text-muted small mb-0">{MyLearningVideo.length} lecture{MyLearningVideo.length > 1 ? 's' : ''} saved</p>
-                                    </div>
-                                </div>
+                                <SectionHeader icon="fa-circle-play" color="primary" title="Video Library" count={MyLearningVideo.length} unit="lecture" />
                                 <div className="row g-4">
                                     {MyLearningVideo.map((video) => (
                                         <div key={video._id} className="col-xl-3 col-lg-4 col-md-6">
@@ -176,15 +182,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                         {/* Q-Papers */}
                         {showPYQ && MyLearningPYQ?.length > 0 && (
                             <div className="mb-5">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <div className="rounded-3 bg-warning bg-opacity-10 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                                        <i className="fa-solid fa-circle-question text-warning"></i>
-                                    </div>
-                                    <div>
-                                        <h5 className="fw-bold text-dark mb-0">Question Papers</h5>
-                                        <p className="text-muted small mb-0">{MyLearningPYQ.length} paper{MyLearningPYQ.length > 1 ? 's' : ''} saved</p>
-                                    </div>
-                                </div>
+                                <SectionHeader icon="fa-circle-question" color="warning" title="Question Papers" count={MyLearningPYQ.length} unit="paper" />
                                 <div className="row g-4">
                                     {MyLearningPYQ.map((pyq) => (
                                         <div key={pyq._id} className="col-xl-3 col-lg-4 col-md-6">
@@ -198,15 +196,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                         {/* Courses */}
                         {showCourses && MyLearningCourse?.length > 0 && (
                             <div className="mb-5">
-                                <div className="d-flex align-items-center gap-3 mb-3">
-                                    <div className="rounded-3 bg-info bg-opacity-10 d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
-                                        <i className="fa-solid fa-book text-info"></i>
-                                    </div>
-                                    <div>
-                                        <h5 className="fw-bold text-dark mb-0">Enrolled Courses</h5>
-                                        <p className="text-muted small mb-0">{MyLearningCourse.length} course{MyLearningCourse.length > 1 ? 's' : ''} enrolled</p>
-                                    </div>
-                                </div>
+                                <SectionHeader icon="fa-book" color="info" title="Enrolled Courses" count={MyLearningCourse.length} unit="course" />
                                 <div className="row g-4">
                                     {MyLearningCourse.map((course) => (
                                         <div key={course._id} className="col-xl-3 col-lg-4 col-md-6">
@@ -236,15 +226,23 @@ export default function MyLearningPage({ setProgress = () => { } }) {
 
             <style jsx>{`
                 .text-green { color: #04bd20 !important; }
-                .bg-green-soft { background-color: rgba(4, 189, 32, 0.1) !important; }
-                .btn-green { background: #04bd20; color: white; border: none; }
+                .btn-green { background: #04bd20; color: white; border: none; font-weight: 600; }
                 .btn-green:hover { background: #03a61c; color: white; }
-                .stat-card { transition: all 0.25s; border: 2px solid transparent !important; }
-                .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.07) !important; }
-                .stat-card--active { border: 2px solid #04bd20 !important; background: rgba(4,189,32,0.03) !important; }
-                .nav-active { background: linear-gradient(135deg, #04bd20, #039419) !important; color: white !important; }
-                .nav-link { transition: all 0.2s; border: none; background: transparent; }
-                .nav-link:hover:not(.nav-active) { background: #f8f9fa !important; color: #333 !important; }
+
+                /* Stat cards */
+                .stat-card { transition: all 0.22s; border: 1.5px solid transparent !important; background: white; }
+                .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07) !important; }
+                .stat-card--active { border-color: #04bd20 !important; background: rgba(4,189,32,0.03) !important; }
+                .stat-label { font-size: 0.7rem; letter-spacing: 0.07em; font-weight: 600; }
+                .stat-count { font-size: 1.6rem; font-weight: 700; color: #111; line-height: 1; }
+
+                /* Tab buttons */
+                .tab-btn { padding: 7px 16px; font-size: 0.84rem; font-weight: 500; border: none; background: transparent; color: #6b7280; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
+                .tab-btn--idle:hover { background: #f3f4f6; color: #111; }
+                .tab-btn--active { background: #04bd20; color: white; font-weight: 600; }
+                .tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; padding: 0 5px; background: rgba(255,255,255,0.25); color: white; }
+                .tab-count:not(.tab-count--active) { background: #e5e7eb; color: #6b7280; }
+                .tab-count--active { background: rgba(255,255,255,0.3); color: white; }
             `}</style>
         </main>
     );
