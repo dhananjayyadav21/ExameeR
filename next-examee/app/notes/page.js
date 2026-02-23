@@ -47,25 +47,33 @@ function NotesContent({ setProgress = () => { } }) {
 
     return (
         <main className="bg-light min-vh-100">
-            {/* Notes Hero Section */}
-            <div className="bg-white border-bottom py-5">
-                <div className="container px-4">
+            {/* Notes Professional Banner - Dark Theme */}
+            <div className="position-relative overflow-hidden py-5 mb-0" style={{ background: 'linear-gradient(135deg, #1e293b 0%, #064e3b 100%)' }}>
+                <div className="position-absolute top-0 end-0 w-50 h-100 opacity-10 d-none d-lg-block">
+                    <i className="fa-solid fa-book-open position-absolute" style={{ fontSize: '20rem', right: '-5rem', top: '-2rem', transform: 'rotate(-15deg)' }}></i>
+                </div>
+                <div className="container px-4 position-relative z-1 py-lg-4">
                     <div className="row align-items-center">
                         <div className="col-lg-7">
-                            <nav aria-label="breadcrumb" className="mb-3">
-                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide">
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                                    <li className="breadcrumb-item active text-primary" aria-current="page">Study Notes</li>
+                            <nav aria-label="breadcrumb" className="mb-4">
+                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
+                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-light-muted opacity-75">Home</a></li>
+                                    <li className="breadcrumb-item active text-green" aria-current="page">Study Resources</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-5 fw-bold mb-3">Explore & Discover <span className="text-gradient">Your Notes</span></h1>
-                            <p className="lead text-secondary mb-0">
-                                Access a vast library of expert-curated notes. Filter by category, sort by relevance, and download for offline study.
+                            <h1 className="display-4 fw-bold mb-3 text-white">Expert <span className="text-green">Study Notes</span></h1>
+                            <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
+                                Turbocharge your learning with expert-curated notes. Detailed, easy-to-understand, and designed for maximum retention.
                             </p>
-                        </div>
-                        <div className="col-lg-5 d-none d-lg-block text-end">
-                            <div className="p-4 bg-primary-subtle rounded-4 d-inline-block shadow-sm boop-hover transition-all">
-                                <i className="fa-solid fa-book-open-reader display-4 text-primary"></i>
+                            <div className="d-flex gap-3">
+                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
+                                    <i className="fa-solid fa-circle-check text-green"></i>
+                                    <span className="text-white fw-medium">Verified Content</span>
+                                </div>
+                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
+                                    <i className="fa-solid fa-download text-primary"></i>
+                                    <span className="text-white fw-medium">Free Access</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,8 +130,8 @@ function NotesContent({ setProgress = () => { } }) {
                 {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="d-flex justify-content-center mt-5">
-                        <nav className="shadow-sm rounded-pill bg-white p-2">
-                            <ul className="pagination mb-0 border-0 overflow-hidden">
+                        <nav className="shadow-sm rounded-pill bg-white p-2 border">
+                            <ul className="pagination mb-0 border-0">
                                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                                     <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} className="page-link border-0 rounded-circle mx-1"><i className="fa-solid fa-chevron-left"></i></button>
                                 </li>
@@ -131,7 +139,7 @@ function NotesContent({ setProgress = () => { } }) {
                                     <li key={page} className="page-item">
                                         <button
                                             onClick={() => setCurrentPage(page)}
-                                            className={`page-link border-0 rounded-circle mx-1 fw-bold ${currentPage === page ? 'bg-primary text-white shadow-sm' : 'text-muted'}`}
+                                            className={`page-link border-0 rounded-circle mx-1 fw-bold ${currentPage === page ? 'btn-green text-white shadow-sm' : 'text-muted'}`}
                                         >
                                             {page}
                                         </button>
@@ -147,12 +155,12 @@ function NotesContent({ setProgress = () => { } }) {
             </div>
 
             <style jsx>{`
-                .text-gradient { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+                .text-green { color: #04bd20 !important; }
+                .btn-green { background: #04bd20; color: white; border: none; }
+                .btn-green:hover { background: #03a61c; color: white; }
                 .ls-wide { letter-spacing: 0.1em; }
-                .btn-white { background: #fff; color: #1e293b; }
-                .btn-white:hover { background: #f8fafc; }
-                .boop-hover:hover { transform: scale(1.05) rotate(5deg); }
-                .transition-all { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                .btn-white { background: #fff; }
+                .transition-all { transition: all 0.3s ease; }
             `}</style>
         </main>
     );

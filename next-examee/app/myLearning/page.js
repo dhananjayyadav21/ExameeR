@@ -158,7 +158,11 @@ export default function MyLearningPage({ setProgress = () => { } }) {
 
                         <div className="container-lg mt-2 mt-md-4">
                             <div className="row g-4">
-                                {MyLearningCourse?.map((e) => <CourceIteam key={e._id} Course={e} />)}
+                                {MyLearningCourse?.map((e) => (
+                                    <div key={e._id} className="col-xl-3 col-lg-4 col-md-6">
+                                        <CourceIteam Course={e} />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>

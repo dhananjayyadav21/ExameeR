@@ -87,17 +87,17 @@ export default function Home({ setProgress = () => { } }) {
           <div className="row align-items-center" style={{ minHeight: '100vh' }}>
             <div className="col-lg-6 mb-5 mb-lg-0 py-5">
               <div className="d-inline-flex align-items-center bg-light border rounded-pill px-3 py-1 mb-4 animated-fade-in">
-                <span className="badge bg-primary rounded-pill me-2">New</span>
+                <span className="badge bg-green rounded-pill me-2">New</span>
                 <span className="small text-muted fw-medium">All-in-one platform for your academic success</span>
               </div>
 
               <h1 className="display-4 fw-bold mb-4 ls-tight text-dark">
-                Elevate Your <span className="text-primary">Studies</span> to the Next Level.
+                Elevate Your <span className="text-green">Studies</span> to the Next Level.
               </h1>
 
               <h3 className="h4 fw-normal text-secondary mb-4">
                 Access 10,000+ curated &nbsp;
-                <span className="fw-bold text-dark border-bottom border-primary border-3">
+                <span className="fw-bold text-dark border-bottom border-green border-3">
                   <ReactTyped strings={["Study Notes", "Previous Papers", "Expert Lectures", "Full Courses"]} typeSpeed={60} backSpeed={30} loop />
                 </span>
               </h3>
@@ -123,7 +123,7 @@ export default function Home({ setProgress = () => { } }) {
                     </div>
                   </div>
                   <div className="col-auto">
-                    <button type="submit" className="btn btn-primary rounded-pill px-5 py-3 fw-bold shadow-md hover-scale">
+                    <button type="submit" className="btn btn-green rounded-pill px-5 py-3 fw-bold shadow-md hover-scale">
                       Explore
                     </button>
                   </div>
@@ -145,7 +145,7 @@ export default function Home({ setProgress = () => { } }) {
                     {['notes', 'pyq', 'video'].map((type) => (
                       <button
                         key={type}
-                        className={`btn rounded-pill px-4 py-2 fw-medium transition-all ${searchType === type ? 'btn-primary shadow-sm' : 'btn-light border text-muted'}`}
+                        className={`btn rounded-pill px-4 py-2 fw-medium transition-all ${searchType === type ? 'btn-green shadow-sm' : 'btn-light border text-muted'}`}
                         onClick={() => setSearchType(type)}
                       >
                         Search {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -164,8 +164,8 @@ export default function Home({ setProgress = () => { } }) {
                 <div className="position-absolute d-none d-xl-block" style={{ top: '10%', left: '-10%', zIndex: 2 }}>
                   <div className="bg-white border p-3 rounded-4 shadow-lg animated-bounce-slow">
                     <div className="d-flex align-items-center gap-3">
-                      <div className="bg-primary-subtle p-2 rounded-circle" style={{ width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <i className="fa-solid fa-file-pdf text-primary"></i>
+                      <div className="bg-green-subtle p-2 rounded-circle" style={{ width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <i className="fa-solid fa-file-pdf text-green"></i>
                       </div>
                       <div className="text-start">
                         <div className="fw-bold small text-dark">500+ Notes</div>
@@ -199,7 +199,7 @@ export default function Home({ setProgress = () => { } }) {
         <div className="container">
           <div className="row g-4 text-center">
             {[
-              { val: '4+', label: 'Prog. Notes', color: 'primary' },
+              { val: '4+', label: 'Prog. Notes', color: 'green' },
               { val: '3+', label: 'Special Courses', color: 'info' },
               { val: '150+', label: 'Lecture Hours', color: 'warning' },
               { val: '20+', label: 'Mock Papers', color: 'danger' }
@@ -219,7 +219,7 @@ export default function Home({ setProgress = () => { } }) {
       <section className="py-custom px-3">
         <div className="container">
           <div className="text-center mb-5">
-            <h6 className="text-primary fw-bold text-uppercase ls-wide mb-2">Academic Excellence</h6>
+            <h6 className="text-green fw-bold text-uppercase ls-wide mb-2">Academic Excellence</h6>
             <h2 className="display-5 fw-bold mb-3 text-dark">Our Featured Courses</h2>
             <div className="mx-auto" style={{ width: '80px', height: '4px', background: 'var(--primary-gradient)', borderRadius: '2px' }}></div>
           </div>
@@ -231,18 +231,22 @@ export default function Home({ setProgress = () => { } }) {
                   <i className="fa-solid fa-lock fs-1 text-muted mb-4 opacity-25"></i>
                   <h3 className="text-dark">Join to explore our premium courses</h3>
                   <p className="text-muted mb-4">You need to be a member to see the full catalog and track your progress.</p>
-                  <Link href="/auth" className="btn btn-primary rounded-pill px-5 py-2 fw-bold">Sign Up Now</Link>
+                  <Link href="/auth" className="btn btn-green rounded-pill px-5 py-2 fw-bold">Sign Up Now</Link>
                 </div>
               </div>
             ) : (
               <>
                 {Course.length === 0 ? (
                   <div className="col-12 text-center py-5">
-                    <div className="spinner-border text-primary" role="status"></div>
+                    <div className="spinner-border text-green" role="status"></div>
                     <p className="mt-3 text-muted">Curating the best content for you...</p>
                   </div>
                 ) : (
-                  Course.map((c, index) => <CourceIteam key={index} Course={c} />)
+                  Course.map((c, index) => (
+                    <div key={index} className="col-xl-3 col-lg-4 col-md-6">
+                      <CourceIteam Course={c} />
+                    </div>
+                  ))
                 )}
               </>
             )}
@@ -250,7 +254,7 @@ export default function Home({ setProgress = () => { } }) {
 
           {token && (
             <div className="text-center mt-5">
-              <button className="btn btn-outline-primary rounded-pill px-5 py-3 fw-bold" onClick={() => router.push('/cource')}>
+              <button className="btn btn-outline-green rounded-pill px-5 py-3 fw-bold" onClick={() => router.push('/cource')}>
                 Browse All Courses <i className="fa-solid fa-arrow-right ms-2"></i>
               </button>
             </div>
@@ -263,7 +267,7 @@ export default function Home({ setProgress = () => { } }) {
         <div className="container">
           <div className="row g-4 h-100">
             {[
-              { h6: "Previous Papers", p: "Master exam patterns with our extensive archives.", icon: "fa-paste", color: "primary" },
+              { h6: "Previous Papers", p: "Master exam patterns with our extensive archives.", icon: "fa-paste", color: "green" },
               { h6: "Video Lectures", p: "Visual learning from industry professionals.", icon: "fa-film", color: "info" },
               { h6: "Study Notes", p: "Crisp and concise notes for quick revision.", icon: "fa-sticky-note", color: "success" },
               { h6: "Mock Tests", p: "Test your knowledge with real-time feedback.", icon: "fa-vial", color: "danger" }
@@ -319,7 +323,7 @@ export default function Home({ setProgress = () => { } }) {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
         }
-        .bg-primary-subtle { background: rgba(13, 110, 253, 0.1); }
+        .bg-primary-subtle { background: rgba(4, 189, 32, 0.1); }
         .bg-success-subtle { background: rgba(25, 135, 84, 0.1); }
         .smaller { font-size: 0.8rem; }
         .hover-scale:hover { transform: scale(1.05); }

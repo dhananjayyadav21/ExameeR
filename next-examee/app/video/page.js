@@ -47,25 +47,33 @@ function VideoContent({ setProgress = () => { } }) {
 
     return (
         <main className="bg-light min-vh-100">
-            {/* Professional Video Hero */}
-            <div className="bg-white border-bottom py-5">
-                <div className="container px-4">
+            {/* Video Professional Banner */}
+            <div className="position-relative overflow-hidden py-5 mb-0" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #064e3b 100%)' }}>
+                <div className="position-absolute top-0 end-0 w-50 h-100 opacity-10 d-none d-lg-block">
+                    <i className="fa-solid fa-play position-absolute" style={{ fontSize: '20rem', right: '-2rem', top: '-1rem', transform: 'rotate(-5deg)' }}></i>
+                </div>
+                <div className="container px-4 position-relative z-1 py-lg-4">
                     <div className="row align-items-center">
                         <div className="col-lg-7">
-                            <nav aria-label="breadcrumb" className="mb-3">
-                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide">
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                                    <li className="breadcrumb-item active text-primary" aria-current="page">Video Lectures</li>
+                            <nav aria-label="breadcrumb" className="mb-4">
+                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
+                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted opacity-75">Home</a></li>
+                                    <li className="breadcrumb-item active text-green" aria-current="page">Video Tutorials</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-5 fw-bold mb-3">Learn Smarter with <span className="text-gradient">Video Lessons</span></h1>
-                            <p className="lead text-secondary mb-0">
-                                "Learn Anytime, Anywhere with Expert-Led Video Lectures". Access professional quality education at your own pace.
+                            <h1 className="display-4 fw-bold mb-3 text-white">Interactive <span className="text-green">Visual Learning</span></h1>
+                            <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
+                                Learn at your own pace with our step-by-step video tutorials. High-quality content designed to make complex concepts easy to grasp.
                             </p>
-                        </div>
-                        <div className="col-lg-5 d-none d-lg-block text-end">
-                            <div className="p-4 bg-danger-subtle rounded-4 d-inline-block shadow-sm boop-hover transition-all">
-                                <i className="fa-solid fa-play display-4 text-danger"></i>
+                            <div className="d-flex gap-3">
+                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
+                                    <i className="fa-solid fa-film text-green"></i>
+                                    <span className="text-white fw-medium font-sm">HD Quality</span>
+                                </div>
+                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
+                                    <i className="fa-solid fa-infinity text-primary"></i>
+                                    <span className="text-white fw-medium font-sm">Lifetime Access</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,15 +83,15 @@ function VideoContent({ setProgress = () => { } }) {
             <div className="container py-5 px-4">
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <h5 className="fw-bold mb-0">Curated Lectures</h5>
+                    <h5 className="fw-bold mb-0 text-dark">Tutorial Catalog</h5>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-arrow-down-wide-short me-2 text-muted"></i>
-                            Sort by: <span className="text-primary">{sortBy === 'latest' ? 'Newest' : 'Oldest'}</span>
+                            Sort by: <span className="text-green">{sortBy === 'latest' ? 'Newest' : 'Oldest'}</span>
                         </button>
                         <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0">
-                            <li><button className="dropdown-item py-2" onClick={() => handleSortByChange('latest')}>Latest Videos</button></li>
-                            <li><button className="dropdown-item py-2" onClick={() => handleSortByChange('oldest')}>Oldest Videos</button></li>
+                            <li><button className="dropdown-item py-2" onClick={() => handleSortByChange('latest')}>Newest First</button></li>
+                            <li><button className="dropdown-item py-2" onClick={() => handleSortByChange('oldest')}>Oldest First</button></li>
                         </ul>
                     </div>
                 </div>
@@ -92,18 +100,15 @@ function VideoContent({ setProgress = () => { } }) {
                 <div className="row g-4">
                     {Video.length === 0 ? (
                         <div className="col-12 py-5 text-center">
-                            <div className="p-5 bg-white rounded-4 shadow-sm">
+                            <div className="p-5 bg-white rounded-4 shadow-sm border">
                                 <i className="fa-solid fa-video-slash display-1 text-muted opacity-25 mb-4"></i>
                                 <h4 className="text-muted">No video lectures found</h4>
                                 <p className="text-secondary">We are currently updating our library. Check back later!</p>
-                                <div className="mt-4 d-flex justify-content-center gap-2">
-                                    {[1, 2, 3, 4].map(i => <div key={i} className="spinner-grow spinner-grow-sm text-primary opacity-50" role="status"></div>)}
-                                </div>
                             </div>
                         </div>
                     ) : (
                         currentVideo?.map((video) => (
-                            <div key={video._id} className="col-lg-6">
+                            <div key={video._id} className="col-xl-3 col-lg-4 col-md-6">
                                 <VideoItem video={video} />
                             </div>
                         ))
@@ -124,7 +129,7 @@ function VideoContent({ setProgress = () => { } }) {
                                     <li key={page} className="page-item">
                                         <button
                                             onClick={() => setCurrentPage(page)}
-                                            className={`page-link border-0 rounded-circle mx-1 fw-bold ${currentPage === page ? 'bg-primary text-white shadow-sm' : 'text-muted'}`}
+                                            className={`page-link border-0 rounded-circle mx-1 fw-bold ${currentPage === page ? 'btn-green text-white shadow-sm' : 'text-muted'}`}
                                         >
                                             {page}
                                         </button>
@@ -142,12 +147,15 @@ function VideoContent({ setProgress = () => { } }) {
             </div>
 
             <style jsx>{`
-                .text-gradient { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+                .text-green { color: #04bd20 !important; }
+                .btn-green { background: #04bd20; color: white; border: none; }
+                .btn-green:hover { background: #03a61c; color: white; }
+                .text-light-muted { color: rgba(255, 255, 255, 0.7) !important; }
                 .ls-wide { letter-spacing: 0.1em; }
                 .btn-white { background: #fff; }
-                .boop-hover:hover { transform: scale(1.05) rotate(5deg); }
-                .bg-danger-subtle { background: rgba(220, 53, 69, 0.1); }
-                .transition-all { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                .backdrop-blur { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+                .font-sm { font-size: 0.85rem; }
+                .transition-all { transition: all 0.3s ease; }
             `}</style>
         </main>
     )

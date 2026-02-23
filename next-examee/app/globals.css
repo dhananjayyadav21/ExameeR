@@ -134,6 +134,49 @@ code {
   color: white;
 }
 
+.text-green {
+  color: var(--primary-color) !important;
+}
+
+.bg-green {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.bg-green-subtle {
+  background-color: rgba(4, 189, 32, 0.1) !important;
+}
+
+.border-green {
+  border-color: var(--primary-color) !important;
+}
+
+.btn-green {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-green:hover {
+  background-color: #03a61c !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(4, 189, 32, 0.2);
+}
+
+.btn-outline-green {
+  background-color: transparent !important;
+  color: var(--primary-color) !important;
+  border: 2px solid var(--primary-color) !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-outline-green:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  transform: translateY(-2px);
+}
+
 .green {
   color: var(--primary-color);
 }
