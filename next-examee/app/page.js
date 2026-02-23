@@ -81,7 +81,7 @@ export default function Home({ setProgress = () => { } }) {
       <section className="hero-section position-relative py-5 py-lg-0 overflow-hidden" style={{ minHeight: '100vh', background: 'white' }}>
         {/* Background Decorative Elements */}
         <div className="position-absolute top-0 end-0 w-50 h-100 bg-light opacity-50 z-0" style={{ clipPath: 'polygon(20% 0%, 100% 0, 100% 100%, 0% 100%)' }}></div>
-        <div className="position-absolute top-50 start-0 translate-middle-y w-25 h-100 bg-primary opacity-5 blur-3xl rounded-circle z-0"></div>
+
 
         <div className="container px-4 position-relative z-1">
           <div className="row align-items-center" style={{ minHeight: '100vh' }}>
