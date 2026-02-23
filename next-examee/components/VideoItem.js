@@ -21,7 +21,6 @@ const VideoItem = ({ video }) => {
         }
     };
 
-
     const [Video, setVideo] = useState(video);
     const pathname = usePathname();
     const isMyLearning = pathname === '/myLearning';
@@ -42,17 +41,13 @@ const VideoItem = ({ video }) => {
             const response = await addInMylearning(data);
             if (response.success === true) {
                 setVideo({ ...Video, isWatching: true });
+                toast.success("Added to My Learning!");
             } else {
-                toast.error(response.message || "Failed to add Video!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to add Video!");
             }
         } catch (error) {
-            toast.error("Failed to add in My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to add in My learning");
         }
-        setShowModal(false);
     };
 
     const handleRemoveToMyLearning = async () => {
@@ -65,68 +60,70 @@ const VideoItem = ({ video }) => {
             const response = await removeFromMylearning(data);
             if (response.success === true) {
                 setVideo({ ...Video, isWatching: false });
-                RemoveMyLearningVideo(Video._id)
+                RemoveMyLearningVideo(Video._id);
+                toast.info("Removed from My Learning");
             } else {
-                toast.error(response.message || "Failed to remove Video!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to remove Video!");
             }
         } catch (error) {
-            toast.error("Failed to remove from My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to remove from My learning");
         }
-        setShowModal(false);
     };
 
     return (
-        <>
+        <div className="h-100">
             <Modal
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={isMyLearning || Video?.isWatching ? handleRemoveToMyLearning : handleAddToMyLearning}
-                heading={isMyLearning || Video?.isWatching ? `Do you want to remove "${Video?.title}" Video from My Learning? ` : `Do you want to add "${Video?.title}" Video in My Learning? `}
-                subHeading={`“Stay organized. Keep everything in one place”`}
+                heading={isMyLearning || Video?.isWatching ? `Remove from Learning?` : `Add to Learning?`}
+                subHeading={Video?.title}
             />
 
-            <div className="col-12 col-sm-6">
-                <div className="card card-transition shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
-                    <div className='position-relative video-container' ref={videoContainerRef}>
-                        <div className="video-player-header bg-white d-flex justify-content-start align-items-center p-1">
-                            <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen} style={{ width: '30px', height: '30px', borderRadius: '4px' }}>
-                                <i className="fa-solid fa-expand"></i>
-                            </div>
-                            <h6 className="card-title px-2 m-0">{(Video?.title || "").slice(0, 20)}..</h6>
-                        </div>
-                        <iframe
-                            className='video-frame w-100'
-                            style={{ height: '300px' }}
-                            src={`https://www.youtube.com/embed/${Video?.fileUrl}`}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        ></iframe>
-                        <div className="video-player-footer bg-white d-flex justify-content-start py-3">
-                            <div>
-                                {isMyLearning ? (
-                                    <button className='btn btn-sm btn-outline-danger' onClick={() => setShowModal(true)} ><small>Remove From Mylearning <i className="fa-solid fa-minus ms-1"></i></small></button>
-                                ) : (
-                                    Video?.isWatching ? (
-                                        <button className='btn btn-sm btn-outline-danger' onClick={() => setShowModal(true)} ><small>Remove From Mylearning <i className="fa-solid fa-minus ms-1"></i></small></button>
-                                    ) : (
-                                        <button className='btn btn-sm btn-outline-success' onClick={() => setShowModal(true)}><small>Add In Mylearning <i className="fa-solid fa-plus ms-1"></i></small></button>
-                                    )
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card-body pt-0 px-1">
-                        <p className="card-text">{(Video?.description || "").slice(0, 85)}..</p>
-                    </div>
+            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
+                <div className="position-relative overflow-hidden bg-dark" ref={videoContainerRef} style={{ aspectRatio: '16/9' }}>
+                    <iframe
+                        className="w-100 h-100 border-0"
+                        src={`https://www.youtube.com/embed/${Video?.fileUrl}?rel=0&modestbranding=1`}
+                        title={Video?.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                    <button
+                        onClick={handleFullscreen}
+                        className="btn btn-sm btn-white position-absolute top-0 end-0 m-2 opacity-0 hover-show rounded-pill shadow-sm"
+                        style={{ zIndex: 10 }}
+                    >
+                        <i className="fa-solid fa-expand"></i>
+                    </button>
                 </div>
+
+                <div className="card-body p-4 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                        <h6 className="fw-bold mb-0 text-truncate-2 flex-grow-1" title={Video?.title}>{Video?.title}</h6>
+                        <button
+                            className={`btn btn-sm p-1 border-0 ms-2 ${Video?.isWatching ? 'text-danger' : 'text-primary'}`}
+                            onClick={() => setShowModal(true)}
+                        >
+                            <i className={`fa-solid ${Video?.isWatching ? 'fa-bookmark' : 'fa-plus-circle'} fs-5`}></i>
+                        </button>
+                    </div>
+                    <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75">
+                        {Video?.description || "No description provided for this video lecture."}
+                    </p>
+                </div>
+
+                <style jsx>{`
+                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
+                    .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+                    .smaller { font-size: 0.75rem; }
+                    .btn-white { background: rgba(255,255,255,0.9); }
+                    .hover-show { transition: opacity 0.3s ease; }
+                    .card:hover .hover-show { opacity: 1 !important; }
+                `}</style>
             </div>
-        </>
+        </div>
     )
 }
 

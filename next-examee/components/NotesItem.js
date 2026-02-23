@@ -34,17 +34,13 @@ const NotesItem = ({ notes }) => {
             const response = await addInMylearning(data);
             if (response.success === true) {
                 setNotes({ ...Notes, isWatching: true });
+                toast.success("Added to My Learning!");
             } else {
-                toast.error(response.message || "Failed to add notes!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to add notes!");
             }
         } catch (error) {
-            toast.error("Failed to add in My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to add in My learning");
         }
-        setShowModal(false);
     };
 
     const handleRemoveToMyLearning = async () => {
@@ -58,17 +54,13 @@ const NotesItem = ({ notes }) => {
             if (response.success === true) {
                 setNotes({ ...Notes, isWatching: false });
                 RemoveMyLearningNotes(Notes._id)
+                toast.info("Removed from My Learning");
             } else {
-                toast.error(response.message || "Failed to remove Notes!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to remove Notes!");
             }
         } catch (error) {
-            toast.error("Failed to remove from My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to remove from My learning");
         }
-        setShowModal(false);
     };
 
     return (
@@ -77,37 +69,48 @@ const NotesItem = ({ notes }) => {
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={isMyLearning || Notes?.isWatching ? handleRemoveToMyLearning : handleAddToMyLearning}
-                heading={isMyLearning || Notes?.isWatching ? `Do You Want To Remove "${Notes?.title}" Notes From My Learning? ` : `Do You Want To Add "${Notes?.title}" Notes In My Learning? `}
-                subHeading={`“Stay organized. Keep everything in one place”`}
+                heading={isMyLearning || Notes?.isWatching ? `Remove from Learning?` : `Add to Learning?`}
+                subHeading={Notes?.title}
             />
 
-            <div className='col-12 col-sm-6 col-md-4 col-lg-3'>
-                <div className="card card-transition p-4 my-3 text-center notes-item rounded-3 shadow-sm" >
-                    <img src="/assets/img/brandlog.png" alt='Notes Img' className="card-img-top align-self-center" style={{ width: "100px" }} />
-                    <div className="card-body">
-                        <h5 className="card-title">{Notes?.title}</h5>
-                        <p className="card-text text-muted">{Notes?.professor}</p>
+            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
+                <div className="card-header border-0 bg-transparent p-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div className="bg-primary-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
+                        <i className="fa-solid fa-file-pdf text-primary fs-4"></i>
                     </div>
-                    <span className="btn-light-gray p-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View Notes</h6></span>
-                    {isMyLearning ? (
-                        <i
-                            className="fa-solid fa-minus position-absolute remove-mylearning z-1"
-                            onClick={() => setShowModal(true)}
-                        ></i>
-                    ) : (
-                        Notes?.isWatching ? (
-                            <i
-                                className="fa-solid fa-minus position-absolute remove-mylearning z-1"
-                                onClick={() => setShowModal(true)}
-                            ></i>
-                        ) : (
-                            <i
-                                className="fa-solid fa-plus position-absolute add-mylearning z-1"
-                                onClick={() => setShowModal(true)}
-                            ></i>
-                        )
-                    )}
+                    <button
+                        className={`btn p-0 border-0 ${Notes?.isWatching ? 'text-danger' : 'text-primary'}`}
+                        onClick={() => setShowModal(true)}
+                        title={Notes?.isWatching ? "Remove from learning" : "Add to learning"}
+                    >
+                        <div className={`rounded-circle shadow-sm border d-flex align-items-center justify-content-center bg-white`} style={{ width: '32px', height: '32px' }}>
+                            <i className={`fa-solid ${Notes?.isWatching ? 'fa-minus' : 'fa-plus'} small`}></i>
+                        </div>
+                    </button>
                 </div>
+
+                <div className="card-body p-4">
+                    <h6 className="fw-bold mb-1 text-truncate" title={Notes?.title}>{Notes?.title}</h6>
+                    <p className="small text-muted mb-4 d-flex align-items-center gap-1">
+                        <i className="fa-solid fa-user-tie smaller opacity-50"></i> {Notes?.professor || "Unknown Author"}
+                    </p>
+
+                    <button
+                        className="btn btn-outline-primary w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
+                        onClick={handleViewPDF}
+                    >
+                        <span>View Notes</span>
+                        <i className="fa-solid fa-arrow-up-right-from-square small"></i>
+                    </button>
+                </div>
+
+                <style jsx>{`
+                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
+                    .hover-fill:hover { background-color: var(--primary-color) !important; color: white !important; border-color: var(--primary-color) !important; }
+                    .smaller { font-size: 0.7rem; }
+                    .smaller-auth { font-size: 0.8rem; }
+                `}</style>
             </div>
         </>
     )

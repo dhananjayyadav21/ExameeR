@@ -1,18 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
 :root {
   --primary-white: #ffffff;
   --card-item-bg: #ffffff;
 
   --primary-color: #04bd20;
+  --primary-gradient: linear-gradient(135deg, #04bd20 0%, #039419 100%);
   --primary-contrast-1: #039419;
-  --primary-input-focus: #04c02051;
+  --primary-input-focus: rgba(4, 192, 32, 0.2);
 
   --primary-2-color: #e58fff;
+  --primary-2-gradient: linear-gradient(135deg, #e58fff 0%, #7b08a8 100%);
   --primary-2-contrast: #7b08a8;
+
   --primary-3-color: #5aeaea;
+  --primary-3-gradient: linear-gradient(135deg, #5aeaea 0%, #17a2b8 100%);
 
+  --primary-sidebar-bg: #f8fafc;
+  --primary-mainComponent-bg: #ffffff;
 
-  --primary-sidebar-bg: #f3f3f3;
-  --primary-mainComponent-bg: #fdfdfd;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.3);
 }
 
 * {
@@ -23,11 +40,21 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+  color: var(--text-main);
+  background-color: #fcfcfc;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
 }
 
 /* Hide built-in show/hide button in Microsoft Edge */
@@ -124,8 +151,43 @@ code {
   cursor: pointer;
 }
 
-.cursor-default {
-  cursor: default;
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.animated-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.text-light-muted {
+  color: rgba(255, 255, 255, 0.65) !important;
 }
 
 /* ------------------- for the video-palyer card ----------------- */

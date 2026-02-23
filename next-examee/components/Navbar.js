@@ -11,8 +11,8 @@ const Navbar = ({ setProgress = () => { } }) => {
     const pathname = usePathname();
     const isDashboard = pathname.startsWith('/dashboard');
 
-    const [display, setDisplay] = useState("none");
-    const [openMBDisply, setopenMBDisply] = useState("");
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [token, setToken] = useState(null);
     const [profile, setProfile] = useState("/assets/img/Avtar.jpg");
 
@@ -22,20 +22,22 @@ const Navbar = ({ setProgress = () => { } }) => {
         if (storedProfile && storedProfile !== "undefined") {
             setProfile(storedProfile);
         }
+
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const openMobileBar = () => {
+    const toggleMobileMenu = () => {
         setProgress(0);
-        setDisplay("");
-        setopenMBDisply("none");
+        setIsMobileMenuOpen(!isMobileMenuOpen);
         setProgress(100);
     }
 
-    const closeMobileBar = () => {
-        setProgress(0);
-        setDisplay("none");
-        setopenMBDisply("");
-        setProgress(100);
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
     }
 
     const handleCategoryChange = (category) => {
@@ -43,7 +45,7 @@ const Navbar = ({ setProgress = () => { } }) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('category', category);
         router.push(`?${params.toString()}`);
-        closeMobileBar();
+        closeMobileMenu();
         setProgress(100);
     }
 
@@ -60,170 +62,142 @@ const Navbar = ({ setProgress = () => { } }) => {
 
     return (
         <>
-            <nav id='nav' className="navbar sticky-top navbar-expand-lg shadow-sm nav-color">
-                <div className="container-fluid fs-6">
+            <nav className={`navbar sticky-top navbar-expand-lg transition-all duration-300 py-3 ${isScrolled ? 'shadow-md glass-effect' : ''}`}
+                style={{
+                    backgroundColor: isScrolled ? 'rgba(255, 255, 255, 0.85)' : 'var(--primary-white)',
+                    backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+                    borderBottom: isScrolled ? '1px solid var(--border-color)' : 'none'
+                }}>
+                <div className="container px-4">
+                    <Link className="navbar-brand d-flex align-items-center" href="/" onClick={closeMobileMenu}>
+                        <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: "32px", width: "auto" }} />
+                    </Link>
 
-                    {/* Brand-Logo For App */}
-                    <ul className="d-flex flex-row align-items-center mb-0 pl-0">
-                        <Link className="nav-text navbar-brand mt-0" href="/"><img src="/assets/img/brandlog.png" alt="Examee" style={{ width: "110px" }} onClick={closeMobileBar} /></Link>
-
-                        {/*=========================== profile icon for MobileBar ==========================*/}
-                        {token ?
-                            <>
-                                <div className="nav-item dropdown d-lg-none" onClick={closeMobileBar}>
-                                    <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <div><img
-                                            className="profile-img rounded-circle"
-                                            src={profile} alt="Avtar" />
-                                        </div>
-                                    </a>
-                                    <ul className="dropdown-menu " style={{ marginRight: "500px" }} aria-labelledby="navbarDropdown">
-                                        <li><Link className="dropdown-item" href="/myLearning">My Learning</Link></li>
-                                        <li><Link className="dropdown-item" href="/profile">View Profile</Link></li>
-                                        <li>
-                                            <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                            </span>
-                                        </li>
-                                        {hasUserRole("Admin", "Instructor") ?
-                                            <><li><hr className="dropdown-divider" /></li>
-                                                <li><Link className="dropdown-item" href="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></> :
-                                            <></>
-                                        }
-                                    </ul>
-                                </div>
-                            </> :
-                            <></>
-                        }
-                    </ul>
-
-                    {/* Hamburger icon for MobileBar */}
-                    <span className='d-flex gap-3'>
-                        {!isDashboard && (
-                            <>
-                                <i className={`fa-solid fa-bars mx-2 align-self-center d-lg-none d-${openMBDisply}`}
-                                    onClick={openMobileBar}>
-                                </i>
-                                <i className={`fa-solid fa-2x fa-xmark align-self-center d-lg-none d-${display}`}
-                                    onClick={closeMobileBar}>
-                                </i>
-                            </>
-                        )}
-                    </span>
-
-                    {/* Colaps item Below Lg Screen */}
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        {/* category filter for diffrent streems */}
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item dropdown">
-                                <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i className="fa-solid fa-layer-group m-2"></i>Category
+                    <div className="d-flex align-items-center gap-3">
+                        {/* Mobile Profile & Toggle */}
+                        {token && (
+                            <div className="nav-item dropdown d-lg-none">
+                                <a className="nav-link p-0" href="#" id="mobileProfileDropdown" role="button" data-bs-toggle="dropdown">
+                                    <img className="profile-img rounded-circle" src={profile} alt="Avatar" style={{ width: '32px', height: '32px', border: '2px solid var(--primary-color)' }} />
                                 </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown" onClick={closeMobileBar}>
-                                    <li><button className="dropdown-item" onClick={() => { handleCategoryChange('sciTechnology') }}>Sci-Technology</button></li>
-                                    <li><button className="dropdown-item" onClick={() => { handleCategoryChange('commerce') }}>Commerce</button></li>
-                                    <li><button className="dropdown-item" onClick={() => { handleCategoryChange('artscivils') }}>Arts & civils</button></li>
+                                <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
+                                    <li><Link className="dropdown-item py-2" href="/myLearning">My Learning</Link></li>
+                                    <li><Link className="dropdown-item py-2" href="/profile">View Profile</Link></li>
+                                    {hasUserRole("Admin", "Instructor") && (
+                                        <li><Link className="dropdown-item py-2 fw-bold text-primary" href="/dashboard">Dashboard</Link></li>
+                                    )}
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><button className="dropdown-item py-2 text-danger" onClick={handleLogout}>Logout</button></li>
+                                </ul>
+                            </div>
+                        )}
+
+                        {!isDashboard && (
+                            <button className="navbar-toggler border-0 p-1" type="button" onClick={toggleMobileMenu}>
+                                <i className={`fa-solid ${isMobileMenuOpen ? 'fa-xmark' : 'fa-bars-staggered'} fs-4`}></i>
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle fw-medium" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i className="fa-solid fa-shapes me-2 opacity-75"></i>Categories
+                                </a>
+                                <ul className="dropdown-menu shadow-lg border-0">
+                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('sciTechnology')}>Sci-Technology</button></li>
+                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('commerce')}>Commerce</button></li>
+                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('artscivils')}>Arts & Civils</button></li>
                                 </ul>
                             </li>
                         </ul>
-                        {/* profile, Notes, Cource, Videos, Q-paper */}
-                        <div>
-                            <ul className="navbar-nav me-auto d-flex align-items-center">
-                                {token ?
-                                    <>
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-text nav-link" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <div><img
-                                                    className="profile-img rounded-circle"
-                                                    src={profile}
-                                                    alt="Avtar" />
-                                                </div>
-                                            </a>
-                                            <ul className="dropdown-menu cursor-pointer" aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item" href="/myLearning">My Learning</Link></li>
-                                                <li><Link className="dropdown-item" href="/profile">View Profile</Link></li>
-                                                <li>
-                                                    <span className="dropdown-item text-danger" onClick={handleLogout}>Logout <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                                    </span>
-                                                </li>
-                                                {hasUserRole("Admin", "Instructor") ?
-                                                    <><li><hr className="dropdown-divider" /></li>
-                                                        <li><Link className="dropdown-item" href="/dashboard"><button className='btn btn-dark w-100'>Dashboard</button></Link></li></> :
-                                                    <></>
-                                                }
-                                            </ul>
+
+                        <ul className="navbar-nav ms-auto align-items-center gap-lg-3">
+                            <li className="nav-item"><Link className="nav-link fw-medium" href="/notes">Notes</Link></li>
+                            <li className="nav-item"><Link className="nav-link fw-medium" href="/video">Video</Link></li>
+                            <li className="nav-item"><Link className="nav-link fw-medium" href="/Q-paper">Q-Paper</Link></li>
+                            <li className="nav-item"><Link className="nav-link fw-medium" href="/cource">Courses</Link></li>
+                            <li className="nav-item"><Link className="nav-link fw-medium" href="/about">About</Link></li>
+
+                            {token ? (
+                                <li className="nav-item dropdown d-none d-lg-block">
+                                    <a className="nav-link p-0" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                                        <img className="profile-img rounded-circle" src={profile} alt="Avatar" style={{ width: '38px', height: '38px', border: '2px solid var(--primary-color)', padding: '2px' }} />
+                                    </a>
+                                    <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2" style={{ minWidth: '200px' }}>
+                                        <li className="px-3 py-2 border-bottom mb-1">
+                                            <span className="d-block small text-muted">Signed in as</span>
+                                            <span className="fw-bold">Student</span>
                                         </li>
-                                    </> :
-                                    <></>
-                                }
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link " href="/notes">Notes</Link>
+                                        <li><Link className="dropdown-item py-2" href="/myLearning">My Learning</Link></li>
+                                        <li><Link className="dropdown-item py-2" href="/profile">View Profile</Link></li>
+                                        {hasUserRole("Admin", "Instructor") && (
+                                            <li><Link className="dropdown-item py-2 fw-bold text-primary" href="/dashboard">Admin Dashboard</Link></li>
+                                        )}
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li><button className="dropdown-item py-2 text-danger" onClick={handleLogout}>Logout</button></li>
+                                    </ul>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link " href="/video">Video</Link>
+                            ) : (
+                                <li className="nav-item ms-lg-2">
+                                    <Link href="/auth" className="btn btn-green rounded-pill px-4 py-2 fw-bold shadow-sm">Get Started</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link" href="/Q-paper">Q-Paper</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link " href="/cource">Course</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link" href="/about">About</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-text nav-link" href="/contact">Support</Link>
-                                </li>
-                                {hasUserRole("Admin") ?
-                                    (<li className="nav-item">
-                                        <Link className="nav-text nav-link" href="/announcement">Announcement</Link>
-                                    </li>) : (<></>)}
-                            </ul>
-                        </div>
+                            )}
+                        </ul>
                     </div>
                 </div>
             </nav>
 
-            {/*========================================= mobilebar ==============================================*/}
-            <div className='MobileBar-container'>
-                <div className={`MobileBar p-2 d-flex d-${display}`}>
-                    <div className="navbar-nav me-auto mb-2 mb-lg-0 ">
-
-                        {/* category filter for diffrent streems */}
-                        <div className="nav-item dropdown">
-                            <a className="nav-text nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i className="fa-solid fa-layer-group mx-2"></i>Category
-                            </a>
-                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><button className="dropdown-item" onClick={() => { handleCategoryChange('sciTechnology') }}>Sci-Technology</button></li>
-                                <li><button className="dropdown-item" onClick={() => { handleCategoryChange('commerce') }}>Commerce</button></li>
-                                <li><button className="dropdown-item" onClick={() => { handleCategoryChange('artscivils') }}>Arts & civils</button></li>
-                            </ul>
+            {/* Mobile Menu Overlay */}
+            <div className={`mobile-menu-overlay d-lg-none transition-all duration-300 ${isMobileMenuOpen ? 'active' : ''}`}
+                style={{
+                    position: 'fixed',
+                    top: '60px',
+                    left: 0,
+                    width: '100%',
+                    height: isMobileMenuOpen ? 'calc(100vh - 60px)' : '0',
+                    backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                    backdropFilter: 'blur(10px)',
+                    zIndex: 1040,
+                    overflow: 'hidden',
+                    opacity: isMobileMenuOpen ? 1 : 0,
+                    visibility: isMobileMenuOpen ? 'visible' : 'hidden'
+                }}>
+                <div className="container py-4">
+                    <div className="row g-4">
+                        <div className="col-12">
+                            <h6 className="text-muted text-uppercase small ls-wide mb-3 px-2">Navigation</h6>
+                            <div className="list-group list-group-flush border-0">
+                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/notes" onClick={closeMobileMenu}>
+                                    <i className="fa-solid fa-note-sticky me-3 text-success"></i>Notes
+                                </Link>
+                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/video" onClick={closeMobileMenu}>
+                                    <i className="fa-solid fa-circle-play me-3 text-info"></i>Videos
+                                </Link>
+                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/Q-paper" onClick={closeMobileMenu}>
+                                    <i className="fa-solid fa-file-lines me-3 text-warning"></i>Q-Paper
+                                </Link>
+                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/cource" onClick={closeMobileMenu}>
+                                    <i className="fa-solid fa-graduation-cap me-3 text-primary"></i>Courses
+                                </Link>
+                            </div>
                         </div>
-                        {/* Notes, Cource, Videos, Q-paper */}
-                        <div onClick={closeMobileBar}>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link " href="/notes"><i className="fa-solid fa-note-sticky mx-2"></i>Notes</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link " href="/video"><i className="fa-solid fa-photo-film mx-2"></i>Video</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link" href="/Q-paper"><i className="fa-regular fa-paste mx-2"></i>Q-Paper</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link " href="/cource"><i className="fa-solid fa-laptop mx-2"></i>Course</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link" href="/about"><i className="fa-regular fa-paste mx-2"></i>About</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-text nav-link" href="/contact"><i className="fas fa-file-alt mx-2"></i>Support</Link>
-                            </li>
-                            {hasUserRole("Admin") ?
-                                (<li className="nav-item">
-                                    <Link className="nav-text nav-link" href="/announcement"><i className="fas fa-file-alt mx-2"></i>Announcement</Link>
-                                </li>) : (<></>)}
+                        <div className="col-12 pt-2">
+                            <h6 className="text-muted text-uppercase small ls-wide mb-3 px-2">Information</h6>
+                            <div className="list-group list-group-flush border-0">
+                                <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/about" onClick={closeMobileMenu}>About Us</Link>
+                                <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/contact" onClick={closeMobileMenu}>Support</Link>
+                                {hasUserRole("Admin") && (
+                                    <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3 text-danger" href="/announcement" onClick={closeMobileMenu}>Announcements</Link>
+                                )}
+                            </div>
                         </div>
+                        {!token && (
+                            <div className="col-12 mt-4 px-4">
+                                <Link href="/auth" className="btn btn-green w-100 py-3 rounded-pill fw-bold shadow-md" onClick={closeMobileMenu}>Login / Register</Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

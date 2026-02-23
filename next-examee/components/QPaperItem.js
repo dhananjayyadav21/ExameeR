@@ -34,17 +34,13 @@ const QPaperItem = ({ pyq }) => {
             const response = await addInMylearning(data);
             if (response.success === true) {
                 setPYQ({ ...PYQ, isWatching: true });
+                toast.success("Added to My Learning!");
             } else {
-                toast.error(response.message || "Failed to add pyq!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to add pyq!");
             }
         } catch (error) {
-            toast.error("Failed to add in My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to add in My learning");
         }
-        setShowModal(false);
     };
 
     const handleRemoveToMyLearning = async () => {
@@ -57,18 +53,14 @@ const QPaperItem = ({ pyq }) => {
             const response = await removeFromMylearning(data);
             if (response.success === true) {
                 setPYQ({ ...PYQ, isWatching: false });
-                RemoveMyLearningPYQ(PYQ._id)
+                RemoveMyLearningPYQ(PYQ._id);
+                toast.info("Removed from My Learning");
             } else {
-                toast.error(response.message || "Failed to remove pyq!", {
-                    position: "top-right"
-                });
+                toast.error(response.message || "Failed to remove pyq!");
             }
         } catch (error) {
-            toast.error("Failed to remove from My learning", {
-                position: "top-right"
-            });
+            toast.error("Failed to remove from My learning");
         }
-        setShowModal(false);
     };
 
     return (
@@ -77,40 +69,47 @@ const QPaperItem = ({ pyq }) => {
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={isMyLearning || PYQ?.isWatching ? handleRemoveToMyLearning : handleAddToMyLearning}
-                heading={isMyLearning || PYQ?.isWatching ? `Do You Want To Remove "${PYQ?.title || PYQ?.subject}" PYQ From My Learning? ` : `Do You Want To Add "${PYQ?.title || PYQ?.subject}" PYQ In My Learning? `}
-                subHeading={`“Stay organized. Keep everything in one place”`}
+                heading={isMyLearning || PYQ?.isWatching ? `Remove from Learning?` : `Add to Learning?`}
+                subHeading={PYQ?.title || PYQ?.subject}
             />
 
-            <div className='col-12 col-sm-6 col-lg-3'>
-                <div className="card card-transition my-3 p-2 py-3 text-center qp-item rounded-3 shadow-sm position-relative" >
-                    <img src="/assets/img/brandlog.png" alt='Notes Img' className="card-img-top align-self-center" style={{ width: "100px" }} />
-                    <div className="card-body ">
-                        <h6 className="card-title">{(PYQ?.title || PYQ?.subject || "").substring(0, 25)}</h6>
-                        <h6 className="text-muted">View PYQ Here</h6>
+            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
+                <div className="card-header border-0 bg-transparent p-4 pb-0 d-flex justify-content-between align-items-center">
+                    <div className="bg-warning-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
+                        <i className="fa-solid fa-file-contract text-warning fs-4"></i>
                     </div>
-                    <div className='d-flex justify-content-between w-100'>
-                        <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer"><h6 className='m-0'>Year - {PYQ?.year}</h6></span>
-                        <span className="btn-light-gray w-50 p-2 mx-2 cursor-pointer" onClick={handleViewPDF}><h6 className='m-0'>View PYQ</h6></span>
-                    </div>
-                    {isMyLearning ? (
-                        <i
-                            className="fa-solid fa-minus position-absolute remove-mylearning z-1"
-                            onClick={() => setShowModal(true)}
-                        ></i>
-                    ) : (
-                        PYQ?.isWatching ? (
-                            <i
-                                className="fa-solid fa-minus position-absolute remove-mylearning z-1"
-                                onClick={() => setShowModal(true)}
-                            ></i>
-                        ) : (
-                            <i
-                                className="fa-solid fa-plus position-absolute add-mylearning z-1"
-                                onClick={() => setShowModal(true)}
-                            ></i>
-                        )
-                    )}
+                    <button
+                        className={`btn p-0 border-0 ${PYQ?.isWatching ? 'text-danger' : 'text-primary'}`}
+                        onClick={() => setShowModal(true)}
+                        title={PYQ?.isWatching ? "Remove from learning" : "Add to learning"}
+                    >
+                        <div className={`rounded-circle shadow-sm border d-flex align-items-center justify-content-center bg-white`} style={{ width: '32px', height: '32px' }}>
+                            <i className={`fa-solid ${PYQ?.isWatching ? 'fa-minus' : 'fa-plus'} small`}></i>
+                        </div>
+                    </button>
                 </div>
+
+                <div className="card-body p-4">
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                        <span className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-bold smaller uppercase-ls">Session {PYQ?.year}</span>
+                    </div>
+                    <h6 className="fw-bold mb-3 text-truncate-2" title={PYQ?.title || PYQ?.subject}>{PYQ?.title || PYQ?.subject}</h6>
+
+                    <button
+                        className="btn btn-dark w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all"
+                        onClick={handleViewPDF}
+                    >
+                        <span>View Question Paper</span>
+                        <i className="fa-solid fa-arrow-right small"></i>
+                    </button>
+                </div>
+
+                <style jsx>{`
+                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
+                    .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5rem; }
+                    .uppercase-ls { letter-spacing: 0.05em; font-size: 0.7rem; }
+                `}</style>
             </div>
         </>
     )
