@@ -8,7 +8,7 @@ import ContentContext from '../../context/ContentContext';
 
 export default function EnrollmentPage({ setProgress = () => { } }) {
     const router = useRouter();
-    const { enrollCourse, selectedCourse: course } = useContext(ContentContext);
+    const { enrollCourse, selectedCourse: course, setSelectedCourse } = useContext(ContentContext);
 
     const [formData, setFormData] = useState({ name: '', email: '', mobile: '', college: '' });
     const [submitted, setSubmitted] = useState(false);
@@ -19,6 +19,11 @@ export default function EnrollmentPage({ setProgress = () => { } }) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => { setProgress(0); setProgress(100); }, []);
+
+    const handleWatchCourse = (course) => {
+        setSelectedCourse(course);
+        router.push('/WatchCourse');
+    };
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value, courseId: course?._id }));
@@ -224,172 +229,217 @@ export default function EnrollmentPage({ setProgress = () => { } }) {
                             </div>
                         </div>
 
-                        {/* Enroll Form card */}
+                        {/* Enroll / Watch Course card */}
                         <div style={{ ...cardStyle, marginTop: '20px' }}>
-                            <div style={cardHeaderStyle('#04bd20', 'rgba(4,189,32,0.06)')}>
-                                <span style={iconBoxStyle('#04bd20', 'rgba(4,189,32,0.12)')}>
-                                    <i className="fa-solid fa-graduation-cap" style={{ color: '#04bd20', fontSize: '0.95rem' }}></i>
-                                </span>
-                                <div>
-                                    <h2 style={sectionTitle}>Enroll Now</h2>
-                                    <p style={sectionSub}>Fill in your details to get started</p>
-                                </div>
-                            </div>
-                            <div style={{ padding: '20px 24px 24px' }}>
-                                {submitted ? (
-                                    <div style={{
-                                        borderRadius: '14px', padding: '32px 24px', textAlign: 'center',
-                                        background: submittedOk ? 'rgba(4,189,32,0.06)' : 'rgba(220,53,69,0.06)',
-                                        border: `1px solid ${submittedOk ? 'rgba(4,189,32,0.2)' : 'rgba(220,53,69,0.2)'}`
-                                    }}>
-                                        <i className={`fa-solid ${submittedOk ? 'fa-circle-check' : 'fa-circle-xmark'} mb-3 d-block`}
-                                            style={{ fontSize: '2.5rem', color: submittedOk ? '#04bd20' : '#dc3545' }}></i>
-                                        <p className="fw-semibold mb-0" style={{ color: submittedOk ? '#039419' : '#dc3545', fontSize: '0.95rem' }}>
-                                            {submittedmsg}
-                                        </p>
+                            {course?.isEnrolled ? (
+                                /* ── Already Enrolled State ── */
+                                <div style={{ padding: '32px 24px', textAlign: 'center' }}>
+                                    <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: 'linear-gradient(135deg,#04bd20,#06d6a0)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', boxShadow: '0 8px 24px rgba(4,189,32,0.35)' }}>
+                                        <i className="fa-solid fa-circle-check" style={{ color: 'white', fontSize: '1.6rem' }}></i>
                                     </div>
-                                ) : (
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="row g-3">
-                                            {[
-                                                { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Your full name', required: true, icon: 'fa-user' },
-                                                { name: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com', required: true, icon: 'fa-envelope' },
-                                                { name: 'mobile', label: 'Mobile Number', type: 'text', placeholder: '+91 XXXXX XXXXX', required: true, icon: 'fa-phone' },
-                                                { name: 'college', label: 'College / University', type: 'text', placeholder: 'Your institution', required: false, icon: 'fa-building-columns' },
-                                            ].map(field => (
-                                                <div key={field.name} className="col-sm-6">
-                                                    <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.78rem', fontWeight: 600, color: '#374151', letterSpacing: '0.02em' }}>
-                                                        {field.label}
-                                                    </label>
-                                                    <div style={{ position: 'relative' }}>
-                                                        <i className={`fa-solid ${field.icon}`} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', fontSize: '0.8rem' }}></i>
-                                                        <input
-                                                            type={field.type} name={field.name}
-                                                            value={formData[field.name]} onChange={handleChange}
-                                                            placeholder={field.placeholder} required={field.required}
-                                                            style={{
-                                                                width: '100%', padding: '10px 12px 10px 34px',
-                                                                borderRadius: '10px', border: '1.5px solid #e5e7eb',
-                                                                fontSize: '0.875rem', outline: 'none',
-                                                                transition: 'border-color 0.2s',
-                                                                fontFamily: 'inherit', background: '#fafafa'
-                                                            }}
-                                                            onFocus={e => e.target.style.borderColor = '#04bd20'}
-                                                            onBlur={e => e.target.style.borderColor = '#e5e7eb'}
-                                                        />
+                                    <h2 style={{ fontWeight: 800, fontSize: '1.2rem', color: '#0f172a', margin: '0 0 8px' }}>You're Already Enrolled!</h2>
+                                    <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '24px' }}>
+                                        You have full access to this course. Start learning now!
+                                    </p>
+                                    <button
+                                        onClick={() => handleWatchCourse(course)}
+                                        style={{
+                                            width: '100%', padding: '14px', borderRadius: '14px',
+                                            border: 'none', background: 'linear-gradient(135deg,#04bd20,#03a01a)',
+                                            color: 'white', fontWeight: 700, fontSize: '0.95rem',
+                                            cursor: 'pointer', display: 'flex', alignItems: 'center',
+                                            justifyContent: 'center', gap: '10px',
+                                            boxShadow: '0 4px 14px rgba(4,189,32,0.35)', transition: 'all 0.2s'
+                                        }}
+                                        onMouseOver={e => e.currentTarget.style.boxShadow = '0 6px 20px rgba(4,189,32,0.5)'}
+                                        onMouseOut={e => e.currentTarget.style.boxShadow = '0 4px 14px rgba(4,189,32,0.35)'}
+                                    >
+                                        <i className="fa-solid fa-circle-play" style={{ fontSize: '1.1rem' }}></i>
+                                        Watch Course Now
+                                        <i className="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                    <button
+                                        onClick={() => router.push('/myLearning')}
+                                        style={{
+                                            width: '100%', padding: '11px', marginTop: '10px', borderRadius: '14px',
+                                            border: '1.5px solid #e2e8f0', background: 'transparent',
+                                            color: '#64748b', fontSize: '0.875rem', fontWeight: 500, cursor: 'pointer',
+                                            transition: 'all 0.2s'
+                                        }}
+                                        onMouseOver={e => { e.currentTarget.style.borderColor = '#94a3b8'; e.currentTarget.style.background = '#f8fafc'; }}
+                                        onMouseOut={e => { e.currentTarget.style.borderColor = '#e2e8f0'; e.currentTarget.style.background = 'transparent'; }}
+                                    >
+                                        <i className="fa-solid fa-book me-2"></i>Go to My Learning
+                                    </button>
+                                </div>
+                            ) : (
+                                <>
+                                    <div style={cardHeaderStyle('#04bd20', 'rgba(4,189,32,0.06)')}>
+                                        <span style={iconBoxStyle('#04bd20', 'rgba(4,189,32,0.12)')}>
+                                            <i className="fa-solid fa-graduation-cap" style={{ color: '#04bd20', fontSize: '0.95rem' }}></i>
+                                        </span>
+                                        <div>
+                                            <h2 style={sectionTitle}>Enroll Now</h2>
+                                            <p style={sectionSub}>Fill in your details to get started</p>
+                                        </div>
+                                    </div>
+                                    <div style={{ padding: '20px 24px 24px' }}>
+                                        {submitted ? (
+                                            <div style={{
+                                                borderRadius: '14px', padding: '32px 24px', textAlign: 'center',
+                                                background: submittedOk ? 'rgba(4,189,32,0.06)' : 'rgba(220,53,69,0.06)',
+                                                border: `1px solid ${submittedOk ? 'rgba(4,189,32,0.2)' : 'rgba(220,53,69,0.2)'}`
+                                            }}>
+                                                <i className={`fa-solid ${submittedOk ? 'fa-circle-check' : 'fa-circle-xmark'} mb-3 d-block`}
+                                                    style={{ fontSize: '2.5rem', color: submittedOk ? '#04bd20' : '#dc3545' }}></i>
+                                                <p className="fw-semibold mb-0" style={{ color: submittedOk ? '#039419' : '#dc3545', fontSize: '0.95rem' }}>
+                                                    {submittedmsg}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <form onSubmit={handleSubmit}>
+                                                <div className="row g-3">
+                                                    {[
+                                                        { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Your full name', required: true, icon: 'fa-user' },
+                                                        { name: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com', required: true, icon: 'fa-envelope' },
+                                                        { name: 'mobile', label: 'Mobile Number', type: 'text', placeholder: '+91 XXXXX XXXXX', required: true, icon: 'fa-phone' },
+                                                        { name: 'college', label: 'College / University', type: 'text', placeholder: 'Your institution', required: false, icon: 'fa-building-columns' },
+                                                    ].map(field => (
+                                                        <div key={field.name} className="col-sm-6">
+                                                            <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.78rem', fontWeight: 600, color: '#374151', letterSpacing: '0.02em' }}>
+                                                                {field.label}
+                                                            </label>
+                                                            <div style={{ position: 'relative' }}>
+                                                                <i className={`fa-solid ${field.icon}`} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', fontSize: '0.8rem' }}></i>
+                                                                <input
+                                                                    type={field.type} name={field.name}
+                                                                    value={formData[field.name]} onChange={handleChange}
+                                                                    placeholder={field.placeholder} required={field.required}
+                                                                    style={{
+                                                                        width: '100%', padding: '10px 12px 10px 34px',
+                                                                        borderRadius: '10px', border: '1.5px solid #e5e7eb',
+                                                                        fontSize: '0.875rem', outline: 'none',
+                                                                        transition: 'border-color 0.2s',
+                                                                        fontFamily: 'inherit', background: '#fafafa'
+                                                                    }}
+                                                                    onFocus={e => e.target.style.borderColor = '#04bd20'}
+                                                                    onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    <div className="col-12 mt-2">
+                                                        <button type="submit" disabled={loading} style={{
+                                                            width: '100%', padding: '14px', borderRadius: '12px',
+                                                            border: 'none', background: loading ? '#94d9a2' : 'linear-gradient(135deg,#04bd20,#03a01a)',
+                                                            color: 'white', fontWeight: 700, fontSize: '0.95rem',
+                                                            cursor: loading ? 'not-allowed' : 'pointer',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                                                            boxShadow: '0 4px 14px rgba(4,189,32,0.25)', transition: 'all 0.2s'
+                                                        }}
+                                                            onMouseOver={e => { if (!loading) e.currentTarget.style.boxShadow = '0 6px 20px rgba(4,189,32,0.38)'; }}
+                                                            onMouseOut={e => e.currentTarget.style.boxShadow = '0 4px 14px rgba(4,189,32,0.25)'}
+                                                        >
+                                                            {loading
+                                                                ? <><span className="spinner-border spinner-border-sm"></span> Enrolling…</>
+                                                                : <><i className="fa-solid fa-bolt"></i> Confirm Enrollment</>}
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            ))}
-                                            <div className="col-12 mt-2">
-                                                <button type="submit" disabled={loading} style={{
-                                                    width: '100%', padding: '14px', borderRadius: '12px',
-                                                    border: 'none', background: loading ? '#94d9a2' : 'linear-gradient(135deg,#04bd20,#03a01a)',
-                                                    color: 'white', fontWeight: 700, fontSize: '0.95rem',
-                                                    cursor: loading ? 'not-allowed' : 'pointer',
-                                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                                    boxShadow: '0 4px 14px rgba(4,189,32,0.25)', transition: 'all 0.2s'
-                                                }}
-                                                    onMouseOver={e => { if (!loading) e.currentTarget.style.boxShadow = '0 6px 20px rgba(4,189,32,0.38)'; }}
-                                                    onMouseOut={e => e.currentTarget.style.boxShadow = '0 4px 14px rgba(4,189,32,0.25)'}
-                                                >
-                                                    {loading
-                                                        ? <><span className="spinner-border spinner-border-sm"></span> Enrolling…</>
-                                                        : <><i className="fa-solid fa-bolt"></i> Confirm Enrollment</>}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                )}
-                            </div>
+                                            </form>
+                                        )}
+                                    </div>
+                                </>
+                            )}
                         </div>
-                    </div>
 
-                    {/* ── RIGHT COLUMN — Sticky Course Card ── */}
-                    <div className="col-lg-5">
-                        <div style={{ ...cardStyle, position: 'sticky', top: '80px' }}>
-                            {/* Thumbnail strip */}
-                            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '20px 20px 0 0' }}>
-                                <img
-                                    src={bannerImg}
-                                    alt={course?.title}
-                                    style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
-                                />
-                                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7))' }} />
-                                {/* Offer badge */}
-                                {course?.offerPercent > 0 && (
-                                    <span style={{
-                                        position: 'absolute', top: '14px', right: '14px',
-                                        background: '#04bd20', color: 'white', fontWeight: 800,
-                                        fontSize: '0.8rem', borderRadius: '8px', padding: '4px 10px'
-                                    }}>
-                                        {course.offerPercent}% OFF
-                                    </span>
-                                )}
-                            </div>
-
-                            {/* Pricing block */}
-                            <div style={{ padding: '20px 24px 0' }}>
-                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '4px' }}>
-                                    <span style={{ fontSize: '2rem', fontWeight: 900, color: '#111', lineHeight: 1 }}>₹{offerPrice}</span>
-                                    {price && price !== offerPrice && (
-                                        <span style={{ textDecoration: 'line-through', color: '#9ca3af', fontSize: '1rem' }}>₹{price}</span>
+                        {/* ── RIGHT COLUMN — Sticky Course Card ── */}
+                        <div className="col-lg-5">
+                            <div style={{ ...cardStyle, position: 'sticky', top: '80px' }}>
+                                {/* Thumbnail strip */}
+                                <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '20px 20px 0 0' }}>
+                                    <img
+                                        src={bannerImg}
+                                        alt={course?.title}
+                                        style={{ width: '100%', height: '200px', objectFit: 'cover', display: 'block' }}
+                                    />
+                                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7))' }} />
+                                    {/* Offer badge */}
+                                    {course?.offerPercent > 0 && (
+                                        <span style={{
+                                            position: 'absolute', top: '14px', right: '14px',
+                                            background: '#04bd20', color: 'white', fontWeight: 800,
+                                            fontSize: '0.8rem', borderRadius: '8px', padding: '4px 10px'
+                                        }}>
+                                            {course.offerPercent}% OFF
+                                        </span>
                                     )}
                                 </div>
-                                <p style={{ color: '#6b7280', fontSize: '0.78rem', margin: '0 0 16px' }}>
-                                    One-time payment · Lifetime access
-                                </p>
 
-                                {/* Quick stats row */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
-                                    {[
-                                        { icon: 'fa-video', label: 'Lectures', value: lectureCnt },
-                                        { icon: 'fa-clock', label: 'Duration', value: course?.duration || '—' },
-                                        { icon: 'fa-person-chalkboard', label: 'Mentor', value: course?.mentor || '—' },
-                                        { icon: 'fa-signal', label: 'Level', value: course?.courseLevel || 'Intermediate' },
-                                    ].map((s, i) => (
-                                        <div key={i} style={{
-                                            background: '#f8fafc', borderRadius: '12px', padding: '12px 14px',
-                                            border: '1px solid #f1f1f1'
-                                        }}>
-                                            <i className={`fa-solid ${s.icon}`} style={{ color: '#04bd20', fontSize: '0.8rem', marginBottom: '4px', display: 'block' }}></i>
-                                            <p style={{ margin: 0, fontSize: '0.68rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</p>
-                                            <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: '#111' }}>{s.value}</p>
-                                        </div>
-                                    ))}
+                                {/* Pricing block */}
+                                <div style={{ padding: '20px 24px 0' }}>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '4px' }}>
+                                        <span style={{ fontSize: '2rem', fontWeight: 900, color: '#111', lineHeight: 1 }}>₹{offerPrice}</span>
+                                        {price && price !== offerPrice && (
+                                            <span style={{ textDecoration: 'line-through', color: '#9ca3af', fontSize: '1rem' }}>₹{price}</span>
+                                        )}
+                                    </div>
+                                    <p style={{ color: '#6b7280', fontSize: '0.78rem', margin: '0 0 16px' }}>
+                                        One-time payment · Lifetime access
+                                    </p>
+
+                                    {/* Quick stats row */}
+                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+                                        {[
+                                            { icon: 'fa-video', label: 'Lectures', value: lectureCnt },
+                                            { icon: 'fa-clock', label: 'Duration', value: course?.duration || '—' },
+                                            { icon: 'fa-person-chalkboard', label: 'Mentor', value: course?.mentor || '—' },
+                                            { icon: 'fa-signal', label: 'Level', value: course?.courseLevel || 'Intermediate' },
+                                        ].map((s, i) => (
+                                            <div key={i} style={{
+                                                background: '#f8fafc', borderRadius: '12px', padding: '12px 14px',
+                                                border: '1px solid #f1f1f1'
+                                            }}>
+                                                <i className={`fa-solid ${s.icon}`} style={{ color: '#04bd20', fontSize: '0.8rem', marginBottom: '4px', display: 'block' }}></i>
+                                                <p style={{ margin: 0, fontSize: '0.68rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</p>
+                                                <p style={{ margin: 0, fontSize: '0.85rem', fontWeight: 700, color: '#111' }}>{s.value}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Divider */}
+                                    <div style={{ height: '1px', background: '#f0f0f0', margin: '0 0 16px' }} />
+
+                                    {/* Course content label */}
+                                    <p style={{ margin: '0 0 10px', fontSize: '0.75rem', fontWeight: 700, color: '#374151', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                                        Course Content
+                                    </p>
                                 </div>
 
-                                {/* Divider */}
-                                <div style={{ height: '1px', background: '#f0f0f0', margin: '0 0 16px' }} />
-
-                                {/* Course content label */}
-                                <p style={{ margin: '0 0 10px', fontSize: '0.75rem', fontWeight: 700, color: '#374151', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                                    Course Content
-                                </p>
-                            </div>
-
-                            {/* Lecture list */}
-                            <div style={{ maxHeight: '240px', overflowY: 'auto', padding: '0 24px 24px' }}>
-                                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #f0f0f0' }}>
-                                    {course?.lectures?.map((lec, i) => (
-                                        <div key={i} style={{
-                                            display: 'flex', alignItems: 'center', gap: '12px',
-                                            padding: '10px 14px',
-                                            background: i % 2 === 0 ? 'white' : '#fafafa',
-                                            borderBottom: i < lectureCnt - 1 ? '1px solid #f3f4f6' : 'none'
-                                        }}>
-                                            <span style={{
-                                                flexShrink: 0, width: '26px', height: '26px',
-                                                borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                background: 'rgba(245,158,11,0.1)', fontSize: '0.68rem', fontWeight: 800, color: '#f59e0b'
-                                            }}>{i + 1}</span>
-                                            <span style={{ fontSize: '0.825rem', color: '#374151', fontWeight: 500 }}>{lec.title}</span>
-                                        </div>
-                                    ))}
+                                {/* Lecture list */}
+                                <div style={{ maxHeight: '240px', overflowY: 'auto', padding: '0 24px 24px' }}>
+                                    <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #f0f0f0' }}>
+                                        {course?.lectures?.map((lec, i) => (
+                                            <div key={i} style={{
+                                                display: 'flex', alignItems: 'center', gap: '12px',
+                                                padding: '10px 14px',
+                                                background: i % 2 === 0 ? 'white' : '#fafafa',
+                                                borderBottom: i < lectureCnt - 1 ? '1px solid #f3f4f6' : 'none'
+                                            }}>
+                                                <span style={{
+                                                    flexShrink: 0, width: '26px', height: '26px',
+                                                    borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                    background: 'rgba(245,158,11,0.1)', fontSize: '0.68rem', fontWeight: 800, color: '#f59e0b'
+                                                }}>{i + 1}</span>
+                                                <span style={{ fontSize: '0.825rem', color: '#374151', fontWeight: 500 }}>{lec.title}</span>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
