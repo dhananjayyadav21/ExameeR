@@ -53,7 +53,7 @@ const Register = () => {
 
                 if (result.success === true) {
                     setLoading(false);
-                    router.push(`/verifyEmail?Email=${result.user.Email}`);
+                    router.push(`/verify-email?Email=${result.user.Email}`);
                     toast.success("Register successfully !", {
                         position: "top-right"
                     });

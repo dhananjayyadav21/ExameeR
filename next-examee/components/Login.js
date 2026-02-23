@@ -161,7 +161,7 @@ const Login = () => {
                             <div className="mb-3 position-relative">
                                 <div className='d-flex justify-content-between'>
                                     <small><label htmlFor="Password" className="form-label ">Password</label></small>
-                                    <small><Link href="/forgotPassword" style={{ textDecoration: 'none' }} className='fw-normal text-primary'>Forgot Password?</Link></small>
+                                    <small><Link href="/forgot-password" style={{ textDecoration: 'none' }} className='fw-normal text-primary'>Forgot Password?</Link></small>
                                 </div>
                                 <input type={showPassword ? 'text' : 'password'}
                                     className="form-control" id="Password" name='Password' value={Credentials.Password} onChange={handlOnchange} placeholder="Enter your password" />

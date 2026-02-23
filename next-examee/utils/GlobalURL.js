@@ -13,8 +13,8 @@ export const GETUSER_URL = `${BASEURL}auth/getUser`
 export const SUPPORTUSER_URL = `${BASEURL}auth/support`
 
 //------[ Announce ]-------------
-export const GETALLUSER_URL = `${BASEURL}announce/getAllUser`
-export const SENDANNOUNCEMENT_URL = `${BASEURL}announce/sendAnnouncement`
+export const GETALLUSER_URL = `${BASEURL}announcement/getAllUser`
+export const SENDANNOUNCEMENT_URL = `${BASEURL}announcement/sendAnnouncement`
 
 
 //------[Contents Urls ]-------------

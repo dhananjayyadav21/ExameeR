@@ -12,34 +12,14 @@ import ContentContext from '../context/ContentContext';
 import * as GlobalUrls from "../utils/GlobalURL";
 import { toast } from 'react-toastify'
 
-const BASEURL = process.env.NEXT_PUBLIC_API_URL
+const BASEURL = "/api"
 
 export default function Home({ setProgress = () => { } }) {
   const context = useContext(ContentContext);
   const { getNote, searchContent, setSearchContentData, Course, getCourse } = context
   const router = useRouter();
 
-  async function fetchUntilPong(url) {
-    let resText = '';
-    while (resText !== 'pong') {
-      try {
-        const res = await fetch(url);
-        resText = await res.text();
-        console.log('Received:', resText);
-        if (resText !== 'pong') {
-          await new Promise(resolve => setTimeout(resolve, 1000));
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
-    }
-  }
-
   useEffect(() => {
-    if (BASEURL) {
-      fetchUntilPong(`${BASEURL}ping`).catch(console.error);
-    }
     setProgress(0);
     getNote();
     getCourse();
