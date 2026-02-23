@@ -1,81 +1,79 @@
 import React, { useState, useEffect } from 'react';
 
+function parseVideoUrl(videoUrl) {
+    if (!videoUrl) return { id: '', isYT: false };
+    const isYT = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+    const isDrive = videoUrl.includes('drive.google.com') || videoUrl.includes('/d/');
+
+    if (isYT) {
+        const srcMatch = videoUrl.match(/src="([^"]+)"/);
+        const srcUrl = srcMatch ? srcMatch[1] : videoUrl;
+        if (srcUrl.includes('/embed/')) return { id: srcUrl.split('/embed/')[1].split(/[?&]/)[0], isYT: true };
+        if (srcUrl.includes('v=')) return { id: srcUrl.split('v=')[1].split('&')[0], isYT: true };
+        if (srcUrl.includes('youtu.be/')) return { id: srcUrl.split('youtu.be/')[1].split('?')[0], isYT: true };
+        return { id: srcUrl, isYT: true };
+    }
+    if (isDrive && videoUrl.includes('/d/')) {
+        const after = videoUrl.split('/d/')[1];
+        return { id: after.split('/')[0].split('?')[0], isYT: false };
+    }
+    return { id: videoUrl, isYT: false };
+}
+
 const VideoTemplate = ({ videoUrl, footer, header, videoContainerRef, handleFullscreen }) => {
-    const [url, setUrl] = useState(videoUrl);
-    const [isDriveUrl, setIsDriveUrl] = useState(false);
-    const [isYouTubeUrl, setIsYouTubeUrl] = useState(false);
+    const [parsed, setParsed] = useState({ id: '', isYT: false });
 
     useEffect(() => {
-        if (!videoUrl) return;
-
-        const isYT = videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be");
-        setIsYouTubeUrl(isYT);
-
-        const isDriveUrl = videoUrl.includes("drive.google.com") || videoUrl.includes("drive");
-        setIsDriveUrl(isDriveUrl);
-
-
-        if (isYT) {
-            const srcMatch = videoUrl.match(/src="([^"]+)"/);
-            const srcUrl = srcMatch ? srcMatch[1] : videoUrl;
-
-            if (srcUrl.includes('/embed/')) {
-                let iframeVideoId = srcUrl.split('/embed/')[1];
-                iframeVideoId = iframeVideoId.split('&')[0].split('?')[0];
-                setUrl(iframeVideoId);
-            } else if (srcUrl.includes('v=')) {
-                setUrl(srcUrl.split('v=')[1].split('&')[0]);
-            } else if (srcUrl.includes('youtu.be/')) {
-                setUrl(srcUrl.split('youtu.be/')[1].split('?')[0]);
-            } else {
-                setUrl(srcUrl);
-            }
-
-        } else if (isDriveUrl) {
-            if (videoUrl.includes('/d/')) {
-                const driveUrl = videoUrl.split('/d/')[1];
-                const driveID = driveUrl.split('/view')[0].split('/')[0];
-                setUrl(driveID);
-            } else {
-                setUrl(videoUrl);
-            }
-        } else {
-            setUrl(videoUrl);
-        }
-
+        setParsed(parseVideoUrl(videoUrl));
     }, [videoUrl]);
 
-    const headerText = header ? header.slice(0, 50) : "";
-    const footerText = footer ? footer.slice(0, 120) : "";
+    const embedSrc = parsed.isYT
+        ? `https://www.youtube.com/embed/${parsed.id}?rel=0`
+        : `https://drive.google.com/file/d/${parsed.id}/preview`;
 
     return (
-        <div className="card shadow-sm video-item my-3 p-2 rounded-3" style={{ minHeight: "400px" }}>
-            <div className='position-relative video-container' ref={videoContainerRef}>
-                <div className="video-player-header bg-white d-flex justify-content-start align-items-center p-1">
-                    <div className="video-zoom bg-light cursor-pointer d-flex justify-content-center align-items-center" onClick={handleFullscreen} style={{ width: '40px', height: '40px', borderRadius: '4px' }}>
-                        <i className="fa-solid fa-expand"></i>
-                    </div>
-                    <h6 className="card-title px-2 m-0">{headerText}..</h6>
+        <div className="card border-0 shadow-sm rounded-4 overflow-hidden">
+            {/* Player header */}
+            <div style={{ background: '#0f172a', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <button
+                    onClick={handleFullscreen}
+                    title="Toggle fullscreen"
+                    style={{
+                        background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
+                        color: 'rgba(255,255,255,0.8)', borderRadius: '8px', width: '34px', height: '34px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '0.8rem'
+                    }}>
+                    <i className="fa-solid fa-expand"></i>
+                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: 0 }}>
+                    <i className="fa-solid fa-circle-play" style={{ color: '#04bd20', fontSize: '0.8rem', flexShrink: 0 }}></i>
+                    <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.82rem', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {header ? header.slice(0, 60) + (header.length > 60 ? '…' : '') : 'Now Playing'}
+                    </span>
                 </div>
+            </div>
 
+            {/* iframe */}
+            <div ref={videoContainerRef} style={{ background: '#000', lineHeight: 0 }}>
                 <iframe
-                    className='video-frame w-100'
-                    style={{ height: '300px' }}
-                    src={isDriveUrl ? `https://drive.google.com/file/d/${url}/preview` : `https://www.youtube.com/embed/${url}`}
-                    title="Video player"
-                    frameBorder="0"
+                    src={embedSrc}
+                    className="w-100"
+                    style={{ height: '340px', border: 'none', display: 'block' }}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
-                ></iframe>
+                    title="Video Player"
+                />
+            </div>
 
-                <div className="video-player-footer bg-white d-flex justify-content-start p-2">
-                    <h6 className="fw-bold m-0 px-1">Benefits:</h6>
+            {/* Benefits footer */}
+            {footer && (
+                <div style={{ padding: '12px 16px', borderTop: '1px solid #f1f1f1' }}>
+                    <p className="fw-semibold mb-1" style={{ fontSize: '0.78rem', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Benefits</p>
+                    <p className="mb-0 text-muted" style={{ fontSize: '0.82rem', lineHeight: '1.6' }}>
+                        {footer.slice(0, 140)}{footer.length > 140 ? '…' : ''}
+                    </p>
                 </div>
-            </div>
-
-            <div className="border-top p-2">
-                <p className="card-body text-muted p-0 m-0">{footerText}..</p>
-            </div>
+            )}
         </div>
     );
 };
