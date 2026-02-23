@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "../../../components/Modal";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import ContentContext from '../../../context/ContentContext';
 import * as GlobalUrls from "../../../utils/GlobalURL";
 import { toast } from "react-toastify";
@@ -9,6 +10,7 @@ import { toast } from "react-toastify";
 export default function DashboardCoursesPage() {
     const context = useContext(ContentContext);
     const { searchDashContent, dasCourse, getCourse, deleteCourse } = context;
+    const router = useRouter();
 
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState("sciTechnology");
@@ -43,6 +45,10 @@ export default function DashboardCoursesPage() {
         else toast.error(res.message || "Failed to delete course!");
     };
 
+    const handleEdit = (course) => {
+        router.push(`/uploadCourse?edit=${course._id}`);
+    };
+
     const statusCfg = { public: { color: '#04bd20', bg: 'rgba(4,189,32,0.1)', label: 'Live' }, draft: { color: '#f59e0b', bg: 'rgba(245,158,11,0.1)', label: 'Draft' }, archived: { color: '#ef4444', bg: 'rgba(239,68,68,0.1)', label: 'Archived' } };
 
     return (
@@ -64,7 +70,7 @@ export default function DashboardCoursesPage() {
             {/* Search Card */}
             <div className="dc-search-card">
                 <form onSubmit={handleSubmit} className="row g-3 align-items-end">
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                         <label className="dc-label">Search</label>
                         <div className="dc-input-wrap">
                             <span className="dc-input-icon"><i className="fa-solid fa-search"></i></span>
@@ -82,7 +88,7 @@ export default function DashboardCoursesPage() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <div className="d-flex gap-2">
                             <div className="dc-input-wrap flex-grow-1">
                                 <span className="dc-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
@@ -92,12 +98,23 @@ export default function DashboardCoursesPage() {
                                     <option value="archived">Archived</option>
                                 </select>
                             </div>
-                            <button type="submit" className="dc-search-btn" disabled={isloading}>
-                                {isloading ? <div className="dc-spinner"></div> : <i className="fa-solid fa-search"></i>}
+                            <button type="submit" className="dc-search-btn" title="Search" disabled={isloading}>
+                                {isloading ? <div className="dc-spinner"></div> : <i className="fa-solid fa-magnifying-glass"></i>}
                             </button>
+                            {(search || category !== 'sciTechnology' || status !== 'public') && (
+                                <button type="button" className="dc-clear-btn" title="Clear Filters" onClick={() => { setSearch(''); setCategory('sciTechnology'); setStatus('public'); getCourse(); }}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            )}
                         </div>
                     </div>
                 </form>
+                <div className="dc-search-info mt-2">
+                    <span className="dc-results-badge">
+                        <i className="fa-solid fa-filter me-1"></i>
+                        Found {dasCourse.length} courses
+                    </span>
+                </div>
             </div>
 
             {/* Content */}
@@ -135,7 +152,7 @@ export default function DashboardCoursesPage() {
                                                 <div className="dc-course-footer">
                                                     <span className="dc-price">₹{course.offerPrice || course.price || '0'}</span>
                                                     <div className="dc-actions">
-                                                        <button className="dc-action-btn dc-edit" title="Edit"><i className="fa-solid fa-edit"></i></button>
+                                                        <button className="dc-action-btn dc-edit" title="Edit" onClick={() => handleEdit(course)}><i className="fa-solid fa-edit"></i></button>
                                                         <button className="dc-action-btn dc-del" title="Delete" onClick={() => { setModalCourse(course); setShowModal(true); }}>
                                                             <i className="fa-solid fa-trash"></i>
                                                         </button>
@@ -180,9 +197,14 @@ export default function DashboardCoursesPage() {
                 .dc-input { width: 100%; padding: 10px 13px 10px 34px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 0.875rem; color: #0f172a; background: #f8fafc; outline: none; transition: all 0.2s; font-family: inherit; }
                 .dc-input:focus { border-color: #0ea5e9; background: white; box-shadow: 0 0 0 3px rgba(14,165,233,0.1); }
                 .dc-select { appearance: none; cursor: pointer; }
-                .dc-search-btn { padding: 10px 16px; background: #0f172a; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; white-space: nowrap; }
-                .dc-search-btn:hover { background: #1e293b; }
+                .dc-search-btn { width: 42px; height: 42px; background: #0f172a; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+                .dc-search-btn:hover { background: #1e293b; transform: scale(1.02); }
                 .dc-search-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+                .dc-clear-btn { width: 42px; height: 42px; background: #f1f5f9; color: #64748b; border: 1.5px solid #e2e8f0; border-radius: 10px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+                .dc-clear-btn:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+
+                .dc-search-info { display: flex; align-items: center; gap: 8px; }
+                .dc-results-badge { font-size: 0.7rem; font-weight: 700; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 3px 10px; border-radius: 50px; }
 
                 /* Loading */
                 .dc-loading { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; color: #94a3b8; gap: 12px; }

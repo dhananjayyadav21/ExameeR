@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/Dashboard/Sidebar";
+import Sidebar from "../../components/dashboard/Sidebar";
+import MobileBar from "../../components/dashboard/MobileBar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -91,6 +92,11 @@ export default function DashboardLayout({ children }) {
                 </main>
             </div>
 
+            {/* Mobile bottom nav — only on small screens */}
+            <div className="d-lg-none">
+                <MobileBar />
+            </div>
+
             <style jsx>{`
                 .dl-loading {
                     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -176,7 +182,7 @@ export default function DashboardLayout({ children }) {
                 }
 
                 /* Content */
-                .dl-content { flex: 1; padding: 24px; overflow-x: hidden; }
+                .dl-content { flex: 1; padding: 24px; padding-bottom: 80px; overflow-x: hidden; }
                 @media (min-width: 992px) { .dl-content { padding: 28px 32px; } }
             `}</style>
         </div>

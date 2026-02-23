@@ -1,12 +1,14 @@
 "use client";
 import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import ContentContext from '../../../context/ContentContext';
 import { toast } from "react-toastify";
 
 export default function AnalyticsPage() {
     const context = useContext(ContentContext);
     const { getdashAnalytics, dashAnalytics, getLatestUpload, LatestData } = context;
+    const router = useRouter();
 
     useEffect(() => {
         getdashAnalytics();
@@ -39,6 +41,12 @@ export default function AnalyticsPage() {
         { href: "/uploadPYQ", label: "Upload PYQ", sub: "Add paper", icon: "fa-file-invoice", color: "#f59e0b", bg: "rgba(245,158,11,0.08)" },
         { href: "/uploadCourse", label: "New Course", sub: "Create course", icon: "fa-graduation-cap", color: "#0ea5e9", bg: "rgba(14,165,233,0.08)" },
     ];
+
+    const handleEdit = (item) => {
+        const typeMap = { notes: 'Notes', video: 'Video', pyq: 'PYQ', course: 'Course' };
+        const route = typeMap[item.type] || 'Notes';
+        router.push(`/upload${route}?edit=${item._id}`);
+    };
 
     return (
         <section className="an-page">
@@ -93,6 +101,7 @@ export default function AnalyticsPage() {
                                 <th>Title</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                <th style={{ textAlign: 'right' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,11 +120,16 @@ export default function AnalyticsPage() {
                                         <td>
                                             <span className="an-status-badge">{data?.status}</span>
                                         </td>
+                                        <td style={{ textAlign: 'right' }}>
+                                            <button className="an-edit-btn" onClick={() => handleEdit(data)} title="Edit">
+                                                <i className="fa-solid fa-pen-to-square"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 );
                             }) : (
                                 <tr>
-                                    <td colSpan="4" className="an-empty">
+                                    <td colSpan="5" className="an-empty">
                                         <i className="fa-solid fa-chart-line mb-2" style={{ fontSize: '2rem', color: '#cbd5e1' }}></i>
                                         <p>No activity records found yet.</p>
                                     </td>
@@ -179,6 +193,8 @@ export default function AnalyticsPage() {
                 .an-td-title { font-weight: 600; color: #1e293b; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
                 .an-td-muted { color: #94a3b8; font-size: 0.8rem; }
                 .an-status-badge { background: rgba(4,189,32,0.1); color: #04bd20; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; padding: 3px 10px; border-radius: 50px; letter-spacing: 0.04em; }
+                .an-edit-btn { background: #f8fafc; border: 1.5px solid #e2e8f0; color: #64748b; width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 0.75rem; }
+                .an-edit-btn:hover { border-color: #0ea5e9; color: #0ea5e9; background: white; transform: scale(1.05); }
                 .an-empty { text-align: center; padding: 48px 20px; color: #94a3b8; font-size: 0.88rem; }
 
                 /* Quick action cards */
