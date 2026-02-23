@@ -164,8 +164,6 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 </div>
             )}
 
-            <Footer />
-
             <style jsx>{`
                 .text-green { color: #04bd20 !important; }
                 .quick-link { transition: all 0.2s; }

@@ -1,8 +1,18 @@
 "use client";
 import React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+const NO_FOOTER_PATHS = ['/notes', '/video', '/Q-paper', '/cource'];
 
 const Footer = () => {
+    const pathname = usePathname();
+
+    // Hide footer on specific pages
+    if (NO_FOOTER_PATHS.some(path => pathname === path || pathname.startsWith(path + '/'))) {
+        return null;
+    }
+
     return (
         <div className="footer-wrapper bg-dark text-light">
             <div className="container py-5 px-4">

@@ -222,8 +222,6 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 )}
             </div>
 
-            <Footer />
-
             <style jsx>{`
                 .text-green { color: #04bd20 !important; }
                 .btn-green { background: #04bd20; color: white; border: none; font-weight: 600; }

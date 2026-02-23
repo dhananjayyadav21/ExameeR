@@ -186,10 +186,16 @@ const Navbar = ({ setProgress = () => { } }) => {
                                                 <span className="dd-label">Browse Notes</span>
                                             </Link>
                                             {hasUserRole("Admin", "Instructor") && (
-                                                <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
-                                                    <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
-                                                    <span className="dd-label">Admin Dashboard</span>
-                                                </Link>
+                                                <>
+                                                    <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
+                                                        <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
+                                                        <span className="dd-label">Admin Dashboard</span>
+                                                    </Link>
+                                                    <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/announcement">
+                                                        <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-bullhorn fa-fw"></i></span>
+                                                        <span className="dd-label">Announcements</span>
+                                                    </Link>
+                                                </>
                                             )}
                                         </div>
                                         <div className="px-2 pb-2">
@@ -251,8 +257,10 @@ const Navbar = ({ setProgress = () => { } }) => {
                             <div className="list-group list-group-flush border-0">
                                 <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/about" onClick={closeMobileMenu}>About Us</Link>
                                 <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/contact" onClick={closeMobileMenu}>Support</Link>
-                                {hasUserRole("Admin") && (
-                                    <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3 text-danger" href="/announcement" onClick={closeMobileMenu}>Announcements</Link>
+                                {hasUserRole("Admin", "Instructor") && (
+                                    <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/announcement" onClick={closeMobileMenu}>
+                                        <i className="fa-solid fa-bullhorn me-2 text-danger"></i>Announcements
+                                    </Link>
                                 )}
                             </div>
                         </div>
