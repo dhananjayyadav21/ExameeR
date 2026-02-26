@@ -75,8 +75,8 @@ const NotesItem = ({ notes }) => {
 
             <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
                 <div className="card-header border-0 bg-transparent p-4 pb-0 d-flex justify-content-between align-items-center">
-                    <div className="bg-primary-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
-                        <i className="fa-solid fa-file-pdf text-primary fs-4"></i>
+                    <div className="bg-success-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
+                        <i className="fa-solid fa-file-pdf text-green fs-4"></i>
                     </div>
                     <button
                         className={`btn p-0 border-0 ${isMyLearning || Notes?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
@@ -96,7 +96,7 @@ const NotesItem = ({ notes }) => {
                     </p>
 
                     <button
-                        className="btn btn-outline-primary w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
+                        className="btn btn-cyan-green w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
                         onClick={handleViewPDF}
                     >
                         <span>View Notes</span>
@@ -107,7 +107,17 @@ const NotesItem = ({ notes }) => {
                 <style jsx>{`
                     .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
                     .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
-                    .hover-fill:hover { background-color: var(--primary-color) !important; color: white !important; border-color: var(--primary-color) !important; }
+                    .btn-cyan-green { 
+                        background: transparent; 
+                        color: #0891b2; 
+                        border: 2px solid #0891b2; 
+                    }
+                    .btn-cyan-green:hover { 
+                        background: #0891b2; 
+                        color: white !important; 
+                        box-shadow: 0 4px 12px rgba(8, 145, 178, 0.2);
+                    }
+                    .text-green { color: #04bd20 !important; }
                     .smaller { font-size: 0.7rem; }
                     .smaller-auth { font-size: 0.8rem; }
                 `}</style>

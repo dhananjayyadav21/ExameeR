@@ -96,7 +96,7 @@ const QPaperItem = ({ pyq }) => {
                     <h6 className="fw-bold mb-3 text-truncate-2" title={PYQ?.title || PYQ?.subject}>{PYQ?.title || PYQ?.subject}</h6>
 
                     <button
-                        className="btn btn-dark w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all"
+                        className="btn btn-yellow w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
                         onClick={handleViewPDF}
                     >
                         <span>View Question Paper</span>
@@ -107,6 +107,16 @@ const QPaperItem = ({ pyq }) => {
                 <style jsx>{`
                     .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
                     .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
+                    .btn-yellow { 
+                        background: transparent; 
+                        color: #fbbf24; 
+                        border: 2px solid #fbbf24; 
+                    }
+                    .btn-yellow:hover { 
+                        background: #fbbf24; 
+                        color: #000 !important; 
+                        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+                    }
                     .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5rem; }
                     .uppercase-ls { letter-spacing: 0.05em; font-size: 0.7rem; }
                 `}</style>
