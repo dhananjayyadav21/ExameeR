@@ -68,7 +68,7 @@ const Navbar = ({ setProgress = () => { } }) => {
         setProgress(100);
     }
 
-    if (isDashboard) return null;
+    if (isDashboard || token) return null;
 
     return (
         <>

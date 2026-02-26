@@ -7,9 +7,16 @@ const NO_FOOTER_PATHS = ['/notes', '/video', '/Q-paper', '/cource'];
 
 const Footer = () => {
     const pathname = usePathname();
+    const [token, setToken] = React.useState(null);
 
-    // Hide footer on specific pages (including dashboard)
-    if (pathname.startsWith('/dashboard') || NO_FOOTER_PATHS.some(path => pathname === path || pathname.startsWith(path + '/'))) {
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setToken(localStorage.getItem("token"));
+        }
+    }, []);
+
+    // Hide footer on specific pages (including dashboard) or if logged in
+    if (pathname.startsWith('/dashboard') || token || NO_FOOTER_PATHS.some(path => pathname === path || pathname.startsWith(path + '/'))) {
         return null;
     }
 

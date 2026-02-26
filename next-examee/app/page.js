@@ -15,19 +15,23 @@ import PremiumHero from '../components/Home/PremiumHero'
 import PremiumFeatures from '../components/Home/PremiumFeatures'
 import PremiumExtra from '../components/Home/PremiumExtra'
 import FloatingContact from '../components/Home/FloatingContact'
+import LoggedInHome from '../components/Home/LoggedInHome'
 import './home-premium.css';
 import { homeData } from '../constants/homeData';
 
 export default function Home({ setProgress = () => { } }) {
   const { marqueeStats } = homeData;
   const context = useContext(ContentContext);
-  const { getNote, searchContent, setSearchContentData, Course, getCourse } = context
+  const { getNote, searchContent, setSearchContentData, Course, getCourse, userData, getUser } = context
   const router = useRouter();
 
   useEffect(() => {
     setProgress(0);
     getNote();
     getCourse();
+    if (!userData && typeof window !== 'undefined' && localStorage.getItem("token")) {
+      getUser();
+    }
     setProgress(100);
   }, []);
 
@@ -41,6 +45,10 @@ export default function Home({ setProgress = () => { } }) {
       setToken(localStorage.getItem("token"));
     }
   }, []);
+
+  if (token) {
+    return <LoggedInHome userData={userData} />;
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault();

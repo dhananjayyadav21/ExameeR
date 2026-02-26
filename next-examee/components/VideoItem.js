@@ -77,7 +77,7 @@ const VideoItem = ({ video }) => {
                 subHeading={Video?.title}
             />
 
-            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
+            <div className="pw-card h-100 shadow-sm transition-all rounded-4 overflow-hidden bg-white border d-flex flex-column">
                 <div className="position-relative overflow-hidden bg-dark" ref={videoContainerRef} style={{ aspectRatio: '16/9' }}>
                     <iframe
                         className="w-100 h-100 border-0"
@@ -95,32 +95,40 @@ const VideoItem = ({ video }) => {
                     </button>
                 </div>
 
-                <div className="card-body p-4 d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-start mb-3">
-                        <h6 className="fw-semibold mb-0 text-truncate-2 flex-grow-1" style={{ fontSize: '0.88rem' }} title={Video?.title}>{Video?.title}</h6>
+                <div className="card-body p-3 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-2">
+                        <div className="flex-grow-1 overflow-hidden">
+                            <span className="badge bg-danger text-white px-2 py-1 rounded-1 fw-bold mb-2 uppercase-ls" style={{ fontSize: '0.6rem' }}>VIDEO LECTURE</span>
+                            <h6 className="fw-bold mb-1 text-truncate-2" style={{ fontSize: '0.9rem' }} title={Video?.title}>{Video?.title}</h6>
+                        </div>
                         <button
-                            className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
+                            className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-dark' : 'text-muted'}`}
                             onClick={() => setShowModal(true)}
-                            title={isMyLearning || Video?.isWatching ? "Saved" : "Save for later"}
                         >
-                            <div className="d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
-                                <i className={`${isMyLearning || Video?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark fs-5`}></i>
-                            </div>
+                            <i className={`${isMyLearning || Video?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
                         </button>
                     </div>
-                    <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75">
-                        {Video?.description || "No description provided for this video lecture."}
+
+                    <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75 mb-3">
+                        {Video?.description || "Watch this comprehensive video lecture to master the core concepts."}
                     </p>
+
+                    <div className="mt-auto pt-3 border-top">
+                        <button className="btn btn-dark fw-bold rounded-2 w-100 py-2 d-flex align-items-center justify-content-center gap-2" style={{ fontSize: '0.85rem' }} onClick={handleFullscreen}>
+                            Watch Fullscreen <i className="fa-solid fa-play small"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <style jsx>{`
-                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
-                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
-                    .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+                    .pw-card { border-radius: 16px; overflow: hidden; transition: transform 0.3s ease; }
+                    .pw-card:hover { transform: translateY(-5px); }
+                    .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.4rem; }
                     .smaller { font-size: 0.75rem; }
                     .btn-white { background: rgba(255,255,255,0.9); }
-                    .hover-show { transition: opacity 0.3s ease; }
-                    .card:hover .hover-show { opacity: 1 !important; }
+                    .hover-show { opacity: 0; transition: opacity 0.3s ease; }
+                    .pw-card:hover .hover-show { opacity: 1 !important; }
+                    .uppercase-ls { letter-spacing: 0.05em; }
                 `}</style>
             </div>
         </div>

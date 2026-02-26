@@ -60,6 +60,14 @@ const NotesItem = ({ notes }) => {
         }
     };
 
+    const cardThemes = [
+        { bg: '#dcfce7', text: '#065f46', tag: '#10b981' },
+        { bg: '#fef3c7', text: '#92400e', tag: '#f59e0b' },
+        { bg: '#ccfbf1', text: '#115e59', tag: '#14b8a6' },
+        { bg: '#f3f0ff', text: '#6b21a8', tag: '#a855f7' }
+    ];
+    const theme = cardThemes[Math.floor(Math.random() * cardThemes.length)];
+
     return (
         <>
             <Modal
@@ -70,53 +78,53 @@ const NotesItem = ({ notes }) => {
                 subHeading={Notes?.title}
             />
 
-            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
-                <div className="card-header border-0 bg-transparent p-4 pb-0 d-flex justify-content-between align-items-center">
-                    <div className="bg-success-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
-                        <i className="fa-solid fa-file-pdf text-green fs-4"></i>
-                    </div>
-                    <button
-                        className={`btn p-0 border-0 ${isMyLearning || Notes?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
-                        onClick={() => setShowModal(true)}
-                        title={isMyLearning || Notes?.isWatching ? "Saved" : "Save for later"}
-                    >
-                        <div className="d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
-                            <i className={`${isMyLearning || Notes?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark fs-5`}></i>
+            <div className="pw-card h-100 shadow-sm transition-all rounded-4 overflow-hidden bg-white border d-flex flex-column">
+                <div className="pw-card-header position-relative p-4" style={{ backgroundColor: theme.bg, height: '160px' }}>
+                    <div className="d-flex flex-column h-100 justify-content-center">
+                        <h4 className="fw-black mb-1" style={{ fontSize: '1.1rem', color: '#1a1a1a', maxWidth: '80%', lineHeight: '1.2' }}>
+                            {Notes?.title}
+                        </h4>
+                        <div className="mt-2">
+                            <span className="badge text-white px-2 py-1 rounded-1 fw-bold" style={{ backgroundColor: theme.tag, fontSize: '0.6rem' }}>
+                                LECTURE NOTES
+                            </span>
                         </div>
-                    </button>
+                    </div>
+                    <i className="fa-solid fa-file-lines position-absolute bottom-0 end-0 m-3 opacity-10 fs-1" style={{ fontSize: '4rem' }}></i>
                 </div>
 
-                <div className="card-body p-4">
-                    <h6 className="fw-semibold mb-1 text-truncate" style={{ fontSize: '0.9rem' }} title={Notes?.title}>{Notes?.title}</h6>
-                    <p className="small text-muted mb-4 d-flex align-items-center gap-1">
-                        <i className="fa-solid fa-user-tie smaller opacity-50"></i> {Notes?.professor || "Unknown Author"}
-                    </p>
+                <div className="card-body p-3 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <p className="text-muted small mb-1 fw-semibold">Professor</p>
+                            <h6 className="fw-bold mb-0 text-truncate" style={{ fontSize: '0.9rem' }}>{Notes?.professor || "Expert Faculty"}</h6>
+                        </div>
+                        <button
+                            className={`btn p-0 border-0 ${isMyLearning || Notes?.isWatching ? 'text-dark' : 'text-muted'}`}
+                            onClick={() => setShowModal(true)}
+                        >
+                            <i className={`${isMyLearning || Notes?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
+                        </button>
+                    </div>
 
-                    <button
-                        className="btn btn-cyan-green w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
-                        onClick={handleViewPDF}
-                    >
-                        <span>View Notes</span>
-                        <i className="fa-solid fa-arrow-up-right-from-square small"></i>
-                    </button>
+                    <div className="mt-auto pt-3 border-top d-flex gap-2">
+                        <button
+                            className="btn btn-dark fw-bold rounded-2 flex-grow-1 py-2"
+                            style={{ fontSize: '0.85rem' }}
+                            onClick={handleViewPDF}
+                        >
+                            View Notes
+                        </button>
+                        <button className="btn btn-light border rounded-2 d-flex align-items-center justify-content-center" style={{ width: '40px' }} onClick={handleViewPDF}>
+                            <i className="fa-solid fa-arrow-up-right-from-square small"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <style jsx>{`
-                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
-                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
-                    .btn-cyan-green { 
-                        background: transparent; 
-                        color: #0891b2; 
-                        border: 2px solid #0891b2; 
-                    }
-                    .btn-cyan-green:hover { 
-                        background: #0891b2; 
-                        color: white !important; 
-                        box-shadow: 0 4px 12px rgba(8, 145, 178, 0.2);
-                    }
-                    .text-green { color: #04bd20 !important; }
-                    .smaller { font-size: 0.7rem; }
-                    .smaller-auth { font-size: 0.8rem; }
+                    .fw-black { font-weight: 900; }
+                    .pw-card { border-radius: 16px; overflow: hidden; transition: transform 0.3s ease; }
+                    .pw-card:hover { transform: translateY(-5px); }
                 `}</style>
             </div>
         </>

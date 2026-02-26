@@ -60,6 +60,14 @@ const QPaperItem = ({ pyq }) => {
         }
     };
 
+    const cardThemes = [
+        { bg: '#dcfce7', text: '#065f46', tag: '#10b981' },
+        { bg: '#fef3c7', text: '#92400e', tag: '#f59e0b' },
+        { bg: '#ccfbf1', text: '#115e59', tag: '#14b8a6' },
+        { bg: '#dbeafe', text: '#1e40af', tag: '#3b82f6' }
+    ];
+    const theme = cardThemes[Math.floor(Math.random() * cardThemes.length)];
+
     return (
         <>
             <Modal
@@ -70,52 +78,54 @@ const QPaperItem = ({ pyq }) => {
                 subHeading={PYQ?.title || PYQ?.subject}
             />
 
-            <div className="card h-100 border-0 shadow-sm transition-all hover-lift rounded-4 overflow-hidden bg-white">
-                <div className="card-header border-0 bg-transparent p-4 pb-0 d-flex justify-content-between align-items-center">
-                    <div className="bg-warning-subtle rounded-circle p-3 d-flex align-items-center justify-content-center" style={{ width: '55px', height: '55px' }}>
-                        <i className="fa-solid fa-file-contract text-warning fs-4"></i>
-                    </div>
-                    <button
-                        className={`btn p-0 border-0 ${isMyLearning || PYQ?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
-                        onClick={() => setShowModal(true)}
-                        title={isMyLearning || PYQ?.isWatching ? "Saved" : "Save for later"}
-                    >
-                        <div className="d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
-                            <i className={`${isMyLearning || PYQ?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark fs-5`}></i>
+            <div className="pw-card h-100 shadow-sm transition-all rounded-4 overflow-hidden bg-white border d-flex flex-column">
+                <div className="pw-card-header position-relative p-4" style={{ backgroundColor: theme.bg, height: '160px' }}>
+                    <div className="d-flex flex-column h-100 justify-content-center">
+                        <h4 className="fw-black mb-1" style={{ fontSize: '1.2rem', color: '#1a1a1a', maxWidth: '80%', lineHeight: '1.1' }}>
+                            PYQ {PYQ?.year}
+                        </h4>
+                        <div className="mt-2">
+                            <span className="badge text-white px-2 py-1 rounded-1 fw-bold" style={{ backgroundColor: theme.tag, fontSize: '0.6rem' }}>
+                                EXAM PAPER
+                            </span>
                         </div>
-                    </button>
+                    </div>
+                    <i className="fa-solid fa-graduation-cap position-absolute bottom-0 end-0 m-3 opacity-10 fs-1" style={{ fontSize: '4rem' }}></i>
                 </div>
 
-                <div className="card-body p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                        <span className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-semibold smaller uppercase-ls">Session {PYQ?.year}</span>
+                <div className="card-body p-3 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <p className="text-muted small mb-1 fw-semibold">{PYQ?.subject || "Previous Paper"}</p>
+                            <h6 className="fw-bold mb-0 text-truncate-2" style={{ fontSize: '0.88rem' }}>{PYQ?.title || PYQ?.subject}</h6>
+                        </div>
+                        <button
+                            className={`btn p-0 border-0 ${isMyLearning || PYQ?.isWatching ? 'text-dark' : 'text-muted'}`}
+                            onClick={() => setShowModal(true)}
+                        >
+                            <i className={`${isMyLearning || PYQ?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
+                        </button>
                     </div>
-                    <h6 className="fw-semibold mb-3 text-truncate-2" style={{ fontSize: '0.88rem' }} title={PYQ?.title || PYQ?.subject}>{PYQ?.title || PYQ?.subject}</h6>
 
-                    <button
-                        className="btn btn-yellow w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
-                        onClick={handleViewPDF}
-                    >
-                        <span>View Question Paper</span>
-                        <i className="fa-solid fa-arrow-right small"></i>
-                    </button>
+                    <div className="mt-auto pt-3 border-top d-flex gap-2">
+                        <button
+                            className="btn btn-dark fw-bold rounded-2 flex-grow-1 py-2"
+                            style={{ fontSize: '0.85rem' }}
+                            onClick={handleViewPDF}
+                        >
+                            View Paper
+                        </button>
+                        <button className="btn btn-light border rounded-2 d-flex align-items-center justify-content-center" style={{ width: '40px' }} onClick={handleViewPDF}>
+                            <i className="fa-solid fa-arrow-right small"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <style jsx>{`
-                    .hover-lift { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); }
-                    .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important; }
-                    .btn-yellow { 
-                        background: transparent; 
-                        color: #fbbf24; 
-                        border: 2px solid #fbbf24; 
-                    }
-                    .btn-yellow:hover { 
-                        background: #fbbf24; 
-                        color: #000 !important; 
-                        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
-                    }
+                    .fw-black { font-weight: 900; }
+                    .pw-card { border-radius: 16px; overflow: hidden; transition: transform 0.3s ease; }
+                    .pw-card:hover { transform: translateY(-5px); }
                     .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.5rem; }
-                    .uppercase-ls { letter-spacing: 0.05em; font-size: 0.7rem; }
                 `}</style>
             </div>
         </>
