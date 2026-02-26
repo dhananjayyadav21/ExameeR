@@ -126,13 +126,6 @@ const LoggedInHome = ({ userData }) => {
             ]
         },
         {
-            section: "MY ACCOUNT",
-            items: [
-                { label: "My Library", icon: "fa-book-open", id: "Library" },
-                { label: "My Profile", icon: "fa-user-circle", id: "Profile" },
-            ]
-        },
-        {
             section: "STUDY PACKS",
             items: [
                 { label: "Course", icon: "fa-layer-group", id: "Course" },
@@ -267,12 +260,18 @@ const LoggedInHome = ({ userData }) => {
                                             <p className="fw-bold mb-0 smaller text-dark">{userData?.FirstName} {userData?.LastName}</p>
                                             <p className="text-muted mb-0" style={{ fontSize: '0.7rem' }}>{userData?.Email}</p>
                                         </div>
-                                        <Link href="/profile" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2">
+                                        <button
+                                            onClick={() => { handleMenuClick({ id: 'Profile' }); setIsDropdownOpen(false); }}
+                                            className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 bg-transparent border-0 text-start"
+                                        >
                                             <i className="fa-regular fa-user-circle opacity-50"></i> My Profile
-                                        </Link>
-                                        <Link href="/myLearning" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2">
+                                        </button>
+                                        <button
+                                            onClick={() => { handleMenuClick({ id: 'Library' }); setIsDropdownOpen(false); }}
+                                            className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 bg-transparent border-0 text-start"
+                                        >
                                             <i className="fa-solid fa-book-open opacity-50"></i> My Library
-                                        </Link>
+                                        </button>
                                         {isSpecialUser && (
                                             <Link href="/dashboard" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-primary fw-bold">
                                                 <i className="fa-solid fa-gauge-high"></i> Instructor Dashboard
