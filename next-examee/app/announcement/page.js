@@ -258,6 +258,7 @@ export default function AnnouncementPage() {
             </div>
 
             <style jsx>{`
+                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
                 .text-green { color: #04bd20 !important; }
                 .bg-green-soft { background-color: rgba(4, 189, 32, 0.1) !important; }
                 .btn-green { background: #04bd20; color: white; border: none; transition: all 0.3s; }

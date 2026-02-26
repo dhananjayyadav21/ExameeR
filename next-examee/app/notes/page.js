@@ -57,7 +57,7 @@ function NotesContent({ setProgress = () => { } }) {
                         <div className="col-lg-7">
                             <nav aria-label="breadcrumb" className="mb-4">
                                 <ol className="breadcrumb small text-uppercase fw-semibold ls-wide mb-0" style={{ fontSize: '0.7rem' }}>
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-light-muted opacity-75">Home</a></li>
+                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-white-50">Home</a></li>
                                     <li className="breadcrumb-item active text-green" aria-current="page">Study Resources</li>
                                 </ol>
                             </nav>
@@ -155,6 +155,7 @@ function NotesContent({ setProgress = () => { } }) {
             </div>
 
             <style jsx>{`
+                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
                 .text-green { color: #04bd20 !important; }
                 .btn-green { background: #04bd20; color: white; border: none; }
                 .btn-green:hover { background: #03a61c; color: white; }

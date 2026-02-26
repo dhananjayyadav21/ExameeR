@@ -57,7 +57,7 @@ function QPaperContent({ setProgress = () => { } }) {
                         <div className="col-lg-7">
                             <nav aria-label="breadcrumb" className="mb-4">
                                 <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-light-muted opacity-75">Home</a></li>
+                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-white-50">Home</a></li>
                                     <li className="breadcrumb-item active text-green" aria-current="page">Question Papers</li>
                                 </ol>
                             </nav>
@@ -145,6 +145,7 @@ function QPaperContent({ setProgress = () => { } }) {
             </div>
 
             <style jsx>{`
+                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
                 .text-green { color: #04bd20 !important; }
                 .btn-green { background: #04bd20 !important; color: white !important; border: none !important; }
                 .btn-green:hover { background: #03a61c !important; }

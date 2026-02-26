@@ -78,14 +78,14 @@ export default function Home({ setProgress = () => { } }) {
   return (
     <main className="overflow-hidden bg-white">
       {/* Hero Section */}
-      <section className="hero-section position-relative py-5 py-lg-0 overflow-hidden" style={{ minHeight: '100vh', background: 'white' }}>
+      <section className="hero-section position-relative pt-0 pb-5 overflow-hidden" style={{ background: 'white' }}>
         {/* Background Decorative Elements */}
         <div className="position-absolute top-0 end-0 w-50 h-100 bg-light opacity-50 z-0" style={{ clipPath: 'polygon(20% 0%, 100% 0, 100% 100%, 0% 100%)' }}></div>
 
 
         <div className="container px-4 position-relative z-1">
-          <div className="row align-items-center" style={{ minHeight: '100vh' }}>
-            <div className="col-lg-6 mb-5 mb-lg-0 py-5">
+          <div className="row align-items-start py-5">
+            <div className="col-lg-6 mb-5 mb-lg-0 pt-0 pb-5">
               <div className="d-inline-flex align-items-center bg-light border rounded-pill px-1 py-1 mb-4 animated-fade-in">
                 <span className="badge bg-green rounded-pill me-2">New</span>
                 <span className="small text-muted fw-medium me-2">All-in-one platform for your academic success</span>
