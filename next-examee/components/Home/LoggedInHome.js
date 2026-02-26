@@ -574,9 +574,9 @@ const LoggedInHome = ({ userData }) => {
                                         <div className="d-flex align-items-center gap-3 mb-4">
                                             <div className="bg-light rounded-2 d-flex align-items-center justify-content-center border" style={{ width: '42px', height: '42px', backgroundColor: '#f0fdf4' }}>
                                                 <i className={`fa-solid ${libraryFilter === 'Notes' ? 'fa-file-lines text-success' :
-                                                        libraryFilter === 'Video' ? 'fa-play text-primary' :
-                                                            libraryFilter === 'PYQ' ? 'fa-question text-warning' :
-                                                                'fa-book text-info'
+                                                    libraryFilter === 'Video' ? 'fa-play text-primary' :
+                                                        libraryFilter === 'PYQ' ? 'fa-question text-warning' :
+                                                            'fa-book text-info'
                                                     } fs-5`}></i>
                                             </div>
                                             <div>
@@ -610,7 +610,7 @@ const LoggedInHome = ({ userData }) => {
                             {/* Rendered Items Grid */}
                             <div className="row g-4 mt-2">
                                 {filteredData.map((item, idx) => (
-                                    <div key={idx} className="col-xl-3 col-lg-4 col-md-6 animate-scale-in" style={{ animationDelay: `${idx * 0.05}s` }}>
+                                    <div key={idx} className="col-xl-4 col-lg-4 col-md-6 animate-scale-in" style={{ animationDelay: `${idx * 0.05}s` }}>
                                         {(activeTab === 'Notes' || item.type === 'Notes') && <NotesItem notes={item} />}
                                         {(activeTab === 'PYQ' || item.type === 'PYQ') && <QPaperItem pyq={item} />}
                                         {(activeTab === 'Video' || item.type === 'Video') && <VideoItem video={item} />}
@@ -644,11 +644,6 @@ const LoggedInHome = ({ userData }) => {
                     )}
                 </div>
             </main>
-            <style jsx>{`
-                .animate-fade-in { animation: fadeIn 0.3s ease-out; }
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-                .text-dark { color: #1e293b !important; }
-            `}</style>
         </div>
     );
 };
