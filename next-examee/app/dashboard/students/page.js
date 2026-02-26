@@ -35,14 +35,30 @@ export default function UsersManagementPage() {
         return getStudentsByRole(url);
     };
 
+    // On mount: detect role and load defaults
     useEffect(() => {
         const role = typeof window !== 'undefined' ? localStorage.getItem('userRole') : '';
         setLoggedInRole(role);
-        // Instructors default to their students; Admins see all
         const defaultRole = role === 'Instructor' ? 'Student' : '';
         setRoleFilter(defaultRole);
         fetchUsers("", "", defaultRole);
     }, []);
+
+    // Auto-search when dropdown filters change
+    useEffect(() => {
+        if (!loggedInRole) return; // skip before mount completes
+        fetchUsers(search, status, roleFilter);
+        setCurrentPage(1);
+    }, [status, roleFilter]);
+
+    // Search on Enter key in the text box
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            fetchUsers(search, status, roleFilter);
+            setCurrentPage(1);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -186,9 +202,10 @@ export default function UsersManagementPage() {
                             <input
                                 type="text"
                                 className="um-input"
-                                placeholder="Name, email, username..."
+                                placeholder="Name, email, username… (Press Enter to search)"
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
+                                onKeyDown={handleSearchKeyDown}
                             />
                         </div>
                     </div>
