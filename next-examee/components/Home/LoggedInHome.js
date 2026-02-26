@@ -497,39 +497,117 @@ const LoggedInHome = ({ userData }) => {
                         </div>
                     ) : (
                         <>
-                            <div className="mb-4">
-                                <p className="fw-bold text-muted small mb-1 ls-wide" style={{ letterSpacing: '0.05em' }}>
-                                    {activeTab === 'Library' ? 'My Saved Content' : (activeTab === 'Course' ? 'Batches' : 'Study Packs')}
-                                </p>
-                                <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>
-                                    {activeTab === 'Library' ? 'Content Library' : `All ${activeTab}s`}
-                                </h2>
-                                <p className="text-muted small">{filteredData.length} {activeTab.toLowerCase()}s available</p>
-                            </div>
+                            {activeTab === 'Library' ? (
+                                <>
+                                    {/* Premium Header */}
+                                    <div className="d-flex justify-content-between align-items-start mb-4">
+                                        <div>
+                                            <p className="text-muted small mb-1 fw-bold">Home / <span className="text-success">My Learning</span></p>
+                                            <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem', color: '#111827' }}>
+                                                My Learning Hub
+                                            </h2>
+                                            <p className="text-muted small mb-0">Your saved resources — all in one place.</p>
+                                        </div>
+                                        <div className="btn rounded-3 d-flex align-items-center gap-2 fw-bold px-3 py-2 border-0 shadow-sm" style={{ backgroundColor: '#ecfdf5', color: '#047857', fontSize: '0.85rem' }}>
+                                            <i className="fa-solid fa-layer-group"></i> {currentData.length} Resources
+                                        </div>
+                                    </div>
 
-                            <div className="d-flex gap-2 mb-4 flex-wrap align-items-center">
-                                {activeTab === 'Library' ? (
-                                    <div className="d-flex gap-2 flex-wrap pb-2 mb-2 w-100 pb-md-0 mb-md-0">
-                                        {['All', 'Notes', 'PYQ', 'Video', 'Course'].map(filterOption => (
+                                    {/* Stats Cards */}
+                                    <div className="row g-3 mb-4">
+                                        {[
+                                            { id: 'Notes', label: 'NOTES', icon: 'fa-file-lines', num: currentData.filter(i => i.type === 'Notes').length, bg: '#dcfce7', text: '#16a34a', activeBg: '#f0fdf4', activeBorder: '#22c55e' },
+                                            { id: 'Video', label: 'VIDEOS', icon: 'fa-play', num: currentData.filter(i => i.type === 'Video').length, bg: '#e0e7ff', text: '#4f46e5', activeBg: '#eef2ff', activeBorder: '#6366f1' },
+                                            { id: 'PYQ', label: 'Q-PAPERS', icon: 'fa-question', num: currentData.filter(i => i.type === 'PYQ').length, bg: '#fef3c7', text: '#d97706', activeBg: '#fffbeb', activeBorder: '#f59e0b' },
+                                            { id: 'Course', label: 'COURSES', icon: 'fa-book', num: currentData.filter(i => i.type === 'Course').length, bg: '#e0f2fe', text: '#0284c7', activeBg: '#f0f9ff', activeBorder: '#0ea5e9' }
+                                        ].map(stat => (
+                                            <div key={stat.id} className="col-md-3">
+                                                <div
+                                                    className="card rounded-4 p-3 d-flex flex-row justify-content-between align-items-center shadow-sm transition-all"
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        border: libraryFilter === stat.id ? `2px solid ${stat.activeBorder}` : '2px solid transparent',
+                                                        backgroundColor: libraryFilter === stat.id ? stat.activeBg : '#fff',
+                                                        minHeight: '100px'
+                                                    }}
+                                                    onClick={() => setLibraryFilter(stat.id)}
+                                                >
+                                                    <div className="d-flex flex-column justify-content-between h-100">
+                                                        <p className="text-muted mb-2 fw-bold" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>{stat.label}</p>
+                                                        <h3 className="fw-black mb-0 text-dark" style={{ fontSize: '1.6rem' }}>{stat.num}</h3>
+                                                    </div>
+                                                    <div className="rounded-3 d-flex align-items-center justify-content-center" style={{ width: '42px', height: '42px', backgroundColor: stat.bg, color: stat.text }}>
+                                                        <i className={`fa-solid ${stat.icon} fs-5`}></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Pill Filters */}
+                                    <div className="d-flex align-items-center gap-3 mb-4 border-bottom pb-4 overflow-auto" style={{ scrollbarWidth: 'none' }}>
+                                        {[
+                                            { id: 'Notes', label: 'Notes', icon: 'fa-file-lines', num: currentData.filter(i => i.type === 'Notes').length },
+                                            { id: 'Video', label: 'Videos', icon: 'fa-play-circle', num: currentData.filter(i => i.type === 'Video').length },
+                                            { id: 'PYQ', label: 'Q-Papers', icon: 'fa-circle-question', num: currentData.filter(i => i.type === 'PYQ').length },
+                                            { id: 'Course', label: 'Courses', icon: 'fa-book-open', num: currentData.filter(i => i.type === 'Course').length }
+                                        ].map(f => (
                                             <button
-                                                key={filterOption}
-                                                onClick={() => setLibraryFilter(filterOption)}
-                                                className={`btn rounded-pill border px-3 py-1 btn-sm fw-bold shadow-sm flex-shrink-0 ${libraryFilter === filterOption ? 'btn-dark' : 'btn-white'}`}
+                                                key={f.id}
+                                                onClick={() => setLibraryFilter(f.id)}
+                                                className={`btn rounded-pill d-flex align-items-center gap-2 px-3 py-1 btn-sm fw-bold border-0 flex-shrink-0 shadow-sm transition-all`}
+                                                style={{
+                                                    backgroundColor: libraryFilter === f.id ? '#16a34a' : '#fff',
+                                                    color: libraryFilter === f.id ? '#fff' : '#6b7280'
+                                                }}
                                             >
-                                                {filterOption}
+                                                <i className={`fa-solid ${f.icon}`}></i> {f.label}
+                                                <span className="badge rounded-pill px-2 py-1 ms-1 d-flex align-items-center justify-content-center" style={{ backgroundColor: libraryFilter === f.id ? '#fff' : '#f3f4f6', color: libraryFilter === f.id ? '#16a34a' : '#6b7280', fontSize: '0.65rem' }}>
+                                                    {f.num}
+                                                </span>
                                             </button>
                                         ))}
                                     </div>
-                                ) : (
-                                    <>
+
+                                    {/* Selection Subheader */}
+                                    {libraryFilter !== 'All' && (
+                                        <div className="d-flex align-items-center gap-3 mb-4">
+                                            <div className="bg-light rounded-2 d-flex align-items-center justify-content-center border" style={{ width: '42px', height: '42px', backgroundColor: '#f0fdf4' }}>
+                                                <i className={`fa-solid ${libraryFilter === 'Notes' ? 'fa-file-lines text-success' :
+                                                        libraryFilter === 'Video' ? 'fa-play text-primary' :
+                                                            libraryFilter === 'PYQ' ? 'fa-question text-warning' :
+                                                                'fa-book text-info'
+                                                    } fs-5`}></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="fw-bold text-dark mb-0">Saved {libraryFilter === 'PYQ' ? 'Q-Papers' : libraryFilter === 'Video' ? 'Videos' : libraryFilter === 'Course' ? 'Courses' : 'Notes'}</h6>
+                                                <p className="text-muted small mb-0" style={{ fontSize: '0.75rem' }}>{filteredData.length} {libraryFilter.toLowerCase()}s saved</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <div className="mb-4">
+                                        <p className="fw-bold text-muted small mb-1 ls-wide" style={{ letterSpacing: '0.05em' }}>
+                                            {activeTab === 'Course' ? 'Batches' : 'Study Packs'}
+                                        </p>
+                                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>
+                                            All {activeTab}s
+                                        </h2>
+                                        <p className="text-muted small">{filteredData.length} {activeTab.toLowerCase()}s available</p>
+                                    </div>
+
+                                    <div className="d-flex gap-2 mb-4">
                                         <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm d-flex align-items-center gap-2 fw-bold shadow-sm">
                                             Filter <i className="fa-solid fa-sliders small"></i>
                                         </button>
                                         <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm fw-bold shadow-sm">Online</button>
-                                    </>
-                                )}
-                            </div>
+                                    </div>
+                                </>
+                            )}
 
+                            {/* Rendered Items Grid */}
                             <div className="row g-4 mt-2">
                                 {filteredData.map((item, idx) => (
                                     <div key={idx} className="col-xl-3 col-lg-4 col-md-6 animate-scale-in" style={{ animationDelay: `${idx * 0.05}s` }}>
@@ -551,6 +629,7 @@ const LoggedInHome = ({ userData }) => {
                                 ))}
                             </div>
 
+                            {/* Empty State */}
                             {filteredData.length === 0 && (
                                 <div className="text-center py-5 bg-light rounded-5 mt-4 border border-dashed">
                                     <div className="bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style={{ width: '80px', height: '80px' }}>
