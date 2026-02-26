@@ -84,7 +84,7 @@ export default function Home({ setProgress = () => { } }) {
 
 
         <div className="container px-4 position-relative z-1">
-          <div className="row align-items-start py-5">
+          <div className="row align-items-start pt-3">
             <div className="col-lg-6 mb-5 mb-lg-0 pt-0 pb-5">
               <div className="d-inline-flex align-items-center bg-light border rounded-pill px-1 py-1 mb-4 animated-fade-in">
                 <span className="badge bg-green rounded-pill me-2">New</span>
@@ -194,25 +194,39 @@ export default function Home({ setProgress = () => { } }) {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-5 bg-white border-bottom">
-        <div className="container">
-          <div className="row g-4 text-center">
-            {[
-              { val: '4+', label: 'Prog. Notes', color: 'green' },
-              { val: '3+', label: 'Special Courses', color: 'info' },
-              { val: '150+', label: 'Lecture Hours', color: 'warning' },
-              { val: '20+', label: 'Mock Papers', color: 'danger' }
-            ].map((stat, i) => (
-              <div key={i} className="col-6 col-md-3">
-                <div className="p-3">
-                  <h2 className={`display-6 fw-semibold text-${stat.color} mb-1`} style={{ fontSize: '1.8rem' }}>{stat.val}</h2>
-                  <p className="text-muted fw-normal mb-0" style={{ fontSize: '0.75rem' }}>{stat.label}</p>
+      {/* Premium Infinite Scroll Stats Section */}
+      <section className="py-4 bg-white border-bottom overflow-hidden position-relative">
+        <div className="container-fluid px-0">
+          <div className="marquee-wrapper">
+            <div className="marquee-content d-flex align-items-center">
+              {[...Array(4)].map((_, groupIdx) => (
+                <div key={groupIdx} className="d-flex align-items-center">
+                  {[
+                    { val: '4+', label: 'Prog. Notes', icon: 'fa-file-lines', color: '#04bd20', bg: 'rgba(4, 189, 32, 0.08)' },
+                    { val: '150+', label: 'Lectures', icon: 'fa-circle-play', color: '#0d6efd', bg: 'rgba(13, 110, 253, 0.08)' },
+                    { val: '500+', label: 'Papers', icon: 'fa-file-invoice', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.08)' },
+                    { val: '10k+', label: 'Students', icon: 'fa-users', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.08)' },
+                    { val: '24/7', label: 'Support', icon: 'fa-headset', color: '#ec4899', bg: 'rgba(236, 72, 153, 0.08)' },
+                  ].map((stat, i) => (
+                    <div key={i} className="stat-pill mx-3 d-flex align-items-center gap-3 py-2 px-4 rounded-pill border">
+                      <div className="stat-icon-circle rounded-circle d-flex align-items-center justify-content-center"
+                        style={{ width: '40px', height: '40px', background: stat.bg, color: stat.color }}>
+                        <i className={`fa-solid ${stat.icon} fs-6`}></i>
+                      </div>
+                      <div>
+                        <h4 className="fw-bold mb-0" style={{ fontSize: '1.1rem', color: stat.color }}>{stat.val}</h4>
+                        <p className="text-muted small mb-0 fw-semibold text-uppercase ls-wide" style={{ fontSize: '0.65rem' }}>{stat.label}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
+        {/* Subtle Side Fades */}
+        <div className="position-absolute top-0 start-0 h-100 w-25 pointer-events-none d-none d-md-block" style={{ background: 'linear-gradient(to right, white, transparent)', zIndex: 2 }}></div>
+        <div className="position-absolute top-0 end-0 h-100 w-25 pointer-events-none d-none d-md-block" style={{ background: 'linear-gradient(to left, white, transparent)', zIndex: 2 }}></div>
       </section>
 
       {/* Courses Section */}
@@ -330,6 +344,16 @@ export default function Home({ setProgress = () => { } }) {
         .hover-lift:hover { transform: translateY(-3px); }
         .group:hover .group-hover-translate-x { transform: translateX(5px); }
         .group i { transition: transform 0.3s ease; }
+        .marquee-wrapper { overflow: hidden; width: 100%; }
+        .marquee-content { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+        @keyframes marquee { 
+          from { transform: translateX(0); } 
+          to { transform: translateX(-50%); } 
+        }
+        .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
+        .stat-pill { background: #fff; border-color: #f1f5f9 !important; transition: all 0.3s ease; }
+        .stat-pill:hover { border-color: #04bd20 !important; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
+        .pointer-events-none { pointer-events: none; }
       `}</style>
     </main>
   )
