@@ -48,7 +48,8 @@ const Sidebar = () => {
     return (
         <nav className="ds-sidebar">
             {/* Brand */}
-            <Link href="/" className="ds-brand" style={{ textDecoration: 'none' }}>
+            <Link href="/" className="ds-brand p-4"
+                style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>
                 <div className="ds-brand-logo">
                     <i className="fa-solid fa-graduation-cap"></i>
                 </div>
@@ -129,7 +130,7 @@ const Sidebar = () => {
                 }
 
                 .ds-brand {
-                    padding: 32px 24px;
+                    padding: 28px 24px;
                     display: flex;
                     align-items: center;
                     gap: 12px;
