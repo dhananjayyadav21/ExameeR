@@ -85,7 +85,7 @@ export default function Home({ setProgress = () => { } }) {
 
         <div className="container px-4 position-relative z-1">
           <div className="row align-items-start pt-3">
-            <div className="col-lg-6 mb-5 mb-lg-0 pt-0 pb-5">
+            <div className="col-lg-6 my-4 mb-lg-0 pt-0 pb-5">
               <div className="d-inline-flex align-items-center bg-light border rounded-pill px-1 py-1 mb-4 animated-fade-in">
                 <span className="badge bg-green rounded-pill me-2">New</span>
                 <span className="small text-muted fw-medium me-2">All-in-one platform for your academic success</span>

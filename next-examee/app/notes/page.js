@@ -9,7 +9,7 @@ function NotesContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Notes, getNote } = context;
+    const { Notes, getNote, getDataFromMyLearning } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -18,6 +18,7 @@ function NotesContent({ setProgress = () => { } }) {
         setProgress(0);
         if (localStorage.getItem('token')) {
             getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`);
+            getDataFromMyLearning();
         }
         setProgress(100);
     }, [category, sortBy]);

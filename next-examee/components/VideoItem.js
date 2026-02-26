@@ -25,9 +25,6 @@ const VideoItem = ({ video }) => {
     const pathname = usePathname();
     const isMyLearning = pathname === '/myLearning';
 
-    useEffect(() => {
-        getDataFromMyLearning();
-    }, []);
 
     const [showModal, setShowModal] = useState(false);
 

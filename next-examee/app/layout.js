@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Suspense } from "react";
+import GlobalLoader from "@/components/GlobalLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +48,7 @@ export default function RootLayout({ children }) {
               <Footer />
             </div>
 
+            <GlobalLoader />
             <FloatingWhatsAppButton />
             <GoToImpsButton />
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />

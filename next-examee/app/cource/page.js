@@ -9,7 +9,7 @@ function CourseContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Course, getCourse } = context;
+    const { Course, getCourse, getDataFromMyLearning } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -18,6 +18,7 @@ function CourseContent({ setProgress = () => { } }) {
         setProgress(0);
         if (typeof window !== 'undefined' && localStorage.getItem('token')) {
             getCourse(`${GlobalUrls.GETCourse_URL}?category=${category}&sortBy=${sortBy}`);
+            getDataFromMyLearning();
         }
         setProgress(100);
     }, [category, sortBy]);

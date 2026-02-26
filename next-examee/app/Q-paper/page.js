@@ -9,7 +9,7 @@ function QPaperContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { PYQS, getPYQ } = context;
+    const { PYQS, getPYQ, getDataFromMyLearning } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -18,6 +18,7 @@ function QPaperContent({ setProgress = () => { } }) {
         setProgress(0);
         if (typeof window !== 'undefined' && localStorage.getItem('token')) {
             getPYQ(`${GlobalUrls.GETPYQ_URL}?category=${category}&sortBy=${sortBy}`);
+            getDataFromMyLearning();
         }
         setProgress(100);
     }, [category, sortBy]);

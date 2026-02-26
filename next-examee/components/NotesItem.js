@@ -14,9 +14,6 @@ const NotesItem = ({ notes }) => {
     const router = useRouter();
     const isMyLearning = pathname === '/myLearning';
 
-    useEffect(() => {
-        getDataFromMyLearning();
-    }, []);
 
     const handleViewPDF = () => {
         router.push(`/pdfviewer?view=${encodeURIComponent(Notes?.fileUrl)}`);
