@@ -12,7 +12,8 @@ export async function PUT(req) {
         }
 
         const body = await req.json();
-        const { Username, FirstName, LastName, Institution, Profile, NotificationPrefs } = body;
+        console.log("UPDATE_PROFILE_REQUEST_BODY:", body);
+        const { Username, FirstName, LastName, Institution, Profile, NotificationPrefs, About, Phone, Gender, Location } = body;
 
         // Check if username is being changed and if it's already taken
         if (Username) {
@@ -31,7 +32,11 @@ export async function PUT(req) {
                     LastName,
                     Institution,
                     Profile,
-                    NotificationPrefs
+                    NotificationPrefs,
+                    About,
+                    Phone,
+                    Gender,
+                    Location
                 }
             },
             { new: true }
@@ -40,6 +45,7 @@ export async function PUT(req) {
         if (!updatedUser) {
             return NextResponse.json({ success: false, message: 'User not found!' }, { status: 404 });
         }
+        console.log("UPDATED_USER_RESULT:", updatedUser);
 
         return NextResponse.json({
             success: true,

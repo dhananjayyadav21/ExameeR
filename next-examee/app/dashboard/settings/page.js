@@ -17,7 +17,11 @@ export default function SettingsPage() {
         firstName: '',
         lastName: '',
         institution: '',
-        profile: ''
+        profile: '',
+        about: '',
+        phone: '',
+        gender: '',
+        location: ''
     });
     const [passwords, setPasswords] = useState({ current: '', next: '', confirm: '' });
     const [loading, setLoading] = useState(false);
@@ -41,7 +45,11 @@ export default function SettingsPage() {
                 firstName: userData.FirstName || '',
                 lastName: userData.LastName || '',
                 institution: userData.Institution || '',
-                profile: userData.Profile || 'https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg'
+                profile: userData.Profile || 'https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg',
+                about: userData.About || '',
+                phone: userData.Phone || '',
+                gender: userData.Gender || '',
+                location: userData.Location || ''
             });
             if (userData.NotificationPrefs) {
                 setNotifications(userData.NotificationPrefs);
@@ -73,6 +81,7 @@ export default function SettingsPage() {
     };
 
     const handleSaveProfile = async () => {
+        console.log("SETTINGS_PAGE_SAVE_TRIGGERED", profileData);
         setSaving(true);
         const res = await updateProfile({
             Username: profileData.username,
@@ -80,7 +89,11 @@ export default function SettingsPage() {
             LastName: profileData.lastName,
             Institution: profileData.institution,
             Profile: profileData.profile,
-            NotificationPrefs: notifications
+            NotificationPrefs: notifications,
+            About: profileData.about,
+            Phone: profileData.phone,
+            Gender: profileData.gender,
+            Location: profileData.location
         });
         if (res?.success) {
             toast.success(res.message || "Profile updated successfully!");
@@ -236,6 +249,39 @@ export default function SettingsPage() {
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-building"></i></span>
                                     <input type="text" name="institution" className="st-input" value={profileData.institution} onChange={handleProfileChange} />
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <label className="st-label">Bio / About</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-pen-nib"></i></span>
+                                    <textarea name="about" className="st-input" rows="3" value={profileData.about} onChange={handleProfileChange} placeholder="Tell us about yourself..." style={{ height: 'auto', paddingTop: '12px' }}></textarea>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <label className="st-label">Phone Number</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-phone"></i></span>
+                                    <input type="text" name="phone" className="st-input" value={profileData.phone} onChange={handleProfileChange} placeholder="+91 00000 00000" />
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <label className="st-label">Gender</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-venus-mars"></i></span>
+                                    <select name="gender" className="st-input" value={profileData.gender} onChange={handleProfileChange}>
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-12">
+                                <label className="st-label">Location</label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-location-dot"></i></span>
+                                    <input type="text" name="location" className="st-input" value={profileData.location} onChange={handleProfileChange} placeholder="City, Country" />
                                 </div>
                             </div>
                         </div>

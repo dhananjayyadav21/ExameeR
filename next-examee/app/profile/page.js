@@ -66,10 +66,11 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                 {/* Avatar */}
                                 <div className="position-relative d-inline-block mx-auto mb-3">
                                     <img
-                                        src={profileImage}
+                                        src={user?.Profile ? (user.Profile.startsWith('http') ? user.Profile : `https://lh3.googleusercontent.com/d/${user.Profile}`) : "/assets/img/Avtar.jpg"}
                                         alt="Avatar"
                                         className="rounded-circle shadow-sm"
                                         style={{ width: '110px', height: '110px', objectFit: 'cover', border: '4px solid #04bd20' }}
+                                        onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (user?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
                                     />
                                     <span className="position-absolute bottom-0 end-0 rounded-circle d-flex align-items-center justify-content-center"
                                         style={{ width: '28px', height: '28px', background: '#04bd20', border: '2px solid #fff' }}>
@@ -77,8 +78,10 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                     </span>
                                 </div>
 
-                                <h4 className="fw-bold text-dark mb-1">@{user?.Username}</h4>
-                                <p className="text-muted small mb-3">{user?.Email}</p>
+                                <h4 className="fw-bold text-dark mb-1">
+                                    {(user?.FirstName || user?.LastName) ? `${user.FirstName} ${user.LastName}`.trim() : user?.Username}
+                                </h4>
+                                <p className="text-muted small mb-3">@{user?.Username} · {user?.Email}</p>
 
                                 {user?.isVerified ? (
                                     <span className="badge rounded-pill mx-auto mb-3 px-3 py-2" style={{ background: 'rgba(4,189,32,0.12)', color: '#039419', fontSize: '0.82rem' }}>
@@ -116,10 +119,14 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                 </h5>
                                 <div className="row g-3">
                                     {[
-                                        { label: 'Username', value: user?.Username, icon: 'fa-at' },
+                                        { label: 'Full Name', value: user?.FirstName ? `${user.FirstName} ${user.LastName}` : 'Not Set', icon: 'fa-user' },
                                         { label: 'Email Address', value: user?.Email, icon: 'fa-envelope' },
+                                        { label: 'Institution', value: user?.Institution || 'Not Set', icon: 'fa-building' },
+                                        { label: 'Phone Number', value: user?.Phone || 'Not Set', icon: 'fa-phone' },
+                                        { label: 'Location', value: user?.Location || 'Not Set', icon: 'fa-location-dot' },
+                                        { label: 'Gender', value: user?.Gender || 'Not Set', icon: 'fa-venus-mars' },
                                         { label: 'Account Role', value: user?.Role || 'Student', icon: 'fa-user-shield' },
-                                        { label: 'Account Status', value: user?.isVerified ? '✓ Verified' : '✗ Not Verified', icon: 'fa-circle-check' },
+                                        { label: 'Verified Status', value: user?.isVerified ? '✓ Verified' : '✗ Not Verified', icon: 'fa-circle-check' },
                                     ].map((item, idx) => (
                                         <div key={idx} className="col-sm-6">
                                             <div className="bg-light rounded-3 p-3">

@@ -95,7 +95,7 @@ export default function DashboardLayout({ children }) {
                             <div className="dl-profile-dropdown">
                                 <div className="dl-profile-info d-none d-lg-block">
                                     <p className="dl-profile-name">
-                                        {userData?.FirstName ? `${userData.FirstName} ${userData.LastName}` : (userData?.Username || "Loading...")}
+                                        {(userData?.FirstName || userData?.LastName) ? `${userData.FirstName} ${userData.LastName}`.trim() : (userData?.Username || "Loading...")}
                                     </p>
                                     <p className="dl-profile-role">{userData?.Role || "Admin"}</p>
                                 </div>

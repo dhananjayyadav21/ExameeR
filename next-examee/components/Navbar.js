@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { toast } from "react-toastify";
 import hasUserRole from '../utils/hasUserRole';
+import { useContext } from 'react';
+import ContentContext from '@/context/ContentContext';
 
 const Navbar = ({ setProgress = () => { } }) => {
     const searchParams = useSearchParams();
@@ -11,29 +13,24 @@ const Navbar = ({ setProgress = () => { } }) => {
     const pathname = usePathname();
     const isDashboard = pathname.startsWith('/dashboard');
 
+    const context = useContext(ContentContext);
+    const { userData } = context;
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [token, setToken] = useState(null);
-    const [profile, setProfile] = useState("/assets/img/Avtar.jpg");
-    const [username, setUsername] = useState('');
 
     useEffect(() => {
         setToken(localStorage.getItem("token"));
-        const storedProfile = localStorage.getItem("Profile");
-        if (storedProfile && storedProfile !== "undefined") {
-            setProfile(storedProfile);
-        }
-        const storedUsername = localStorage.getItem("Username");
-        if (storedUsername && storedUsername !== "undefined") {
-            setUsername(storedUsername);
-        }
-
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const userProfile = userData?.Profile ? (userData.Profile.startsWith('http') ? userData.Profile : `https://lh3.googleusercontent.com/d/${userData.Profile}`) : "/assets/img/Avtar.jpg";
+    const displayName = (userData?.FirstName || userData?.LastName) ? `${userData.FirstName} ${userData.LastName}`.trim() : (userData?.Username || "Profile");
 
     const toggleMobileMenu = () => {
         setProgress(0);
@@ -85,15 +82,26 @@ const Navbar = ({ setProgress = () => { } }) => {
                         {token && (
                             <div className="nav-item dropdown d-lg-none">
                                 <a className="nav-link p-0" href="#" id="mobileProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img className="rounded-circle" src={profile} alt="Avatar"
-                                        style={{ width: '34px', height: '34px', border: '2.5px solid #04bd20', objectFit: 'cover' }} />
+                                    <img
+                                        src={userProfile}
+                                        alt="Avatar"
+                                        style={{ width: '34px', height: '34px', border: '2.5px solid #04bd20', objectFit: 'cover' }}
+                                        className="rounded-circle"
+                                        onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
+                                    />
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '230px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
                                     {/* Header */}
                                     <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
-                                        <img src={profile} alt="Avatar" className="rounded-circle flex-shrink-0" style={{ width: '42px', height: '42px', border: '2px solid #04bd20', objectFit: 'cover' }} />
+                                        <img
+                                            src={userProfile}
+                                            alt="Avatar"
+                                            className="rounded-circle flex-shrink-0"
+                                            style={{ width: '42px', height: '42px', border: '2px solid #04bd20', objectFit: 'cover' }}
+                                            onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
+                                        />
                                         <div className="overflow-hidden">
-                                            <p className="fw-bold text-white mb-0 text-truncate" style={{ fontSize: '0.9rem' }}>@{username || 'Profile'}</p>
+                                            <p className="fw-bold text-white mb-0 text-truncate" style={{ fontSize: '0.9rem' }}>{displayName}</p>
                                             <span className="badge rounded-pill" style={{ background: 'rgba(4,189,32,0.25)', color: '#4dfa6a', fontSize: '0.68rem' }}>Student</span>
                                         </div>
                                     </div>
@@ -157,19 +165,30 @@ const Navbar = ({ setProgress = () => { } }) => {
                             {token ? (
                                 <li className="nav-item dropdown d-none d-lg-block">
                                     <a className="nav-link p-0 d-flex align-items-center gap-2" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img className="rounded-circle" src={profile} alt="Avatar"
-                                            style={{ width: '38px', height: '38px', border: '2.5px solid #04bd20', objectFit: 'cover' }} />
+                                        <img
+                                            src={userProfile}
+                                            alt="Avatar"
+                                            className="rounded-circle"
+                                            style={{ width: '38px', height: '38px', border: '2.5px solid #04bd20', objectFit: 'cover' }}
+                                            onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
+                                        />
                                         <i className="fa-solid fa-chevron-down text-muted" style={{ fontSize: '0.65rem' }}></i>
                                     </a>
                                     <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '250px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
                                         {/* User Header */}
                                         <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
                                             <div className="position-relative flex-shrink-0">
-                                                <img src={profile} alt="Avatar" className="rounded-circle" style={{ width: '48px', height: '48px', border: '2px solid #04bd20', objectFit: 'cover' }} />
+                                                <img
+                                                    src={userProfile}
+                                                    alt="Avatar"
+                                                    className="rounded-circle"
+                                                    style={{ width: '48px', height: '48px', border: '2px solid #04bd20', objectFit: 'cover' }}
+                                                    onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
+                                                />
                                                 <span className="position-absolute bottom-0 end-0 rounded-circle" style={{ width: '13px', height: '13px', background: '#04bd20', border: '2px solid #0f172a' }}></span>
                                             </div>
                                             <div className="overflow-hidden">
-                                                <p className="text-white mb-0 text-truncate" style={{ fontWeight: 600, fontSize: '0.9rem', letterSpacing: '-0.01em' }}>@{username || 'Profile'}</p>
+                                                <p className="text-white mb-0 text-truncate" style={{ fontWeight: 600, fontSize: '0.9rem', letterSpacing: '-0.01em' }}>{displayName}</p>
                                                 <span className="px-2 py-0" style={{ background: 'rgba(4,189,32,0.22)', color: '#5ef774', fontSize: '0.68rem', fontWeight: 600, borderRadius: '50px', letterSpacing: '0.03em' }}>Student</span>
                                             </div>
                                         </div>

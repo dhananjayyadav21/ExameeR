@@ -417,9 +417,13 @@ const ContentState = (props) => {
 
     const updateProfile = async (Data) => {
         try {
+            console.log("CONTEXT_UPDATE_PROFILE_DATA:", Data);
             const json = await putData(`${GlobalUrls.UPDATEPROFILE_URL}`, Data);
+            console.log("CONTEXT_UPDATE_PROFILE_RESPONSE:", json);
             if (json.success === true) {
                 setUserData(json.user);
+                localStorage.setItem("Username", json.user.Username);
+                localStorage.setItem("Profile", json.user.Profile || "");
             }
             return json;
         } catch (error) {

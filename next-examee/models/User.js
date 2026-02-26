@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     Username: {
         type: String,
         required: true,
+        unique: true
     },
     Email: {
         type: String,
@@ -61,6 +62,23 @@ const UserSchema = new mongoose.Schema({
     Profile: {
         type: String
     },
+    About: {
+        type: String,
+        default: ''
+    },
+    Phone: {
+        type: String,
+        default: ''
+    },
+    Gender: {
+        type: String,
+        enum: ['Male', 'Female', 'Other', ''],
+        default: ''
+    },
+    Location: {
+        type: String,
+        default: ''
+    },
     NotificationPrefs: {
         newCourse: { type: Boolean, default: true },
         notesUpdate: { type: Boolean, default: true },
@@ -68,4 +86,7 @@ const UserSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.models.Users || mongoose.model('Users', UserSchema);
+if (mongoose.models && mongoose.models.Users) {
+    delete mongoose.models.Users;
+}
+export default mongoose.model('Users', UserSchema);
