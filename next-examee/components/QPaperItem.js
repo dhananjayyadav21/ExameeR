@@ -79,12 +79,12 @@ const QPaperItem = ({ pyq }) => {
                         <i className="fa-solid fa-file-contract text-warning fs-4"></i>
                     </div>
                     <button
-                        className={`btn p-0 border-0 ${PYQ?.isWatching ? 'text-danger' : 'text-primary'}`}
+                        className={`btn p-0 border-0 ${isMyLearning || PYQ?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
                         onClick={() => setShowModal(true)}
-                        title={PYQ?.isWatching ? "Remove from learning" : "Add to learning"}
+                        title={isMyLearning || PYQ?.isWatching ? "Saved" : "Save for later"}
                     >
-                        <div className={`rounded-circle shadow-sm border d-flex align-items-center justify-content-center bg-white`} style={{ width: '32px', height: '32px' }}>
-                            <i className={`fa-solid ${PYQ?.isWatching ? 'fa-minus' : 'fa-plus'} small`}></i>
+                        <div className="d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
+                            <i className={`${isMyLearning || PYQ?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark fs-5`}></i>
                         </div>
                     </button>
                 </div>

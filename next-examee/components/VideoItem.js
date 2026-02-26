@@ -102,10 +102,13 @@ const VideoItem = ({ video }) => {
                     <div className="d-flex justify-content-between align-items-start mb-3">
                         <h6 className="fw-bold mb-0 text-truncate-2 flex-grow-1" title={Video?.title}>{Video?.title}</h6>
                         <button
-                            className={`btn btn-sm p-1 border-0 ms-2 ${Video?.isWatching ? 'text-danger' : 'text-primary'}`}
+                            className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
                             onClick={() => setShowModal(true)}
+                            title={isMyLearning || Video?.isWatching ? "Saved" : "Save for later"}
                         >
-                            <i className={`fa-solid ${Video?.isWatching ? 'fa-bookmark' : 'fa-plus-circle'} fs-5`}></i>
+                            <div className="d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
+                                <i className={`${isMyLearning || Video?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark fs-5`}></i>
+                            </div>
                         </button>
                     </div>
                     <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75">
