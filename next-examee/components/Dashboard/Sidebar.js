@@ -1,4 +1,5 @@
 "use client";
+import "./Sidebar.css";
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -115,10 +116,6 @@ const Sidebar = () => {
                     </div>
                 </div>
             </div>
-
-            import "./Sidebar.css";
-
-const Sidebar = () => {
         </nav>
     );
 };

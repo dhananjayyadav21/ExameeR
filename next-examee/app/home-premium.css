@@ -1,7 +1,8 @@
 /* Home Premium Design System */
 :root {
     --primary-brand: #04bd20;
-    --active-light: #f0fdf4;
+    --active-blue: #eff6ff;
+    --active-blue-border: #3b82f6;
     --dark-header: #121212;
     --ongoing-red: #ef4444;
 }
@@ -773,17 +774,10 @@
     left: 0;
     top: 0;
     background: #fff;
-    border-right: 1px solid #f0f0f0;
+    border-right: 1px solid rgba(0, 0, 0, 0.04);
     padding: 15px 0;
     overflow-y: auto;
     z-index: 1000;
-    scrollbar-width: none;
-    /* Firefox */
-}
-
-.li-sidebar::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari, Opera */
 }
 
 .li-main {
@@ -804,7 +798,7 @@
     top: 0;
     z-index: 1000;
     color: #333;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .li-header .li-search-box {
@@ -824,13 +818,14 @@
 }
 
 .li-section-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #999;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #000;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     margin-bottom: 15px;
     padding-left: 10px;
+    opacity: 1;
 }
 
 .li-menu-item {
@@ -852,11 +847,10 @@
 }
 
 .li-menu-item--active {
-    background: var(--active-light);
-    color: var(--primary-brand) !important;
-    font-weight: 600;
-    border-left: 4px solid var(--primary-brand);
-    border-radius: 4px;
+    background: var(--active-blue);
+    color: var(--active-blue-border) !important;
+    font-weight: 700;
+    border-radius: 12px;
 }
 
 .li-menu-icon {
