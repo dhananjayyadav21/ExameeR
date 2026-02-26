@@ -70,9 +70,6 @@ export default function DashboardLayout({ children }) {
                 {/* Top bar */}
                 <header className="dl-topbar">
                     <div className="dl-topbar-left">
-                        <button className="dl-hamburger d-lg-none" onClick={() => setMobileOpen(!mobileOpen)}>
-                            <i className={`fa-solid ${mobileOpen ? 'fa-xmark' : 'fa-bars'}`}></i>
-                        </button>
 
                         <div className="dl-search-container d-none d-md-flex">
                             <i className="fa-solid fa-magnifying-glass dl-search-icon"></i>
@@ -236,10 +233,10 @@ export default function DashboardLayout({ children }) {
                 .dl-topbar {
                     display: flex; 
                     align-items: center; 
-                    justify-content: space-between;
-                    padding: 0 32px;
-                    height: 80px;
-                    background: rgba(255, 255, 255, 0.8);
+                    justify-content: flex-end;
+                    padding: 0 16px;
+                    height: 72px;
+                    background: rgba(255, 255, 255, 0.9);
                     backdrop-filter: blur(12px);
                     border-bottom: 1px solid #f1f5f9;
                     position: sticky; 
@@ -247,7 +244,19 @@ export default function DashboardLayout({ children }) {
                     z-index: 100;
                 }
 
-                .dl-topbar-left { display: flex; align-items: center; gap: 24px; flex: 1; }
+                @media (min-width: 768px) {
+                    .dl-topbar {
+                        justify-content: space-between;
+                        padding: 0 32px;
+                        height: 80px;
+                    }
+                }
+
+                .dl-topbar-left { display: none; align-items: center; gap: 24px; flex: 1; }
+
+                @media (min-width: 768px) {
+                    .dl-topbar-left { display: flex; }
+                }
 
                 .dl-search-container {
                     position: relative;
