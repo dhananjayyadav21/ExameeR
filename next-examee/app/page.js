@@ -301,7 +301,7 @@ export default function Home({ setProgress = () => { } }) {
       </section>
 
       {/* Team Section */}
-      <section className="py-custom border-bottom bg-white">
+      {/* <section className="py-custom border-bottom bg-white">
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="display-6 fw-bold mb-4 text-dark">Meet Our Educational Mentors</h2>
@@ -311,7 +311,7 @@ export default function Home({ setProgress = () => { } }) {
             {team.map((t, index) => <Team key={index} profile={t.profile} name={t.name} role={t.role} description={t.description} />)}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="py-5 bg-white">
         <HowExameeWork />
