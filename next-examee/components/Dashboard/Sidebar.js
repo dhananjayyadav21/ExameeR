@@ -48,7 +48,7 @@ const Sidebar = () => {
     return (
         <nav className="ds-sidebar">
             {/* Brand */}
-            <div className="ds-brand">
+            <Link href="/" className="ds-brand" style={{ textDecoration: 'none' }}>
                 <div className="ds-brand-logo">
                     <i className="fa-solid fa-graduation-cap"></i>
                 </div>
@@ -56,7 +56,7 @@ const Sidebar = () => {
                     <span className="ds-brand-name">Examee</span>
                     <span className="ds-brand-tag">Premium Learning</span>
                 </div>
-            </div>
+            </Link>
 
             {/* Navigation Sections */}
             <div className="ds-nav-container">

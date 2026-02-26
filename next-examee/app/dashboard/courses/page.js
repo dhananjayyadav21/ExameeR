@@ -14,7 +14,7 @@ export default function DashboardCoursesPage() {
 
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState("sciTechnology");
-    const [status, setStatus] = useState("public");
+    const [status, setStatus] = useState("");
     const [isloading, setIsloading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalCourse, setModalCourse] = useState(null);
@@ -28,14 +28,25 @@ export default function DashboardCoursesPage() {
 
     useEffect(() => { getCourse(); }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // Auto-search when dropdowns change
+    useEffect(() => { doSearch(search, category, status); }, [category, status]);
+
+    const doSearch = async (s = search, c = category, st = status) => {
         setIsloading(true);
         try {
-            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${search}&category=${category}&status=${status}&type=course`);
+            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${s}&category=${c}&status=${st}&type=course`);
             if (res.success === false) toast.warning(res.message || "No matching content found");
         } catch (error) { console.error(error); }
         finally { setIsloading(false); }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        doSearch();
+    };
+
+    const handleSearchKeyDown = (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
     };
 
     const deleteConfirm = async (course) => {
@@ -74,7 +85,7 @@ export default function DashboardCoursesPage() {
                         <label className="dc-label">Search</label>
                         <div className="dc-input-wrap">
                             <span className="dc-input-icon"><i className="fa-solid fa-search"></i></span>
-                            <input type="text" className="dc-input" placeholder="Course title, mentor..." value={search} onChange={e => setSearch(e.target.value)} />
+                            <input type="text" className="dc-input" placeholder="Course title, mentor… (Enter to search)" value={search} onChange={e => setSearch(e.target.value)} onKeyDown={handleSearchKeyDown} />
                         </div>
                     </div>
                     <div className="col-md-3">
@@ -93,6 +104,7 @@ export default function DashboardCoursesPage() {
                             <div className="dc-input-wrap flex-grow-1">
                                 <span className="dc-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
                                 <select className="dc-input dc-select" value={status} onChange={e => setStatus(e.target.value)}>
+                                    <option value="">All Status</option>
                                     <option value="public">Active</option>
                                     <option value="draft">Draft</option>
                                     <option value="archived">Archived</option>
