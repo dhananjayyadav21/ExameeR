@@ -15,6 +15,7 @@ const LoggedInHome = ({ userData }) => {
     const { Course, getCourse, Notes, getNote, PYQS, getPYQ, Video, getVideo, updateProfile } = context;
     const [searchTerm, setSearchTerm] = useState('');
     const [activeTab, setActiveTab] = useState('Course');
+    const [libraryFilter, setLibraryFilter] = useState('All');
     const [isEditing, setIsEditing] = useState(false);
     const [profileData, setProfileData] = useState({
         firstName: '',
@@ -171,11 +172,16 @@ const LoggedInHome = ({ userData }) => {
 
     const currentData = getCurrentData();
 
-    const filteredData = currentData.filter(item =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.courseLevel?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.category?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredData = currentData.filter(item => {
+        const matchesSearch = item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.courseLevel?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.category?.toLowerCase().includes(searchTerm.toLowerCase());
+
+        if (activeTab === 'Library' && libraryFilter !== 'All') {
+            return matchesSearch && item.type === libraryFilter;
+        }
+        return matchesSearch;
+    });
 
     const getBatchColor = (idx) => {
         const colors = ['#e1f5fe', '#fff9c4', '#e8f5e9', '#f3e5f5'];
@@ -502,11 +508,27 @@ const LoggedInHome = ({ userData }) => {
                                 <p className="text-muted small">{filteredData.length} {activeTab.toLowerCase()}s available</p>
                             </div>
 
-                            <div className="d-flex gap-2 mb-4">
-                                <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm d-flex align-items-center gap-2 fw-bold shadow-sm">
-                                    Filter <i className="fa-solid fa-sliders small"></i>
-                                </button>
-                                <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm fw-bold shadow-sm">Online</button>
+                            <div className="d-flex gap-2 mb-4 flex-wrap align-items-center">
+                                {activeTab === 'Library' ? (
+                                    <div className="d-flex gap-2 flex-wrap pb-2 mb-2 w-100 pb-md-0 mb-md-0">
+                                        {['All', 'Notes', 'PYQ', 'Video', 'Course'].map(filterOption => (
+                                            <button
+                                                key={filterOption}
+                                                onClick={() => setLibraryFilter(filterOption)}
+                                                className={`btn rounded-pill border px-3 py-1 btn-sm fw-bold shadow-sm flex-shrink-0 ${libraryFilter === filterOption ? 'btn-dark' : 'btn-white'}`}
+                                            >
+                                                {filterOption}
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <>
+                                        <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm d-flex align-items-center gap-2 fw-bold shadow-sm">
+                                            Filter <i className="fa-solid fa-sliders small"></i>
+                                        </button>
+                                        <button className="btn btn-white rounded-pill border px-3 py-1 btn-sm fw-bold shadow-sm">Online</button>
+                                    </>
+                                )}
                             </div>
 
                             <div className="row g-4 mt-2">
