@@ -22,20 +22,35 @@ export async function GET(req) {
         }
 
         const { searchParams } = new URL(req.url);
-        const status = searchParams.get('status') || "active";
-        const search = searchParams.get('search') || "gmail";
-        const regex = new RegExp(search, 'i');
+        const status = searchParams.get('status') || "";         // empty = all statuses
+        const search = searchParams.get('search') || "";          // empty = all users
+        const roleFilter = searchParams.get('role') || 'Student'; // Student | Instructor
+        const regex = search ? new RegExp(search, 'i') : /.*/;
 
         if (requester.Role === 'Admin') {
-            const students = await User.find({
-                Role: 'Student',
-                Status: status,
+            const targetRole = ['Student', 'Instructor'].includes(roleFilter) ? roleFilter : 'Student';
+            const query = {
+                Role: targetRole,
                 $or: [{ Username: regex }, { Email: regex }]
-            }).select('-Password -ForgotPasswordCode');
+            };
+            if (status) query.Status = status; // only filter status if explicitly selected
+            const students = await User.find(query).select('-Password -ForgotPasswordCode');
             return NextResponse.json({ success: true, students }, { status: 200 });
         }
 
         if (requester.Role === 'Instructor') {
+            // role=Instructor → show all instructors
+            if (roleFilter === 'Instructor') {
+                const query = {
+                    Role: 'Instructor',
+                    $or: [{ Username: regex }, { Email: regex }]
+                };
+                if (status) query.Status = status;
+                const students = await User.find(query).select('-Password -ForgotPasswordCode');
+                return NextResponse.json({ success: true, students }, { status: 200 });
+            }
+
+            // role=Student (or empty) → their own enrolled students
             const [noteIds, videoIds, pyqIds] = await Promise.all([
                 Note.find({ uploadedBy: userData._id }).select('_id'),
                 Video.find({ uploadedBy: userData._id }).select('_id'),
@@ -46,13 +61,14 @@ export async function GET(req) {
             const learningRecords = await MyLearningContent.find({ contentId: { $in: contentIds } }).select('userId');
             const studentIds = [...new Set(learningRecords.map(l => l.userId.toString()))];
 
-            const students = await User.find({
+            const studentQuery = {
                 _id: { $in: studentIds },
                 Role: 'Student',
-                Status: status,
                 $or: [{ Username: regex }, { Email: regex }]
-            }).select('-Password -ForgotPasswordCode');
+            };
+            if (status) studentQuery.Status = status;
 
+            const students = await User.find(studentQuery).select('-Password -ForgotPasswordCode');
             return NextResponse.json({ success: true, students }, { status: 200 });
         }
 

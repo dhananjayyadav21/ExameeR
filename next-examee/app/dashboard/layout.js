@@ -13,7 +13,7 @@ const menuItems = [
     { href: "/dashboard/notes", label: "Study Notes", icon: "fa-file-lines" },
     { href: "/dashboard/pyq", label: "Previous Papers", icon: "fa-circle-question" },
     { href: "/dashboard/videos", label: "Video Lectures", icon: "fa-circle-play" },
-    { href: "/dashboard/students", label: "Students", icon: "fa-user-graduate" },
+    { href: "/dashboard/students", label: "Users", icon: "fa-users" },
     { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line" },
     { href: "/dashboard/settings", label: "Settings", icon: "fa-gear" },
 ];

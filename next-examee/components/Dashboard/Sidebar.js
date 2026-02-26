@@ -19,7 +19,7 @@ const menuItems = [
     {
         title: "MANAGEMENT",
         items: [
-            { href: "/dashboard/students", label: "Students", icon: "fa-user-graduate" },
+            { href: "/dashboard/students", label: "Users", icon: "fa-users" },
             { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line" },
         ]
     },

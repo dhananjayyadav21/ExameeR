@@ -79,6 +79,18 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    Course: {
+        type: String,
+        default: ''
+    },
+    University: {
+        type: String,
+        default: ''
+    },
+    Semester: {
+        type: String,
+        default: ''
+    },
     NotificationPrefs: {
         newCourse: { type: Boolean, default: true },
         notesUpdate: { type: Boolean, default: true },

@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Suspense } from "react";
 import GlobalLoader from "@/components/GlobalLoader";
+import ProfileSetupGate from "@/components/ProfileSetupGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,22 +37,24 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <GoogleOAuthProvider clientId="81360539878-c23jclv7lc31cf8m2remiso4qk6kthd4.apps.googleusercontent.com">
           <ContentState>
-            <div className="flex flex-col min-h-screen">
-              <Suspense fallback={<div className="p-3 text-center bg-white">Loading Navbar...</div>}>
-                <Navbar />
-              </Suspense>
+            <ProfileSetupGate>
+              <div className="flex flex-col min-h-screen">
+                <Suspense fallback={<div className="p-3 text-center bg-white">Loading Navbar...</div>}>
+                  <Navbar />
+                </Suspense>
 
-              <main className="flex-grow">
-                {children}
-              </main>
+                <main className="flex-grow">
+                  {children}
+                </main>
 
-              <Footer />
-            </div>
+                <Footer />
+              </div>
 
-            <GlobalLoader />
-            <FloatingWhatsAppButton />
-            <GoToImpsButton />
-            <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} />
+              <GlobalLoader />
+              <FloatingWhatsAppButton />
+              <GoToImpsButton />
+              <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} />
+            </ProfileSetupGate>
           </ContentState>
         </GoogleOAuthProvider>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

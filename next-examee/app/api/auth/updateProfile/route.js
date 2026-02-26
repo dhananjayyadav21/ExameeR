@@ -13,7 +13,7 @@ export async function PUT(req) {
 
         const body = await req.json();
         console.log("UPDATE_PROFILE_REQUEST_BODY:", body);
-        const { Username, FirstName, LastName, Institution, Profile, NotificationPrefs, About, Phone, Gender, Location } = body;
+        const { Username, FirstName, LastName, Institution, Profile, NotificationPrefs, About, Phone, Gender, Location, Course, University, Semester } = body;
 
         // Check if username is being changed and if it's already taken
         if (Username) {
@@ -36,7 +36,10 @@ export async function PUT(req) {
                     About,
                     Phone,
                     Gender,
-                    Location
+                    Location,
+                    Course,
+                    University,
+                    Semester
                 }
             },
             { new: true }
