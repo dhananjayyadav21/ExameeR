@@ -15,7 +15,7 @@ export default function StudentManagementPage() {
     const [showModal, setShowModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [modalStudent, setModalStudent] = useState(null);
-    const [editData, setEditData] = useState({ Username: '', Email: '', isVerified: false, Status: 'active' });
+    const [editData, setEditData] = useState({ Username: '', Email: '', FirstName: '', LastName: '', isVerified: false, Status: 'active' });
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -47,6 +47,8 @@ export default function StudentManagementPage() {
         setEditData({
             Username: student.Username,
             Email: student.Email,
+            FirstName: student.FirstName || '',
+            LastName: student.LastName || '',
             isVerified: student.isVerified,
             Status: student.Status || 'active'
         });
@@ -151,8 +153,10 @@ export default function StudentManagementPage() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <div className="dc-student-name">{student?.Username}</div>
-                                                    <div className="dc-student-role">Student</div>
+                                                    <div className="dc-student-name">
+                                                        {student?.FirstName ? `${student.FirstName} ${student.LastName}` : student?.Username}
+                                                    </div>
+                                                    <div className="dc-student-role">Student · {student?.Username}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -254,6 +258,16 @@ export default function StudentManagementPage() {
                             <div className="mb-3">
                                 <label className="dc-label">Email Address</label>
                                 <input type="email" className="dc-input" value={editData.Email} onChange={e => setEditData({ ...editData, Email: e.target.value })} required />
+                            </div>
+                            <div className="row g-3 mb-3">
+                                <div className="col-6">
+                                    <label className="dc-label">First Name</label>
+                                    <input type="text" className="dc-input" value={editData.FirstName} onChange={e => setEditData({ ...editData, FirstName: e.target.value })} />
+                                </div>
+                                <div className="col-6">
+                                    <label className="dc-label">Last Name</label>
+                                    <input type="text" className="dc-input" value={editData.LastName} onChange={e => setEditData({ ...editData, LastName: e.target.value })} />
+                                </div>
                             </div>
                             <div className="row g-3 mb-4">
                                 <div className="col-6">

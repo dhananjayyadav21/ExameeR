@@ -40,12 +40,32 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
-    Profile: {
+    FirstName: {
+        type: String,
+        default: ''
+    },
+    LastName: {
+        type: String,
+        default: ''
+    },
+    Institution: {
+        type: String,
+        default: ''
+    },
+    Fingerprint: {
         type: String
     },
     IPAddress: {
         type: String
     },
+    Profile: {
+        type: String
+    },
+    NotificationPrefs: {
+        newCourse: { type: Boolean, default: true },
+        notesUpdate: { type: Boolean, default: true },
+        videoAlert: { type: Boolean, default: true }
+    }
 }, { timestamps: true });
 
 export default mongoose.models.Users || mongoose.model('Users', UserSchema);

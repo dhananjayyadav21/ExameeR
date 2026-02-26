@@ -11,6 +11,9 @@ export const VERIFYTOKEN_URL = `${BASEURL}auth/verifyToken`
 //------[User Details Urls]-------------
 export const GETUSER_URL = `${BASEURL}auth/getUser`
 export const SUPPORTUSER_URL = `${BASEURL}auth/support`
+export const UPDATEPROFILE_URL = `${BASEURL}auth/updateProfile`
+export const UPDATEPASSWORD_URL = `${BASEURL}auth/updatePassword`
+export const DELETEACCOUNT_URL = `${BASEURL}auth/deleteAccount`
 
 //------[ Announce ]-------------
 export const GETALLUSER_URL = `${BASEURL}announcement/getAllUser`

@@ -1,16 +1,133 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import ContentContext from '@/context/ContentContext';
+import { toast } from 'react-toastify';
+import DriveUpload from '@/utils/DriveUpload';
+import Modal from '@/components/Modal';
+import { useRouter } from 'next/navigation';
 
 export default function SettingsPage() {
-    const [notifications, setNotifications] = useState({ newCourse: true, notesUpdate: true, videoAlert: false });
-    const [saved, setSaved] = useState(false);
+    const context = useContext(ContentContext);
+    const { userData, getUser, updateProfile, updatePassword, deleteAccount } = context;
+    const router = useRouter();
+
+    const [notifications, setNotifications] = useState({ newCourse: true, notesUpdate: true, videoAlert: true });
+    const [profileData, setProfileData] = useState({
+        username: '',
+        firstName: '',
+        lastName: '',
+        institution: '',
+        profile: ''
+    });
+    const [passwords, setPasswords] = useState({ current: '', next: '', confirm: '' });
+    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            setLoading(true);
+            await getUser();
+            setLoading(false);
+        };
+        fetchUser();
+    }, []);
+
+    useEffect(() => {
+        if (userData) {
+            setProfileData({
+                username: userData.Username || '',
+                firstName: userData.FirstName || '',
+                lastName: userData.LastName || '',
+                institution: userData.Institution || '',
+                profile: userData.Profile || 'https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg'
+            });
+            if (userData.NotificationPrefs) {
+                setNotifications(userData.NotificationPrefs);
+            }
+        }
+    }, [userData]);
+
+    const handleProfileChange = (e) => {
+        setProfileData({ ...profileData, [e.target.name]: e.target.value });
+    };
+
+    const handleAvatarUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setUploading(true);
+        try {
+            const result = await DriveUpload(file);
+            if (result?.success && result?.fileId) {
+                setProfileData(prev => ({ ...prev, profile: result.fileId }));
+                toast.success("Avatar uploaded successfully!");
+            } else {
+                toast.error("Failed to upload avatar.");
+            }
+        } catch (error) {
+            toast.error("An error occurred during upload.");
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleSaveProfile = async () => {
+        setSaving(true);
+        const res = await updateProfile({
+            Username: profileData.username,
+            FirstName: profileData.firstName,
+            LastName: profileData.lastName,
+            Institution: profileData.institution,
+            Profile: profileData.profile,
+            NotificationPrefs: notifications
+        });
+        if (res?.success) {
+            toast.success(res.message || "Profile updated successfully!");
+        } else {
+            toast.error(res?.message || "Failed to update profile.");
+        }
+        setSaving(false);
+    };
+
+    const handleUpdatePassword = async () => {
+        if (!passwords.current || !passwords.next || !passwords.confirm) {
+            return toast.warning("All password fields are required");
+        }
+        if (passwords.next !== passwords.confirm) {
+            return toast.error("New passwords do not match");
+        }
+        if (passwords.next.length < 8) {
+            return toast.warning("Password must be at least 8 characters");
+        }
+
+        setSaving(true);
+        const res = await updatePassword({
+            currentPassword: passwords.current,
+            newPassword: passwords.next
+        });
+        if (res?.success) {
+            toast.success("Password updated successfully!");
+            setPasswords({ current: '', next: '', confirm: '' });
+        } else {
+            toast.error(res?.message || "Failed to update password.");
+        }
+        setSaving(false);
+    };
+
+    const handleDeleteAccount = async () => {
+        const res = await deleteAccount();
+        if (res?.success) {
+            toast.success("Account deleted successfully");
+            localStorage.removeItem('token');
+            router.push('/auth/login');
+        } else {
+            toast.error(res?.message || "Failed to delete account");
+        }
+        setShowDeleteModal(false);
+    };
 
     const toggleNotif = (key) => setNotifications(p => ({ ...p, [key]: !p[key] }));
-
-    const handleSave = () => {
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2500);
-    };
 
     const notifPrefs = [
         { id: 'newCourse', label: 'New Course Notifications', desc: 'Get notified when new courses are published', icon: 'fa-graduation-cap', color: '#0ea5e9' },
@@ -18,19 +135,28 @@ export default function SettingsPage() {
         { id: 'videoAlert', label: 'Video Lecture Uploads', desc: 'Be notified of newly uploaded video lectures', icon: 'fa-circle-play', color: '#8b5cf6' },
     ];
 
+    if (loading && !userData) {
+        return <div className="p-5 text-center">Loading settings...</div>;
+    }
+
     return (
         <section className="st-page">
+            <Modal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={handleDeleteAccount}
+                heading="Delete Account?"
+                subHeading="This action is permanent and cannot be undone. All your data will be cleared."
+            />
+
             {/* Header */}
             <div className="st-header">
                 <div>
-                    <h1 className="st-title">Account Settings</h1>
+                    <h1 className="st-title">
+                        {userData?.FirstName ? `${userData.FirstName}'s Settings` : 'Account Settings'}
+                    </h1>
                     <p className="st-sub">Manage your profile, security, and notification preferences</p>
                 </div>
-                {saved && (
-                    <div className="st-save-toast">
-                        <i className="fa-solid fa-circle-check me-2"></i>Changes saved successfully!
-                    </div>
-                )}
             </div>
 
             <div className="row g-4">
@@ -52,13 +178,34 @@ export default function SettingsPage() {
                         {/* Avatar row */}
                         <div className="st-avatar-row">
                             <div className="st-avatar-wrap">
-                                <img src="https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg" alt="Profile" className="st-avatar" />
-                                <button className="st-avatar-cam"><i className="fa-solid fa-camera"></i></button>
+                                {uploading ? (
+                                    <div className="st-avatar st-avatar-loading d-flex align-items-center justify-content-center">
+                                        <div className="spinner-border spinner-border-sm text-primary"></div>
+                                    </div>
+                                ) : (
+                                    <img
+                                        src={profileData.profile ? (profileData.profile.startsWith('http') ? profileData.profile : `https://lh3.googleusercontent.com/d/${profileData.profile}`) : "/assets/img/Avtar.jpg"}
+                                        alt="Profile"
+                                        className="st-avatar"
+                                    />
+                                )}
+                                <input type="file" id="avatarInput" hidden onChange={handleAvatarUpload} accept="image/*" />
+                                <label htmlFor="avatarInput" className="st-avatar-cam"><i className="fa-solid fa-camera"></i></label>
                             </div>
                             <div>
                                 <div className="st-avatar-label">Profile Picture</div>
                                 <div className="st-avatar-hint">PNG, JPG or GIF · Max 2MB</div>
-                                <button className="st-remove-btn">Remove Photo</button>
+                                <button className="st-remove-btn" onClick={() => setProfileData({ ...profileData, profile: 'https://cdn-icons-png.flaticon.com/512/149/149071.png' })}>Remove Photo</button>
+                            </div>
+                        </div>
+
+                        <div className="row g-3 mb-3">
+                            <div className="col-12">
+                                <label className="st-label">Username <span className="st-readonly-tag">Public ID</span></label>
+                                <div className="st-input-wrap">
+                                    <span className="st-input-icon"><i className="fa-solid fa-at"></i></span>
+                                    <input type="text" name="username" className="st-input" value={profileData.username} onChange={handleProfileChange} placeholder="johndoe" />
+                                </div>
                             </div>
                         </div>
 
@@ -67,30 +214,35 @@ export default function SettingsPage() {
                                 <label className="st-label">First Name</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-user"></i></span>
-                                    <input type="text" className="st-input" defaultValue="Instructor" />
+                                    <input type="text" name="firstName" className="st-input" value={profileData.firstName} onChange={handleProfileChange} />
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <label className="st-label">Last Name</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-user"></i></span>
-                                    <input type="text" className="st-input" defaultValue="User" />
+                                    <input type="text" name="lastName" className="st-input" value={profileData.lastName} onChange={handleProfileChange} />
                                 </div>
                             </div>
                             <div className="col-12">
                                 <label className="st-label">Email Address <span className="st-readonly-tag">Read only</span></label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-envelope"></i></span>
-                                    <input type="email" className="st-input" defaultValue="instructor@examee.com" readOnly style={{ background: '#f8fafc', color: '#94a3b8', cursor: 'not-allowed' }} />
+                                    <input type="email" className="st-input" value={userData?.Email || ''} readOnly style={{ background: '#f8fafc', color: '#94a3b8', cursor: 'not-allowed' }} />
                                 </div>
                             </div>
                             <div className="col-12">
                                 <label className="st-label">Institution / Organization</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-building"></i></span>
-                                    <input type="text" className="st-input" defaultValue="Examee Education" />
+                                    <input type="text" name="institution" className="st-input" value={profileData.institution} onChange={handleProfileChange} />
                                 </div>
                             </div>
+                        </div>
+                        <div className="mt-4 d-flex justify-content-end">
+                            <button className="st-save-btn" onClick={handleSaveProfile} disabled={saving}>
+                                {saving ? 'Saving...' : <><i className="fa-solid fa-floppy-disk me-2"></i>Save Profile</>}
+                            </button>
                         </div>
                     </div>
 
@@ -110,30 +262,34 @@ export default function SettingsPage() {
                                 <label className="st-label">Current Password</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-lock"></i></span>
-                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                    <input type="password" name="current" className="st-input" value={passwords.current} onChange={(e) => setPasswords({ ...passwords, current: e.target.value })} placeholder="••••••••" />
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <label className="st-label">New Password</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-key"></i></span>
-                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                    <input type="password" name="next" className="st-input" value={passwords.next} onChange={(e) => setPasswords({ ...passwords, next: e.target.value })} placeholder="••••••••" />
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <label className="st-label">Confirm New Password</label>
                                 <div className="st-input-wrap">
                                     <span className="st-input-icon"><i className="fa-solid fa-key"></i></span>
-                                    <input type="password" className="st-input" placeholder="••••••••" />
+                                    <input type="password" name="confirm" className="st-input" value={passwords.confirm} onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })} placeholder="••••••••" />
                                 </div>
                             </div>
                             <div className="col-12">
                                 <div className="st-password-tips">
-                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Min 8 characters</span>
-                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Mix letters &amp; numbers</span>
-                                    <span className="st-tip"><i className="fa-solid fa-check me-1" style={{ color: '#04bd20' }}></i>Special character</span>
+                                    <span className="st-tip"><i className={`fa-solid ${passwords.next.length >= 8 ? 'fa-check' : 'fa-circle'} me-1`} style={{ color: passwords.next.length >= 8 ? '#04bd20' : '#94a3b8' }}></i>Min 8 characters</span>
+                                    <span className="st-tip text-muted">Use a strong password to stay safe</span>
                                 </div>
                             </div>
+                        </div>
+                        <div className="mt-4 d-flex justify-content-end">
+                            <button className="st-save-btn btn-danger" onClick={handleUpdatePassword} disabled={saving} style={{ background: 'linear-gradient(135deg,#f43f5e,#e11d48)' }}>
+                                {saving ? 'Updating...' : <><i className="fa-solid fa-key me-2"></i>Update Password</>}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -169,6 +325,9 @@ export default function SettingsPage() {
                                 </div>
                             ))}
                         </div>
+                        <button className="st-save-btn w-100 mt-3" onClick={handleSaveProfile} disabled={saving}>
+                            Save Preferences
+                        </button>
                     </div>
 
                     {/* Danger Zone */}
@@ -178,17 +337,14 @@ export default function SettingsPage() {
                             <span>Danger Zone</span>
                         </div>
                         <p className="st-danger-desc">Permanently delete your account and all associated data. This action cannot be undone.</p>
-                        <button className="st-danger-btn">Delete Account</button>
+                        <button className="st-danger-btn" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
                     </div>
                 </div>
             </div>
 
             {/* Footer Actions */}
             <div className="st-footer">
-                <button className="st-reset-btn">Reset All Changes</button>
-                <button className="st-save-btn" onClick={handleSave}>
-                    <i className="fa-solid fa-floppy-disk me-2"></i>Save Changes
-                </button>
+                <button className="st-reset-btn" onClick={() => getUser()}>Refersh Info</button>
             </div>
 
             <style jsx>{`

@@ -28,6 +28,8 @@ export async function PUT(req, { params }) {
 
         if (data.Username) student.Username = data.Username;
         if (data.Email) student.Email = data.Email;
+        if (data.FirstName !== undefined) student.FirstName = data.FirstName;
+        if (data.LastName !== undefined) student.LastName = data.LastName;
         if (data.Password) {
             const salt = await bcrypt.genSalt(10);
             student.Password = await bcrypt.hash(data.Password, salt);

@@ -401,6 +401,50 @@ const ContentState = (props) => {
         }
     };
 
+    const getUser = async () => {
+        try {
+            const json = await getData(`${GlobalUrls.GETUSER_URL}`);
+            if (json.success === true) {
+                setUserData(json.user);
+                localStorage.setItem("Username", json.user.Username);
+                localStorage.setItem("Profile", json.user.Profile || "");
+            }
+            return json;
+        } catch (error) {
+            console.log("Do not fetch user due to some error", error);
+        }
+    };
+
+    const updateProfile = async (Data) => {
+        try {
+            const json = await putData(`${GlobalUrls.UPDATEPROFILE_URL}`, Data);
+            if (json.success === true) {
+                setUserData(json.user);
+            }
+            return json;
+        } catch (error) {
+            console.log("Do not update profile due to some error", error);
+        }
+    };
+
+    const updatePassword = async (Data) => {
+        try {
+            const json = await postData(`${GlobalUrls.UPDATEPASSWORD_URL}`, Data);
+            return json;
+        } catch (error) {
+            console.log("Do not update password due to some error", error);
+        }
+    };
+
+    const deleteAccount = async () => {
+        try {
+            const json = await deleteData(`${GlobalUrls.DELETEACCOUNT_URL}`);
+            return json;
+        } catch (error) {
+            console.log("Do not delete account due to some error", error);
+        }
+    };
+
     const [Notes, setNotes] = useState([]);
     const [MyNotes, setMyNotes] = useState([]);
     const [AllNotes, setAllNotes] = useState([]);
@@ -428,6 +472,7 @@ const ContentState = (props) => {
     const [allUser, setAllUser] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedPlan, setSelectedPlan] = useState(null);
+    const [userData, setUserData] = useState(null);
 
     return (
         <ContentContext.Provider
@@ -444,7 +489,8 @@ const ContentState = (props) => {
                 getAllUser, allUser, sendAnnounceMent,
                 enrollCourse, MyLearningCourse,
                 selectedCourse, setSelectedCourse,
-                selectedPlan, setSelectedPlan
+                selectedPlan, setSelectedPlan,
+                getUser, updateProfile, updatePassword, deleteAccount, userData
             }}>
             {props.children}
         </ContentContext.Provider>

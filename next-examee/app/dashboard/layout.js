@@ -4,6 +4,8 @@ import Sidebar from "../../components/dashboard/Sidebar";
 import MobileBar from "../../components/dashboard/MobileBar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useContext } from "react";
+import ContentContext from "../../context/ContentContext";
 
 const menuItems = [
     { href: "/dashboard", label: "Overview", icon: "fa-house" },
@@ -17,6 +19,8 @@ const menuItems = [
 ];
 
 export default function DashboardLayout({ children }) {
+    const context = useContext(ContentContext);
+    const { userData, getUser } = context;
     const router = useRouter();
     const pathname = usePathname();
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -34,6 +38,9 @@ export default function DashboardLayout({ children }) {
             router.push("/");
         } else {
             setIsAuthorized(true);
+            if (!userData) {
+                getUser();
+            }
         }
     }, []);
 
@@ -87,15 +94,19 @@ export default function DashboardLayout({ children }) {
 
                             <div className="dl-profile-dropdown">
                                 <div className="dl-profile-info d-none d-lg-block">
-                                    <p className="dl-profile-name">Dhananjay Yadav</p>
-                                    <p className="dl-profile-role">Admin</p>
+                                    <p className="dl-profile-name">
+                                        {userData?.FirstName ? `${userData.FirstName} ${userData.LastName}` : (userData?.Username || "Loading...")}
+                                    </p>
+                                    <p className="dl-profile-role">{userData?.Role || "Admin"}</p>
                                 </div>
                                 <div className="dl-avatar-container">
                                     <img
-                                        src="/assets/img/Avtar.jpg"
+                                        src={userData?.Profile ? (userData.Profile.startsWith('http') ? userData.Profile : `https://lh3.googleusercontent.com/d/${userData.Profile}`) : "/assets/img/Avtar.jpg"}
                                         alt="Profile"
                                         className="dl-avatar"
-                                        onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=Admin&background=04bd20&color=fff"; }}
+                                        onError={(e) => {
+                                            e.target.src = `https://ui-avatars.com/api/?name=${userData?.FirstName || 'User'}&background=04bd20&color=fff`;
+                                        }}
                                     />
                                     <div className="dl-online-indicator"></div>
                                 </div>
