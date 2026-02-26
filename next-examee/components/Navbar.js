@@ -96,43 +96,41 @@ const Navbar = ({ setProgress = () => { } }) => {
                                         onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
                                     />
                                 </a>
-                                <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '230px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
+                                <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '260px', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 15px 35px rgba(0,0,0,0.15)', border: '1px solid rgba(0,0,0,0.05)' }}>
                                     {/* Header */}
-                                    <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
+                                    <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}>
                                         <img
                                             src={userProfile}
                                             alt="Avatar"
-                                            className="rounded-circle flex-shrink-0"
-                                            style={{ width: '42px', height: '42px', border: '2px solid #04bd20', objectFit: 'cover' }}
+                                            className="rounded-circle shadow-sm"
+                                            style={{ width: '44px', height: '44px', border: '2px solid #04bd20', objectFit: 'cover', background: '#fff', padding: '1.5px' }}
                                             onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
                                         />
                                         <div className="overflow-hidden">
                                             <p className="fw-bold text-white mb-0 text-truncate" style={{ fontSize: '0.9rem' }}>{displayName}</p>
-                                            <span className="badge rounded-pill" style={{ background: 'rgba(4,189,32,0.25)', color: '#4dfa6a', fontSize: '0.68rem' }}>Student</span>
+                                            <span className="badge rounded-pill" style={{ background: 'rgba(4,189,32,0.2)', color: '#4dfa6a', fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.03em' }}>{hasUserRole("Admin") ? "Admin" : "Student"}</span>
                                         </div>
                                     </div>
                                     {/* Links */}
-                                    <div className="py-2 px-2">
-                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/profile">
-                                            <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user fa-fw"></i></span>
-                                            View Profile
+                                    <div className="p-2">
+                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href="/profile">
+                                            <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user-circle"></i></span>
+                                            <span className="fw-semibold">Personal Profile</span>
                                         </Link>
-                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/myLearning">
-                                            <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap fa-fw"></i></span>
-                                            My Learning
+                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href="/myLearning">
+                                            <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap"></i></span>
+                                            <span className="fw-semibold">My Courses</span>
                                         </Link>
                                         {hasUserRole("Admin", "Instructor") && (
                                             <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
-                                                <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
-                                                Dashboard
+                                                <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-chart-line"></i></span>
+                                                <span className="fw-semibold">Dashboard</span>
                                             </Link>
                                         )}
                                     </div>
-                                    <div className="px-2 pb-2">
-                                        <div className="dropdown-divider my-0 mb-2"></div>
-                                        <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 text-danger" onClick={handleLogout}
-                                            style={{ fontWeight: 600 }}>
-                                            <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-right-from-bracket fa-fw"></i></span>
+                                    <div className="bg-light p-2 border-top">
+                                        <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 text-danger fw-bold" onClick={handleLogout} style={{ fontSize: '0.85rem' }}>
+                                            <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-power-off"></i></span>
                                             Sign Out
                                         </button>
                                     </div>
@@ -149,14 +147,23 @@ const Navbar = ({ setProgress = () => { } }) => {
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle fw-medium" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
+                            <li className="nav-item dropdown dropdown-hover">
+                                <a className="nav-link dropdown-toggle fw-semibold" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
                                     <i className="fa-solid fa-shapes me-2 opacity-75"></i>Categories
                                 </a>
-                                <ul className="dropdown-menu shadow-lg border-0">
-                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('sciTechnology')}>Sci-Technology</button></li>
-                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('commerce')}>Commerce</button></li>
-                                    <li><button className="dropdown-item py-2" onClick={() => handleCategoryChange('artscivils')}>Arts & Civils</button></li>
+                                <ul className="dropdown-menu shadow-xl border-0 p-2 mt-2 dropdown-premium animate-up">
+                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('sciTechnology')}>
+                                        <span className="cat-icon bg-success-subtle text-success"><i className="fa-solid fa-microchip"></i></span>
+                                        Sci-Technology
+                                    </button></li>
+                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('commerce')}>
+                                        <span className="cat-icon bg-primary-subtle text-primary"><i className="fa-solid fa-sack-dollar"></i></span>
+                                        Commerce
+                                    </button></li>
+                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('artscivils')}>
+                                        <span className="cat-icon bg-warning-subtle text-warning"><i className="fa-solid fa-palette"></i></span>
+                                        Arts & Civils
+                                    </button></li>
                                 </ul>
                             </li>
                         </ul>
@@ -180,57 +187,59 @@ const Navbar = ({ setProgress = () => { } }) => {
                                         />
                                         <i className="fa-solid fa-chevron-down text-muted" style={{ fontSize: '0.65rem' }}></i>
                                     </a>
-                                    <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '250px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(0,0,0,0.13)' }}>
-                                        {/* User Header */}
-                                        <div className="px-4 py-3 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg,#0f172a,#064e3b)' }}>
-                                            <div className="position-relative flex-shrink-0">
+                                    <div className="dropdown-menu dropdown-menu-end border-0 p-0 mt-2 profile-dropdown" style={{ minWidth: '280px', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.12)', border: '1px solid rgba(0,0,0,0.05)' }}>
+                                        {/* User Header - Ultra Sleek */}
+                                        <div className="px-4 py-4 d-flex align-items-center gap-3" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', position: 'relative', overflow: 'hidden' }}>
+                                            <div className="position-absolute top-0 end-0 opacity-10" style={{ transform: 'translate(20%, -20%)' }}>
+                                                <i className="fa-solid fa-user-graduate" style={{ fontSize: '5rem', color: '#fff' }}></i>
+                                            </div>
+                                            <div className="position-relative flex-shrink-0 z-1">
                                                 <img
                                                     src={userProfile}
                                                     alt="Avatar"
-                                                    className="rounded-circle"
-                                                    style={{ width: '48px', height: '48px', border: '2px solid #04bd20', objectFit: 'cover' }}
+                                                    className="rounded-circle shadow-sm"
+                                                    style={{ width: '56px', height: '56px', border: '2.5px solid #04bd20', objectFit: 'cover', padding: '2px', background: '#fff' }}
                                                     onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
                                                 />
-                                                <span className="position-absolute bottom-0 end-0 rounded-circle" style={{ width: '13px', height: '13px', background: '#04bd20', border: '2px solid #0f172a' }}></span>
+                                                <span className="position-absolute bottom-0 end-0 rounded-circle" style={{ width: '14px', height: '14px', background: '#04bd20', border: '2.5px solid #0f172a' }}></span>
                                             </div>
-                                            <div className="overflow-hidden">
-                                                <p className="text-white mb-0 text-truncate" style={{ fontWeight: 600, fontSize: '0.9rem', letterSpacing: '-0.01em' }}>{displayName}</p>
-                                                <span className="px-2 py-0" style={{ background: 'rgba(4,189,32,0.22)', color: '#5ef774', fontSize: '0.68rem', fontWeight: 600, borderRadius: '50px', letterSpacing: '0.03em' }}>Student</span>
+                                            <div className="overflow-hidden z-1">
+                                                <p className="text-white mb-0 text-truncate fw-bold" style={{ fontSize: '1rem', letterSpacing: '-0.02em' }}>{displayName}</p>
+                                                <div className="d-flex align-items-center gap-2 mt-1">
+                                                    <span className="px-2 py-0 fw-bold rounded-pill" style={{ background: 'rgba(4,189,32,0.2)', color: '#4dfa6a', fontSize: '0.65rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{hasUserRole("Admin") ? "Admin" : "Student"}</span>
+                                                    <span className="text-white-50 small" style={{ fontSize: '0.7rem' }}>Verified</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        {/* Menu Items */}
-                                        <div className="py-1 px-2">
-                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/profile">
-                                                <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user fa-fw"></i></span>
-                                                <span className="dd-label">View Profile</span>
-                                            </Link>
-                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/myLearning">
-                                                <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap fa-fw"></i></span>
-                                                <span className="dd-label">My Learning</span>
-                                            </Link>
-                                            <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/notes">
-                                                <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-file-lines fa-fw"></i></span>
-                                                <span className="dd-label">Browse Notes</span>
-                                            </Link>
+                                        {/* Menu Items - Cleaner icons and labels */}
+                                        <div className="p-2">
+                                            {[
+                                                { href: '/profile', label: 'Account Profile', icon: 'fa-user-gear', bg: '#f0fdf4', color: '#16a34a' },
+                                                { href: '/myLearning', label: 'My Learning Center', icon: 'fa-book-bookmark', bg: '#f0f9ff', color: '#0284c7' },
+                                                { href: '/notes', label: 'Resource Library', icon: 'fa-folder-open', bg: '#fdf2f8', color: '#db2777' }
+                                            ].map((item, idx) => (
+                                                <Link key={idx} className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href={item.href}>
+                                                    <span className="dd-icon" style={{ backgroundColor: item.bg, color: item.color }}>
+                                                        <i className={`fa-solid ${item.icon}`}></i>
+                                                    </span>
+                                                    <span className="dd-label fw-semibold">{item.label}</span>
+                                                </Link>
+                                            ))}
+
                                             {hasUserRole("Admin", "Instructor") && (
-                                                <>
+                                                <div className="mt-2 pt-2 border-top mx-2 mb-2">
                                                     <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/dashboard">
-                                                        <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge fa-fw"></i></span>
-                                                        <span className="dd-label">Admin Dashboard</span>
+                                                        <span className="dd-icon bg-warning-subtle text-warning"><i className="fa-solid fa-gauge-high"></i></span>
+                                                        <span className="dd-label fw-semibold">Dashboard</span>
                                                     </Link>
-                                                    <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item" href="/announcement">
-                                                        <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-bullhorn fa-fw"></i></span>
-                                                        <span className="dd-label">Announcements</span>
-                                                    </Link>
-                                                </>
+                                                </div>
                                             )}
                                         </div>
-                                        <div className="px-2 pb-2">
-                                            <div style={{ height: '1px', background: '#f0f0f0', margin: '0 4px 8px' }}></div>
-                                            <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3" onClick={handleLogout}
-                                                style={{ color: '#dc3545', fontWeight: 600, fontSize: '0.875rem' }}>
-                                                <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-right-from-bracket fa-fw"></i></span>
-                                                <span>Sign Out</span>
+                                        {/* Footer - Professional Logout */}
+                                        <div className="bg-light p-2 mt-1">
+                                            <button className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 text-danger logout-btn" onClick={handleLogout}>
+                                                <span className="dd-icon bg-danger-subtle text-danger"><i className="fa-solid fa-arrow-right-from-bracket"></i></span>
+                                                <span className="fw-bold" style={{ fontSize: '0.85rem' }}>Log Out</span>
                                             </button>
                                         </div>
                                     </div>
@@ -245,67 +254,88 @@ const Navbar = ({ setProgress = () => { } }) => {
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay */}
+            {/* Mobile Menu Overlay - Premium Slide-in Style */}
             <div className={`mobile-menu-overlay d-lg-none transition-all duration-300 ${isMobileMenuOpen ? 'active' : ''}`}
                 style={{
                     position: 'fixed',
-                    top: '60px',
-                    left: 0,
-                    width: '100%',
-                    height: isMobileMenuOpen ? 'calc(100vh - 60px)' : '0',
+                    top: 0,
+                    right: 0,
+                    width: '280px',
+                    height: '100vh',
                     backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                    backdropFilter: 'blur(10px)',
-                    zIndex: 1040,
-                    overflow: 'hidden',
-                    opacity: isMobileMenuOpen ? 1 : 0,
-                    visibility: isMobileMenuOpen ? 'visible' : 'hidden'
+                    backdropFilter: 'blur(15px)',
+                    zIndex: 2100,
+                    transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+                    boxShadow: isMobileMenuOpen ? '-10px 0 50px rgba(0,0,0,0.1)' : 'none',
+                    transition: 'transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background 0.3s ease'
                 }}>
-                <div className="container py-4">
-                    <div className="row g-4">
-                        <div className="col-12">
-                            <h6 className="text-muted text-uppercase small ls-wide mb-3 px-2">Navigation</h6>
-                            <div className="list-group list-group-flush border-0">
-                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/notes" onClick={closeMobileMenu}>
-                                    <i className="fa-solid fa-note-sticky me-3 text-success"></i>Notes
-                                </Link>
-                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/video" onClick={closeMobileMenu}>
-                                    <i className="fa-solid fa-circle-play me-3 text-info"></i>Videos
-                                </Link>
-                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/Q-paper" onClick={closeMobileMenu}>
-                                    <i className="fa-solid fa-file-lines me-3 text-warning"></i>Q-Paper
-                                </Link>
-                                <Link className="list-group-item list-group-item-action border-0 fs-5 py-3 rounded-3 mb-1" href="/cource" onClick={closeMobileMenu}>
-                                    <i className="fa-solid fa-graduation-cap me-3 text-primary"></i>Courses
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="col-12 pt-2">
-                            <h6 className="text-muted text-uppercase small ls-wide mb-3 px-2">Information</h6>
-                            <div className="list-group list-group-flush border-0">
-                                <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/about" onClick={closeMobileMenu}>About Us</Link>
-                                <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/contact" onClick={closeMobileMenu}>Support</Link>
-                                {hasUserRole("Admin", "Instructor") && (
-                                    <Link className="list-group-item list-group-item-action border-0 py-2 rounded-3" href="/announcement" onClick={closeMobileMenu}>
-                                        <i className="fa-solid fa-bullhorn me-2 text-danger"></i>Announcements
-                                    </Link>
-                                )}
-                            </div>
-                        </div>
-                        {!token && (
-                            <div className="col-12 mt-4 px-4">
-                                <Link href="/auth" className="btn btn-green w-100 py-3 rounded-pill fw-bold shadow-md" onClick={closeMobileMenu}>Login / Register</Link>
-                            </div>
-                        )}
+                <div className="h-100 d-flex flex-column shadow-lg border-start overflow-auto">
+                    {/* Header */}
+                    <div className="p-4 border-bottom d-flex align-items-center justify-content-between">
+                        <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: "26px", width: "auto" }} />
+                        <button className="btn btn-light-gray rounded-circle p-2" onClick={closeMobileMenu}>
+                            <i className="fa-solid fa-xmark fs-5"></i>
+                        </button>
                     </div>
+
+                    <div className="p-4 flex-grow-1">
+                        <h6 className="text-muted text-uppercase small ls-wide mb-3 fw-bold opacity-75" style={{ fontSize: '0.65rem' }}>Main Explorer</h6>
+                        <div className="mb-4 d-grid gap-2">
+                            {[
+                                { link: '/notes', label: 'Study Notes', icon: 'fa-note-sticky', color: '#10b981' },
+                                { link: '/video', label: 'Video Tutorials', icon: 'fa-circle-play', color: '#0ea5e9' },
+                                { link: '/Q-paper', label: 'Old Papers', icon: 'fa-file-lines', color: '#f59e0b' },
+                                { link: '/cource', label: 'Pro Courses', icon: 'fa-graduation-cap', color: '#6366f1' }
+                            ].map((item, idx) => (
+                                <Link key={idx} className="btn text-start d-flex align-items-center gap-3 py-3 px-3 rounded-4 bg-light border-0 hover-scale" href={item.link} onClick={closeMobileMenu}>
+                                    <span className="rounded-circle d-flex align-items-center justify-content-center"
+                                        style={{ width: '40px', height: '40px', background: 'white', color: item.color, boxShadow: '0 4px 10px rgba(0,0,0,0.04)' }}>
+                                        <i className={`fa-solid ${item.icon}`}></i>
+                                    </span>
+                                    <span className="fw-semibold text-dark" style={{ fontSize: '0.9rem' }}>{item.label}</span>
+                                </Link>
+                            ))}
+                        </div>
+
+                        <h6 className="text-muted text-uppercase small ls-wide mb-3 fw-bold opacity-75" style={{ fontSize: '0.65rem' }}>Other Info</h6>
+                        <div className="d-grid gap-1">
+                            <Link className="d-flex align-items-center gap-3 py-2 px-3 text-dark text-decoration-none fw-medium" href="/about" onClick={closeMobileMenu}>
+                                <i className="fa-solid fa-circle-info text-muted w-25px"></i>About Us
+                            </Link>
+                            <Link className="d-flex align-items-center gap-3 py-2 px-3 text-dark text-decoration-none fw-medium" href="/contact" onClick={closeMobileMenu}>
+                                <i className="fa-solid fa-headset text-muted w-25px"></i>Support
+                            </Link>
+                        </div>
+                    </div>
+
+                    {!token && (
+                        <div className="p-4 mt-auto border-top">
+                            <Link href="/auth" className="btn btn-green w-100 py-3 rounded-pill fw-bold shadow-md" onClick={closeMobileMenu}>Get Started</Link>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Backdrop for Mobile Menu */}
+            {isMobileMenuOpen && (
+                <div className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-25"
+                    style={{ zIndex: 2050, backdropFilter: 'blur(2px)' }}
+                    onClick={closeMobileMenu}></div>
+            )}
             <style jsx>{`
-                .profile-dropdown { animation: dropIn 0.15s ease; }
-                @keyframes dropIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+                .profile-dropdown, .dropdown-premium { animation: dropIn 0.25s cubic-bezier(0.165, 0.84, 0.44, 1); }
+                @keyframes dropIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
                 .profile-item { font-size: 0.875rem; font-weight: 500; color: #374151; transition: background 0.12s; }
-                .profile-item:hover { background: #f0fdf4 !important; color: #039419 !important; }
-                .dd-label { font-size: 0.875rem; font-weight: 500; line-height: 1.3; }
-                .dd-icon { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.8rem; }
+                .profile-item:hover { background: #f8fafc !important; color: #04bd20 !important; transform: translateX(4px); }
+                .logout-btn:hover { background: #fff1f2 !important; transform: translateX(4px); }
+                .dd-label { font-size: 0.82rem; line-height: 1.3; }
+                .dd-icon, .cat-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.85rem; transition: all 0.2s; }
+                .profile-item:hover .dd-icon { transform: scale(1.1); }
+                .dropdown-premium .dropdown-item:hover { background: #f8fafc !important; color: #04bd20 !important; }
+                .w-25px { width: 25px; }
+                @media (max-width: 991px) {
+                    .navbar-toggler:focus { box-shadow: none; }
+                }
             `}</style>
         </>
     )
