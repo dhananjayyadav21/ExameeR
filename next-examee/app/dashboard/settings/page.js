@@ -45,7 +45,7 @@ export default function SettingsPage() {
                 firstName: userData.FirstName || '',
                 lastName: userData.LastName || '',
                 institution: userData.Institution || '',
-                profile: userData.Profile || 'https://wallpapers.com/images/hd/professional-profile-pictures-1350-x-1080-sizz773bu8k11plw.jpg',
+                profile: userData.Profile || '/assets/img/Avtar.jpg',
                 about: userData.About || '',
                 phone: userData.Phone || '',
                 gender: userData.Gender || '',

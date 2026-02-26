@@ -8,7 +8,6 @@ import Footer from '../../components/Footer';
 import ContentContext from '../../context/ContentContext'
 
 const TABS = [
-    { key: 'all', label: 'All', icon: 'fa-grip' },
     { key: 'notes', label: 'Notes', icon: 'fa-file-lines' },
     { key: 'videos', label: 'Videos', icon: 'fa-circle-play' },
     { key: 'pyq', label: 'Q-Papers', icon: 'fa-circle-question' },
@@ -24,8 +23,8 @@ function SectionHeader({ icon, color, title, count, unit }) {
                 <i className={`fa-solid ${icon} text-${color}`} style={{ fontSize: '0.95rem' }}></i>
             </div>
             <div>
-                <h2 className="mb-0 text-dark" style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '-0.01em' }}>{title}</h2>
-                <p className="mb-0" style={{ fontSize: '0.75rem', color: '#9ca3af', fontWeight: 500, marginTop: '1px' }}>
+                <h2 className="mb-0 text-dark" style={{ fontSize: '0.95rem', fontWeight: 600, letterSpacing: '-0.01em' }}>{title}</h2>
+                <p className="mb-0" style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 500, marginTop: '1px' }}>
                     {count} {unit}{count !== 1 ? 's' : ''} saved
                 </p>
             </div>
@@ -36,7 +35,7 @@ function SectionHeader({ icon, color, title, count, unit }) {
 export default function MyLearningPage({ setProgress = () => { } }) {
     const context = useContext(ContentContext);
     const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, MyLearningCourse } = context;
-    const [activeTab, setActiveTab] = useState('all');
+    const [activeTab, setActiveTab] = useState('notes');
 
     useEffect(() => {
         setProgress(0);
@@ -56,10 +55,10 @@ export default function MyLearningPage({ setProgress = () => { } }) {
         { key: 'courses', label: 'Courses', count: MyLearningCourse?.length || 0, icon: 'fa-book', color: 'info' },
     ];
 
-    const showNotes = activeTab === 'all' || activeTab === 'notes';
-    const showVideos = activeTab === 'all' || activeTab === 'videos';
-    const showPYQ = activeTab === 'all' || activeTab === 'pyq';
-    const showCourses = activeTab === 'all' || activeTab === 'courses';
+    const showNotes = activeTab === 'notes';
+    const showVideos = activeTab === 'videos';
+    const showPYQ = activeTab === 'pyq';
+    const showCourses = activeTab === 'courses';
 
     return (
         <main className="bg-light min-vh-100">
@@ -74,10 +73,10 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                     <li className="breadcrumb-item active text-green" style={{ fontWeight: 500 }}>My Learning</li>
                                 </ol>
                             </nav>
-                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.35rem', fontWeight: 700, letterSpacing: '-0.01em' }}>
+                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.2rem', fontWeight: 600, letterSpacing: '-0.01em' }}>
                                 My <span className="text-green">Learning Hub</span>
                             </h1>
-                            <p className="text-muted mb-0" style={{ fontSize: '0.82rem', marginTop: '2px' }}>Your saved resources — all in one place.</p>
+                            <p className="text-muted mb-0" style={{ fontSize: '0.78rem', marginTop: '2px' }}>Your saved resources — all in one place.</p>
                         </div>
                         <div className="flex-shrink-0">
                             <span className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3"
@@ -102,8 +101,8 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                             >
                                 <div className="card-body d-flex justify-content-between align-items-center px-3 py-3">
                                     <div>
-                                        <p className="text-muted text-uppercase mb-1 stat-label">{stat.label}</p>
-                                        <p className="mb-0 stat-count">{stat.count}</p>
+                                        <p className="text-muted text-uppercase mb-1 stat-label" style={{ fontSize: '0.65rem' }}>{stat.label}</p>
+                                        <p className="mb-0 stat-count" style={{ fontSize: '1.3rem' }}>{stat.count}</p>
                                     </div>
                                     <div className={`rounded-3 bg-${stat.color} bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0`} style={{ width: '44px', height: '44px' }}>
                                         <i className={`fa-solid ${stat.icon} text-${stat.color}`} style={{ fontSize: '1.15rem' }}></i>
@@ -231,8 +230,8 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 .stat-card { transition: all 0.22s; border: 1.5px solid transparent !important; background: white; }
                 .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07) !important; }
                 .stat-card--active { border-color: #04bd20 !important; background: rgba(4,189,32,0.03) !important; }
-                .stat-label { font-size: 0.7rem; letter-spacing: 0.07em; font-weight: 600; }
-                .stat-count { font-size: 1.6rem; font-weight: 700; color: #111; line-height: 1; }
+                .stat-label { font-size: 0.65rem; letter-spacing: 0.07em; font-weight: 500; }
+                .stat-count { font-size: 1.3rem; font-weight: 600; color: #111; line-height: 1; }
 
                 /* Tab buttons */
                 .tab-btn { padding: 7px 16px; font-size: 0.84rem; font-weight: 500; border: none; background: transparent; color: #6b7280; cursor: pointer; transition: all 0.18s; white-space: nowrap; }

@@ -2,6 +2,8 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useContext } from "react";
+import ContentContext from "@/context/ContentContext";
 
 const menuItems = [
     {
@@ -33,6 +35,10 @@ const menuItems = [
 const Sidebar = () => {
     const pathname = usePathname();
     const router = useRouter();
+    const { userData } = useContext(ContentContext);
+
+    const userProfile = userData?.Profile ? (userData.Profile.startsWith('http') ? userData.Profile : `https://lh3.googleusercontent.com/d/${userData.Profile}`) : "/assets/img/Avtar.jpg";
+    const displayName = (userData?.FirstName || userData?.LastName) ? `${userData.FirstName} ${userData.LastName}`.trim() : (userData?.Username || "User");
 
     const isActive = (href, exact) => {
         if (exact) return pathname === href;
@@ -82,6 +88,22 @@ const Sidebar = () => {
 
             {/* Sidebar Footer */}
             <div className="ds-footer">
+                {/* User Profile Card */}
+                <Link href="/profile" className="ds-user-card text-decoration-none">
+                    <div className="ds-user-avatar">
+                        <img
+                            src={userProfile}
+                            alt="User"
+                            onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
+                        />
+                        <div className="ds-status-dot"></div>
+                    </div>
+                    <div className="ds-user-info">
+                        <p className="ds-user-name">{displayName}</p>
+                        <p className="ds-user-role">{userData?.Role || 'Student'}</p>
+                    </div>
+                </Link>
+
                 <div className="ds-upgrade-card">
                     <div className="ds-upgrade-icon">
                         <i className="fa-solid fa-rocket"></i>
@@ -90,9 +112,6 @@ const Sidebar = () => {
                         <p className="ds-upgrade-title">Pro Plan</p>
                         <p className="ds-upgrade-desc">Unlock all features</p>
                     </div>
-                    <button className="ds-upgrade-btn">
-                        <i className="fa-solid fa-chevron-right"></i>
-                    </button>
                 </div>
             </div>
 
@@ -239,14 +258,78 @@ const Sidebar = () => {
                 }
 
                 .ds-footer {
-                    padding: 24px 16px;
+                    padding: 20px 16px;
                     border-top: 1px solid #f1f5f9;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+
+                .ds-user-card {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 12px;
+                    background: #f8fafc;
+                    border-radius: 16px;
+                    transition: all 0.2s;
+                }
+
+                .ds-user-card:hover {
+                    background: #f1f5f9;
+                }
+
+                .ds-user-avatar {
+                    position: relative;
+                    width: 40px;
+                    height: 40px;
+                    flex-shrink: 0;
+                }
+
+                .ds-user-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid white;
+                }
+
+                .ds-status-dot {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 10px;
+                    height: 10px;
+                    background: #04bd20;
+                    border: 2px solid white;
+                    border-radius: 50%;
+                }
+
+                .ds-user-info {
+                    flex: 1;
+                    min-width: 0;
+                }
+
+                .ds-user-name {
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    color: #0f172a;
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .ds-user-role {
+                    font-size: 0.7rem;
+                    color: #64748b;
+                    margin: 0;
                 }
 
                 .ds-upgrade-card {
                     background: #0f172a;
                     border-radius: 16px;
-                    padding: 16px;
+                    padding: 14px;
                     display: flex;
                     align-items: center;
                     gap: 12px;

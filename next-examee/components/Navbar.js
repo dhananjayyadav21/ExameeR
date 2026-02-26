@@ -14,14 +14,20 @@ const Navbar = ({ setProgress = () => { } }) => {
     const isDashboard = pathname.startsWith('/dashboard');
 
     const context = useContext(ContentContext);
-    const { userData } = context;
+    const { userData, getUser } = context;
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [token, setToken] = useState(null);
 
     useEffect(() => {
-        setToken(localStorage.getItem("token"));
+        const storedToken = localStorage.getItem("token");
+        setToken(storedToken);
+
+        if (storedToken && !userData) {
+            getUser();
+        }
+
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
         };
