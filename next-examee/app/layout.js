@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
             <GlobalLoader />
             <FloatingWhatsAppButton />
             <GoToImpsButton />
-            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+            <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} />
           </ContentState>
         </GoogleOAuthProvider>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
