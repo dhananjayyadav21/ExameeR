@@ -1,14 +1,18 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ContentContext from '../../context/ContentContext';
 import DriveUpload from '../../utils/DriveUpload';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 
-export default function UploadPYQPage() {
+const Content = () => {
     const context = useContext(ContentContext);
-    const { addPYQ } = context;
+    const { addPYQ, updatePYQ, dashPYQ } = context;
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
+    const isEditMode = !!editId;
 
     const [formData, setFormData] = useState({
         title: '',
@@ -23,6 +27,24 @@ export default function UploadPYQPage() {
     const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
     const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        if (isEditMode && dashPYQ) {
+            const pyqToEdit = dashPYQ.find(p => p._id === editId);
+            if (pyqToEdit) {
+                setFormData({
+                    title: pyqToEdit.title || '',
+                    year: pyqToEdit.year || '',
+                    subject: pyqToEdit.subject || '',
+                    category: pyqToEdit.category || 'sciTechnology',
+                    tags: pyqToEdit.tags ? pyqToEdit.tags.join(', ') : '',
+                    isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
+                    status: pyqToEdit.status || 'public',
+                });
+                setFileUrl(pyqToEdit.fileUrl || null);
+            }
+        }
+    }, [isEditMode, editId, dashPYQ]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -73,16 +95,23 @@ export default function UploadPYQPage() {
             if (!data.title || !data.year || !data.subject || !data.category || !data.status) {
                 toast.warning("All required fields must be filled!");
             } else {
-                const response = await addPYQ(data);
+                let response;
+                if (isEditMode) {
+                    response = await updatePYQ(data, editId);
+                } else {
+                    if (!fileUrl) return toast.warning("Please upload a file first");
+                    response = await addPYQ(data);
+                }
+
                 if (response.success) {
-                    toast.success("Question paper added successfully!");
+                    toast.success(isEditMode ? "Question paper updated successfully!" : "Question paper added successfully!");
                     router.back();
                 } else {
-                    toast.error(response.message || "Failed to add question paper.");
+                    toast.error(response.message || `Failed to ${isEditMode ? 'update' : 'add'} question paper.`);
                 }
             }
         } catch (error) {
-            toast.error("An error occurred during submission.");
+            toast.error("An error occurred.");
         } finally {
             setUploading(false);
         }
@@ -99,8 +128,8 @@ export default function UploadPYQPage() {
                         <i className="fa-solid fa-file-invoice"></i>
                     </div>
                     <div>
-                        <h1 className="up-header-title">Upload Question Paper</h1>
-                        <p className="up-header-sub">Add previous year question papers for students to practice</p>
+                        <h1 className="up-header-title">{isEditMode ? 'Edit' : 'Upload'} Question Paper</h1>
+                        <p className="up-header-sub">{isEditMode ? 'Update document details and content' : 'Add previous year question papers for students to practice'}</p>
                     </div>
                 </div>
             </div>
@@ -175,7 +204,7 @@ export default function UploadPYQPage() {
 
                                 {/* File Upload */}
                                 <div className="col-12">
-                                    <label className="up-label">Question Paper PDF <span className="up-req">*</span></label>
+                                    <label className="up-label">Question Paper PDF {isEditMode ? '(Optional)' : <span className="up-req">*</span>}</label>
                                     <input type="file" id="pyqUpload" accept="application/pdf" onChange={handleFileChange} style={{ display: 'none' }} />
                                     <label htmlFor="pyqUpload" className={`up-dropzone ${file ? 'up-dropzone--filled' : ''}`} style={file ? { '--dz-accent': '#f59e0b' } : {}}>
                                         {uploading ? (
@@ -204,10 +233,10 @@ export default function UploadPYQPage() {
                                 {/* Actions */}
                                 <div className="col-12 d-flex gap-3 justify-content-end mt-2">
                                     <button type="button" onClick={() => router.back()} className="up-cancel-btn">Go Back</button>
-                                    <button type="submit" disabled={uploading || !fileUrl} className="up-submit-btn" style={{ background: 'linear-gradient(135deg,#f59e0b,#f97316)' }}>
+                                    <button type="submit" disabled={uploading || (!isEditMode && !fileUrl)} className="up-submit-btn" style={{ background: 'linear-gradient(135deg,#f59e0b,#f97316)' }}>
                                         {uploading
-                                            ? <><div className="up-btn-spinner me-2"></div>Processing...</>
-                                            : <><i className="fa-solid fa-circle-plus me-2"></i>Add Question Paper</>}
+                                            ? <><div className="up-btn-spinner me-2"></div>{isEditMode ? 'Updating...' : 'Processing...'}</>
+                                            : <><i className={`fa-solid ${isEditMode ? 'fa-pen-to-square' : 'fa-circle-plus'} me-2`}></i>{isEditMode ? 'Update Paper' : 'Add Question Paper'}</>}
                                     </button>
                                 </div>
                             </form>
@@ -256,5 +285,13 @@ export default function UploadPYQPage() {
                 @media (max-width: 576px) { .up-card { padding: 24px 16px; } }
             `}</style>
         </main>
+    );
+};
+
+export default function UploadPYQPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Content />
+        </Suspense>
     );
 }

@@ -1,13 +1,17 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ContentContext from '../../context/ContentContext';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 
-export default function UploadVideoPage() {
+const Content = () => {
     const context = useContext(ContentContext);
-    const { addVideo } = context;
+    const { addVideo, updateVideo, dasVideo } = context;
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
+    const isEditMode = !!editId;
 
     const [formData, setFormData] = useState({
         title: '',
@@ -20,6 +24,23 @@ export default function UploadVideoPage() {
     });
 
     const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        if (isEditMode && dasVideo) {
+            const videoToEdit = dasVideo.find(v => v._id === editId);
+            if (videoToEdit) {
+                setFormData({
+                    title: videoToEdit.title || '',
+                    description: videoToEdit.description || '',
+                    category: videoToEdit.category || 'sciTechnology',
+                    tags: videoToEdit.tags ? videoToEdit.tags.join(', ') : '',
+                    fileUrl: videoToEdit.fileUrl || '',
+                    isPublic: videoToEdit.isPublic !== undefined ? videoToEdit.isPublic : true,
+                    status: videoToEdit.status || 'public',
+                });
+            }
+        }
+    }, [isEditMode, editId, dasVideo]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -47,16 +68,22 @@ export default function UploadVideoPage() {
             } else if (!data.title || !data.category || !data.status) {
                 toast.warning("Title and Category are required!");
             } else {
-                const response = await addVideo(data);
+                let response;
+                if (isEditMode) {
+                    response = await updateVideo(data, editId);
+                } else {
+                    response = await addVideo(data);
+                }
+
                 if (response.success) {
-                    toast.success("Video lecture uploaded successfully!");
+                    toast.success(isEditMode ? "Video lecture updated successfully!" : "Video lecture uploaded successfully!");
                     router.back();
                 } else {
-                    toast.error(response.message || "Failed to upload video.");
+                    toast.error(response.message || `Failed to ${isEditMode ? 'update' : 'upload'} video.`);
                 }
             }
         } catch (error) {
-            toast.error("An error occurred during video submission.");
+            toast.error("An error occurred.");
         } finally {
             setUploading(false);
         }
@@ -80,8 +107,8 @@ export default function UploadVideoPage() {
                         <i className="fa-solid fa-circle-play"></i>
                     </div>
                     <div>
-                        <h1 className="up-header-title">Upload Video Lecture</h1>
-                        <p className="up-header-sub">Publish a video lesson with a YouTube URL or embed link</p>
+                        <h1 className="up-header-title">{isEditMode ? 'Edit' : 'Upload'} Video Lecture</h1>
+                        <p className="up-header-sub">{isEditMode ? 'Update video details and link' : 'Publish a video lesson with a YouTube URL or embed link'}</p>
                     </div>
                 </div>
             </div>
@@ -191,8 +218,8 @@ export default function UploadVideoPage() {
                                     <button type="button" onClick={() => router.back()} className="up-cancel-btn">Cancel</button>
                                     <button type="submit" disabled={uploading} className="up-submit-btn">
                                         {uploading
-                                            ? <><div className="up-btn-spinner me-2"></div>Publishing...</>
-                                            : <><i className="fa-solid fa-circle-play me-2"></i>Publish Video</>}
+                                            ? <><div className="up-btn-spinner me-2"></div>{isEditMode ? 'Updating...' : 'Publishing...'}</>
+                                            : <><i className={`fa-solid ${isEditMode ? 'fa-pen-to-square' : 'fa-circle-play'} me-2`}></i>{isEditMode ? 'Update Video' : 'Publish Video'}</>}
                                     </button>
                                 </div>
                             </form>
@@ -249,5 +276,13 @@ export default function UploadVideoPage() {
                 @media (max-width: 576px) { .up-card { padding: 24px 16px; } }
             `}</style>
         </main>
+    );
+};
+
+export default function UploadVideoPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Content />
+        </Suspense>
     );
 }

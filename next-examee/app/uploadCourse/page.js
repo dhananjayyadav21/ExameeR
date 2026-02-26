@@ -1,14 +1,18 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState, Suspense } from "react";
+import { useSearchParams } from 'next/navigation';
 import DriveUpload from "../../utils/DriveUpload";
 import ContentContext from '../../context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export default function UploadCoursePage() {
+const Content = () => {
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { addCourse } = context;
+    const { addCourse, updateCourse, dasCourse } = context;
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
+    const isEditMode = !!editId;
 
     const [formData, setFormData] = useState({
         title: "",
@@ -34,6 +38,34 @@ export default function UploadCoursePage() {
     });
 
     const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        if (isEditMode && dasCourse) {
+            const courseToEdit = dasCourse.find(c => c._id === editId);
+            if (courseToEdit) {
+                setFormData({
+                    title: courseToEdit.title || "",
+                    description: courseToEdit.description || "",
+                    mentor: courseToEdit.mentor || "",
+                    courseLevel: courseToEdit.courseLevel || "",
+                    duration: courseToEdit.duration || "",
+                    price: courseToEdit.price || "",
+                    offerPercent: courseToEdit.offerPercent || "",
+                    offerPrice: courseToEdit.offerPrice || "",
+                    startDate: courseToEdit.startDate ? courseToEdit.startDate.slice(0, 10) : "",
+                    courseContents: courseToEdit.courseContents || "",
+                    whyChoose: courseToEdit.whyChoose || "",
+                    benefits: courseToEdit.benefits || "",
+                    courseImage: courseToEdit.courseImage || null,
+                    trialVideo: courseToEdit.trialVideo || "",
+                    category: courseToEdit.category || 'sciTechnology',
+                    isPublic: courseToEdit.isPublic !== undefined ? courseToEdit.isPublic : true,
+                    status: courseToEdit.status || 'public',
+                    lectures: courseToEdit.lectures || [{ title: "", videoUrl: "" }],
+                });
+            }
+        }
+    }, [isEditMode, editId, dasCourse]);
     const [imageUploading, setImageUploading] = useState(false);
     const [imageFile, setImageFile] = useState(null);
 
@@ -93,12 +125,18 @@ export default function UploadCoursePage() {
             return;
         }
         try {
-            const response = await addCourse(formData);
+            let response;
+            if (isEditMode) {
+                response = await updateCourse(formData, editId);
+            } else {
+                response = await addCourse(formData);
+            }
+
             if (response.success) {
-                toast.success("Course uploaded successfully!");
+                toast.success(isEditMode ? "Course updated successfully!" : "Course uploaded successfully!");
                 router.back();
             } else {
-                toast.error(response.message || "Failed to upload course.");
+                toast.error(response.message || `Failed to ${isEditMode ? 'update' : 'upload'} course.`);
             }
         } catch (err) {
             toast.error("Something went wrong during submission.");
@@ -118,8 +156,8 @@ export default function UploadCoursePage() {
                         <i className="fa-solid fa-graduation-cap"></i>
                     </div>
                     <div>
-                        <h1 className="up-header-title">Create New Course</h1>
-                        <p className="up-header-sub">Build a professional course listing with lectures, pricing, and media</p>
+                        <h1 className="up-header-title">{isEditMode ? 'Edit' : 'Create New'} Course</h1>
+                        <p className="up-header-sub">{isEditMode ? 'Update course details, curriculum and pricing' : 'Build a professional course listing with lectures, pricing, and media'}</p>
                     </div>
                 </div>
             </div>
@@ -365,11 +403,11 @@ export default function UploadCoursePage() {
                                         </label>
                                     </div>
                                     <div className="col-md-4 d-flex gap-3 justify-content-md-end mt-3 mt-md-0">
-                                        <button type="button" onClick={() => router.back()} className="up-cancel-btn">Discard</button>
+                                        <button type="button" onClick={() => router.back()} className="up-cancel-btn">{isEditMode ? 'Cancel' : 'Discard'}</button>
                                         <button type="submit" disabled={uploading || !formData.courseImage} className="up-submit-btn">
                                             {uploading
-                                                ? <><div className="up-btn-spinner me-2"></div>Creating Course...</>
-                                                : <><i className="fa-solid fa-rocket me-2"></i>Create Course</>}
+                                                ? <><div className="up-btn-spinner me-2"></div>{isEditMode ? 'Updating...' : 'Creating Course...'}</>
+                                                : <><i className={`fa-solid ${isEditMode ? 'fa-pen-to-square' : 'fa-rocket'} me-2`}></i>{isEditMode ? 'Update Course' : 'Create Course'}</>}
                                         </button>
                                     </div>
                                 </div>
@@ -442,5 +480,13 @@ export default function UploadCoursePage() {
                 @media (max-width: 576px) { .up-card { padding: 20px 14px; } .up-lecture-row { flex-wrap: wrap; } }
             `}</style>
         </main>
+    );
+};
+
+export default function UploadCoursePage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Content />
+        </Suspense>
     );
 }

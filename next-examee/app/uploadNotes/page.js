@@ -1,14 +1,18 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ContentContext from '../../context/ContentContext';
 import DriveUpload from '../../utils/DriveUpload';
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 
-export default function UploadNotesPage() {
+const Content = () => {
     const context = useContext(ContentContext);
-    const { addNote } = context
+    const { addNote, updateNotes, dashNotes } = context;
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
+    const isEditMode = !!editId;
 
     const [formData, setFormData] = useState({
         title: '',
@@ -23,6 +27,24 @@ export default function UploadNotesPage() {
     const [fileUrl, setFileUrl] = useState(null);
     const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        if (isEditMode && dashNotes) {
+            const noteToEdit = dashNotes.find(n => n._id === editId);
+            if (noteToEdit) {
+                setFormData({
+                    title: noteToEdit.title || '',
+                    description: noteToEdit.description || '',
+                    professor: noteToEdit.professor || '',
+                    category: noteToEdit.category || 'sciTechnology',
+                    tags: noteToEdit.tags ? noteToEdit.tags.join(', ') : '',
+                    isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
+                    status: noteToEdit.status || 'public',
+                });
+                setFileUrl(noteToEdit.fileUrl || null);
+            }
+        }
+    }, [isEditMode, editId, dashNotes]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -77,16 +99,23 @@ export default function UploadNotesPage() {
             if (!data.title || !data.professor || !data.category || !data.status) {
                 toast.warning("All required fields must be filled!");
             } else {
-                const response = await addNote(data);
+                let response;
+                if (isEditMode) {
+                    response = await updateNotes(data, editId);
+                } else {
+                    if (!fileUrl) return toast.warning("Please upload a file first");
+                    response = await addNote(data);
+                }
+
                 if (response.success) {
-                    toast.success("Note uploaded successfully!");
+                    toast.success(isEditMode ? "Note updated successfully!" : "Note uploaded successfully!");
                     router.back();
                 } else {
-                    toast.error(response.message || "Failed to upload note.");
+                    toast.error(response.message || `Failed to ${isEditMode ? 'update' : 'upload'} note.`);
                 }
             }
         } catch (error) {
-            toast.error("An error occurred during upload.");
+            toast.error("An error occurred.");
         } finally {
             setUploading(false);
         }
@@ -103,8 +132,8 @@ export default function UploadNotesPage() {
                         <i className="fa-solid fa-file-pdf"></i>
                     </div>
                     <div>
-                        <h1 className="up-header-title">Upload Study Notes</h1>
-                        <p className="up-header-sub">Share PDF notes with students across the platform</p>
+                        <h1 className="up-header-title">{isEditMode ? 'Edit' : 'Upload'} Study Notes</h1>
+                        <p className="up-header-sub">{isEditMode ? 'Update document details and content' : 'Share PDF notes with students across the platform'}</p>
                     </div>
                 </div>
             </div>
@@ -172,7 +201,7 @@ export default function UploadNotesPage() {
 
                                 {/* File Upload */}
                                 <div className="col-12">
-                                    <label className="up-label">PDF Attachment <span className="up-req">*</span></label>
+                                    <label className="up-label">PDF Attachment {isEditMode ? '(Optional)' : <span className="up-req">*</span>}</label>
                                     <input type="file" id="fileUpload" accept="application/pdf" onChange={handleFileChange} style={{ display: 'none' }} />
                                     <label htmlFor="fileUpload" className={`up-dropzone ${file ? 'up-dropzone--filled' : ''}`}>
                                         {uploading ? (
@@ -199,10 +228,10 @@ export default function UploadNotesPage() {
 
                                 <div className="col-12 d-flex gap-3 justify-content-end mt-2">
                                     <button type="button" onClick={() => router.back()} className="up-cancel-btn">Cancel</button>
-                                    <button type="submit" disabled={uploading || !fileUrl} className="up-submit-btn">
+                                    <button type="submit" disabled={uploading || (!isEditMode && !fileUrl)} className="up-submit-btn">
                                         {uploading
-                                            ? <><div className="up-btn-spinner me-2"></div>Uploading...</>
-                                            : <><i className="fa-solid fa-cloud-arrow-up me-2"></i>Upload Notes</>}
+                                            ? <><div className="up-btn-spinner me-2"></div>{isEditMode ? 'Updating...' : 'Uploading...'}</>
+                                            : <><i className={`fa-solid ${isEditMode ? 'fa-pen-to-square' : 'fa-cloud-arrow-up'} me-2`}></i>{isEditMode ? 'Update Notes' : 'Upload Notes'}</>}
                                     </button>
                                 </div>
                             </form>
@@ -252,6 +281,14 @@ export default function UploadNotesPage() {
                 @media (max-width: 576px) { .up-card { padding: 24px 16px; } }
             `}</style>
         </main>
+    );
+};
+
+export default function UploadNotesPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <Content />
+        </Suspense>
     );
 }
 
