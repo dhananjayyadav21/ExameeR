@@ -61,18 +61,18 @@ function VideoContent({ setProgress = () => { } }) {
                                     <li className="breadcrumb-item active text-green" aria-current="page">Video Tutorials</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-4 fw-bold mb-3 text-white">Interactive <span className="text-green">Visual Learning</span></h1>
+                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Interactive <span className="text-green">Visual Learning</span></h1>
                             <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
                                 Learn at your own pace with our step-by-step video tutorials. High-quality content designed to make complex concepts easy to grasp.
                             </p>
                             <div className="d-flex gap-3">
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-film text-green"></i>
-                                    <span className="text-white fw-medium font-sm">HD Quality</span>
+                                    <span className="text-white fw-normal font-sm">HD Quality</span>
                                 </div>
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-infinity text-primary"></i>
-                                    <span className="text-white fw-medium font-sm">Lifetime Access</span>
+                                    <span className="text-white fw-normal font-sm">Lifetime Access</span>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@ function VideoContent({ setProgress = () => { } }) {
             <div className="container py-5 px-4">
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <h5 className="fw-bold mb-0 text-dark">Tutorial Catalog</h5>
+                    <h5 className="fw-semibold mb-0 text-dark" style={{ fontSize: '1rem' }}>Tutorial Catalog</h5>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-arrow-down-wide-short me-2 text-muted"></i>

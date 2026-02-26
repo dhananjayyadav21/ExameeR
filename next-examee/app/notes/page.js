@@ -56,23 +56,23 @@ function NotesContent({ setProgress = () => { } }) {
                     <div className="row align-items-center">
                         <div className="col-lg-7">
                             <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
+                                <ol className="breadcrumb small text-uppercase fw-semibold ls-wide mb-0" style={{ fontSize: '0.7rem' }}>
                                     <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-light-muted opacity-75">Home</a></li>
                                     <li className="breadcrumb-item active text-green" aria-current="page">Study Resources</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-4 fw-bold mb-3 text-white">Expert <span className="text-green">Study Notes</span></h1>
+                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Expert <span className="text-green">Study Notes</span></h1>
                             <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
                                 Turbocharge your learning with expert-curated notes. Detailed, easy-to-understand, and designed for maximum retention.
                             </p>
                             <div className="d-flex gap-3">
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-circle-check text-green"></i>
-                                    <span className="text-white fw-medium">Verified Content</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Verified Content</span>
                                 </div>
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-download text-primary"></i>
-                                    <span className="text-white fw-medium">Free Access</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Free Access</span>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@ function NotesContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div className="d-flex align-items-center gap-3">
                         <span className="text-muted fw-medium small">Filter:</span>
-                        <div className="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+                        <div className="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-2 fw-semibold" style={{ fontSize: '0.8rem' }}>
                             <i className="fa-solid fa-filter text-primary"></i>
                             {category === 'sciTechnology' ? 'Sci-Technology' : category.charAt(0).toUpperCase() + category.slice(1)}
                         </div>

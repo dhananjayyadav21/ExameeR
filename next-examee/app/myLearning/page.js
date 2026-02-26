@@ -70,17 +70,17 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb mb-1" style={{ fontSize: '0.78rem' }}>
                                     <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                                    <li className="breadcrumb-item active text-green" style={{ fontWeight: 500 }}>My Learning</li>
+                                    <li className="breadcrumb-item active text-green" style={{ fontWeight: 400 }}>My Learning</li>
                                 </ol>
                             </nav>
-                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.2rem', fontWeight: 600, letterSpacing: '-0.01em' }}>
+                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.2rem', fontWeight: 500, letterSpacing: '-0.01em' }}>
                                 My <span className="text-green">Learning Hub</span>
                             </h1>
                             <p className="text-muted mb-0" style={{ fontSize: '0.78rem', marginTop: '2px' }}>Your saved resources — all in one place.</p>
                         </div>
                         <div className="flex-shrink-0">
                             <span className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3"
-                                style={{ background: 'rgba(4,189,32,0.08)', color: '#039419', fontSize: '0.8rem', fontWeight: 600 }}>
+                                style={{ background: 'rgba(4,189,32,0.08)', color: '#039419', fontSize: '0.8rem', fontWeight: 500 }}>
                                 <i className="fa-solid fa-layer-group" style={{ fontSize: '0.75rem' }}></i>
                                 {totalItems} Resources
                             </span>
@@ -231,12 +231,12 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07) !important; }
                 .stat-card--active { border-color: #04bd20 !important; background: rgba(4,189,32,0.03) !important; }
                 .stat-label { font-size: 0.65rem; letter-spacing: 0.07em; font-weight: 500; }
-                .stat-count { font-size: 1.3rem; font-weight: 600; color: #111; line-height: 1; }
+                .stat-count { font-size: 1.3rem; font-weight: 500; color: #111; line-height: 1; }
 
                 /* Tab buttons */
                 .tab-btn { padding: 7px 16px; font-size: 0.84rem; font-weight: 500; border: none; background: transparent; color: #6b7280; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
                 .tab-btn--idle:hover { background: #f3f4f6; color: #111; }
-                .tab-btn--active { background: #04bd20; color: white; font-weight: 600; }
+                .tab-btn--active { background: #04bd20; color: white; font-weight: 500; }
                 .tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; padding: 0 5px; background: rgba(255,255,255,0.25); color: white; }
                 .tab-count:not(.tab-count--active) { background: #e5e7eb; color: #6b7280; }
                 .tab-count--active { background: rgba(255,255,255,0.3); color: white; }

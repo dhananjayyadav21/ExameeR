@@ -91,12 +91,12 @@ const QPaperItem = ({ pyq }) => {
 
                 <div className="card-body p-4">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                        <span className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-bold smaller uppercase-ls">Session {PYQ?.year}</span>
+                        <span className="badge bg-light text-dark border px-2 py-1 rounded-2 fw-semibold smaller uppercase-ls">Session {PYQ?.year}</span>
                     </div>
-                    <h6 className="fw-bold mb-3 text-truncate-2" title={PYQ?.title || PYQ?.subject}>{PYQ?.title || PYQ?.subject}</h6>
+                    <h6 className="fw-semibold mb-3 text-truncate-2" style={{ fontSize: '0.88rem' }} title={PYQ?.title || PYQ?.subject}>{PYQ?.title || PYQ?.subject}</h6>
 
                     <button
-                        className="btn btn-yellow w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
+                        className="btn btn-yellow w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
                         onClick={handleViewPDF}
                     >
                         <span>View Question Paper</span>

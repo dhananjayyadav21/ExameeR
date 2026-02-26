@@ -41,7 +41,7 @@ export default function AboutPage({ setProgress = () => { } }) {
                             <span className="badge bg-green-soft text-green fw-bold rounded-pill px-3 py-2 mb-3 d-inline-block">
                                 <i className="fa-solid fa-leaf me-1"></i> About Examee
                             </span>
-                            <h1 className="display-5 fw-bold text-dark mb-4">
+                            <h1 className="display-6 fw-semibold text-dark mb-4" style={{ fontSize: '1.8rem' }}>
                                 Your Smart Academic<br /><span className="text-green">Companion</span>
                             </h1>
                             <p className="text-muted lh-lg mb-4">
@@ -79,7 +79,7 @@ export default function AboutPage({ setProgress = () => { } }) {
                                         style={{ width: '48px', height: '48px', background: `${s.color}18` }}>
                                         <i className={`fa-solid ${s.icon}`} style={{ color: s.color }}></i>
                                     </div>
-                                    <h4 className="fw-bold mb-0" style={{ color: s.color }}>{s.val}</h4>
+                                    <h4 className="fw-semibold mb-0" style={{ color: s.color, fontSize: '1.2rem' }}>{s.val}</h4>
                                     <p className="text-muted small mb-0">{s.label}</p>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@ export default function AboutPage({ setProgress = () => { } }) {
                     <div className="row justify-content-center">
                         <div className="col-lg-8 text-center mb-5">
                             <h6 className="text-green fw-bold text-uppercase small ls-wide mb-2">Our Mission</h6>
-                            <h2 className="fw-bold text-dark">Built to Make Learning <span className="text-green">Simple</span></h2>
+                            <h2 className="fw-semibold text-dark" style={{ fontSize: '1.5rem' }}>Built to Make Learning <span className="text-green">Simple</span></h2>
                             <p className="text-muted mt-3">
                                 We believe every student deserves access to quality resources. Examee was created to break barriers and democratise academic content.
                             </p>
@@ -110,7 +110,7 @@ export default function AboutPage({ setProgress = () => { } }) {
                                         style={{ width: '52px', height: '52px', background: f.bg }}>
                                         <i className={`fa-solid ${f.icon}`} style={{ color: f.color, fontSize: '1.3rem' }}></i>
                                     </div>
-                                    <h5 className="fw-bold text-dark mb-2">{f.title}</h5>
+                                    <h5 className="fw-semibold text-dark mb-2" style={{ fontSize: '1rem' }}>{f.title}</h5>
                                     <p className="text-muted small mb-0">{f.desc}</p>
                                 </div>
                             </div>

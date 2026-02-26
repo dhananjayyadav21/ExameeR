@@ -75,12 +75,12 @@ export default function AnnouncementPage() {
                     <div className="row align-items-center">
                         <div className="col-lg-7">
                             <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-bold mb-0" style={{ letterSpacing: '0.1em' }}>
+                                <ol className="breadcrumb small text-uppercase fw-semibold mb-0" style={{ letterSpacing: '0.1em', fontSize: '0.7rem' }}>
                                     <li className="breadcrumb-item"><a href="/" className="text-decoration-none" style={{ color: 'rgba(255,255,255,0.6)' }}>Home</a></li>
                                     <li className="breadcrumb-item active text-green" aria-current="page">Announcements</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-4 fw-bold mb-3 text-white">
+                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>
                                 <i className="fa-solid fa-bullhorn text-green me-3"></i>
                                 Global <span className="text-green">Broadcast</span>
                             </h1>
@@ -94,7 +94,7 @@ export default function AnnouncementPage() {
                                 </div>
                                 <div className="d-flex align-items-center gap-2 small px-3 py-2 rounded-pill" style={{ background: 'rgba(255,255,255,0.1)' }}>
                                     <i className="fa-solid fa-envelope text-primary"></i>
-                                    <span className="text-white fw-medium">{selectedUserIds.length} Recipients selected</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>{selectedUserIds.length} Recipients selected</span>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@ export default function AnnouncementPage() {
                             <div className="col-lg-5">
                                 <div className="card border-0 shadow-sm rounded-4 h-100">
                                     <div className="card-header bg-white border-0 pt-4 px-4 pb-3">
-                                        <h6 className="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                                        <h6 className="fw-semibold text-dark mb-0 d-flex align-items-center gap-2" style={{ fontSize: '0.95rem' }}>
                                             <i className="fa-solid fa-users text-green"></i>
                                             Select Recipients
                                         </h6>
@@ -146,7 +146,7 @@ export default function AnnouncementPage() {
                                                     onChange={handleSelectAll}
                                                     style={{ accentColor: '#04bd20' }}
                                                 />
-                                                <label className="form-check-label fw-medium small" htmlFor="selectAll">Select All</label>
+                                                <label className="form-check-label fw-normal small" htmlFor="selectAll" style={{ fontSize: '0.8rem' }}>Select All</label>
                                             </div>
                                             <span className="badge rounded-pill bg-light text-muted border">{filteredUsers.length} shown</span>
                                         </div>
@@ -165,7 +165,7 @@ export default function AnnouncementPage() {
                                                         {(user.Username || '?').charAt(0).toUpperCase()}
                                                     </div>
                                                     <div className="flex-grow-1 overflow-hidden">
-                                                        <p className="fw-bold text-dark mb-0 text-truncate small">{user.Username || 'Unknown User'}</p>
+                                                        <p className="fw-semibold text-dark mb-0 text-truncate small" style={{ fontSize: '0.85rem' }}>{user.Username || 'Unknown User'}</p>
                                                         <p className="text-muted mb-0 text-truncate" style={{ fontSize: '0.75rem' }}>{user.Email}</p>
                                                     </div>
                                                     {selectedUserIds.includes(user._id) && (
@@ -187,7 +187,7 @@ export default function AnnouncementPage() {
                             <div className="col-lg-7">
                                 <div className="card border-0 shadow-sm rounded-4">
                                     <div className="card-header bg-white border-0 pt-4 px-4 pb-3">
-                                        <h6 className="fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+                                        <h6 className="fw-semibold text-dark mb-0 d-flex align-items-center gap-2" style={{ fontSize: '0.95rem' }}>
                                             <i className="fa-solid fa-pen-to-square text-green"></i>
                                             Compose Announcement
                                         </h6>
@@ -196,7 +196,7 @@ export default function AnnouncementPage() {
 
                                     <div className="px-4 pb-4">
                                         <div className="mb-4">
-                                            <label className="form-label fw-semibold small text-dark">Subject Line</label>
+                                            <label className="form-label fw-medium small text-dark" style={{ fontSize: '0.8rem' }}>Subject Line</label>
                                             <input
                                                 type="text"
                                                 className="form-control rounded-3"
@@ -238,7 +238,8 @@ export default function AnnouncementPage() {
                                         )}
 
                                         <button
-                                            className="btn btn-green w-100 fw-bold rounded-3 py-3 d-flex align-items-center justify-content-center gap-2"
+                                            className="btn btn-green w-100 fw-semibold rounded-3 py-3 d-flex align-items-center justify-content-center gap-2"
+                                            style={{ fontSize: '0.92rem' }}
                                             onClick={handleSend}
                                             disabled={loading || selectedUserIds.length === 0}
                                         >

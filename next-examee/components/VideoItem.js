@@ -100,7 +100,7 @@ const VideoItem = ({ video }) => {
 
                 <div className="card-body p-4 d-flex flex-column">
                     <div className="d-flex justify-content-between align-items-start mb-3">
-                        <h6 className="fw-bold mb-0 text-truncate-2 flex-grow-1" title={Video?.title}>{Video?.title}</h6>
+                        <h6 className="fw-semibold mb-0 text-truncate-2 flex-grow-1" style={{ fontSize: '0.88rem' }} title={Video?.title}>{Video?.title}</h6>
                         <button
                             className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-green' : 'text-muted opacity-50'}`}
                             onClick={() => setShowModal(true)}

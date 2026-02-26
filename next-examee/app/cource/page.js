@@ -56,23 +56,23 @@ function CourseContent({ setProgress = () => { } }) {
                     <div className="row align-items-center">
                         <div className="col-lg-7">
                             <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
+                                <ol className="breadcrumb small text-uppercase fw-semibold ls-wide mb-0" style={{ fontSize: '0.7rem' }}>
                                     <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-light-muted opacity-75">Home</a></li>
                                     <li className="breadcrumb-item active text-green" aria-current="page">Courses</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-4 fw-bold mb-3 text-white">Premium <span className="text-green">Learning Path</span></h1>
+                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Premium <span className="text-green">Learning Path</span></h1>
                             <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
                                 Master new skills with structured learning paths. Our courses are designed by industry experts to take you from beginner to professional.
                             </p>
                             <div className="d-flex gap-3">
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-certificate text-green"></i>
-                                    <span className="text-white fw-medium">Certification</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Certification</span>
                                 </div>
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-user-group text-primary"></i>
-                                    <span className="text-white fw-medium">Expert Mentors</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Expert Mentors</span>
                                 </div>
                             </div>
                         </div>

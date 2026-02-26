@@ -90,13 +90,13 @@ const NotesItem = ({ notes }) => {
                 </div>
 
                 <div className="card-body p-4">
-                    <h6 className="fw-bold mb-1 text-truncate" title={Notes?.title}>{Notes?.title}</h6>
+                    <h6 className="fw-semibold mb-1 text-truncate" style={{ fontSize: '0.9rem' }} title={Notes?.title}>{Notes?.title}</h6>
                     <p className="small text-muted mb-4 d-flex align-items-center gap-1">
                         <i className="fa-solid fa-user-tie smaller opacity-50"></i> {Notes?.professor || "Unknown Author"}
                     </p>
 
                     <button
-                        className="btn btn-cyan-green w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
+                        className="btn btn-cyan-green w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 transition-all hover-fill"
                         onClick={handleViewPDF}
                     >
                         <span>View Notes</span>

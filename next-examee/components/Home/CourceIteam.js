@@ -29,22 +29,22 @@ const CourceIteam = ({ Course }) => {
             </div>
             <div className="card-body p-4 d-flex flex-column">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="badge bg-green-subtle text-green px-2 py-1 rounded-2 fw-bold small text-uppercase ls-wide">{Course?.courseLevel}</span>
+                    <span className="badge bg-green-subtle text-green px-2 py-1 rounded-2 fw-semibold small text-uppercase ls-wide" style={{ fontSize: '0.65rem' }}>{Course?.courseLevel}</span>
                     <div className="d-flex align-items-center text-muted small">
                         <i className="fa-regular fa-clock me-1"></i> {Course?.duration}
                     </div>
                 </div>
-                <h6 className="card-title fw-bold mb-2 line-clamp-2">{Course?.title}</h6>
+                <h6 className="card-title fw-semibold mb-2 line-clamp-2" style={{ fontSize: '0.9rem' }}>{Course?.title}</h6>
                 <p className="card-text text-muted small mb-4 line-clamp-2">
                     {Course?.courseContents}
                 </p>
                 <div className="mt-auto">
                     {Course?.isEnrolled ? (
-                        <button className="btn btn-dark w-100 rounded-pill py-2 fw-bold d-flex align-items-center justify-content-center gap-2" onClick={() => handleWatchCourse(Course)}>
+                        <button className="btn btn-dark w-100 rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2" style={{ fontSize: '0.85rem' }} onClick={() => handleWatchCourse(Course)}>
                             Continue Learning <i className="fa-solid fa-play small"></i>
                         </button>
                     ) : (
-                        <button className="btn btn-green w-100 rounded-pill py-2 fw-bold shadow-sm" onClick={() => handleEnroll(Course)}>
+                        <button className="btn btn-green w-100 rounded-pill py-2 fw-semibold shadow-sm" style={{ fontSize: '0.85rem' }} onClick={() => handleEnroll(Course)}>
                             Enroll Now
                         </button>
                     )}

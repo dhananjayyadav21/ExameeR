@@ -61,18 +61,18 @@ function QPaperContent({ setProgress = () => { } }) {
                                     <li className="breadcrumb-item active text-green" aria-current="page">Question Papers</li>
                                 </ol>
                             </nav>
-                            <h1 className="display-4 fw-bold mb-3 text-white">Premium <span className="text-green">Q-Papers</span></h1>
+                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Premium <span className="text-green">Q-Papers</span></h1>
                             <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
                                 Master your exams with real paper patterns. Practice with authentic previous year questions to build confidence and accuracy.
                             </p>
                             <div className="d-flex gap-3">
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-calendar-check text-green"></i>
-                                    <span className="text-white fw-medium">Latest Sessions</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Latest Sessions</span>
                                 </div>
                                 <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
                                     <i className="fa-solid fa-bolt text-warning"></i>
-                                    <span className="text-white fw-medium">Exam Ready</span>
+                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Exam Ready</span>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@ function QPaperContent({ setProgress = () => { } }) {
             <div className="container py-5 px-4">
                 {/* Sort & Stats */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <h5 className="fw-bold mb-0 text-dark">Paper Archives</h5>
+                    <h5 className="fw-semibold mb-0 text-dark" style={{ fontSize: '1rem' }}>Paper Archives</h5>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-sort me-2 text-muted"></i>

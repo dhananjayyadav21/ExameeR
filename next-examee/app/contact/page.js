@@ -58,7 +58,7 @@ export default function ContactPage({ setProgress = () => { } }) {
                         <span className="badge bg-green-soft text-green fw-bold rounded-pill px-3 py-2 mb-3">
                             <i className="fa-solid fa-headset me-1"></i> Support & Contact
                         </span>
-                        <h1 className="display-5 fw-bold text-dark mb-3">Get In <span className="text-green">Touch</span></h1>
+                        <h1 className="display-6 fw-semibold text-dark mb-3" style={{ fontSize: '1.8rem' }}>Get In <span className="text-green">Touch</span></h1>
                         <p className="text-muted">Have a question, suggestion, or need help? We're always here. Send us a message and expect a reply within 24 hours.</p>
                     </div>
                 </div>
@@ -80,8 +80,8 @@ export default function ContactPage({ setProgress = () => { } }) {
                                     <div>
                                         <p className="text-muted small fw-bold text-uppercase mb-0" style={{ fontSize: '0.7rem', letterSpacing: '0.08em' }}>{item.title}</p>
                                         {item.href
-                                            ? <a href={item.href} className="fw-bold text-dark text-decoration-none">{item.value}</a>
-                                            : <p className="fw-bold text-dark mb-0">{item.value}</p>}
+                                            ? <a href={item.href} className="fw-semibold text-dark text-decoration-none" style={{ fontSize: '0.9rem' }}>{item.value}</a>
+                                            : <p className="fw-semibold text-dark mb-0" style={{ fontSize: '0.9rem' }}>{item.value}</p>}
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@ export default function ContactPage({ setProgress = () => { } }) {
                     {/* Form Column */}
                     <div className="col-lg-7">
                         <div className="card border-0 shadow-sm rounded-4 p-4 p-xl-5">
-                            <h5 className="fw-bold text-dark mb-1">Send a Message</h5>
+                            <h5 className="fw-semibold text-dark mb-1" style={{ fontSize: '1.1rem' }}>Send a Message</h5>
                             <p className="text-muted small mb-4">Fill out the form below. We read every message.</p>
                             <form onSubmit={handleOnSubmit}>
                                 <div className="row g-3">
@@ -134,7 +134,7 @@ export default function ContactPage({ setProgress = () => { } }) {
                                             rows="5" className="form-control rounded-3" placeholder="Write your message..."></textarea>
                                     </div>
                                     <div className="col-12 mt-1">
-                                        <button type="submit" className="btn btn-green fw-bold w-100 py-3 rounded-3" disabled={submitting}>
+                                        <button type="submit" className="btn btn-green fw-semibold w-100 py-3 rounded-3" style={{ fontSize: '0.92rem' }} disabled={submitting}>
                                             {submitting
                                                 ? <><span className="spinner-border spinner-border-sm me-2"></span>Sending...</>
                                                 : <><i className="fa-solid fa-paper-plane me-2"></i>Send Message</>}

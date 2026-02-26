@@ -86,18 +86,18 @@ export default function Home({ setProgress = () => { } }) {
         <div className="container px-4 position-relative z-1">
           <div className="row align-items-center" style={{ minHeight: '100vh' }}>
             <div className="col-lg-6 mb-5 mb-lg-0 py-5">
-              <div className="d-inline-flex align-items-center bg-light border rounded-pill px-3 py-1 mb-4 animated-fade-in">
+              <div className="d-inline-flex align-items-center bg-light border rounded-pill px-1 py-1 mb-4 animated-fade-in">
                 <span className="badge bg-green rounded-pill me-2">New</span>
-                <span className="small text-muted fw-medium">All-in-one platform for your academic success</span>
+                <span className="small text-muted fw-medium me-2">All-in-one platform for your academic success</span>
               </div>
 
-              <h1 className="display-4 fw-bold mb-4 ls-tight text-dark">
+              <h1 className="display-5 fw-semibold mb-4 ls-tight text-dark" style={{ fontSize: '2.4rem' }}>
                 Elevate Your <span className="text-green">Studies</span> to the Next Level.
               </h1>
 
-              <h3 className="h4 fw-normal text-secondary mb-4">
+              <h3 className="h5 fw-normal text-secondary mb-4" style={{ fontSize: '1rem' }}>
                 Access 10,000+ curated &nbsp;
-                <span className="fw-bold text-dark border-bottom border-green border-3">
+                <span className="fw-semibold text-dark border-bottom border-green border-2">
                   <ReactTyped strings={["Study Notes", "Previous Papers", "Expert Lectures", "Full Courses"]} typeSpeed={60} backSpeed={30} loop />
                 </span>
               </h3>
@@ -123,7 +123,7 @@ export default function Home({ setProgress = () => { } }) {
                     </div>
                   </div>
                   <div className="col-auto">
-                    <button type="submit" className="btn btn-green rounded-pill px-5 py-3 fw-bold shadow-md hover-scale">
+                    <button type="submit" className="btn btn-green rounded-pill px-5 py-3 fw-semibold shadow-md hover-scale" style={{ fontSize: '0.9rem' }}>
                       Explore
                     </button>
                   </div>
@@ -206,8 +206,8 @@ export default function Home({ setProgress = () => { } }) {
             ].map((stat, i) => (
               <div key={i} className="col-6 col-md-3">
                 <div className="p-3">
-                  <h2 className={`display-5 fw-bold text-${stat.color} mb-1`}>{stat.val}</h2>
-                  <p className="text-muted fw-medium mb-0">{stat.label}</p>
+                  <h2 className={`display-6 fw-semibold text-${stat.color} mb-1`} style={{ fontSize: '1.8rem' }}>{stat.val}</h2>
+                  <p className="text-muted fw-normal mb-0" style={{ fontSize: '0.75rem' }}>{stat.label}</p>
                 </div>
               </div>
             ))}
@@ -219,8 +219,8 @@ export default function Home({ setProgress = () => { } }) {
       <section className="py-custom px-3">
         <div className="container">
           <div className="text-center mb-5">
-            <h6 className="text-green fw-bold text-uppercase ls-wide mb-2">Academic Excellence</h6>
-            <h2 className="display-5 fw-bold mb-3 text-dark">Our Featured Courses</h2>
+            <h6 className="text-green fw-semibold text-uppercase ls-wide mb-2" style={{ fontSize: '0.75rem' }}>Academic Excellence</h6>
+            <h2 className="display-6 fw-semibold mb-3 text-dark" style={{ fontSize: '1.6rem' }}>Our Featured Courses</h2>
             <div className="mx-auto" style={{ width: '80px', height: '4px', background: 'var(--primary-gradient)', borderRadius: '2px' }}></div>
           </div>
 
@@ -277,7 +277,7 @@ export default function Home({ setProgress = () => { } }) {
                   <div className={`icon-box bg-${item.color}-subtle text-${item.color} mb-4 rounded-3 d-flex align-items-center justify-content-center`} style={{ width: '50px', height: '50px' }}>
                     <i className={`fa-solid ${item.icon} fs-4`}></i>
                   </div>
-                  <h5 className="fw-bold mb-2 text-dark">{item.h6}</h5>
+                  <h5 className="fw-semibold mb-2 text-dark" style={{ fontSize: '1rem' }}>{item.h6}</h5>
                   <p className="text-muted small mb-0">{item.p}</p>
                 </div>
               </div>
