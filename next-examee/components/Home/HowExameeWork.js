@@ -1,29 +1,49 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { homeData } from '../../constants/homeData'
 
 const HowExameeWork = () => {
+    const { howItWorks } = homeData;
+    const { steps, features } = howItWorks;
+    const sectionRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setIsVisible(true);
+            },
+            { threshold: 0.1 }
+        );
+        if (sectionRef.current) observer.observe(sectionRef.current);
+        return () => sectionRef.current && observer.unobserve(sectionRef.current);
+    }, []);
+
     return (
-        <section id="howItWorks" className="container py-5">
-            <div className="text-center mb-5">
-                <h6 className="text-primary fw-bold text-uppercase ls-wide mb-2">Process</h6>
-                <h2 className="display-5 fw-bold mb-3">How <span className="text-gradient">Examee</span> Works</h2>
-                <p className="text-muted mx-auto" style={{ maxWidth: '500px' }}>Your simple 3-step journey to academic excellence and professional skill mastery.</p>
+        <section ref={sectionRef} id="howItWorks" className="container-xl py-5">
+            <div className={`text-center mb-5 transition-reveal ${isVisible ? 'reveal-visible' : 'reveal-hidden'}`}>
+                <div className="d-inline-block px-3 py-1 rounded-pill premium-badge mb-3">
+                    <i className="fa-solid fa-list-check me-2 small"></i> Simple Process
+                </div>
+                <h2 className="h2 fw-bold mb-3 text-dark-blue">How <span className="text-primary-green">Examee</span> Works</h2>
+                <p className="text-muted fs-5 mx-auto" style={{ maxWidth: '600px' }}>Your simple 3-step journey to academic excellence and professional skill mastery.</p>
             </div>
 
-            <div className="row g-4 my-4">
-                {[
-                    { step: '1', title: 'Choose Your Course', desc: 'Browse through our curated catalog of technical and academic courses.', icon: 'fa-magnifying-glass', variant: 'primary' },
-                    { step: '2', title: 'Access Materials', desc: 'Unlock instant access to verified study notes and video lectures.', icon: 'fa-folder-open', variant: 'success' },
-                    { step: '3', title: 'Start Learning', desc: 'Track your progress and master concepts with structured modules.', icon: 'fa-graduation-cap', variant: 'purple' }
-                ].map((item, i) => (
-                    <div key={i} className="col-md-4">
-                        <div className="text-center p-4 rounded-4 transition-all hover-lift">
-                            <div className={`step-circle bg-${item.variant}-subtle text-${item.variant} mx-auto mb-4 d-flex align-items-center justify-content-center shadow-sm`}>
-                                <h3 className="fw-bold m-0">{item.step}</h3>
+            <div className="row g-5 my-4 position-relative">
+                {/* Connecting Line (Desktop) */}
+                <div className="position-absolute top-50 start-0 w-100 d-none d-lg-block z-0" style={{ transform: 'translateY(-50%)', marginTop: '-40px' }}>
+                    <div className="step-line-animated"></div>
+                </div>
+
+                {steps.map((item, i) => (
+                    <div key={i} className={`col-lg-4 z-1 transition-reveal ${isVisible ? 'reveal-visible' : 'reveal-hidden'}`} style={{ transitionDelay: `${(i + 1) * 0.2}s` }}>
+                        <div className="how-card text-center p-4 rounded-4 transition-all h-100 border-0">
+                            <div className={`step-circle-premium mx-auto mb-4 d-flex align-items-center justify-content-center fw-bold`}>
+                                {item.step}
                             </div>
-                            <h4 className="fw-bold mb-3">{item.title}</h4>
-                            <p className="text-muted small px-lg-4">{item.desc}</p>
-                            <div className={`mt-3 text-${item.variant} opacity-50`}>
+                            <h4 className="fw-bold mb-3 text-dark-blue fs-5">{item.title}</h4>
+                            <p className="text-muted mb-4 px-lg-3 small">{item.desc}</p>
+                            <div className={`step-icon-box mx-auto rounded-circle d-flex align-items-center justify-content-center text-${item.variant} shadow-sm`} style={{ width: '60px', height: '60px', background: '#fff' }}>
                                 <i className={`fa-solid ${item.icon} fs-4`}></i>
                             </div>
                         </div>
@@ -31,37 +51,29 @@ const HowExameeWork = () => {
                 ))}
             </div>
 
-            <div className="row g-4 mt-5">
-                {[
-                    { title: "Expert Verified", desc: "Content curated by subject matter professionals.", icon: "fa-shield-check", color: "primary" },
-                    { title: "Regular Updates", desc: "Always aligned with the latest syllabus.", icon: "fa-arrows-rotate", color: "success" },
-                    { title: "24/7 Access", desc: "Learn at your own pace, anytime, anywhere.", icon: "fa-clock", color: "info" },
-                    { title: "Student Support", desc: "Dedicated guidance for all your queries.", icon: "fa-headset", color: "danger" }
-                ].map((feat, i) => (
-                    <div key={i} className="col-md-6 col-lg-3">
-                        <div className="d-flex align-items-center p-3 rounded-4 bg-white shadow-sm border border-light transition-all hover-lift h-100">
-                            <div className={`icon-sm bg-${feat.color}-subtle text-${feat.color} rounded-3 me-3 d-flex align-items-center justify-content-center`} style={{ width: '45px', height: '45px', minWidth: '45px' }}>
-                                <i className={`fa-solid ${feat.icon} fs-5`}></i>
-                            </div>
-                            <div>
-                                <h6 className="fw-bold mb-1">{feat.title}</h6>
-                                <p className="text-muted smaller mb-0">{feat.desc}</p>
-                            </div>
+            <div className="features-marquee-container mt-5 py-4 overflow-hidden border-top border-bottom">
+                <div className="marquee-track d-flex align-items-center">
+                    {[...Array(4)].map((_, groupIdx) => (
+                        <div key={groupIdx} className="d-flex align-items-center gap-4 px-2">
+                            {features.map((feat, i) => (
+                                <div key={i} className="feat-card-marquee flex-shrink-0" style={{ width: '300px' }}>
+                                    <div className="feat-card d-flex align-items-center p-3 rounded-4 bg-white border border-light-subtle shadow-sm transition-all h-100">
+                                        <div className={`icon-sm-premium bg-${feat.color}-subtle text-${feat.color} rounded-3 me-3 d-flex align-items-center justify-content-center`} style={{ width: '50px', height: '50px', minWidth: '50px' }}>
+                                            <i className={`fa-solid ${feat.icon} fs-5`}></i>
+                                        </div>
+                                        <div>
+                                            <h6 className="fw-bold mb-1 text-dark-blue">{feat.title}</h6>
+                                            <p className="text-muted smaller mb-0">{feat.desc}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
-            <style jsx>{`
-                .text-gradient { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-                .ls-wide { letter-spacing: 0.1em; font-size: 0.8rem; }
-                .step-circle { width: 70px; height: 70px; border-radius: 50%; }
-                .bg-purple-subtle { background-color: rgba(123, 8, 168, 0.1); }
-                .text-purple { color: #7b08a8; }
-                .hover-lift { transition: transform 0.3s ease; }
-                .hover-lift:hover { transform: translateY(-5px); }
-                .smaller { font-size: 0.75rem; }
-            `}</style>
+
         </section>
     )
 }

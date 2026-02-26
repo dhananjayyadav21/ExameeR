@@ -50,17 +50,7 @@ const CourceIteam = ({ Course }) => {
                     )}
                 </div>
             </div>
-            <style jsx>{`
-                .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-                .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.1) !important; }
-                .transition-scale { transition: transform 0.5s ease; }
-                .hover-lift:hover .transition-scale { transform: scale(1.05); }
-                .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-                .ls-wide { letter-spacing: 0.05em; }
-                .bg-green { background: #04bd20 !important; }
-                .bg-green-subtle { background: rgba(4, 189, 32, 0.1); }
-                .text-green { color: #04bd20 !important; }
-            `}</style>
+
         </div>
     )
 }
