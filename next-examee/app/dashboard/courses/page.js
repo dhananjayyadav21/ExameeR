@@ -62,7 +62,7 @@ export default function DashboardCoursesPage() {
                     <h1 className="dc-title">Courses Management</h1>
                     <p className="dc-sub">{dasCourse.length} total courses in your library</p>
                 </div>
-                <Link href="/uploadCourse" className="dc-add-btn">
+                <Link href="/uploadCourse" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>New Course
                 </Link>
             </div>
@@ -127,7 +127,7 @@ export default function DashboardCoursesPage() {
                             <i className="fa-solid fa-graduation-cap"></i>
                             <h3>No courses found</h3>
                             <p>Try adjusting your search filters or add a new course.</p>
-                            <Link href="/uploadCourse" className="dc-add-btn">Create First Course</Link>
+                            <Link href="/uploadCourse" className="dc-add-btn btn-success">Create First Course</Link>
                         </div>
                     ) : (
                         <div className="row g-4">
@@ -186,8 +186,7 @@ export default function DashboardCoursesPage() {
                 .dc-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
                 .dc-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0; }
                 .dc-sub { font-size: 0.8rem; color: #94a3b8; margin: 3px 0 0; }
-                .dc-add-btn { background: linear-gradient(135deg,#0ea5e9,#6366f1); color: white; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.86rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; transition: all 0.2s; box-shadow: 0 4px 12px rgba(14,165,233,0.3); }
-                .dc-add-btn:hover { transform: translateY(-1px); color: white; box-shadow: 0 6px 18px rgba(14,165,233,0.45); }
+                .dc-add-btn { text-decoration: none; }
 
                 /* Search */
                 .dc-search-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #f1f5f9; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 24px; }

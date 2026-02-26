@@ -8,8 +8,8 @@ const NO_FOOTER_PATHS = ['/notes', '/video', '/Q-paper', '/cource'];
 const Footer = () => {
     const pathname = usePathname();
 
-    // Hide footer on specific pages
-    if (NO_FOOTER_PATHS.some(path => pathname === path || pathname.startsWith(path + '/'))) {
+    // Hide footer on specific pages (including dashboard)
+    if (pathname.startsWith('/dashboard') || NO_FOOTER_PATHS.some(path => pathname === path || pathname.startsWith(path + '/'))) {
         return null;
     }
 

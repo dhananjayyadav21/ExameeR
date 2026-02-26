@@ -63,7 +63,7 @@ export default function DashboardPYQPage() {
                     <h1 className="dc-title">Previous Year Questions</h1>
                     <p className="dc-sub">Organize exam papers by year, subject and category</p>
                 </div>
-                <Link href="/uploadPYQ" className="dc-add-btn" style={{ background: 'linear-gradient(135deg,#f59e0b,#d97706)', boxShadow: '0 4px 12px rgba(245,158,11,0.3)' }}>
+                <Link href="/uploadPYQ" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>Add Question Paper
                 </Link>
             </div>
@@ -198,8 +198,7 @@ export default function DashboardPYQPage() {
                 .dc-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
                 .dc-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0; }
                 .dc-sub { font-size: 0.8rem; color: #94a3b8; margin: 3px 0 0; }
-                .dc-add-btn { color: white; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.86rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; transition: all 0.2s; }
-                .dc-add-btn:hover { transform: translateY(-1px); color: white; opacity: 0.9; }
+                .dc-add-btn { text-decoration: none; }
 
                 /* Search */
                 .dc-search-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #f1f5f9; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 24px; }

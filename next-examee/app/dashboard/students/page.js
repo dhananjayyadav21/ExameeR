@@ -13,7 +13,9 @@ export default function StudentManagementPage() {
     const [status, setStatus] = useState("");
     const [isloading, setIsloading] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [modalStudent, setModalStudent] = useState(null);
+    const [editData, setEditData] = useState({ Username: '', Email: '', isVerified: false, Status: 'active' });
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -34,10 +36,33 @@ export default function StudentManagementPage() {
         finally { setIsloading(false); }
     };
 
-    const chnageStatus = async (student) => {
+    const handleStatusChange = async (student) => {
         const res = await changeStudentStatus(student._id);
         getStudentsByRole();
         toast.success(res.message || "Student status updated!");
+    };
+
+    const handleEditClick = (student) => {
+        setModalStudent(student);
+        setEditData({
+            Username: student.Username,
+            Email: student.Email,
+            isVerified: student.isVerified,
+            Status: student.Status || 'active'
+        });
+        setShowEditModal(true);
+    };
+
+    const handleUpdateStudent = async (e) => {
+        e.preventDefault();
+        const res = await context.updateStudent(editData, modalStudent._id);
+        if (res.success) {
+            toast.success(res.message);
+            setShowEditModal(false);
+            getStudentsByRole();
+        } else {
+            toast.error(res.message || "Failed to update student");
+        }
     };
 
     const deleteStudentConfirm = async (student) => {
@@ -119,7 +144,11 @@ export default function StudentManagementPage() {
                                         <td>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                 <div className="dc-avatar">
-                                                    <img src={student?.Profile || "/assets/img/Avtar.jpg"} alt={student?.Username} />
+                                                    <img
+                                                        src={student?.Profile ? (student.Profile.startsWith('http') ? student.Profile : `https://lh3.googleusercontent.com/d/${student.Profile}`) : "/assets/img/Avtar.jpg"}
+                                                        alt={student?.Username}
+                                                        onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${student?.Username || 'User'}&background=6366f1&color=fff`; }}
+                                                    />
                                                 </div>
                                                 <div>
                                                     <div className="dc-student-name">{student?.Username}</div>
@@ -143,10 +172,12 @@ export default function StudentManagementPage() {
                                         </td>
                                         <td style={{ textAlign: 'right' }}>
                                             <div className="dc-actions">
-                                                <button className="dc-action-btn dc-edit" title="Edit"><i className="fa-solid fa-edit"></i></button>
+                                                <button className="dc-action-btn dc-edit" title="Edit" onClick={() => handleEditClick(student)}>
+                                                    <i className="fa-solid fa-edit"></i>
+                                                </button>
                                                 <button
                                                     className={`dc-action-btn ${student?.Status === 'active' ? 'dc-block' : 'dc-unblock'}`}
-                                                    onClick={() => chnageStatus(student)}
+                                                    onClick={() => handleStatusChange(student)}
                                                     title={student?.Status === 'active' ? 'Block' : 'Unblock'}>
                                                     <i className={`fa-solid ${student?.Status === 'active' ? 'fa-lock' : 'fa-unlock'}`}></i>
                                                 </button>
@@ -171,14 +202,81 @@ export default function StudentManagementPage() {
                         <div className="dc-table-footer">
                             <span className="dc-page-info">Page {currentPage} of {totalPages}</span>
                             <div className="dc-pages">
-                                <button className="dc-page-btn" onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}><i className="fa-solid fa-chevron-left"></i></button>
-                                {[...Array(totalPages)].map((_, i) => (
-                                    <button key={i} className={`dc-page-btn ${currentPage === i + 1 ? 'dc-page-active' : ''}`} onClick={() => setCurrentPage(i + 1)}>{i + 1}</button>
-                                ))}
-                                <button className="dc-page-btn" onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}><i className="fa-solid fa-chevron-right"></i></button>
+                                <button className="dc-page-btn" onClick={() => setCurrentPage(p => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+                                    <i className="fa-solid fa-chevron-left"></i>
+                                </button>
+
+                                {(() => {
+                                    const pages = [];
+                                    const showLimit = 2; // Pages to show on each side of current
+
+                                    for (let i = 1; i <= totalPages; i++) {
+                                        // Always show first, last, and pages around current
+                                        if (i === 1 || i === totalPages || (i >= currentPage - showLimit && i <= currentPage + showLimit)) {
+                                            pages.push(
+                                                <button
+                                                    key={i}
+                                                    className={`dc-page-btn ${currentPage === i ? 'dc-page-active' : ''}`}
+                                                    onClick={() => setCurrentPage(i)}
+                                                >
+                                                    {i}
+                                                </button>
+                                            );
+                                        } else if (i === currentPage - showLimit - 1 || i === currentPage + showLimit + 1) {
+                                            // Add ellipses points
+                                            pages.push(<span key={`ellipsis-${i}`} className="dc-page-ellipsis">...</span>);
+                                        }
+                                    }
+                                    return pages;
+                                })()}
+
+                                <button className="dc-page-btn" onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages}>
+                                    <i className="fa-solid fa-chevron-right"></i>
+                                </button>
                             </div>
                         </div>
                     )}
+                </div>
+            )}
+            {/* Edit Modal */}
+            {showEditModal && (
+                <div className="edit-modal-overlay">
+                    <div className="edit-modal-card">
+                        <div className="edit-modal-header">
+                            <h3>Edit Student Profile</h3>
+                            <button className="close-btn" onClick={() => setShowEditModal(false)}><i className="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <form onSubmit={handleUpdateStudent} className="edit-modal-body">
+                            <div className="mb-3">
+                                <label className="dc-label">Username</label>
+                                <input type="text" className="dc-input" value={editData.Username} onChange={e => setEditData({ ...editData, Username: e.target.value })} required />
+                            </div>
+                            <div className="mb-3">
+                                <label className="dc-label">Email Address</label>
+                                <input type="email" className="dc-input" value={editData.Email} onChange={e => setEditData({ ...editData, Email: e.target.value })} required />
+                            </div>
+                            <div className="row g-3 mb-4">
+                                <div className="col-6">
+                                    <label className="dc-label">Account Status</label>
+                                    <select className="dc-input dc-select" value={editData.Status} onChange={e => setEditData({ ...editData, Status: e.target.value })}>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <div className="col-6">
+                                    <label className="dc-label">Verified</label>
+                                    <select className="dc-input dc-select" value={editData.isVerified ? "true" : "false"} onChange={e => setEditData({ ...editData, isVerified: e.target.value === "true" })}>
+                                        <option value="true">Yes</option>
+                                        <option value="false">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="edit-modal-footer">
+                                <button type="button" className="btn-cancel" onClick={() => setShowEditModal(false)}>Cancel</button>
+                                <button type="submit" className="btn-save">Update Student</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             )}
 
@@ -239,6 +337,24 @@ export default function StudentManagementPage() {
                 .dc-page-btn:hover:not(:disabled) { border-color: #6366f1; color: #6366f1; }
                 .dc-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
                 .dc-page-active { background: #6366f1 !important; border-color: #6366f1 !important; color: white !important; }
+                .dc-page-ellipsis { color: #94a3b8; font-size: 0.8rem; font-weight: 700; width: 32px; display: flex; align-items: center; justify-content: center; user-select: none; }
+
+                /* Edit Modal Styles */
+                .edit-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+                .edit-modal-card { background: white; border-radius: 16px; width: 100%; max-width: 480px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; animation: slideUp 0.3s ease; }
+                @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+                
+                .edit-modal-header { padding: 20px 24px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; background: #fcfdfd; }
+                .edit-modal-header h3 { margin: 0; font-size: 1.1rem; font-weight: 800; color: #0f172a; }
+                .close-btn { background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer; transition: color 0.15s; }
+                .close-btn:hover { color: #ef4444; }
+
+                .edit-modal-body { padding: 24px; }
+                .edit-modal-footer { display: flex; gap: 12px; margin-top: 8px; }
+                .btn-cancel { flex: 1; padding: 12px; border-radius: 10px; border: 1.5px solid #e2e8f0; background: white; color: #64748b; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+                .btn-cancel:hover { background: #f8fafc; color: #0f172a; }
+                .btn-save { flex: 2; padding: 12px; border-radius: 10px; border: none; background: #0f172a; color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+                .btn-save:hover { background: #1e293b; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(15,23,42,0.2); }
             `}</style>
         </div>
     );

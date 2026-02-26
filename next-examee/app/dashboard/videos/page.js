@@ -63,7 +63,7 @@ export default function DashboardVideosPage() {
                     <h1 className="dc-title">Video Lectures</h1>
                     <p className="dc-sub">Manage your educational video content and descriptions</p>
                 </div>
-                <Link href="/uploadVideo" className="dc-add-btn" style={{ background: 'linear-gradient(135deg,#8b5cf6,#6366f1)', boxShadow: '0 4px 12px rgba(139,92,246,0.3)' }}>
+                <Link href="/uploadVideo" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>Upload Video
                 </Link>
             </div>
@@ -128,7 +128,7 @@ export default function DashboardVideosPage() {
                             <i className="fa-solid fa-video"></i>
                             <h3>No videos found</h3>
                             <p>Try adjusting your search filters or add a new video.</p>
-                            <Link href="/uploadVideo" className="dc-add-btn" style={{ background: '#8b5cf6' }}>Upload First Video</Link>
+                            <Link href="/uploadVideo" className="dc-add-btn btn-success">Upload First Video</Link>
                         </div>
                     ) : (
                         <div className="row g-4">
@@ -183,8 +183,7 @@ export default function DashboardVideosPage() {
                 .dc-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
                 .dc-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; margin: 0; }
                 .dc-sub { font-size: 0.8rem; color: #94a3b8; margin: 3px 0 0; }
-                .dc-add-btn { color: white; border: none; border-radius: 10px; padding: 10px 20px; font-size: 0.86rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; transition: all 0.2s; }
-                .dc-add-btn:hover { transform: translateY(-1px); color: white; opacity: 0.9; }
+                .dc-add-btn { text-decoration: none; }
 
                 /* Search */
                 .dc-search-card { background: white; border-radius: 16px; padding: 20px; border: 1px solid #f1f5f9; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 24px; }

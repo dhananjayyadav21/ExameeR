@@ -65,6 +65,8 @@ const Navbar = ({ setProgress = () => { } }) => {
         setProgress(100);
     }
 
+    if (isDashboard) return null;
+
     return (
         <>
             <nav className={`navbar sticky-top navbar-expand-lg transition-all duration-300 py-3 ${isScrolled ? 'shadow-md glass-effect' : ''}`}

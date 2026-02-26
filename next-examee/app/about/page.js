@@ -130,8 +130,6 @@ export default function AboutPage({ setProgress = () => { } }) {
                 </div>
             </section>
 
-            <Footer />
-
             <style jsx>{`
                 .text-green { color: #04bd20 !important; }
                 .bg-green-soft { background: rgba(4,189,32,0.1); }

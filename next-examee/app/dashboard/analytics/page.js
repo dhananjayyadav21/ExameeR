@@ -153,8 +153,10 @@ export default function AnalyticsPage() {
                             <div className="an-action-icon" style={{ background: action.bg, color: action.color }}>
                                 <i className={`fa-solid ${action.icon}`}></i>
                             </div>
-                            <div className="an-action-label">{action.label}</div>
-                            <div className="an-action-sub">{action.sub}</div>
+                            <div className="an-action-info">
+                                <div className="an-action-label">{action.label}</div>
+                                <div className="an-action-sub">{action.sub}</div>
+                            </div>
                         </Link>
                     </div>
                 ))}
@@ -198,11 +200,58 @@ export default function AnalyticsPage() {
                 .an-empty { text-align: center; padding: 48px 20px; color: #94a3b8; font-size: 0.88rem; }
 
                 /* Quick action cards */
-                .an-action-card { display: block; background: white; border-radius: 16px; padding: 20px 16px; border: 1.5px solid #f1f5f9; text-decoration: none; transition: all 0.2s; text-align: center; }
-                .an-action-card:hover { border-color: var(--ac); box-shadow: 0 4px 16px rgba(0,0,0,0.07); transform: translateY(-2px); }
-                .an-action-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin: 0 auto 10px; }
-                .an-action-label { font-size: 0.85rem; font-weight: 700; color: #1e293b; }
-                .an-action-sub { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+                .an-action-card { 
+                    display: flex; 
+                    flex-direction: column;
+                    align-items: center; 
+                    text-align: center;
+                    background: white; 
+                    border-radius: 24px; 
+                    padding: 28px 20px; 
+                    border: 1px solid #f1f5f9; 
+                    text-decoration: none !important; 
+                    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+                    height: 100%;
+                }
+                .an-action-card:hover { 
+                    border-color: var(--ac); 
+                    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.06), 0 10px 10px -5px rgba(0,0,0,0.03);
+                    transform: translateY(-6px); 
+                }
+                .an-action-info {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                    margin-top: 16px;
+                }
+                .an-action-icon { 
+                    width: 60px; 
+                    height: 60px; 
+                    border-radius: 18px; 
+                    display: flex; 
+                    align-items: center; 
+                    justify-content: center; 
+                    font-size: 1.4rem; 
+                    transition: all 0.3s ease;
+                    box-shadow: 0 8px 16px -4px rgba(0,0,0,0.1);
+                }
+                .an-action-card:hover .an-action-icon {
+                    transform: scale(1.1);
+                    box-shadow: 0 12px 20px -6px rgba(0,0,0,0.15);
+                }
+                .an-action-label { 
+                    font-size: 0.92rem; 
+                    font-weight: 800; 
+                    color: #0f172a; 
+                    letter-spacing: -0.01em;
+                }
+                .an-action-sub { 
+                    font-size: 0.75rem; 
+                    color: #64748b; 
+                    font-weight: 500;
+                    opacity: 0.8;
+                }
             `}</style>
         </section>
     );
