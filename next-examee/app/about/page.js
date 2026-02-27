@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-
+import Footer from '../../components/Footer';
 import '../static-pages.css';
 
 export default function AboutPage() {
@@ -65,13 +65,39 @@ export default function AboutPage() {
                                 </a>
                             </div>
                         </div>
-                        <div className={`col-lg-6 transition-reveal ${isVisible ? 'reveal-visible' : 'reveal-hidden'}`} style={{ transitionDelay: '0.1s' }}>
-                            <div className="p-1 bg-light border border-light-subtle rounded-5 overflow-hidden shadow-sm">
-                                <img
-                                    src="/assets/img/Sidebarbanner2.png"
-                                    alt="About Academic Excellence"
-                                    className="img-fluid rounded-4 grayscale-hover transition-all"
-                                />
+                        <div className="col-lg-6 position-relative text-center">
+                            <div className={`hero-visual-container transition-reveal ${isVisible ? 'reveal-visible' : 'reveal-hidden'}`} style={{ transitionDelay: '0.2s' }}>
+                                <div className="instructor-circle-premium mx-auto animate-float-slow">
+                                    <div className="circle-border-dotted"></div>
+                                    <div className="instructor-image-box">
+                                        <img
+                                            src="/assets/img/ExameeLinn.png"
+                                            alt="Examee Logo"
+                                            className="img-fluid p-5"
+                                        />
+                                    </div>
+
+                                    {/* Floating Bubbles */}
+                                    <div className="floating-bubble-static animate-bounce-slow" style={{ top: '10%', right: '-10px' }}>
+                                        <div className="bg-success text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
+                                            <i className="fa-solid fa-star small"></i>
+                                        </div>
+                                        <div className="text-start">
+                                            <div className="fw-bold smaller text-dark">Top Rated</div>
+                                            <div className="smaller text-muted">Study Material</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="floating-bubble-static animate-bounce-slow" style={{ bottom: '20%', left: '-20px', animationDelay: '1s' }}>
+                                        <div className="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px' }}>
+                                            <i className="fa-solid fa-graduation-cap small"></i>
+                                        </div>
+                                        <div className="text-start">
+                                            <div className="fw-bold smaller text-dark">500+ Papers</div>
+                                            <div className="smaller text-muted">Previous Years</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,22 +147,29 @@ export default function AboutPage() {
             <section className="py-5 mb-5 mt-5">
                 <div className="container px-4">
                     <div className="bg-dark-blue rounded-5 p-5 shadow-lg position-relative overflow-hidden">
+                        {/* Background Decor */}
+                        <div className="cta-pattern"></div>
+                        <div className="cta-glow" style={{ top: '-150px', right: '-100px' }}></div>
+                        <div className="cta-glow" style={{ bottom: '-150px', left: '-100px', background: '#2563eb' }}></div>
+
                         <div className="row align-items-center position-relative z-1">
                             <div className="col-lg-8">
-                                <h2 className="text-white fw-bold mb-3">Commitment to Excellence</h2>
-                                <p className="text-white-50 fs-5 mb-0">
+                                <h2 className="text-white fw-bold display-6 mb-3 animate-fade-in-up">Commitment to Excellence</h2>
+                                <p className="text-white-50 fs-5 mb-0 opacity-75">
                                     We bridge the gap between effort and achievement by consolidating all necessary resources into one unified platform.
                                 </p>
                             </div>
                             <div className="col-lg-4 text-lg-end mt-4 mt-lg-0">
-                                <a href="/contact" className="btn btn-green rounded-pill px-5 py-3 fw-semibold">Contact Support</a>
+                                <a href="/contact" className="btn btn-green rounded-pill px-5 py-3 fw-bold shadow-lg transform-hover">
+                                    Contact Support <i className="fa-solid fa-arrow-right ms-2 small"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-
+            <Footer />
         </main>
     );
 }
