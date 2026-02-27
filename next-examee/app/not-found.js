@@ -7,9 +7,7 @@ import Footer from '../components/Footer';
 export default function NotFound() {
     return (
         <div className="d-flex flex-column min-vh-100">
-            <React.Suspense fallback={null}>
-                <Navbar />
-            </React.Suspense>
+
             <main className="flex-grow-1 d-flex flex-column align-items-center justify-content-center py-5 text-center px-4">
                 <div
                     className="mb-4 d-flex align-items-center justify-content-center rounded-circle bg-light shadow-sm"
@@ -30,7 +28,6 @@ export default function NotFound() {
                     </Link>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }

@@ -28,6 +28,18 @@
     color: var(--secondary-blue) !important;
 }
 
+.bg-secondary-blue {
+    background: var(--secondary-blue) !important;
+}
+
+.text-primary-purple {
+    color: var(--primary-purple) !important;
+}
+
+.bg-primary-purple {
+    background: var(--primary-purple) !important;
+}
+
 .text-dark-blue {
     color: var(--dark-blue) !important;
 }
@@ -460,31 +472,48 @@
 }
 
 /* How It Works Specific */
+.how-card {
+    background: transparent !important;
+}
+
 .step-circle-premium {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    border: 4px solid #f1f5f9;
+    border: 8px solid #fff !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    background: #f1f5f9;
+    font-size: 1.5rem;
+    color: var(--theme-color, var(--secondary-blue));
     position: relative;
     z-index: 2;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .how-card:hover .step-circle-premium {
-    border-color: var(--secondary-blue);
-    transform: scale(1.1);
+    background: var(--theme-color, var(--secondary-blue));
+    color: #fff;
+    transform: scale(1.1) rotate(10deg);
 }
 
 .step-icon-box {
-    width: 50px;
-    height: 50px;
-    background: #f8fafc;
-    transition: all 0.3s ease;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .how-card:hover .step-icon-box {
-    background: var(--secondary-blue);
+    background: var(--theme-color, var(--secondary-blue));
     color: white !important;
+    transform: scale(1.1) rotate(-10deg);
 }
 
 /* Marquee HowItWorks */
@@ -533,26 +562,6 @@
     }
 }
 
-.how-card {
-    background: transparent !important;
-}
-
-.step-circle-premium {
-    width: 100px;
-    height: 100px;
-    border: 8px solid #fff !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    background: #f8fafc;
-    font-size: 1.5rem;
-    color: var(--secondary-blue);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.how-card:hover .step-circle-premium {
-    background: var(--secondary-blue);
-    color: #fff;
-    transform: scale(1.1) rotate(10deg);
-}
 
 /* Floating Contact */
 .z-index-top {

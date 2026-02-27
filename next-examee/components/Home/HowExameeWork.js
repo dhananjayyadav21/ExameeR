@@ -37,13 +37,13 @@ const HowExameeWork = () => {
 
                 {steps.map((item, i) => (
                     <div key={i} className={`col-lg-4 z-1 transition-reveal ${isVisible ? 'reveal-visible' : 'reveal-hidden'}`} style={{ transitionDelay: `${(i + 1) * 0.2}s` }}>
-                        <div className="how-card text-center p-4 rounded-4 transition-all h-100 border-0">
+                        <div className="how-card text-center p-4 rounded-4 transition-all h-100 border-0" style={{ '--theme-color': `var(--${item.variant})` }}>
                             <div className={`step-circle-premium mx-auto mb-4 d-flex align-items-center justify-content-center fw-bold`}>
                                 {item.step}
                             </div>
                             <h4 className="fw-bold mb-3 text-dark-blue fs-5">{item.title}</h4>
                             <p className="text-muted mb-4 px-lg-3 small">{item.desc}</p>
-                            <div className={`step-icon-box mx-auto rounded-circle d-flex align-items-center justify-content-center text-${item.variant} shadow-sm`} style={{ width: '60px', height: '60px', background: '#fff' }}>
+                            <div className={`step-icon-box mx-auto rounded-circle d-flex align-items-center justify-content-center text-${item.variant} shadow-sm`}>
                                 <i className={`fa-solid ${item.icon} fs-4`}></i>
                             </div>
                         </div>
