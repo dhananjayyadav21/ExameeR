@@ -39,7 +39,7 @@ export function ContactPage({ setProgress = () => { } }) {
 
     return (
         <main className="bg-light min-vh-100 position-relative">
-            <GlobalLoader />
+
 
             {/* Slim breadcrumb bar — no heavy dark banner */}
             <div className="bg-white border-bottom py-3">

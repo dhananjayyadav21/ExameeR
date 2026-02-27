@@ -1,10 +1,19 @@
 /* Home Premium Design System */
 :root {
     --primary-brand: #04bd20;
+    --primary-green: #04bd20;
+    --secondary-blue: #5d5edc;
+    --dark-blue: #06121c;
+    --primary-purple: #8b5cf6;
+    --premium-light: #f8fafc;
     --active-blue: #eff6ff;
     --active-blue-border: #3b82f6;
     --dark-header: #121212;
     --ongoing-red: #ef4444;
+}
+
+.bg-premium-light {
+    background-color: var(--premium-light) !important;
 }
 
 .text-primary-green {
@@ -189,13 +198,19 @@
     background: rgba(13, 110, 253, 0.08);
 }
 
+.bg-success-subtle-premium {
+    background: rgba(4, 189, 32, 0.08);
+}
+
 .bg-warning-subtle-premium {
     background: rgba(255, 193, 7, 0.08);
 }
 
-.bg-success-subtle-premium {
-    background: rgba(25, 135, 84, 0.08);
+.bg-info-subtle-premium {
+    background: rgba(13, 202, 240, 0.08);
 }
+
+
 
 .hero-visual-wrapper::before {
     content: '';
@@ -1269,7 +1284,24 @@
     color: #1e293b;
     font-size: 0.95rem;
 }
+
 /* Added from LoggedInHome */
-.animate-fade-in { animation: fadeIn 0.3s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.text-dark { color: #1e293b !important; }
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.text-dark {
+    color: #1e293b !important;
+}

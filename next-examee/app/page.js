@@ -76,7 +76,7 @@ export default function Home({ setProgress = () => { } }) {
 
   return (
     <main className="overflow-hidden bg-white position-relative">
-      <GlobalLoader />
+
       {/* Premium Hero Section */}
       <PremiumHero
         token={token}

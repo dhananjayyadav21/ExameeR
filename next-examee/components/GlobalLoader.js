@@ -11,7 +11,7 @@ const GlobalLoader = () => {
         if (loading) {
             timer = setTimeout(() => {
                 setShowLoader(true);
-            }, 1000); // Show only if loading takes more than 1 second
+            }, 300); // reduced delay for better responsiveness
         } else {
             setShowLoader(false);
             if (timer) clearTimeout(timer);
@@ -26,12 +26,12 @@ const GlobalLoader = () => {
 
     return (
         <div className="global-loader-overlay">
-            <div className="loader-content text-center">
-                <div className="spinner-grow text-green mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
-                    <span className="visually-hidden">Loading...</span>
+            <div className="loader-container text-center">
+                <div className="premium-spinner mb-2"></div>
+                <div className="loader-text mt-3">
+                    <h5 className="mb-1">Examee is preparing</h5>
+                    <p className="mb-0">Crafting your premium experience...</p>
                 </div>
-                <h5 className="fw-semibold text-dark">Preparing your content...</h5>
-                <p className="text-muted smaller">Building your premium experience.</p>
             </div>
         </div>
     );

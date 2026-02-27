@@ -120,7 +120,6 @@ export default function DashboardLayout({ children }) {
 
                 {/* Page content */}
                 <main className="dl-content position-relative" style={{ minHeight: '600px' }}>
-                    <GlobalLoader />
                     {children}
                 </main>
             </div>
