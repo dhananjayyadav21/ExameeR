@@ -7,19 +7,11 @@ const GlobalLoader = () => {
     const [showLoader, setShowLoader] = useState(false);
 
     useEffect(() => {
-        let timer;
         if (loading) {
-            timer = setTimeout(() => {
-                setShowLoader(true);
-            }, 300); // reduced delay for better responsiveness
+            setShowLoader(true);
         } else {
             setShowLoader(false);
-            if (timer) clearTimeout(timer);
         }
-
-        return () => {
-            if (timer) clearTimeout(timer);
-        };
     }, [loading]);
 
     if (!showLoader) return null;

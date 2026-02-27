@@ -120,13 +120,22 @@ export default function Home({ setProgress = () => { } }) {
           <div className="row g-4 mt-2">
             {!token ? (
               <div className="col-12 text-center py-5">
-                <div className="bg-white rounded-4 p-5 shadow-sm border-0 mx-auto" style={{ maxWidth: '600px' }}>
-                  <div className="bg-light p-4 rounded-circle d-inline-block mb-4">
-                    <i className="fa-solid fa-lock fs-1 text-muted opacity-50"></i>
+                <div className="auth-wall-card p-5 mx-auto transition-all">
+                  <div className="auth-icon-wrapper mb-4">
+                    <i className="fa-solid fa-lock-open text-primary-green opacity-75"></i>
                   </div>
-                  <h3 className="fw-black text-dark-blue mb-3">Join to explore our premium courses</h3>
-                  <p className="text-muted mb-4 fs-5">Sign up today and get access to exclusive notes, video lectures, and previous year papers curated by experts.</p>
-                  <Link href="/auth" className="btn btn-primary-premium rounded-pill px-5 py-3 fw-bold shadow-lg">Sign Up Now</Link>
+                  <h3 className="fw-bold text-dark-blue mb-3 h2">Unlock Your Premium Learning Journey</h3>
+                  <p className="text-secondary mb-4 mx-auto" style={{ maxWidth: '450px' }}>
+                    Join thousands of successful students. Get instant access to curated notes, expert video lectures, and verified previous papers.
+                  </p>
+                  <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center mt-4">
+                    <Link href="/auth" className="btn btn-primary-premium rounded-pill px-5 py-3 fw-semibold shadow-sm">
+                      Get Started Now
+                    </Link>
+                    <Link href="/about" className="btn btn-outline-dark rounded-pill px-4 py-3 fw-semibold border-2">
+                      Explore Features
+                    </Link>
+                  </div>
                 </div>
               </div>
             ) : (

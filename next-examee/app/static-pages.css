@@ -1,0 +1,135 @@
+/* Static Pages Premium CSS (About, Contact, Privacy) */
+
+:root {
+    --static-primary-green: #16a34a;
+    --static-dark-blue: #0f172a;
+    --static-border: #e2e8f0;
+}
+
+.text-dark-blue {
+    color: var(--static-dark-blue) !important;
+}
+
+.bg-dark-blue {
+    background-color: var(--static-dark-blue) !important;
+}
+
+.text-primary-green {
+    color: var(--static-primary-green) !important;
+}
+
+.bg-primary-green {
+    background-color: var(--static-primary-green) !important;
+}
+
+.hover-green:hover {
+    color: var(--static-primary-green) !important;
+}
+
+.h1-large {
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+}
+
+.blur-3xl {
+    filter: blur(64px);
+}
+
+.blur-2xl {
+    filter: blur(32px);
+}
+
+.smaller {
+    font-size: 0.8rem;
+}
+
+.icon-box-premium {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-border-green:hover {
+    border-color: var(--static-primary-green) !important;
+    transform: translateY(-3px);
+}
+
+.transition-reveal {
+    transition: all 0.6s ease-out;
+}
+
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.grayscale-hover:hover {
+    filter: grayscale(0.5);
+}
+
+/* Contact Page Specific */
+.social-link-prof {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.social-link-prof:hover {
+    background: #fff;
+    color: var(--hover-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-control-prof {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid var(--static-border);
+    border-radius: 12px;
+    background: #fcfcfc;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.form-control-prof:focus {
+    outline: none;
+    border-color: var(--static-primary-green);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.05);
+}
+
+.background-light {
+    background: #f8fafc;
+}
+
+@media (min-width: 992px) {
+    .border-lg-end {
+        border-right: 1px solid var(--static-border);
+    }
+}
+
+@media (max-width: 768px) {
+    .h1-large {
+        font-size: 2.25rem;
+    }
+}

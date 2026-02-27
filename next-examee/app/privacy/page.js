@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Footer from '../../components/Footer';
-import GlobalLoader from '../../components/GlobalLoader';
+import '../static-pages.css';
 
 export default function PrivacyPage() {
     const [isVisible, setIsVisible] = useState(false);
@@ -35,10 +34,8 @@ export default function PrivacyPage() {
 
     return (
         <main className="min-vh-100 bg-white position-relative">
-            <GlobalLoader />
-
             {/* Breadcrumb Header */}
-            <div className="border-bottom py-3 position-sticky top-0 z-index-0 bg-white bg-opacity-75 backdrop-blur">
+            <div className="border-bottom py-3 position-sticky top-0 z-index-10 bg-white bg-opacity-75 backdrop-blur">
                 <div className="container px-4">
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb mb-0 small fw-medium">
@@ -101,19 +98,7 @@ export default function PrivacyPage() {
                 </div>
             </div>
 
-            <Footer />
 
-            <style jsx>{`
-                .text-dark-blue { color: #0f172a !important; }
-                .text-primary-green { color: #16a34a !important; }
-                .h1-large { font-size: 3rem; letter-spacing: -0.02em; }
-                .backdrop-blur { backdrop-filter: blur(8px); }
-                .smaller { font-size: 0.85rem; }
-                .hover-border-green:hover { border-color: #16a34a !important; transform: translateY(-3px); }
-                .transition-reveal { transition: all 0.6s ease-out; }
-                .reveal-hidden { opacity: 0; transform: translateY(20px); }
-                .reveal-visible { opacity: 1; transform: translateY(0); }
-            `}</style>
         </main>
     );
 }

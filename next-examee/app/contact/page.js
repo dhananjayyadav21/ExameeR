@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import { postData } from "../../services/HttpService"
 import * as GlobalUrls from "../../utils/GlobalURL"
 import { toast } from "react-toastify";
-import GlobalLoader from '../../components/GlobalLoader';
+import '../static-pages.css';
 
 export default function ContactPage() {
     const [isVisible, setIsVisible] = useState(false);
@@ -42,15 +42,13 @@ export default function ContactPage() {
 
     return (
         <main className="min-vh-100 bg-white position-relative overflow-hidden">
-            <GlobalLoader />
-
             {/* Subtle Professional Background */}
             <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5 pointer-events-none">
                 <div className="position-absolute top-0 start-0 w-50 h-50 rounded-circle bg-success blur-2xl translate-middle"></div>
             </div>
 
             {/* Breadcrumb Header */}
-            <div className="border-bottom py-3 position-sticky top-0 z-index-0 bg-white bg-opacity-75 backdrop-blur">
+            <div className="border-bottom py-3 position-sticky top-0 z-index-10 bg-white bg-opacity-75 backdrop-blur">
                 <div className="container px-4">
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb mb-0 small fw-medium">
@@ -163,46 +161,7 @@ export default function ContactPage() {
                 </div>
             </div>
 
-            <Footer />
 
-            <style jsx>{`
-                .text-dark-blue { color: #0f172a !important; }
-                .text-primary-green { color: #16a34a !important; }
-                .h1-large { font-size: 3rem; letter-spacing: -0.02em; }
-                .backdrop-blur { backdrop-filter: blur(8px); }
-                .blur-2xl { filter: blur(48px); }
-                
-                .hover-border-green:hover { border-color: #16a34a !important; transform: translateY(-3px); }
-                .background-light { background: #f8fafc; }
-
-                .social-link-prof {
-                    width: 40px; height: 40px; 
-                    border-radius: 10px;
-                    display: flex; align-items: center; justify-content: center;
-                    background: #f1f5f9; color: #64748b;
-                    text-decoration: none; transition: all 0.2s ease;
-                }
-                .social-link-prof:hover {
-                    background: #fff; color: var(--hover-color);
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-                }
-
-                .form-control-prof {
-                    width: 100%; padding: 12px 18px;
-                    border: 1px solid #e2e8f0; border-radius: 12px;
-                    background: #fcfcfc; color: #1e293b;
-                    transition: all 0.2s ease; font-size: 0.95rem;
-                }
-                .form-control-prof:focus {
-                    outline: none; border-color: #16a34a;
-                    background: #white; box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.05);
-                }
-                
-                .transition-reveal { transition: all 0.6s ease-out; }
-                .reveal-hidden { opacity: 0; transform: translateY(20px); }
-                .reveal-visible { opacity: 1; transform: translateY(0); }
-                .smaller { font-size: 0.75rem; }
-            `}</style>
         </main>
     );
 }

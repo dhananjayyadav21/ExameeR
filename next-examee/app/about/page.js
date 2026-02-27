@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Footer from '../../components/Footer';
-import GlobalLoader from '../../components/GlobalLoader';
+
+import '../static-pages.css';
 
 export default function AboutPage() {
     const [isVisible, setIsVisible] = useState(false);
@@ -26,13 +26,11 @@ export default function AboutPage() {
 
     return (
         <main className="min-vh-100 bg-white position-relative overflow-hidden">
-            <GlobalLoader />
-
             {/* Subtle Gradient Accent */}
             <div className="position-absolute top-0 end-0 w-50 h-50 opacity-10 pointer-events-none bg-success-subtle blur-3xl rounded-circle translate-middle"></div>
 
             {/* Breadcrumb Header */}
-            <div className="border-bottom py-3 position-sticky top-0 z-index-0 bg-white bg-opacity-75 backdrop-blur">
+            <div className="border-bottom py-3 position-sticky top-0 z-index-10 bg-white bg-opacity-75 backdrop-blur">
                 <div className="container px-4">
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb mb-0 small fw-medium">
@@ -138,30 +136,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            <Footer />
 
-            <style jsx>{`
-                .text-dark-blue { color: #0f172a !important; }
-                .text-primary-green { color: #16a34a !important; }
-                .bg-primary-green { background-color: #16a34a !important; }
-                .hover-green:hover { color: #16a34a !important; }
-                .h1-large { font-size: 3rem; letter-spacing: -0.02em; }
-                .backdrop-blur { backdrop-filter: blur(8px); }
-                .blur-3xl { filter: blur(64px); }
-                .smaller { font-size: 0.8rem; }
-                .icon-box-premium { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-                .hover-border-green:hover { border-color: #16a34a !important; transform: translateY(-3px); }
-                .transition-reveal { transition: all 0.6s ease-out; }
-                .reveal-hidden { opacity: 0; transform: translateY(20px); }
-                .reveal-visible { opacity: 1; transform: translateY(0); }
-                @media (min-width: 992px) {
-                    .border-lg-end { border-right: 1px solid #e2e8f0; }
-                }
-                @media (max-width: 768px) {
-                    .h1-large { font-size: 2.25rem; }
-                }
-                .grayscale-hover:hover { filter: grayscale(0.5); }
-            `}</style>
         </main>
     );
 }
