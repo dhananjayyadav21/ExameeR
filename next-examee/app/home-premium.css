@@ -45,11 +45,11 @@
 }
 
 .fw-bold {
-    font-weight: 750 !important;
+    font-weight: 700 !important;
 }
 
 .fw-black {
-    font-weight: 800;
+    font-weight: 800 !important;
 }
 
 .ls-wide {
@@ -496,7 +496,7 @@
 .how-card:hover .step-circle-premium {
     background: var(--theme-color, var(--secondary-blue));
     color: #fff;
-    transform: scale(1.1) rotate(10deg);
+    transform: translateY(-5px);
 }
 
 .step-icon-box {
@@ -513,7 +513,7 @@
 .how-card:hover .step-icon-box {
     background: var(--theme-color, var(--secondary-blue));
     color: white !important;
-    transform: scale(1.1) rotate(-10deg);
+    transform: translateY(-5px);
 }
 
 /* Marquee HowItWorks */

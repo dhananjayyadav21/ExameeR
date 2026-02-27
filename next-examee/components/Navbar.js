@@ -152,34 +152,26 @@ const Navbar = ({ setProgress = () => { } }) => {
                     </div>
 
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                            <li className="nav-item dropdown dropdown-hover">
-                                <a className="nav-link dropdown-toggle fw-semibold" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
-                                    <i className="fa-solid fa-shapes me-2 opacity-75"></i>Categories
-                                </a>
-                                <ul className="dropdown-menu shadow-xl border-0 p-2 mt-2 dropdown-premium animate-up">
-                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('sciTechnology')}>
-                                        <span className="cat-icon bg-success-subtle text-success"><i className="fa-solid fa-microchip"></i></span>
-                                        Sci-Technology
-                                    </button></li>
-                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('commerce')}>
-                                        <span className="cat-icon bg-primary-subtle text-primary"><i className="fa-solid fa-sack-dollar"></i></span>
-                                        Commerce
-                                    </button></li>
-                                    <li><button className="dropdown-item rounded-3 py-2 px-3 fw-medium d-flex align-items-center gap-3" onClick={() => handleCategoryChange('artscivils')}>
-                                        <span className="cat-icon bg-warning-subtle text-warning"><i className="fa-solid fa-palette"></i></span>
-                                        Arts & Civils
-                                    </button></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        {/* Center spacer if needed, or just let right-aligned nav handle it */}
+
 
                         <ul className="navbar-nav ms-auto align-items-center gap-lg-3">
-                            <li className="nav-item"><Link className="nav-link fw-medium" href="/notes">Notes</Link></li>
-                            <li className="nav-item"><Link className="nav-link fw-medium" href="/video">Video</Link></li>
-                            <li className="nav-item"><Link className="nav-link fw-medium" href="/Q-paper">Q-Paper</Link></li>
-                            <li className="nav-item"><Link className="nav-link fw-medium" href="/cource">Courses</Link></li>
-                            <li className="nav-item"><Link className="nav-link fw-medium" href="/about">About</Link></li>
+                            {[
+                                { href: '/#howItWorks', label: 'How Examee Works' },
+                                { href: '/about', label: 'About Us' },
+                                { href: '/contact', label: 'Contact' },
+                                { href: '/privacy', label: 'Privacy' }
+                            ].map((link) => (
+                                <li key={link.href} className="nav-item">
+                                    <Link
+                                        className={`nav-link fw-semibold text-dark-blue px-3 position-relative nav-link-premium ${pathname === link.href ? 'active' : ''}`}
+                                        href={link.href}
+                                    >
+                                        {link.label}
+                                        {pathname === link.href && <span className="active-indicator"></span>}
+                                    </Link>
+                                </li>
+                            ))}
 
                             {token ? (
                                 <li className="nav-item dropdown d-none d-lg-block">
@@ -289,13 +281,13 @@ const Navbar = ({ setProgress = () => { } }) => {
                     </div>
 
                     <div className="p-4 flex-grow-1">
-                        <h6 className="text-muted text-uppercase small ls-wide mb-3 fw-bold opacity-75" style={{ fontSize: '0.65rem' }}>Main Explorer</h6>
+                        <h6 className="text-muted text-uppercase small ls-wide mb-3 fw-bold opacity-75" style={{ fontSize: '0.65rem' }}>Navigation</h6>
                         <div className="mb-4 d-grid gap-2">
                             {[
-                                { link: '/notes', label: 'Study Notes', icon: 'fa-note-sticky', color: '#10b981' },
-                                { link: '/video', label: 'Video Tutorials', icon: 'fa-circle-play', color: '#0ea5e9' },
-                                { link: '/Q-paper', label: 'Old Papers', icon: 'fa-file-lines', color: '#f59e0b' },
-                                { link: '/cource', label: 'Pro Courses', icon: 'fa-graduation-cap', color: '#6366f1' }
+                                { link: '/#howItWorks', label: 'How It Works', icon: 'fa-gears', color: '#6366f1' },
+                                { link: '/about', label: 'About Us', icon: 'fa-circle-info', color: '#10b981' },
+                                { link: '/contact', label: 'Contact Support', icon: 'fa-headset', color: '#0ea5e9' },
+                                { link: '/privacy', label: 'Privacy Policy', icon: 'fa-shield-halved', color: '#f59e0b' }
                             ].map((item, idx) => (
                                 <Link key={idx} className="btn text-start d-flex align-items-center gap-3 py-3 px-3 rounded-4 bg-light border-0 hover-scale" href={item.link} onClick={closeMobileMenu}>
                                     <span className="rounded-circle d-flex align-items-center justify-content-center"
@@ -305,16 +297,6 @@ const Navbar = ({ setProgress = () => { } }) => {
                                     <span className="fw-semibold text-dark" style={{ fontSize: '0.9rem' }}>{item.label}</span>
                                 </Link>
                             ))}
-                        </div>
-
-                        <h6 className="text-muted text-uppercase small ls-wide mb-3 fw-bold opacity-75" style={{ fontSize: '0.65rem' }}>Other Info</h6>
-                        <div className="d-grid gap-1">
-                            <Link className="d-flex align-items-center gap-3 py-2 px-3 text-dark text-decoration-none fw-medium" href="/about" onClick={closeMobileMenu}>
-                                <i className="fa-solid fa-circle-info text-muted w-25px"></i>About Us
-                            </Link>
-                            <Link className="d-flex align-items-center gap-3 py-2 px-3 text-dark text-decoration-none fw-medium" href="/contact" onClick={closeMobileMenu}>
-                                <i className="fa-solid fa-headset text-muted w-25px"></i>Support
-                            </Link>
                         </div>
                     </div>
 
@@ -333,6 +315,9 @@ const Navbar = ({ setProgress = () => { } }) => {
                     onClick={closeMobileMenu}></div>
             )}
             <style jsx>{`
+                .nav-link-premium { font-size: 0.9rem; transition: all 0.2s ease; border-bottom: 2px solid transparent; padding-bottom: 4px; }
+                .nav-link-premium:hover { color: #04bd20 !important; }
+                .active-indicator { position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px; background: #04bd20; border-radius: 2px; }
                 .profile-dropdown, .dropdown-premium { animation: dropIn 0.25s cubic-bezier(0.165, 0.84, 0.44, 1); }
                 @keyframes dropIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
                 .profile-item { font-size: 0.875rem; font-weight: 500; color: #374151; transition: background 0.12s; }
