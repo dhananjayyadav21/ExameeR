@@ -1,9 +1,24 @@
 "use client";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import ContentContext from "./ContentContext";
 import { getData, postData, patchData, deleteData, putData } from "../services/HttpService";
 import * as GlobalUrls from "../utils/GlobalURL";
+
+const RouteChangeTracker = ({ setLoadingCount }) => {
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        setLoadingCount(prev => prev + 1);
+        const timer = setTimeout(() => {
+            setLoadingCount(prev => Math.max(0, prev - 1));
+        }, 800);
+        return () => clearTimeout(timer);
+    }, [pathname, searchParams, setLoadingCount]);
+
+    return null;
+};
 
 const ContentState = (props) => {
     const [loadingCount, setLoadingCount] = useState(0);
@@ -18,18 +33,6 @@ const ContentState = (props) => {
             setLoadingCount(prev => Math.max(0, prev - 1));
         }
     }, []);
-
-    // Handle initial loading on route changes
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    useEffect(() => {
-        setLoadingCount(prev => prev + 1);
-        const timer = setTimeout(() => {
-            setLoadingCount(prev => Math.max(0, prev - 1));
-        }, 800); // 800ms pulse for route changes to be a bit more detectable and closer to the 1s threshold
-        return () => clearTimeout(timer);
-    }, [pathname, searchParams]);
 
     //======================================================[ ADD Content ]=========================================
     const addNote = async (Data) => {
@@ -576,6 +579,9 @@ const ContentState = (props) => {
                 getUser, updateProfile, updatePassword, deleteAccount, userData,
                 loading
             }}>
+            <Suspense fallback={null}>
+                <RouteChangeTracker setLoadingCount={setLoadingCount} />
+            </Suspense>
             {props.children}
         </ContentContext.Provider>
     );

@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Suspense } from "react";
 import Modal from "../../../components/Modal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,7 +7,8 @@ import ContentContext from '../../../context/ContentContext';
 import * as GlobalUrls from "../../../utils/GlobalURL";
 import { toast } from "react-toastify";
 
-export default function DashboardVideosPage() {
+
+function DashboardVideosContent() {
     const context = useContext(ContentContext);
     const { searchDashContent, dasVideo, getVideo, deleteVideo } = context;
     const router = useRouter();
@@ -252,6 +253,14 @@ export default function DashboardVideosPage() {
                 .dc-page-active { background: #8b5cf6 !important; border-color: #8b5cf6 !important; color: white !important; box-shadow: 0 4px 10px rgba(139,92,246,0.3); }
             `}</style>
         </div>
+    );
+}
+
+export default function DashboardVideosPage(props) {
+    return (
+        <Suspense fallback={<div className="dc-loading"><div className="dc-spinner-lg"></div><p>Preparing dashboard...</p></div>}>
+            <DashboardVideosContent {...props} />
+        </Suspense>
     );
 }
 

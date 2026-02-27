@@ -1,0 +1,148 @@
+/* Student Dashboard & Layout Styles */
+
+.fw-black {
+    font-weight: 900;
+}
+
+.ls-wide {
+    letter-spacing: 0.05em;
+}
+
+.smaller {
+    font-size: 0.75rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.hover-lift {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.btn-green {
+    background-color: #04bd20 !important;
+    color: white !important;
+    border: none !important;
+}
+
+.btn-green:hover {
+    background-color: #03a61c !important;
+    color: white !important;
+}
+
+.btn-green:disabled {
+    background-color: #adb5bd !important;
+    cursor: not-allowed !important;
+}
+
+.btn-white {
+    background-color: white !important;
+}
+
+.btn-white:hover {
+    background-color: #f8f9fa !important;
+}
+
+.text-green {
+    color: #04bd20 !important;
+}
+
+
+.alert-green {
+    background: rgba(4, 189, 32, 0.08);
+    border: 1px solid rgba(4, 189, 32, 0.2);
+    color: #03a61c;
+}
+
+.bg-green-soft {
+    background-color: rgba(4, 189, 32, 0.08) !important;
+}
+
+.font-mono {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+/* My Learning Tab Styles */
+.tab-btn {
+    padding: 9px 18px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+}
+
+.tab-btn--idle:hover {
+    background: #f3f4f6;
+    color: #111;
+}
+
+.tab-btn--active {
+    background: #04bd20 !important;
+    color: white !important;
+    font-weight: 600;
+}
+
+.tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    border-radius: 50px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0 5px;
+    background: rgba(4, 189, 32, 0.1);
+    color: #04bd20;
+}
+
+.tab-btn--active .tab-count {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card--active {
+    background: rgba(4, 189, 32, 0.03) !important;
+}
+
+.quick-link {
+    transition: all 0.2s;
+}
+
+.quick-link:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+    background: white !important;
+}

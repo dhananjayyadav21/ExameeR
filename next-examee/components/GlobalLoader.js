@@ -31,32 +31,8 @@ const GlobalLoader = () => {
                     <span className="visually-hidden">Loading...</span>
                 </div>
                 <h5 className="fw-semibold text-dark">Preparing your content...</h5>
-                <p className="text-muted small">This is taking a bit longer than usual, please wait.</p>
+                <p className="text-muted smaller">Building your premium experience.</p>
             </div>
-
-            <style jsx>{`
-                .global-loader-overlay {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(255, 255, 255, 0.9);
-                    backdrop-filter: blur(5px);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 9999;
-                    animation: fadeIn 0.3s ease;
-                }
-                .text-green {
-                    color: #04bd20 !important;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-            `}</style>
         </div>
     );
 };

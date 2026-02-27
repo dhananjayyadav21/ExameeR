@@ -5,6 +5,8 @@ import ContentContext from '../../context/ContentContext';
 import * as GlobalUrls from "../../utils/GlobalURL";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import StudentLayout from "../../components/Home/StudentLayout";
+
 function QPaperContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -47,44 +49,14 @@ function QPaperContent({ setProgress = () => { } }) {
     };
 
     return (
-        <main className="bg-light min-vh-100">
-            {/* Q-Paper Professional Banner - Dark Theme */}
-            <div className="position-relative overflow-hidden py-5 mb-0" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #064e3b 100%)' }}>
-                <div className="position-absolute top-0 end-0 w-50 h-100 opacity-10 d-none d-lg-block">
-                    <i className="fa-solid fa-file-invoice position-absolute" style={{ fontSize: '20rem', right: '-5rem', top: '-2rem', transform: 'rotate(15deg)' }}></i>
-                </div>
-                <div className="container px-4 position-relative z-1 py-lg-4">
-                    <div className="row align-items-center">
-                        <div className="col-lg-7">
-                            <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-bold ls-wide mb-0">
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-white-50">Home</a></li>
-                                    <li className="breadcrumb-item active text-green" aria-current="page">Question Papers</li>
-                                </ol>
-                            </nav>
-                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Premium <span className="text-green">Q-Papers</span></h1>
-                            <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
-                                Master your exams with real paper patterns. Practice with authentic previous year questions to build confidence and accuracy.
-                            </p>
-                            <div className="d-flex gap-3">
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-calendar-check text-green"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Latest Sessions</span>
-                                </div>
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-bolt text-warning"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Exam Ready</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="container py-5 px-4">
-                {/* Sort & Stats */}
+        <StudentLayout title="PYQ">
+            <div className="container-fluid px-0">
+                {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <h5 className="fw-semibold mb-0 text-dark" style={{ fontSize: '1rem' }}>Paper Archives</h5>
+                    <div>
+                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Paper Archives</h2>
+                        <p className="text-muted small mb-0">{PYQS.length} papers available in {category}</p>
+                    </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-sort me-2 text-muted"></i>
@@ -107,7 +79,7 @@ function QPaperContent({ setProgress = () => { } }) {
                         </div>
                     ) : (
                         currentPYQS?.map((pyq) => (
-                            <div key={pyq._id} className="col-xl-3 col-lg-4 col-md-6">
+                            <div key={pyq._id} className="col-xl-4 col-lg-4 col-md-6">
                                 <QPaperItem pyq={pyq} />
                             </div>
                         ))
@@ -145,18 +117,10 @@ function QPaperContent({ setProgress = () => { } }) {
                 )}
             </div>
 
-            <style jsx>{`
-                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
-                .text-green { color: #04bd20 !important; }
-                .btn-green { background: #04bd20 !important; color: white !important; border: none !important; }
-                .btn-green:hover { background: #03a61c !important; }
-                .ls-wide { letter-spacing: 0.1em; }
-                .btn-white { background: #fff; }
-                .transition-all { transition: all 0.3s ease; }
-            `}</style>
-        </main>
+        </StudentLayout>
     );
 }
+
 
 export default function QPaperPage(props) {
     return (

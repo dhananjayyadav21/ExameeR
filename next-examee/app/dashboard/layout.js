@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import ContentContext from "../../context/ContentContext";
+import GlobalLoader from "../../components/GlobalLoader";
 
 import "./dashboard-layout.css";
 
@@ -118,7 +119,8 @@ export default function DashboardLayout({ children }) {
                 </header>
 
                 {/* Page content */}
-                <main className="dl-content">
+                <main className="dl-content position-relative" style={{ minHeight: '600px' }}>
+                    <GlobalLoader />
                     {children}
                 </main>
             </div>

@@ -8,6 +8,8 @@ import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import DriveUpload from '@/utils/DriveUpload';
 
+import StudentLayout from "../../components/Home/StudentLayout";
+
 export default function ProfilePage({ setProgress = () => { } }) {
     const router = useRouter();
     const context = useContext(ContentContext);
@@ -101,31 +103,8 @@ export default function ProfilePage({ setProgress = () => { } }) {
         setSaving(false);
     };
 
-    const profileImage = typeof window !== 'undefined' && localStorage.getItem("Profile") && localStorage.getItem("Profile") !== "undefined"
-        ? localStorage.getItem("Profile")
-        : "/assets/img/Avtar.jpg";
-
     return (
-        <main className="bg-light min-vh-100">
-            {/* Slim top breadcrumb bar — no hero */}
-            <div className="bg-white border-bottom py-3">
-                <div className="container px-4 d-flex justify-content-between align-items-center">
-                    <nav aria-label="breadcrumb">
-                        <ol className="breadcrumb small mb-0">
-                            <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                            <li className="breadcrumb-item active text-green fw-medium">My Profile</li>
-                        </ol>
-                    </nav>
-                    <button
-                        onClick={() => setIsEditing(!isEditing)}
-                        className={`btn btn-sm ${isEditing ? 'btn-outline-danger' : 'btn-green'} rounded-pill px-4`}
-                        style={!isEditing ? { background: '#04bd20', color: '#fff', border: 'none' } : {}}
-                    >
-                        {isEditing ? 'Cancel Edit' : 'Edit Profile'}
-                    </button>
-                </div>
-            </div>
-
+        <StudentLayout title="Profile">
             {!user ? (
                 <div className="text-center py-5 my-5">
                     <div className="spinner-grow me-2 text-success" role="status"></div>
@@ -134,10 +113,24 @@ export default function ProfilePage({ setProgress = () => { } }) {
                     <p className="text-muted mt-4 fw-medium">Fetching your profile details...</p>
                 </div>
             ) : (
-                <div className="container py-5 px-4">
-                    <div className="row g-4 justify-content-center">
+                <div className="container-fluid px-0">
+                    <div className="d-flex justify-content-between align-items-center mb-5">
+                        <div>
+                            <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>My Account</h2>
+                            <p className="text-muted small mb-0">Manage your profile and account settings</p>
+                        </div>
+                        <button
+                            onClick={() => setIsEditing(!isEditing)}
+                            className={`btn ${isEditing ? 'btn-outline-danger' : 'btn-green'} rounded-pill px-4 shadow-sm`}
+                            style={!isEditing ? { background: '#04bd20', color: '#fff', border: 'none' } : {}}
+                        >
+                            {isEditing ? 'Cancel Edit' : 'Edit Profile'}
+                        </button>
+                    </div>
+
+                    <div className="row g-4">
                         {/* Profile Card */}
-                        <div className="col-lg-4 col-md-5">
+                        <div className="col-lg-4">
                             <div className="card border-0 shadow-sm rounded-4 text-center p-4 p-lg-5 h-100">
                                 {/* Avatar */}
                                 <div className="position-relative d-inline-block mx-auto mb-3">
@@ -169,7 +162,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                 <h5 className="fw-semibold text-dark mb-1" style={{ fontSize: '1.1rem' }}>
                                     {(user?.FirstName || user?.LastName) ? `${user.FirstName} ${user.LastName}`.trim() : user?.Username}
                                 </h5>
-                                <p className="text-muted small mb-3">@{user?.Username} · {user?.Email}</p>
+                                <p className="text-muted small mb-3">@{user?.Username}</p>
 
                                 {user?.isVerified ? (
                                     <span className="badge rounded-pill mx-auto mb-3 px-3 py-2" style={{ background: 'rgba(4,189,32,0.12)', color: '#039419', fontSize: '0.82rem' }}>
@@ -181,7 +174,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                     </span>
                                 )}
 
-                                <hr className="my-3" />
+                                <hr className="my-3 opacity-50" />
 
                                 <div className="text-start small">
                                     <div className="mb-3">
@@ -200,7 +193,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                         </div>
 
                         {/* Details Panel */}
-                        <div className="col-lg-8 col-md-7">
+                        <div className="col-lg-8">
                             <div className="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
                                 <h6 className="fw-semibold text-dark mb-4 d-flex align-items-center gap-2" style={{ fontSize: '0.95rem' }}>
                                     <i className="fa-solid fa-circle-info text-green"></i> Account Information
@@ -215,7 +208,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                         { label: 'Location', value: profileData.location, icon: 'fa-location-dot', name: 'location' },
                                     ].map((item, idx) => (
                                         <div key={idx} className="col-sm-6">
-                                            <div className="bg-light rounded-3 p-3">
+                                            <div className="bg-light rounded-3 p-3 transition-all">
                                                 <div className="d-flex align-items-center gap-2 mb-1">
                                                     <i className={`fa-solid ${item.icon} text-green`} style={{ fontSize: '0.8rem' }}></i>
                                                     <span className="text-muted fw-semibold text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.08em' }}>{item.label}</span>
@@ -224,7 +217,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                                     <input
                                                         type="text"
                                                         name={item.name}
-                                                        className="form-control form-control-sm border-0 bg-white"
+                                                        className="form-control form-control-sm border-0 bg-white shadow-sm"
                                                         value={item.value}
                                                         onChange={handleProfileChange}
                                                     />
@@ -245,7 +238,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                             {isEditing ? (
                                                 <textarea
                                                     name="about"
-                                                    className="form-control form-control-sm border-0 bg-white"
+                                                    className="form-control form-control-sm border-0 bg-white shadow-sm"
                                                     rows="3"
                                                     value={profileData.about}
                                                     onChange={handleProfileChange}
@@ -266,7 +259,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                             {isEditing ? (
                                                 <select
                                                     name="gender"
-                                                    className="form-select form-select-sm border-0 bg-white"
+                                                    className="form-select form-select-sm border-0 bg-white shadow-sm"
                                                     value={profileData.gender}
                                                     onChange={handleProfileChange}
                                                 >
@@ -301,7 +294,7 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                 {isEditing && (
                                     <div className="mt-4 d-flex justify-content-end">
                                         <button
-                                            className="btn btn-green rounded-pill px-5 fw-bold"
+                                            className="btn btn-green rounded-pill px-5 fw-bold shadow-sm"
                                             style={{ background: '#04bd20', color: '#fff', border: 'none' }}
                                             onClick={handleSave}
                                             disabled={saving}
@@ -335,18 +328,10 @@ export default function ProfilePage({ setProgress = () => { } }) {
                             </div>
                         </div>
                     </div>
-
-                    <div className="text-center mt-5">
-                        <img src="/assets/img/brandlog.png" alt="Examee" style={{ width: '120px', opacity: 0.5 }} />
-                    </div>
                 </div>
             )}
 
-            <style jsx>{`
-                .text-green { color: #04bd20 !important; }
-                .quick-link { transition: all 0.2s; }
-                .quick-link:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); background: white !important; }
-            `}</style>
-        </main>
+        </StudentLayout>
     );
 }
+

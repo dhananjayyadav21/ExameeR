@@ -5,6 +5,8 @@ import CourceIteam from '../../components/Home/CourceIteam'
 import ContentContext from '../../context/ContentContext';
 import * as GlobalUrls from "../../utils/GlobalURL";
 
+import StudentLayout from "../../components/Home/StudentLayout";
+
 function CourseContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -47,44 +49,14 @@ function CourseContent({ setProgress = () => { } }) {
     };
 
     return (
-        <main className="bg-light min-vh-100">
-            {/* Courses Professional Banner - Dark Theme */}
-            <div className="position-relative overflow-hidden py-5 mb-0" style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #064e3b 100%)' }}>
-                <div className="position-absolute top-0 end-0 w-50 h-100 opacity-10 d-none d-lg-block">
-                    <i className="fa-solid fa-graduation-cap position-absolute" style={{ fontSize: '20rem', right: '-5rem', top: '-2rem', transform: 'rotate(-10deg)' }}></i>
-                </div>
-                <div className="container px-4 position-relative z-1 py-lg-4">
-                    <div className="row align-items-center">
-                        <div className="col-lg-7">
-                            <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-semibold ls-wide mb-0" style={{ fontSize: '0.7rem' }}>
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-white-50">Home</a></li>
-                                    <li className="breadcrumb-item active text-green" aria-current="page">Courses</li>
-                                </ol>
-                            </nav>
-                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Premium <span className="text-green">Learning Path</span></h1>
-                            <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
-                                Master new skills with structured learning paths. Our courses are designed by industry experts to take you from beginner to professional.
-                            </p>
-                            <div className="d-flex gap-3">
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-certificate text-green"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Certification</span>
-                                </div>
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-user-group text-primary"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Expert Mentors</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="container py-5 px-4">
+        <StudentLayout title="Course">
+            <div className="container-fluid px-0">
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <h5 className="fw-bold mb-0 text-dark">Discover Your Path</h5>
+                    <div>
+                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Discover Your Path</h2>
+                        <p className="text-muted small mb-0">{Course.length} courses available in {category}</p>
+                    </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-arrow-down-wide-short me-2 text-muted"></i>
@@ -109,7 +81,7 @@ function CourseContent({ setProgress = () => { } }) {
                         </div>
                     ) : (
                         currentCourse?.map((c, index) => (
-                            <div key={index} className="col-xl-3 col-lg-4 col-md-6">
+                            <div key={index} className="col-xl-4 col-lg-4 col-md-6">
                                 <CourceIteam Course={c} />
                             </div>
                         ))
@@ -147,18 +119,10 @@ function CourseContent({ setProgress = () => { } }) {
                 )}
             </div>
 
-            <style jsx>{`
-                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
-                .text-green { color: #04bd20 !important; }
-                .btn-green { background: #04bd20; color: white; border: none; }
-                .btn-green:hover { background: #03a61c; color: white; }
-                .ls-wide { letter-spacing: 0.1em; }
-                .btn-white { background: #fff; }
-                .transition-all { transition: all 0.3s ease; }
-            `}</style>
-        </main>
-    )
+        </StudentLayout>
+    );
 }
+
 
 export default function CoursePage(props) {
     return (

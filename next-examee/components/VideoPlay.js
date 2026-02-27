@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 
 // Parses any video URL (YouTube / Google Drive) into an embed-ready ID or URL

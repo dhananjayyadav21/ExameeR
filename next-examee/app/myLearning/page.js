@@ -32,6 +32,8 @@ function SectionHeader({ icon, color, title, count, unit }) {
     );
 }
 
+import StudentLayout from '../../components/Home/StudentLayout';
+
 export default function MyLearningPage({ setProgress = () => { } }) {
     const context = useContext(ContentContext);
     const { getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, MyLearningCourse } = context;
@@ -61,43 +63,30 @@ export default function MyLearningPage({ setProgress = () => { } }) {
     const showCourses = activeTab === 'courses';
 
     return (
-        <main className="bg-light min-vh-100">
-            {/* Page header — slim, professional */}
-            <div className="bg-white border-bottom">
-                <div className="container-lg px-4 py-3">
-                    <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
-                        <div>
-                            <nav aria-label="breadcrumb">
-                                <ol className="breadcrumb mb-1" style={{ fontSize: '0.78rem' }}>
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-muted">Home</a></li>
-                                    <li className="breadcrumb-item active text-green" style={{ fontWeight: 400 }}>My Learning</li>
-                                </ol>
-                            </nav>
-                            <h1 className="mb-0 text-dark" style={{ fontSize: '1.2rem', fontWeight: 500, letterSpacing: '-0.01em' }}>
-                                My <span className="text-green">Learning Hub</span>
-                            </h1>
-                            <p className="text-muted mb-0" style={{ fontSize: '0.78rem', marginTop: '2px' }}>Your saved resources — all in one place.</p>
-                        </div>
-                        <div className="flex-shrink-0">
-                            <span className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3"
-                                style={{ background: 'rgba(4,189,32,0.08)', color: '#039419', fontSize: '0.8rem', fontWeight: 500 }}>
-                                <i className="fa-solid fa-layer-group" style={{ fontSize: '0.75rem' }}></i>
-                                {totalItems} Resources
-                            </span>
-                        </div>
+        <StudentLayout title="My Library">
+            <div className="container-fluid px-0">
+                <div className="d-flex justify-content-between align-items-center mb-5">
+                    <div>
+                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>My Library</h2>
+                        <p className="text-muted small mb-0">Your saved resources — all in one place.</p>
+                    </div>
+                    <div className="flex-shrink-0">
+                        <span className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 shadow-sm border bg-white"
+                            style={{ color: '#039419', fontSize: '0.8rem', fontWeight: 600 }}>
+                            <i className="fa-solid fa-layer-group" style={{ fontSize: '0.75rem' }}></i>
+                            {totalItems} Resources
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <div className="container-lg py-4 px-4">
                 {/* Stats Cards — clickable to switch tabs */}
                 <div className="row g-3 mb-4">
                     {stats.map((stat) => (
                         <div key={stat.key} className="col-6 col-lg-3">
                             <div
-                                className={`card border-0 shadow-sm rounded-4 h-100 stat-card ${activeTab === stat.key ? 'stat-card--active' : ''}`}
+                                className={`card border-1 shadow-sm rounded-4 h-100 stat-card transition-all ${activeTab === stat.key ? 'stat-card--active shadow' : 'bg-white'}`}
                                 onClick={() => setActiveTab(activeTab === stat.key ? 'all' : stat.key)}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: 'pointer', border: activeTab === stat.key ? '1px solid #04bd20' : '1px solid transparent' }}
                             >
                                 <div className="card-body d-flex justify-content-between align-items-center px-3 py-3">
                                     <div>
@@ -114,8 +103,8 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 </div>
 
                 {/* Category Tabs */}
-                <div className="bg-white rounded-3 border mb-4" style={{ padding: '4px' }}>
-                    <ul className="nav gap-1 flex-nowrap overflow-auto" style={{ scrollbarWidth: 'none', padding: '2px' }}>
+                <div className="bg-white rounded-4 border shadow-sm mb-4 p-1">
+                    <ul className="nav gap-1 flex-nowrap overflow-auto" style={{ scrollbarWidth: 'none' }}>
                         {TABS.map((tab) => (
                             <li key={tab.key} className="nav-item flex-shrink-0">
                                 <button
@@ -156,7 +145,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                 <SectionHeader icon="fa-file-lines" color="success" title="Saved Notes" count={MyLearningNotes.length} unit="note" />
                                 <div className="row g-4">
                                     {MyLearningNotes.map((note) => (
-                                        <div key={note._id} className="col-xl-3 col-lg-4 col-md-6">
+                                        <div key={note._id} className="col-xl-4 col-lg-4 col-md-6">
                                             <NotesItem notes={note} />
                                         </div>
                                     ))}
@@ -170,7 +159,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                 <SectionHeader icon="fa-circle-play" color="primary" title="Video Library" count={MyLearningVideo.length} unit="lecture" />
                                 <div className="row g-4">
                                     {MyLearningVideo.map((video) => (
-                                        <div key={video._id} className="col-xl-3 col-lg-4 col-md-6">
+                                        <div key={video._id} className="col-xl-4 col-lg-4 col-md-6">
                                             <VideoItem video={video} />
                                         </div>
                                     ))}
@@ -184,7 +173,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                 <SectionHeader icon="fa-circle-question" color="warning" title="Question Papers" count={MyLearningPYQ.length} unit="paper" />
                                 <div className="row g-4">
                                     {MyLearningPYQ.map((pyq) => (
-                                        <div key={pyq._id} className="col-xl-3 col-lg-4 col-md-6">
+                                        <div key={pyq._id} className="col-xl-4 col-lg-4 col-md-6">
                                             <QPaperItem pyq={pyq} />
                                         </div>
                                     ))}
@@ -198,7 +187,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                                 <SectionHeader icon="fa-book" color="info" title="Enrolled Courses" count={MyLearningCourse.length} unit="course" />
                                 <div className="row g-4">
                                     {MyLearningCourse.map((course) => (
-                                        <div key={course._id} className="col-xl-3 col-lg-4 col-md-6">
+                                        <div key={course._id} className="col-xl-4 col-lg-4 col-md-6">
                                             <CourceIteam Course={course} />
                                         </div>
                                     ))}
@@ -221,26 +210,7 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 )}
             </div>
 
-            <style jsx>{`
-                .text-green { color: #04bd20 !important; }
-                .btn-green { background: #04bd20; color: white; border: none; font-weight: 600; }
-                .btn-green:hover { background: #03a61c; color: white; }
-
-                /* Stat cards */
-                .stat-card { transition: all 0.22s; border: 1.5px solid transparent !important; background: white; }
-                .stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.07) !important; }
-                .stat-card--active { border-color: #04bd20 !important; background: rgba(4,189,32,0.03) !important; }
-                .stat-label { font-size: 0.65rem; letter-spacing: 0.07em; font-weight: 500; }
-                .stat-count { font-size: 1.3rem; font-weight: 500; color: #111; line-height: 1; }
-
-                /* Tab buttons */
-                .tab-btn { padding: 7px 16px; font-size: 0.84rem; font-weight: 500; border: none; background: transparent; color: #6b7280; cursor: pointer; transition: all 0.18s; white-space: nowrap; }
-                .tab-btn--idle:hover { background: #f3f4f6; color: #111; }
-                .tab-btn--active { background: #04bd20; color: white; font-weight: 500; }
-                .tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; border-radius: 50px; font-size: 0.68rem; font-weight: 700; padding: 0 5px; background: rgba(255,255,255,0.25); color: white; }
-                .tab-count:not(.tab-count--active) { background: #e5e7eb; color: #6b7280; }
-                .tab-count--active { background: rgba(255,255,255,0.3); color: white; }
-            `}</style>
-        </main>
+        </StudentLayout>
     );
 }
+

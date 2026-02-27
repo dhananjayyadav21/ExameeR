@@ -11,6 +11,7 @@ import * as GlobalUrls from "../utils/GlobalURL";
 import { toast } from 'react-toastify'
 
 // New Premium Components
+import GlobalLoader from '../components/GlobalLoader'
 import PremiumHero from '../components/Home/PremiumHero'
 import PremiumFeatures from '../components/Home/PremiumFeatures'
 import PremiumExtra from '../components/Home/PremiumExtra'
@@ -74,7 +75,8 @@ export default function Home({ setProgress = () => { } }) {
   };
 
   return (
-    <main className="overflow-hidden bg-white">
+    <main className="overflow-hidden bg-white position-relative">
+      <GlobalLoader />
       {/* Premium Hero Section */}
       <PremiumHero
         token={token}

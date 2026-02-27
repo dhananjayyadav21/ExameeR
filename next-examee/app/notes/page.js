@@ -5,6 +5,8 @@ import NotesItem from "../../components/NotesItem"
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../utils/GlobalURL"
 
+import StudentLayout from "../../components/Home/StudentLayout";
+
 function NotesContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -47,51 +49,14 @@ function NotesContent({ setProgress = () => { } }) {
     };
 
     return (
-        <main className="bg-light min-vh-100">
-            {/* Notes Professional Banner - Dark Theme */}
-            <div className="position-relative overflow-hidden py-5 mb-0" style={{ background: 'linear-gradient(135deg, #1e293b 0%, #064e3b 100%)' }}>
-                <div className="position-absolute top-0 end-0 w-50 h-100 opacity-10 d-none d-lg-block">
-                    <i className="fa-solid fa-book-open position-absolute" style={{ fontSize: '20rem', right: '-5rem', top: '-2rem', transform: 'rotate(-15deg)' }}></i>
-                </div>
-                <div className="container px-4 position-relative z-1 py-lg-4">
-                    <div className="row align-items-center">
-                        <div className="col-lg-7">
-                            <nav aria-label="breadcrumb" className="mb-4">
-                                <ol className="breadcrumb small text-uppercase fw-semibold ls-wide mb-0" style={{ fontSize: '0.7rem' }}>
-                                    <li className="breadcrumb-item"><a href="/" className="text-decoration-none text-white-50">Home</a></li>
-                                    <li className="breadcrumb-item active text-green" aria-current="page">Study Resources</li>
-                                </ol>
-                            </nav>
-                            <h1 className="display-6 fw-semibold mb-3 text-white" style={{ fontSize: '1.9rem' }}>Expert <span className="text-green">Study Notes</span></h1>
-                            <p className="lead text-light-muted mb-4 opacity-75 pe-lg-5">
-                                Turbocharge your learning with expert-curated notes. Detailed, easy-to-understand, and designed for maximum retention.
-                            </p>
-                            <div className="d-flex gap-3">
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-circle-check text-green"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Verified Content</span>
-                                </div>
-                                <div className="d-flex align-items-center gap-2 small bg-white bg-opacity-10 px-3 py-2 rounded-pill backdrop-blur">
-                                    <i className="fa-solid fa-download text-primary"></i>
-                                    <span className="text-white fw-normal" style={{ fontSize: '0.8rem' }}>Free Access</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="container py-5 px-4">
-                {/* Filters & Actions */}
+        <StudentLayout title="Notes">
+            <div className="container-fluid px-0">
+                {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
-                    <div className="d-flex align-items-center gap-3">
-                        <span className="text-muted fw-medium small">Filter:</span>
-                        <div className="badge bg-white text-dark border shadow-sm px-3 py-2 rounded-pill d-flex align-items-center gap-2 fw-semibold" style={{ fontSize: '0.8rem' }}>
-                            <i className="fa-solid fa-filter text-primary"></i>
-                            {category === 'sciTechnology' ? 'Sci-Technology' : category.charAt(0).toUpperCase() + category.slice(1)}
-                        </div>
+                    <div>
+                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Study Resources</h2>
+                        <p className="text-muted small mb-0">{Notes.length} notes available in {category}</p>
                     </div>
-
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
                             <i className="fa-solid fa-arrow-down-wide-short me-2 text-muted"></i>
@@ -108,20 +73,15 @@ function NotesContent({ setProgress = () => { } }) {
                 <div className="row g-4">
                     {Notes.length === 0 ? (
                         <div className="col-12 py-5 text-center">
-                            <div className="p-5 bg-white rounded-4 shadow-sm">
+                            <div className="p-5 bg-white rounded-4 shadow-sm border">
                                 <i className="fa-solid fa-magnifying-glass fs-1 text-muted mb-3 opacity-25"></i>
                                 <h4 className="text-muted">No notes found for this category</h4>
                                 <p className="text-secondary">Try switching categories or check back later for new uploads.</p>
-                                {Notes.length === 0 && (
-                                    <div className="mt-4 d-flex justify-content-center gap-2">
-                                        {[1, 2, 3, 4].map(i => <div key={i} className="spinner-grow spinner-grow-sm text-primary opacity-50" role="status"></div>)}
-                                    </div>
-                                )}
                             </div>
                         </div>
                     ) : (
                         currentNotes?.map((note) => (
-                            <div key={note._id} className="col-xl-3 col-lg-4 col-md-6">
+                            <div key={note._id} className="col-xl-4 col-lg-4 col-md-6">
                                 <NotesItem notes={note} />
                             </div>
                         ))
@@ -155,18 +115,10 @@ function NotesContent({ setProgress = () => { } }) {
                 )}
             </div>
 
-            <style jsx>{`
-                .breadcrumb-item + .breadcrumb-item::before { color: rgba(255, 255, 255, 0.4); }
-                .text-green { color: #04bd20 !important; }
-                .btn-green { background: #04bd20; color: white; border: none; }
-                .btn-green:hover { background: #03a61c; color: white; }
-                .ls-wide { letter-spacing: 0.1em; }
-                .btn-white { background: #fff; }
-                .transition-all { transition: all 0.3s ease; }
-            `}</style>
-        </main>
+        </StudentLayout>
     );
 }
+
 
 export default function NotesPage(props) {
     return (

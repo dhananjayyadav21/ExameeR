@@ -4,8 +4,9 @@ import Footer from '../../components/Footer';
 import { postData } from "../../services/HttpService"
 import * as GlobalUrls from "../../utils/GlobalURL"
 import { toast } from "react-toastify";
+import GlobalLoader from '../../components/GlobalLoader';
 
-export default function ContactPage({ setProgress = () => { } }) {
+export function ContactPage({ setProgress = () => { } }) {
     useEffect(() => { setProgress(0); setProgress(100); }, []);
 
     const [formData, setFormData] = useState({ name: "", email: "", subject: "", body: "" });
@@ -37,7 +38,8 @@ export default function ContactPage({ setProgress = () => { } }) {
     };
 
     return (
-        <main className="bg-light min-vh-100">
+        <main className="bg-light min-vh-100 position-relative">
+            <GlobalLoader />
 
             {/* Slim breadcrumb bar — no heavy dark banner */}
             <div className="bg-white border-bottom py-3">
@@ -161,5 +163,13 @@ export default function ContactPage({ setProgress = () => { } }) {
                 .social-icon:hover { transform: scale(1.15); background: white !important; }
             `}</style>
         </main>
+    );
+}
+
+export default function Page({ setProgress }) {
+    return (
+        <React.Suspense fallback={<div className="p-5 text-center"><div className="spinner-border text-success"></div></div>}>
+            <ContactPage setProgress={setProgress} />
+        </React.Suspense>
     );
 }
