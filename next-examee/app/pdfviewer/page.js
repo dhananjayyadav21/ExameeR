@@ -95,36 +95,44 @@ function PdfViewerContent({ setProgress = () => { } }) {
                     </div>
                 )}
 
-                {/* The PDF iframe */}
+                {/* The PDF iframe - Pushed up to hide Google header */}
                 <iframe
                     src={iframeUrl}
-                    style={{ width: '100%', height: '100%', border: 'none', display: loaded ? 'block' : 'none' }}
+                    style={{
+                        width: '100%',
+                        height: 'calc(100% + 48px)',
+                        marginTop: '-48px',
+                        border: 'none',
+                        display: loaded ? 'block' : 'none',
+                        position: 'relative',
+                        zIndex: 1
+                    }}
                     title="PDF Viewer"
                     onLoad={() => setLoaded(true)}
                     allow="autoplay"
                 />
 
                 {/*
-                  ── Pop-out button blocker ──
-                  Google Drive's iframe renders a native "Pop out" button in its
-                  bottom-right corner. We cannot remove it via JS (cross-origin),
-                  so we layer a transparent div exactly over that area to intercept
-                  all pointer events there, making it unclickable.
+                  ── Premium UI Button Blockers ──
+                  Hides the native Google Drive controls (Pop-out, Print, etc.)
                 */}
                 {loaded && (
-                    <div
-                        title=""
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            right: 0,
-                            width: '90px',
-                            height: '40px',
-                            zIndex: 20,
-                            cursor: 'default',
-                            background: '#1a1a2e',   /* matches viewer bg — hides the button visually */
-                        }}
-                    />
+                    <>
+                        {/* Top Right Blocker (Pop-out, Print) */}
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                right: 0,
+                                width: '16px',
+                                height: '100px',
+                                zIndex: 20,
+                                cursor: 'default',
+                                background: '#1E1E1E',
+                            }}
+                        />
+
+                    </>
                 )}
             </div>
         </div>

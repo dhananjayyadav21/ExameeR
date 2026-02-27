@@ -12,6 +12,7 @@ const Navbar = ({ setProgress = () => { } }) => {
     const router = useRouter();
     const pathname = usePathname();
     const isDashboard = pathname.startsWith('/dashboard');
+    const isPdfViewer = pathname === '/pdfviewer';
 
     const context = useContext(ContentContext);
     const { userData, getUser } = context;
@@ -68,7 +69,7 @@ const Navbar = ({ setProgress = () => { } }) => {
         setProgress(100);
     }
 
-    if (isDashboard || token) return null;
+    if (isDashboard || token || isPdfViewer) return null;
 
     return (
         <>
