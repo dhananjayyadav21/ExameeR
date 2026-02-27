@@ -11,7 +11,7 @@ function NotesContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Notes, getNote, getDataFromMyLearning } = context;
+    const { Notes, getNote, getDataFromMyLearning, globalSearch } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -31,12 +31,18 @@ function NotesContent({ setProgress = () => { } }) {
         router.push(`?${params.toString()}`);
     }
 
+    const filteredNotes = Notes.filter(note =>
+        note.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        note.professor?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        note.subject?.toLowerCase().includes(globalSearch.toLowerCase())
+    );
+
     const [currentPage, setCurrentPage] = useState(1);
     const notesPerPage = 12;
-    const totalPages = Math.ceil(Notes.length / notesPerPage);
+    const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
     const indexOfLastNote = currentPage * notesPerPage;
     const indexOfFirstNote = indexOfLastNote - notesPerPage;
-    const currentNotes = Notes.slice(indexOfFirstNote, indexOfLastNote);
+    const currentNotes = filteredNotes.slice(indexOfFirstNote, indexOfLastNote);
 
     const getPageNumbers = () => {
         const pages = [];
@@ -55,7 +61,7 @@ function NotesContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
                         <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Study Resources</h2>
-                        <p className="text-muted small mb-0">{Notes.length} notes available in {category}</p>
+                        <p className="text-muted small mb-0">{filteredNotes.length} notes available in {category}</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">

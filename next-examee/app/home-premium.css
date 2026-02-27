@@ -957,21 +957,8 @@
 }
 
 @media (max-width: 991px) {
-    .li-sidebar {
-        transform: translateX(-100%);
-        transition: 0.3s;
-    }
-
-    .li-main {
-        margin-left: 0;
-    }
-
     .li-header {
         padding: 0 20px;
-    }
-
-    .li-search-box {
-        display: none;
     }
 }
 

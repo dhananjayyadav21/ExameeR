@@ -11,7 +11,7 @@ function CourseContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Course, getCourse, getDataFromMyLearning } = context;
+    const { Course, getCourse, getDataFromMyLearning, globalSearch } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -31,12 +31,19 @@ function CourseContent({ setProgress = () => { } }) {
         router.push(`?${params.toString()}`);
     }
 
+    const filteredCourse = Course.filter(c =>
+        c.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        c.subject?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        c.category?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        c.InstructorName?.toLowerCase().includes(globalSearch.toLowerCase())
+    );
+
     const [currentPage, setCurrentPage] = useState(1);
     const CoursePerPage = 12;
-    const totalPages = Math.ceil(Course.length / CoursePerPage);
+    const totalPages = Math.ceil(filteredCourse.length / CoursePerPage);
     const indexOfLastCourse = currentPage * CoursePerPage;
     const indexOfFirstCourse = indexOfLastCourse - CoursePerPage;
-    const currentCourse = Course.slice(indexOfFirstCourse, indexOfLastCourse);
+    const currentCourse = filteredCourse.slice(indexOfFirstCourse, indexOfLastCourse);
 
     const getPageNumbers = () => {
         const pages = [];
@@ -55,7 +62,7 @@ function CourseContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
                         <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Discover Your Path</h2>
-                        <p className="text-muted small mb-0">{Course.length} courses available in {category}</p>
+                        <p className="text-muted small mb-0">{filteredCourse.length} courses available in {category}</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
@@ -71,7 +78,7 @@ function CourseContent({ setProgress = () => { } }) {
 
                 {/* Courses Grid */}
                 <div className="row g-4">
-                    {Course.length === 0 ? (
+                    {filteredCourse.length === 0 ? (
                         <div className="col-12 py-5 text-center">
                             <div className="p-5 bg-white rounded-4 shadow-sm border">
                                 <i className="fa-solid fa-laptop-code display-1 text-muted opacity-25 mb-4"></i>

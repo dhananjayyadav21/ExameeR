@@ -11,7 +11,7 @@ function VideoContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Video, getVideo, getDataFromMyLearning } = context;
+    const { Video, getVideo, getDataFromMyLearning, globalSearch } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -31,12 +31,18 @@ function VideoContent({ setProgress = () => { } }) {
         router.push(`?${params.toString()}`);
     }
 
+    const filteredVideo = Video.filter(v =>
+        v.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        v.description?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        v.category?.toLowerCase().includes(globalSearch.toLowerCase())
+    );
+
     const [currentPage, setCurrentPage] = useState(1);
     const videoPerPage = 8;
-    const totalPages = Math.ceil(Video.length / videoPerPage);
+    const totalPages = Math.ceil(filteredVideo.length / videoPerPage);
     const indexOfLastVideo = currentPage * videoPerPage;
     const indexOfFirstVideo = indexOfLastVideo - videoPerPage;
-    const currentVideo = Video.slice(indexOfFirstVideo, indexOfLastVideo);
+    const currentVideo = filteredVideo.slice(indexOfFirstVideo, indexOfLastVideo);
 
     const getPageNumbers = () => {
         const pages = [];
@@ -55,7 +61,7 @@ function VideoContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
                         <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Tutorial Catalog</h2>
-                        <p className="text-muted small mb-0">{Video.length} videos available in {category}</p>
+                        <p className="text-muted small mb-0">{filteredVideo.length} videos available in {category}</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
@@ -71,7 +77,7 @@ function VideoContent({ setProgress = () => { } }) {
 
                 {/* Video Grid */}
                 <div className="row g-4">
-                    {Video.length === 0 ? (
+                    {filteredVideo.length === 0 ? (
                         <div className="col-12 py-5 text-center">
                             <div className="p-5 bg-white rounded-4 shadow-sm border">
                                 <i className="fa-solid fa-video-slash display-1 text-muted opacity-25 mb-4"></i>

@@ -11,7 +11,7 @@ function QPaperContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { PYQS, getPYQ, getDataFromMyLearning } = context;
+    const { PYQS, getPYQ, getDataFromMyLearning, globalSearch } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
@@ -31,12 +31,18 @@ function QPaperContent({ setProgress = () => { } }) {
         router.push(`?${params.toString()}`);
     }
 
+    const filteredPYQS = PYQS.filter(p =>
+        p.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        p.subject?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        p.year?.toString().includes(globalSearch)
+    );
+
     const [currentPage, setCurrentPage] = useState(1);
     const pyqPerPage = 12;
-    const totalPages = Math.ceil(PYQS.length / pyqPerPage);
+    const totalPages = Math.ceil(filteredPYQS.length / pyqPerPage);
     const indexOfLastPYQ = currentPage * pyqPerPage;
     const indexOfFirstPYQ = indexOfLastPYQ - pyqPerPage;
-    const currentPYQS = PYQS.slice(indexOfFirstPYQ, indexOfLastPYQ);
+    const currentPYQS = filteredPYQS.slice(indexOfFirstPYQ, indexOfLastPYQ);
 
     const getPageNumbers = () => {
         const pages = [];
@@ -55,7 +61,7 @@ function QPaperContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
                         <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Paper Archives</h2>
-                        <p className="text-muted small mb-0">{PYQS.length} papers available in {category}</p>
+                        <p className="text-muted small mb-0">{filteredPYQS.length} papers available in {category}</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">

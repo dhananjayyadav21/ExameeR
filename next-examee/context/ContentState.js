@@ -559,6 +559,7 @@ const ContentState = (props) => {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [globalSearch, setGlobalSearch] = useState('');
 
     return (
         <ContentContext.Provider
@@ -577,6 +578,7 @@ const ContentState = (props) => {
                 selectedCourse, setSelectedCourse,
                 selectedPlan, setSelectedPlan,
                 getUser, updateProfile, updatePassword, deleteAccount, userData,
+                globalSearch, setGlobalSearch,
                 loading
             }}>
             <Suspense fallback={null}>
