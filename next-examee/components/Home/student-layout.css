@@ -1,7 +1,15 @@
 /* Student Dashboard & Layout Styles */
 
+:root {
+    --primary-brand: #04bd20;
+    --primary-green: #04bd20;
+    --secondary-blue: #5d5edc;
+    --active-blue: #eff6ff;
+    --active-blue-border: #3b82f6;
+}
+
 .fw-black {
-    font-weight: 900;
+    font-weight: 900 !important;
 }
 
 .ls-wide {
@@ -33,6 +41,172 @@
     background-color: #04bd20 !important;
     color: white !important;
     border: none !important;
+}
+
+.li-home-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background: #fcfcfc;
+}
+
+.li-sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #fff;
+    border-right: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 15px 0;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.li-main {
+    flex: 1;
+    margin-left: 240px;
+    padding: 0;
+    background: #fff;
+}
+
+.li-header {
+    height: 64px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    color: #333;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.li-header .li-search-box {
+    background: #f3f4f6;
+    border-color: transparent;
+    color: #333;
+}
+
+.li-header .li-search-box input {
+    color: #333;
+}
+
+/* Sidebar Menu */
+.li-nav-section {
+    margin-bottom: 25px;
+    padding: 0 15px;
+}
+
+.li-section-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    opacity: 1;
+}
+
+.li-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: #555;
+    text-decoration: none !important;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.li-menu-item:hover {
+    background: #f8fafc;
+    color: var(--primary-brand);
+}
+
+.li-menu-item--active {
+    background: var(--active-blue);
+    color: var(--active-blue-border) !important;
+    font-weight: 700;
+    border-radius: 12px;
+}
+
+.li-menu-icon {
+    width: 24px;
+    margin-right: 12px;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.li-menu-item:hover .li-menu-icon {
+    transform: scale(1.1);
+}
+
+.li-badge-new {
+    background: #ff4d4d;
+    color: #fff;
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-left: auto;
+    font-weight: 800;
+    box-shadow: 0 2px 4px rgba(255, 77, 77, 0.3);
+}
+
+.li-search-box {
+    background: #f3f4f6;
+    border-radius: 12px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    width: 400px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.li-search-box:focus-within {
+    background: #fff;
+    border-color: #5d5edc;
+    box-shadow: 0 4px 12px rgba(93, 94, 220, 0.1);
+}
+
+.li-search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 4px 10px;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+.li-user-greet {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.li-greet-text {
+    text-align: right;
+}
+
+.li-greet-hi {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0 !important;
+}
+
+.li-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #eeedff;
 }
 
 .btn-green:hover {
