@@ -119,7 +119,7 @@ export default function DashboardLayout({ children }) {
                 </header>
 
                 {/* Page content */}
-                <main className="dl-content position-relative" style={{ minHeight: '600px' }}>
+                <main className={`dl-content position-relative ${pathname.includes('/dashboard/upload') ? 'dl-content-full' : ''}`} style={{ minHeight: '600px' }}>
                     {children}
                 </main>
             </div>
