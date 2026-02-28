@@ -5,6 +5,13 @@ import DriveUpload from "../../../utils/DriveUpload";
 import ContentContext from '../../../context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
+
+const extractYouTubeID = (url) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
+    return match ? match[1] : (url.length === 11 ? url : null);
+};
 
 const Content = () => {
     const router = useRouter();
@@ -101,12 +108,23 @@ const Content = () => {
         setImageFile(file);
         setImageUploading(true);
         try {
-            const result = await DriveUpload(file);
-            if (result?.success && result?.fileId) {
-                setFormData((prev) => ({ ...prev, courseImage: result.fileId }));
+            // Vercel Blob API Route
+            const response = await fetch(`/api/upload?filename=${file.name}`, {
+                method: 'POST',
+                body: file,
+            });
+
+            if (!response.ok) {
+                throw new Error("Upload failed. Status: " + response.status);
+            }
+
+            const result = await response.json();
+
+            if (result && result.url) {
+                setFormData((prev) => ({ ...prev, courseImage: result.url }));
                 toast.success("Thumbnail uploaded successfully!");
             } else {
-                toast.warning("Failed to upload thumbnail.");
+                toast.warning("Failed to upload thumbnail to Blob storage.");
             }
         } catch (err) {
             toast.error(err.message);
@@ -310,6 +328,30 @@ const Content = () => {
                                                 className="up-input" placeholder="https://youtube.com/watch?v=..." required />
                                         </div>
                                         <p className="up-hint mt-2">This will be shown as a free preview to prospective students.</p>
+                                        <YoutubeUploader
+                                            defaultTitle={`Trial Video: ${formData.title}`}
+                                            defaultDescription={formData.description}
+                                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, trialVideo: url }))}
+                                        />
+
+                                        {formData.trialVideo && extractYouTubeID(formData.trialVideo) && (
+                                            <div className="up-preview mt-3">
+                                                <div className="up-preview-header">
+                                                    <i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i>
+                                                    <span>Trial Video Preview</span>
+                                                    <span className="up-preview-badge">Live</span>
+                                                </div>
+                                                <div className="up-preview-embed">
+                                                    <iframe
+                                                        src={`https://www.youtube.com/embed/${extractYouTubeID(formData.trialVideo)}`}
+                                                        title="Video Preview"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowFullScreen
+                                                        style={{ border: 'none', width: '100%', height: '100%' }}
+                                                    ></iframe>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -324,25 +366,53 @@ const Content = () => {
                             <div className="up-card mb-4">
                                 <div className="col-12 d-flex flex-column gap-3">
                                     {formData.lectures.map((lecture, index) => (
-                                        <div key={index} className="up-lecture-row">
-                                            <div className="up-lecture-num">{index + 1}</div>
-                                            <div className="up-input-wrap flex-grow-1">
-                                                <span className="up-input-icon"><i className="fa-solid fa-play"></i></span>
-                                                <input type="text" className="up-input" placeholder="Lecture title (e.g. Introduction)"
-                                                    value={lecture.title}
-                                                    onChange={(e) => handleLectureChange(index, "title", e.target.value)} />
+                                        <div key={index} className="up-lecture-row-container">
+                                            <div className="up-lecture-row d-flex align-items-center gap-2 mb-2">
+                                                <div className="up-lecture-num">{index + 1}</div>
+                                                <div className="up-input-wrap flex-grow-1">
+                                                    <span className="up-input-icon"><i className="fa-solid fa-play"></i></span>
+                                                    <input type="text" className="up-input" placeholder="Lecture title (e.g. Introduction)"
+                                                        value={lecture.title}
+                                                        onChange={(e) => handleLectureChange(index, "title", e.target.value)} />
+                                                </div>
+                                                <div className="up-input-wrap flex-grow-1" style={{ flex: 1.4 }}>
+                                                    <span className="up-input-icon"><i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i></span>
+                                                    <input type="text" className="up-input" placeholder="YouTube URL or Video ID"
+                                                        value={lecture.videoUrl}
+                                                        onChange={(e) => handleLectureChange(index, "videoUrl", e.target.value)} />
+                                                </div>
+                                                {formData.lectures.length > 1 && (
+                                                    <button type="button" className="up-remove-btn" onClick={() => removeLectureField(index)} title="Remove lecture">
+                                                        <i className="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                )}
                                             </div>
-                                            <div className="up-input-wrap flex-grow-1" style={{ flex: 1.4 }}>
-                                                <span className="up-input-icon"><i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i></span>
-                                                <input type="url" className="up-input" placeholder="YouTube video URL"
-                                                    value={lecture.videoUrl}
-                                                    onChange={(e) => handleLectureChange(index, "videoUrl", e.target.value)} />
+                                            <div className="pl-5 ml-4 mb-4">
+                                                <YoutubeUploader
+                                                    defaultTitle={`${formData.title || 'Course'} - Lecture ${index + 1}: ${lecture.title || 'Untitled'}`}
+                                                    defaultDescription={`Curriculum video for ${formData.title}`}
+                                                    onUploadSuccess={(url) => handleLectureChange(index, "videoUrl", url)}
+                                                />
+
+                                                {lecture.videoUrl && extractYouTubeID(lecture.videoUrl) && (
+                                                    <div className="up-preview mt-3">
+                                                        <div className="up-preview-header" style={{ padding: '8px 12px', fontSize: '0.85rem' }}>
+                                                            <i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i>
+                                                            <span>Lecture {index + 1} Preview</span>
+                                                        </div>
+                                                        <div className="up-preview-embed" style={{ maxHeight: '200px' }}>
+                                                            <iframe
+                                                                src={`https://www.youtube.com/embed/${extractYouTubeID(lecture.videoUrl)}`}
+                                                                title="Video Preview"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                allowFullScreen
+                                                                style={{ border: 'none', width: '100%', height: '100%' }}
+                                                            ></iframe>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                            {formData.lectures.length > 1 && (
-                                                <button type="button" className="up-remove-btn" onClick={() => removeLectureField(index)} title="Remove lecture">
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            )}
+                                            <hr className="mb-4" style={{ borderColor: '#e2e8f0', opacity: 0.6 }} />
                                         </div>
                                     ))}
                                     <button type="button" className="up-add-lecture-btn" onClick={addLectureField}>
@@ -477,7 +547,7 @@ const Content = () => {
                 .up-spinner { width: 26px; height: 26px; border: 2.5px solid rgba(14,165,233,0.15); border-top-color: #0ea5e9; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
                 .up-btn-spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
                 @keyframes spin { to { transform: rotate(360deg); } }
-                @media (max-width: 576px) { .up-card { padding: 20px 14px; } .up-lecture-row { flex-wrap: wrap; } }
+                @media (max-width: 576px) { .up-card { padding: 20px 14px; } .up-lecture-row { flex-direction: column; align-items: stretch !important; } .up-lecture-row > div { width: 100%; } .up-remove-btn { align-self: flex-end; } }
             `}</style>
         </main>
     );

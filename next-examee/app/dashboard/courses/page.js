@@ -150,7 +150,7 @@ export default function DashboardCoursesPage() {
                                     <div className="col-12 col-md-6 col-lg-4" key={course._id}>
                                         <div className="dc-course-card">
                                             <div className="dc-course-img">
-                                                <img src={course.courseImage ? `https://lh3.googleusercontent.com/d/${course.courseImage}` : "/assets/img/cource.jpg"} alt={course.title} />
+                                                <img src={course.courseImage ? (course.courseImage.includes('public.blob.vercel-storage.com') ? course.courseImage : `https://lh3.googleusercontent.com/d/${course.courseImage}`) : "/assets/img/cource.jpg"} alt={course.title} />
                                                 <span className="dc-status-badge" style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span>
                                             </div>
                                             <div className="dc-course-body">

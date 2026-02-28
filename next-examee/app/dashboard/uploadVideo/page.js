@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import ContentContext from '../../../context/ContentContext';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
+import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
 
 const Content = () => {
     const context = useContext(ContentContext);
@@ -138,6 +139,11 @@ const Content = () => {
                                             className="up-input" placeholder="https://www.youtube.com/watch?v=... or YouTube Video ID" required />
                                     </div>
                                     <p className="up-hint">Paste the full YouTube URL or just the video ID (11 characters)</p>
+                                    <YoutubeUploader
+                                        defaultTitle={formData.title}
+                                        defaultDescription={formData.description}
+                                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, fileUrl: url }))}
+                                    />
                                 </div>
 
                                 {/* YouTube Preview */}
