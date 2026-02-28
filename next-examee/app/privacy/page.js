@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import '../static-pages.css';
+import '../../styles/static-pages.css';
 
 export default function PrivacyPage() {
     const [isVisible, setIsVisible] = useState(false);

@@ -4,7 +4,7 @@ import Footer from '../../components/Footer';
 import { postData } from "../../services/HttpService"
 import * as GlobalUrls from "../../utils/GlobalURL"
 import { toast } from "react-toastify";
-import '../static-pages.css';
+import '../../styles/static-pages.css';
 
 export default function ContactPage() {
     const [isVisible, setIsVisible] = useState(false);

@@ -17,7 +17,7 @@ import PremiumFeatures from '../components/Home/PremiumFeatures'
 import PremiumExtra from '../components/Home/PremiumExtra'
 import FloatingContact from '../components/Home/FloatingContact'
 import LoggedInHome from '../components/Home/LoggedInHome'
-import './home-premium.css';
+import '../styles/home-premium.css';
 import { homeData } from '../constants/homeData';
 
 export default function Home({ setProgress = () => { } }) {

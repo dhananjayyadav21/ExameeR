@@ -7,7 +7,7 @@ import StudentSidebar from './StudentSidebar';
 import { toast } from 'react-toastify';
 import hasUserRole from '../../utils/hasUserRole';
 import GlobalLoader from '../GlobalLoader';
-import './student-layout.css';
+import '../../styles/student-layout.css';
 
 
 const StudentLayout = ({ children, title = "Exploration" }) => {

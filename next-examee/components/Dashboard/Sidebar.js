@@ -1,5 +1,5 @@
 "use client";
-import "./Sidebar.css";
+import "../../styles/Sidebar.css";
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";

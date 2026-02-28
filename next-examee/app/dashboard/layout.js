@@ -8,7 +8,7 @@ import { useContext } from "react";
 import ContentContext from "../../context/ContentContext";
 import GlobalLoader from "../../components/GlobalLoader";
 
-import "./dashboard-layout.css";
+import "../../styles/dashboard-layout.css";
 
 const menuItems = [
     { href: "/dashboard", label: "Overview", icon: "fa-house" },
