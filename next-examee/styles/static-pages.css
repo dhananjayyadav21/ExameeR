@@ -1,0 +1,254 @@
+/* Static Pages Premium CSS (About, Contact, Privacy) */
+
+:root {
+    --static-primary-green: #16a34a;
+    --static-dark-blue: #0f172a;
+    --static-border: #e2e8f0;
+}
+
+.text-dark-blue {
+    color: var(--static-dark-blue) !important;
+}
+
+.bg-dark-blue {
+    background-color: var(--static-dark-blue) !important;
+}
+
+.text-primary-green {
+    color: var(--static-primary-green) !important;
+}
+
+.bg-primary-green {
+    background-color: var(--static-primary-green) !important;
+}
+
+.hover-green:hover {
+    color: var(--static-primary-green) !important;
+}
+
+.h1-large {
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(8px);
+}
+
+.blur-3xl {
+    filter: blur(64px);
+}
+
+.blur-2xl {
+    filter: blur(32px);
+}
+
+.smaller {
+    font-size: 0.8rem;
+}
+
+.icon-box-premium {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-border-green:hover {
+    border-color: var(--static-primary-green) !important;
+    transform: translateY(-3px);
+}
+
+.transition-reveal {
+    transition: all 0.6s ease-out;
+}
+
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.grayscale-hover:hover {
+    filter: grayscale(0.5);
+}
+
+/* Contact Page Specific */
+.social-link-prof {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: #64748b;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.social-link-prof:hover {
+    background: #fff;
+    color: var(--hover-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-control-prof {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1px solid var(--static-border);
+    border-radius: 12px;
+    background: #fcfcfc;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.form-control-prof:focus {
+    outline: none;
+    border-color: var(--static-primary-green);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.05);
+}
+
+.background-light {
+    background: #f8fafc;
+}
+
+@media (min-width: 992px) {
+    .border-lg-end {
+        border-right: 1px solid var(--static-border);
+    }
+}
+
+@media (max-width: 768px) {
+    .h1-large {
+        font-size: 2.25rem;
+    }
+}
+
+/* Premium Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.02);
+    }
+}
+
+.animate-float-slow {
+    animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-fast {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+    animation: bounce 4s ease-in-out infinite;
+}
+
+/* Visual Elements */
+.hero-visual-container {
+    position: relative;
+    padding: 40px;
+}
+
+.instructor-circle-premium {
+    width: 100%;
+    max-width: 450px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.circle-border-dotted {
+    position: absolute;
+    inset: -15px;
+    border: 2px dashed var(--static-primary-green);
+    border-radius: 50%;
+    opacity: 0.2;
+}
+
+.instructor-image-box {
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: #f8fafc;
+    border: 8px solid white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.floating-bubble-static {
+    position: absolute;
+    background: white;
+    padding: 10px 18px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* CTA Custom Look */
+.cta-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+}
+
+.cta-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--static-primary-green);
+    filter: blur(120px);
+    opacity: 0.15;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.transform-hover {
+    transition: all 0.3s ease;
+}
+
+.transform-hover:hover {
+    transform: translateY(-3px) scale(1.02);
+}

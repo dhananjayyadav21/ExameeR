@@ -294,9 +294,9 @@ const Home = ({ setProgress }) => {
 
 
       {/* ------- offers ---------------*/}
-      <footer className="offers-section px-lg-5">
+      {/* <footer className="offers-section px-lg-5">
         <Offers />
-      </footer>
+      </footer> */}
 
 
       {/*------- footer ----------------- */}

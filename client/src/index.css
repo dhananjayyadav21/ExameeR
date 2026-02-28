@@ -30,6 +30,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide built-in show/hide button in Microsoft Edge */
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -428,6 +435,17 @@ form label {
 
 .Feature-examee .svg-red {
   color: rgb(190, 15, 15);
+}
+
+
+/*=========================================== pdf viewer component css ==============================================*/
+
+.pdfviewer-close-btn {
+  top: 66;
+  right: 0;
+  z-index: 1100;
+  border-radius: 0;
+
 }
 
 /*=========================================== notes component css ==============================================*/

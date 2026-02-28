@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const PdfViewer = ({setProgress}) => {
+const PdfViewer = ({ setProgress }) => {
   const [searchParams] = useSearchParams();
   const url = searchParams.get('view');
   const iframeUrl = `https://drive.google.com/file/d/${url}/preview`
@@ -26,8 +26,7 @@ const PdfViewer = ({setProgress}) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="btn btn-dark position-fixed px-2 py-4"
-          style={{ top: 66, right: 8, zIndex: 1100 }}
+          className="pdfviewer-close-btn btn btn-dark position-fixed px-2 py-4"
         >
           Close
         </button>

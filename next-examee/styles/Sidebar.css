@@ -1,0 +1,294 @@
+.ds-sidebar {
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(226, 232, 240, 0.6);
+    position: sticky;
+    top: 0;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+    z-index: 100;
+}
+
+.ds-brand {
+    padding: 28px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ds-brand-logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #04bd20 0%, #029d1a 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 16px rgba(4, 189, 32, 0.2);
+}
+
+.ds-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.ds-brand-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.ds-brand-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+}
+
+.ds-nav-container {
+    flex: 1;
+    padding: 0 16px;
+    overflow-y: auto;
+}
+
+.ds-nav-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.ds-nav-container::-webkit-scrollbar-thumb {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+.ds-section {
+    margin-bottom: 24px;
+}
+
+.ds-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 12px;
+    padding-left: 12px;
+    letter-spacing: 0.1em;
+}
+
+.ds-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Link Styles */
+.ds-menu-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 16px !important;
+    border-radius: 12px !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    border: 1px solid transparent !important;
+}
+
+.ds-menu-item:hover {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    transform: translateX(4px) !important;
+}
+
+.ds-menu-item--active {
+    background: rgba(4, 189, 32, 0.08) !important;
+    color: #04bd20 !important;
+    border: 1px solid rgba(4, 189, 32, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(4, 189, 32, 0.05) !important;
+}
+
+.ds-menu-icon {
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+.ds-menu-label {
+    flex: 1;
+    pointer-events: none;
+    text-decoration: none !important;
+}
+
+.ds-active-indicator {
+    width: 4px;
+    height: 18px;
+    background: #04bd20;
+    border-radius: 10px;
+    position: absolute;
+    right: 8px;
+}
+
+.ds-footer {
+    padding: 20px 16px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ds-user-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.ds-user-card:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+}
+
+.ds-user-avatar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.ds-user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.ds-status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background: #04bd20;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.ds-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ds-user-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ds-user-role {
+    font-size: 0.7rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.ds-upgrade-card {
+    background: linear-gradient(135deg, #0a1628 0%, #0d3320 100%);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ds-upgrade-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    background: #04bd20;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.3;
+}
+
+.ds-upgrade-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.ds-upgrade-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #04bd20;
+}
+
+.ds-upgrade-info {
+    flex: 1;
+}
+
+.ds-upgrade-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.ds-upgrade-desc {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+.ds-upgrade-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 991px) {
+    .ds-sidebar {
+        height: 100%;
+        border-right: none;
+    }
+}

@@ -293,6 +293,7 @@ const resetPassword = async (req, res) => {
 const sendResetCode = async (req, res) => {
     try {
         const { Email } = req.body;
+        console.log(`[DEBUG] sendResetCode called for Email: ${Email}`);
 
         if (!Email) {
             return res.status(400).json({
@@ -303,6 +304,7 @@ const sendResetCode = async (req, res) => {
 
         const user = await userModel.findOne({ Email: Email.toLowerCase() });
         if (!user) {
+            console.log(`[DEBUG] User not found for email: ${Email}`);
             return res.status(404).json({
                 success: false,
                 message: "User not found"

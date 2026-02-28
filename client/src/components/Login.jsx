@@ -4,10 +4,11 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { googleAuth } from '../googleAuthApi';
 import * as GlobalUrls from "../GlobalURL"
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
     const navigate = useNavigate();
-    
+
     const [loading, setLoading] = useState(false);
     const [Credentials, setCredentials] = useState({
         Email: "",
@@ -18,9 +19,9 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
 
-        try { 
+        try {
             const { Email, Password } = Credentials;
-        
+
             // Validate if email or password not ennter
             if (!Email || !Password) {
                 setLoading(false);
@@ -38,20 +39,20 @@ const Login = () => {
                         Password,
                     }),
                 });
-        
+
                 const result = await response.json(); // get response from server
-        
+
                 // If successfully logged in, store token and navigate
                 if (result.success === true) {
                     setLoading(false);
-                    localStorage.setItem("token",result.token)
+                    localStorage.setItem("token", result.token)
                     localStorage.setItem("userRole", result.user.Role);
                     localStorage.setItem("userExmeeUserId", result.user.ExmeeUserId);
                     navigate("/");
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
-                }else if (result.success === false) { // if any error from the server
+                } else if (result.success === false) { // if any error from the server
                     setLoading(false);
                     toast.error(result.message, {
                         position: "top-right"
@@ -64,13 +65,19 @@ const Login = () => {
             toast.error("Login error", {
                 position: "top-right"
             });
-        } 
-        setLoading(false);  
+        }
+        setLoading(false);
     };
 
     const handlOnchange = (e) => {
         setCredentials({ ...Credentials, [e.target.name]: e.target.value });
     };
+
+    const [showPassword, setShowPassword] = useState(false);
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
 
     //=================================== [ Google Authentication] ============================================
     const responseGoogle = async (authResult) => {
@@ -78,26 +85,26 @@ const Login = () => {
             if (authResult['code']) {
                 const result = await googleAuth(authResult['code']);
 
-                const {Profile, Role, ExmeeUserId} = result.data.user;
+                const { Profile, Role, ExmeeUserId } = result.data.user;
                 const token = result.data.token;
 
-                localStorage.setItem("token",token);
-                localStorage.setItem("Profile",Profile);
-                localStorage.setItem("userRole",Role);
-                localStorage.setItem("userExmeeUserId",ExmeeUserId);
+                localStorage.setItem("token", token);
+                localStorage.setItem("Profile", Profile);
+                localStorage.setItem("userRole", Role);
+                localStorage.setItem("userExmeeUserId", ExmeeUserId);
 
-                if(result.data.success === true){
+                if (result.data.success === true) {
                     navigate('/');
                     toast.success("You're now logged in !", {
                         position: "top-right"
                     });
-                }else if(result.data.success === false){
+                } else if (result.data.success === false) {
                     toast.error("Something went wrong. Please try again later !", {
                         position: "top-right"
                     });
-                } 
+                }
             }
-            
+
         } catch (error) {
             console.error("Error while requesting google to code :", error);
             toast.error("Error while requesting google to code ", {
@@ -124,9 +131,9 @@ const Login = () => {
                     </div>
 
                     {loading && (
-                      <div className="text-center">
-                      <div className="spinner-border mb-4" role="status"></div>
-                      </div>
+                        <div className="text-center">
+                            <div className="spinner-border mb-4" role="status"></div>
+                        </div>
                     )}
 
                     {/* <!-- Google Login Button --> */}
@@ -150,11 +157,18 @@ const Login = () => {
                         </div>
 
                         <div className="mb-3">
-                            <div className='d-flex justify-content-between'>
-                                <small><label htmlFor="password" className="form-label ">Password</label></small>
-                                <small><Link to="/forgotPassword" className='nav-link fw-normal text-primary'>Forgot Password?</Link></small>
+                            <div className="mb-3 position-relative">
+                                <div className='d-flex justify-content-between'>
+                                    <small><label htmlFor="password" className="form-label ">Password</label></small>
+                                    <small><Link to="/forgotPassword" className='nav-link fw-normal text-primary'>Forgot Password?</Link></small>
+                                </div>
+                                <input type={showPassword ? 'text' : 'password'}
+                                    className="form-control" id="Password" name='Password' value={Credentials.Password} onChange={handlOnchange} placeholder="Enter your password" />
+                                <span onClick={toggleShowPassword}
+                                    style={{ position: 'absolute', top: '34px', right: '12px', cursor: 'pointer' }} >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </span>
                             </div>
-                            <input type="password" className="form-control" id="Password" name='Password' value={Credentials.Password} onChange={handlOnchange} placeholder="Enter your password" />
                         </div>
 
                         <button type="submit" className="btn btn-green w-100">Login</button>
