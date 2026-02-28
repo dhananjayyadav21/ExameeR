@@ -18,6 +18,7 @@ export default function DashboardNotesPage() {
     const [isloading, setIsloading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalNote, setModalNote] = useState(null);
+    const [previewPdf, setPreviewPdf] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
@@ -67,6 +68,28 @@ export default function DashboardNotesPage() {
         <div className="dc-page">
             <Modal isOpen={showModal} onClose={() => setShowModal(false)} onConfirm={() => deleteConfirm(modalNote)}
                 heading={`Delete "${modalNote?.title}"?`} subHeading="This action cannot be undone." />
+
+            {/* PDF Preview Modal */}
+            {previewPdf && (
+                <div className="pdf-preview-overlay">
+                    <div className="pdf-preview-container">
+                        <div className="pdf-preview-header">
+                            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#0f172a' }}>Document Preview</h3>
+                            <button className="pdf-close-btn" onClick={() => setPreviewPdf(null)}><i className="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div style={{ flex: 1, overflow: 'hidden', position: 'relative', background: '#f8fafc' }}>
+                            <div style={{ position: 'absolute', top: 0, right: 0, width: '64px', height: '48px', background: 'rgba(15,15,15,1)', zIndex: 10 }}></div>
+                            <iframe
+                                src={`https://drive.google.com/file/d/${previewPdf}/preview`}
+                                className="pdf-iframe"
+                                style={{ width: '100%', height: '100%', border: 'none' }}
+                                allow="autoplay"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Header */}
             <div className="dc-header">
@@ -170,6 +193,11 @@ export default function DashboardNotesPage() {
                                             <td><span className="dc-status-pill" style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span></td>
                                             <td style={{ textAlign: 'right' }}>
                                                 <div className="dc-actions">
+                                                    {data?.fileUrl && (
+                                                        <button className="dc-action-btn dc-preview" title="Preview PDF" onClick={() => setPreviewPdf(data.fileUrl)}>
+                                                            <i className="fa-solid fa-eye"></i>
+                                                        </button>
+                                                    )}
                                                     <button className="dc-action-btn dc-edit" title="Edit" onClick={() => handleEdit(data)}><i className="fa-solid fa-edit"></i></button>
                                                     <button className="dc-action-btn dc-del" title="Delete" onClick={() => { setModalNote(data); setShowModal(true); }}>
                                                         <i className="fa-solid fa-trash"></i>
@@ -257,6 +285,8 @@ export default function DashboardNotesPage() {
                 .dc-action-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; background: transparent; }
                 .dc-edit { border-color: #bfdbfe; color: #3b82f6; }
                 .dc-edit:hover { background: #eff6ff; border-color: #3b82f6; transform: scale(1.05); }
+                .dc-preview { border-color: #d8b4fe; color: #a855f7; }
+                .dc-preview:hover { background: #faf5ff; border-color: #a855f7; transform: scale(1.05); }
                 .dc-del { border-color: #fecaca; color: #ef4444; }
                 .dc-del:hover { background: #fff5f5; border-color: #ef4444; transform: scale(1.05); }
 
@@ -271,6 +301,30 @@ export default function DashboardNotesPage() {
                 .dc-page-btn:hover:not(:disabled) { border-color: var(--pc); color: var(--pc); background: white; }
                 .dc-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
                 .dc-page-active { background: #04bd20 !important; border-color: #04bd20 !important; color: white !important; box-shadow: 0 4px 10px rgba(4,189,32,0.3); }
+
+                /* PDF Preview Modal */
+                .pdf-preview-overlay {
+                    position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px);
+                    z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+                    animation: fadeIn 0.3s ease;
+                }
+                .pdf-preview-container {
+                    background: white; border-radius: 20px; width: 100%; max-width: 900px; height: 90vh;
+                    display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                    animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+                }
+                .pdf-preview-header {
+                    display: flex; align-items: center; justify-content: space-between; padding: 12px 20px;
+                    background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+                }
+                .pdf-close-btn {
+                    width: 32px; height: 32px; border-radius: 50%; border: 1px solid #e2e8f0; background: white;
+                    color: #64748b; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
+                }
+                .pdf-close-btn:hover { background: #fee2e2; color: #ef4444; border-color: #fecaca; }
+                .pdf-iframe { width: 100%; border: none; background: #f1f5f9; }
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
             `}</style>
         </div>
     );

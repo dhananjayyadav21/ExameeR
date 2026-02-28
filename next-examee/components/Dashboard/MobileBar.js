@@ -96,12 +96,12 @@ function MobileMenuButton() {
 
                 .mb-fab {
                     pointer-events: auto;
-                    width: 60px;
-                    height: 60px;
+                    width: 62px;
+                    height: 62px;
                     background: linear-gradient(135deg, #04bd20 0%, #029d1a 100%);
                     border: none;
                     border-radius: 50%;
-                    box-shadow: 0 8px 25px rgba(4, 189, 32, 0.4);
+                    box-shadow: 0 8px 30px rgba(4, 189, 32, 0.4), 0 4px 10px rgba(4, 189, 32, 0.2);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -145,13 +145,15 @@ function MobileMenuButton() {
                     left: 0;
                     right: 0;
                     max-height: 85vh;
-                    background: #ffffff;
+                    background: rgba(255, 255, 255, 0.98);
+                    backdrop-filter: blur(24px);
                     border-top-left-radius: 32px;
                     border-top-right-radius: 32px;
                     display: flex;
                     flex-direction: column;
-                    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.08);
                     animation: slideUp 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+                    border-top: 1px solid rgba(226, 232, 240, 0.8);
                 }
 
                 .mb-sheet-handle-bar {
@@ -171,8 +173,8 @@ function MobileMenuButton() {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    padding: 12px 24px 20px;
-                    border-bottom: 1px solid #f1f5f9;
+                    padding: 8px 24px 20px;
+                    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
                 }
 
                 .mb-brand-link {
@@ -220,16 +222,20 @@ function MobileMenuButton() {
                 }
 
                 .mb-sheet-close {
-                    width: 36px;
-                    height: 36px;
+                    width: 38px;
+                    height: 38px;
                     border-radius: 50%;
-                    background: #f1f5f9;
-                    border: none;
+                    background: #f8fafc;
+                    border: 1px solid rgba(226, 232, 240, 0.8);
                     color: #64748b;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    transition: all 0.2s;
+                }
+                .mb-sheet-close:active {
+                    background: #e2e8f0;
                 }
 
                 .mb-sheet-content {

@@ -4,10 +4,11 @@
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid #f1f5f9;
+    border-right: 1px solid rgba(226, 232, 240, 0.6);
     position: sticky;
     top: 0;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.02);
+    z-index: 100;
 }
 
 .ds-brand {
@@ -95,25 +96,28 @@
     flex-direction: row !important;
     align-items: center !important;
     gap: 12px !important;
-    padding: 10px 16px !important;
+    padding: 12px 16px !important;
     border-radius: 12px !important;
     color: #64748b !important;
     text-decoration: none !important;
     font-weight: 600 !important;
     font-size: 0.9rem !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative !important;
-    border: none !important;
+    border: 1px solid transparent !important;
 }
 
 .ds-menu-item:hover {
     background: #f8fafc !important;
     color: #0f172a !important;
+    transform: translateX(4px) !important;
 }
 
 .ds-menu-item--active {
-    background: #f0fdf4 !important;
+    background: rgba(4, 189, 32, 0.08) !important;
     color: #04bd20 !important;
+    border: 1px solid rgba(4, 189, 32, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(4, 189, 32, 0.05) !important;
 }
 
 .ds-menu-icon {
@@ -151,16 +155,20 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px;
-    background: #f8fafc;
+    padding: 14px 16px;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
     border-radius: 16px;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none !important;
-    /* Ensure Link doesn't show underline */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
 .ds-user-card:hover {
-    background: #f1f5f9;
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
 }
 
 .ds-user-avatar {
@@ -211,19 +219,36 @@
 }
 
 .ds-upgrade-card {
-    background: #0f172a;
+    background: linear-gradient(135deg, #0a1628 0%, #0d3320 100%);
     border-radius: 16px;
-    padding: 14px;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     color: white;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ds-upgrade-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    background: #04bd20;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.3;
 }
 
 .ds-upgrade-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 .ds-upgrade-icon {
@@ -242,9 +267,10 @@
 }
 
 .ds-upgrade-title {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 800;
     margin: 0;
+    letter-spacing: -0.01em;
 }
 
 .ds-upgrade-desc {

@@ -100,8 +100,7 @@ function PdfViewerContent({ setProgress = () => { } }) {
                     src={iframeUrl}
                     style={{
                         width: '100%',
-                        height: 'calc(100% + 48px)',
-                        marginTop: '-48px',
+                        height: '100%',
                         border: 'none',
                         display: loaded ? 'block' : 'none',
                         position: 'relative',
@@ -112,27 +111,19 @@ function PdfViewerContent({ setProgress = () => { } }) {
                     allow="autoplay"
                 />
 
-                {/*
-                  ── Premium UI Button Blockers ──
-                  Hides the native Google Drive controls (Pop-out, Print, etc.)
-                */}
                 {loaded && (
-                    <>
-                        {/* Top Right Blocker (Pop-out, Print) */}
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                width: '16px',
-                                height: '100px',
-                                zIndex: 20,
-                                cursor: 'default',
-                                background: '#1E1E1E',
-                            }}
-                        />
-
-                    </>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                            width: '64px',
+                            height: '48px',
+                            zIndex: 20,
+                            cursor: 'default',
+                            background: 'rgba(15,15,15,1)',
+                        }}
+                    />
                 )}
             </div>
         </div>

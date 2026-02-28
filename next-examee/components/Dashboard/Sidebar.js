@@ -21,14 +21,14 @@ const menuItems = [
         title: "MANAGEMENT",
         items: [
             { href: "/dashboard/students", label: "Users", icon: "fa-users" },
-            { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line" },
+            { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line", badge: "New" },
         ]
     },
     {
         title: "SUPPORT",
         items: [
             { href: "/dashboard/settings", label: "Settings", icon: "fa-gear" },
-            { href: "/help", label: "Help Center", icon: "fa-circle-info" },
+            { href: "/dashboard/help", label: "Help Center", icon: "fa-circle-info" },
         ]
     }
 ];
@@ -78,6 +78,7 @@ const Sidebar = () => {
                                                 <i className={`fa-solid ${item.icon}`}></i>
                                             </span>
                                             <span className="ds-menu-label">{item.label}</span>
+                                            {item.badge && <span className="ds-menu-badge" style={{ background: 'linear-gradient(135deg, #04bd20, #029d1a)', color: 'white', fontSize: '0.65rem', fontWeight: 800, padding: '2px 8px', borderRadius: '20px', marginLeft: 'auto', marginRight: active ? '12px' : '0' }}>{item.badge}</span>}
                                             {active && <div className="ds-active-indicator" />}
                                         </Link>
                                     </li>
@@ -104,6 +105,7 @@ const Sidebar = () => {
                         <p className="ds-user-name">{displayName}</p>
                         <p className="ds-user-role">{userData?.Role || 'Student'}</p>
                     </div>
+                    <i className="fa-solid fa-chevron-right ms-auto" style={{ fontSize: '0.75rem', color: '#cbd5e1' }}></i>
                 </Link>
 
                 <div className="ds-upgrade-card">
@@ -113,6 +115,9 @@ const Sidebar = () => {
                     <div className="ds-upgrade-info">
                         <p className="ds-upgrade-title">Pro Plan</p>
                         <p className="ds-upgrade-desc">Unlock all features</p>
+                    </div>
+                    <div className="ds-upgrade-arrow text-end" style={{ flex: 1 }}>
+                        <i className="fa-solid fa-arrow-right" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}></i>
                     </div>
                 </div>
             </div>
