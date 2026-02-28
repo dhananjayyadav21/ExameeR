@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState, Suspense } from "react";
 import Modal from "../../../components/Modal";
 import Link from "next/link";
+import '../../../styles/dashboard-content.css';
 import { useRouter } from "next/navigation";
 import ContentContext from '../../../context/ContentContext';
 import * as GlobalUrls from "../../../utils/GlobalURL";
