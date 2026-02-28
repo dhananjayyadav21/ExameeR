@@ -51,7 +51,7 @@ export default function DashboardPYQPage() {
     };
 
     const handleEdit = (pyq) => {
-        router.push(`/uploadPYQ?edit=${pyq._id}`);
+        router.push(`/dashboard/uploadPYQ?edit=${pyq._id}`);
     };
 
     const deleteConfirm = async (pyq) => {
@@ -74,7 +74,7 @@ export default function DashboardPYQPage() {
                     <h1 className="dc-title">Previous Year Questions</h1>
                     <p className="dc-sub">Organize exam papers by year, subject and category</p>
                 </div>
-                <Link href="/uploadPYQ" className="dc-add-btn btn-success">
+                <Link href="/dashboard/uploadPYQ" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>Add Question Paper
                 </Link>
             </div>

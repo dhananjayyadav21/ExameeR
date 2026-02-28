@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useEffect, useState, Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
-import DriveUpload from "../../utils/DriveUpload";
-import ContentContext from '../../context/ContentContext';
+import DriveUpload from "../../../utils/DriveUpload";
+import ContentContext from '../../../context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 

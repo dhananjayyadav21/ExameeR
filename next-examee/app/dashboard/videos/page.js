@@ -52,7 +52,7 @@ function DashboardVideosContent() {
     };
 
     const handleEdit = (video) => {
-        router.push(`/uploadVideo?edit=${video._id}`);
+        router.push(`/dashboard/uploadVideo?edit=${video._id}`);
     };
 
     const deleteConfirm = async (video) => {
@@ -75,7 +75,7 @@ function DashboardVideosContent() {
                     <h1 className="dc-title">Video Lectures</h1>
                     <p className="dc-sub">Manage your educational video content and descriptions</p>
                 </div>
-                <Link href="/uploadVideo" className="dc-add-btn btn-success">
+                <Link href="/dashboard/uploadVideo" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>Upload Video
                 </Link>
             </div>
@@ -141,7 +141,7 @@ function DashboardVideosContent() {
                             <i className="fa-solid fa-video"></i>
                             <h3>No videos found</h3>
                             <p>Try adjusting your search filters or add a new video.</p>
-                            <Link href="/uploadVideo" className="dc-add-btn btn-success">Upload First Video</Link>
+                            <Link href="/dashboard/uploadVideo" className="dc-add-btn btn-success">Upload First Video</Link>
                         </div>
                     ) : (
                         <div className="row g-4">

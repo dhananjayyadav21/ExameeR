@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ContentContext from '../../context/ContentContext';
+import ContentContext from '../../../context/ContentContext';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 

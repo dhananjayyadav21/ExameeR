@@ -57,7 +57,7 @@ export default function DashboardCoursesPage() {
     };
 
     const handleEdit = (course) => {
-        router.push(`/uploadCourse?edit=${course._id}`);
+        router.push(`/dashboard/uploadCourse?edit=${course._id}`);
     };
 
     const statusCfg = { public: { color: '#04bd20', bg: 'rgba(4,189,32,0.1)', label: 'Live' }, draft: { color: '#f59e0b', bg: 'rgba(245,158,11,0.1)', label: 'Draft' }, archived: { color: '#ef4444', bg: 'rgba(239,68,68,0.1)', label: 'Archived' } };
@@ -73,7 +73,7 @@ export default function DashboardCoursesPage() {
                     <h1 className="dc-title">Courses Management</h1>
                     <p className="dc-sub">{dasCourse.length} total courses in your library</p>
                 </div>
-                <Link href="/uploadCourse" className="dc-add-btn btn-success">
+                <Link href="/dashboard/uploadCourse" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>New Course
                 </Link>
             </div>
@@ -139,7 +139,7 @@ export default function DashboardCoursesPage() {
                             <i className="fa-solid fa-graduation-cap"></i>
                             <h3>No courses found</h3>
                             <p>Try adjusting your search filters or add a new course.</p>
-                            <Link href="/uploadCourse" className="dc-add-btn btn-success">Create First Course</Link>
+                            <Link href="/dashboard/uploadCourse" className="dc-add-btn btn-success">Create First Course</Link>
                         </div>
                     ) : (
                         <div className="row g-4">

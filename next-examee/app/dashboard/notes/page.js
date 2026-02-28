@@ -51,7 +51,7 @@ export default function DashboardNotesPage() {
     };
 
     const handleEdit = (note) => {
-        router.push(`/uploadNotes?edit=${note._id}`);
+        router.push(`/dashboard/uploadNotes?edit=${note._id}`);
     };
 
     const deleteConfirm = async (note) => {
@@ -74,7 +74,7 @@ export default function DashboardNotesPage() {
                     <h1 className="dc-title">Study Notes</h1>
                     <p className="dc-sub">Manage and publish your PDFs, documents and cheat sheets</p>
                 </div>
-                <Link href="/uploadNotes" className="dc-add-btn btn-success">
+                <Link href="/dashboard/uploadNotes" className="dc-add-btn btn-success">
                     <i className="fa-solid fa-plus me-2"></i>Upload New
                 </Link>
             </div>

@@ -41,10 +41,10 @@ function DashboardContent() {
     ];
 
     const quickActions = [
-        { href: "/uploadNotes", label: "Add Notes", icon: "fa-note-sticky", color: "#04bd20", bg: "rgba(4,189,32,0.08)" },
-        { href: "/uploadPYQ", label: "Add Questions", icon: "fa-file-invoice", color: "#f59e0b", bg: "rgba(245,158,11,0.08)" },
-        { href: "/uploadVideo", label: "Upload Video", icon: "fa-video", color: "#6366f1", bg: "rgba(99,102,241,0.08)" },
-        { href: "/uploadCourse", label: "New Course", icon: "fa-graduation-cap", color: "#0ea5e9", bg: "rgba(14,165,233,0.08)" },
+        { href: "/dashboard/uploadNotes", label: "Add Notes", icon: "fa-note-sticky", color: "#04bd20", bg: "rgba(4,189,32,0.08)" },
+        { href: "/dashboard/uploadPYQ", label: "Add Questions", icon: "fa-file-invoice", color: "#f59e0b", bg: "rgba(245,158,11,0.08)" },
+        { href: "/dashboard/uploadVideo", label: "Upload Video", icon: "fa-video", color: "#6366f1", bg: "rgba(99,102,241,0.08)" },
+        { href: "/dashboard/uploadCourse", label: "New Course", icon: "fa-graduation-cap", color: "#0ea5e9", bg: "rgba(14,165,233,0.08)" },
     ];
 
     return (

@@ -36,16 +36,16 @@ export default function AnalyticsPage() {
     };
 
     const quickActions = [
-        { href: "/uploadNotes", label: "Upload Notes", sub: "Add PDF notes", icon: "fa-file-pdf", color: "#04bd20", bg: "rgba(4,189,32,0.08)" },
-        { href: "/uploadVideo", label: "Upload Video", sub: "Add lecture", icon: "fa-circle-play", color: "#8b5cf6", bg: "rgba(139,92,246,0.08)" },
-        { href: "/uploadPYQ", label: "Upload PYQ", sub: "Add paper", icon: "fa-file-invoice", color: "#f59e0b", bg: "rgba(245,158,11,0.08)" },
-        { href: "/uploadCourse", label: "New Course", sub: "Create course", icon: "fa-graduation-cap", color: "#0ea5e9", bg: "rgba(14,165,233,0.08)" },
+        { href: "/dashboard/uploadNotes", label: "Upload Notes", sub: "Add PDF notes", icon: "fa-file-pdf", color: "#04bd20", bg: "rgba(4,189,32,0.08)" },
+        { href: "/dashboard/uploadVideo", label: "Upload Video", sub: "Add lecture", icon: "fa-circle-play", color: "#8b5cf6", bg: "rgba(139,92,246,0.08)" },
+        { href: "/dashboard/uploadPYQ", label: "Upload PYQ", sub: "Add paper", icon: "fa-file-invoice", color: "#f59e0b", bg: "rgba(245,158,11,0.08)" },
+        { href: "/dashboard/uploadCourse", label: "New Course", sub: "Create course", icon: "fa-graduation-cap", color: "#0ea5e9", bg: "rgba(14,165,233,0.08)" },
     ];
 
     const handleEdit = (item) => {
         const typeMap = { notes: 'Notes', video: 'Video', pyq: 'PYQ', course: 'Course' };
         const route = typeMap[item.type] || 'Notes';
-        router.push(`/upload${route}?edit=${item._id}`);
+        router.push(`/dashboard/upload${route}?edit=${item._id}`);
     };
 
     return (
