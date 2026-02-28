@@ -79,7 +79,7 @@ export default function DashboardNotesPage() {
                             <button className="pdf-close-btn" onClick={() => setPreviewPdf(null)}><i className="fa-solid fa-xmark"></i></button>
                         </div>
                         <div style={{ flex: 1, overflow: 'hidden', position: 'relative', background: '#f8fafc' }}>
-                            <div style={{ position: 'absolute', top: 0, right: 0, width: '64px', height: '48px', background: 'rgba(15,15,15,1)', zIndex: 10 }}></div>
+                            <div style={{ position: 'absolute', top: 0, right: 0, width: '56px', height: '80px', background: 'rgba(15,15,15,1)', zIndex: 10 }}></div>
                             <iframe
                                 src={`https://drive.google.com/file/d/${previewPdf}/preview`}
                                 className="pdf-iframe"

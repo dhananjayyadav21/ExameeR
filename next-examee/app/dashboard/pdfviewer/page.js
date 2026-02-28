@@ -128,7 +128,7 @@ function PdfViewerContent() {
                             position: 'absolute',
                             top: 0,
                             right: 0,
-                            width: '54px',
+                            width: '56px',
                             height: '80px',
                             zIndex: 20,
                             cursor: 'default',
