@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import '../../styles/pdf-viewer.css';
 
 function PdfViewerContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
@@ -12,7 +13,7 @@ function PdfViewerContent({ setProgress = () => { } }) {
     useEffect(() => { setProgress(0); setProgress(100); }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#0f172a' }}>
+        <div className="pdf-viewer-container">
 
             {/* ── Toolbar ── */}
             <div style={{

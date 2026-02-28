@@ -1,0 +1,31 @@
+.pdf-viewer-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #0f172a;
+}
+
+.pdf-viewer-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+    background: #f8fafc;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pdf-viewer-loading.spin {
+    animation: pdf-spin 0.8s linear infinite;
+}
+
+@keyframes pdf-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

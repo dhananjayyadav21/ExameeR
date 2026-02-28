@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import '../../../styles/pdf-viewer.css';
 
 function PdfViewerContent() {
     const searchParams = useSearchParams();
@@ -20,7 +21,7 @@ function PdfViewerContent() {
     }
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)', background: '#f8fafc', borderRadius: '16px', overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+        <div className="pdf-viewer-dashboard-container">
             {/* ── Toolbar ── */}
             <div style={{
                 height: '60px', flexShrink: 0,
@@ -100,7 +101,7 @@ function PdfViewerContent() {
                             <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.8rem' }}>
                                 Establishing secure connection to Google Drive
                             </p>
-                            <div className="mt-3" style={{ width: '24px', height: '24px', border: '3px solid #e2e8f0', borderTopColor: '#04bd20', borderRadius: '50%', animation: 'spin 0.8s linear infinite', display: 'inline-block' }}></div>
+                            <div className="mt-3 pdf-viewer-loading spin" style={{ width: '24px', height: '24px', border: '3px solid #e2e8f0', borderTopColor: '#04bd20', borderRadius: '50%', display: 'inline-block' }}></div>
                         </div>
                     </div>
                 )}
@@ -127,8 +128,8 @@ function PdfViewerContent() {
                             position: 'absolute',
                             top: 0,
                             right: 0,
-                            width: '64px',
-                            height: '48px',
+                            width: '54px',
+                            height: '80px',
                             zIndex: 20,
                             cursor: 'default',
                             background: 'rgba(15,15,15,1)',
@@ -136,9 +137,6 @@ function PdfViewerContent() {
                     />
                 )}
 
-                <style jsx>{`
-                    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-                `}</style>
             </div>
         </div>
     );
@@ -148,8 +146,7 @@ export default function DashboardPdfViewerPage() {
     return (
         <Suspense fallback={
             <div style={{ height: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc', borderRadius: '16px' }}>
-                <div style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#04bd20', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }}></div>
-                <style jsx>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+                <div className="pdf-viewer-loading spin" style={{ width: '32px', height: '32px', border: '3px solid #e2e8f0', borderTopColor: '#04bd20', borderRadius: '50%' }}></div>
             </div>
         }>
             <PdfViewerContent />
