@@ -131,9 +131,11 @@ function CourseContent({ setProgress = () => { } }) {
 }
 
 
+import PageLoader from "../../components/PageLoader";
+
 export default function CoursePage(props) {
     return (
-        <Suspense fallback={<div className="container py-5 text-center p-5"><div className="spinner-border text-primary" role="status"></div></div>}>
+        <Suspense fallback={<PageLoader text="Loading courses..." subtext="Crafting your customized curriculum" />}>
             <CourseContent {...props} />
         </Suspense>
     );

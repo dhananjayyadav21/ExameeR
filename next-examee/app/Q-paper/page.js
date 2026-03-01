@@ -128,9 +128,11 @@ function QPaperContent({ setProgress = () => { } }) {
 }
 
 
+import PageLoader from "../../components/PageLoader";
+
 export default function QPaperPage(props) {
     return (
-        <Suspense fallback={<div className="container py-5 text-center"><div className="spinner-border text-success" role="status"></div><p className="mt-3 text-muted">Scanning archives...</p></div>}>
+        <Suspense fallback={<PageLoader text="Scanning archives..." subtext="Retrieving PYQs for you" />}>
             <QPaperContent {...props} />
         </Suspense>
     );

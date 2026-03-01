@@ -158,6 +158,7 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
                 </header>
 
                 <div className="px-3 px-md-5 py-4 position-relative" style={{ minHeight: '80vh' }}>
+                    <GlobalLoader contextLayout="student" />
                     {children}
                 </div>
             </main>
