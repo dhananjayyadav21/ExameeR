@@ -26,6 +26,7 @@ const Content = () => {
         tags: '',
         isPublic: true,
         status: 'public',
+        accessTier: 'free',   // 'free' | 'plus' | 'pro'
     });
 
     const [fileUrl, setFileUrl] = useState(null);
@@ -56,6 +57,7 @@ const Content = () => {
                         tags: noteToEdit.tags ? (Array.isArray(noteToEdit.tags) ? noteToEdit.tags.join(', ') : noteToEdit.tags) : '',
                         isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
                         status: noteToEdit.status || 'public',
+                        accessTier: noteToEdit.accessTier || 'free',
                     });
                     setFileUrl(noteToEdit.fileUrl || null);
                 }
@@ -118,6 +120,7 @@ const Content = () => {
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
+            accessTier: formData.accessTier,
             fileUrl: fileUrl
         };
 
@@ -258,6 +261,17 @@ const Content = () => {
                                             <option value="public">Publish Immediately</option>
                                             <option value="draft">Save as Draft</option>
                                             <option value="archived">Archive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Access Tier <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#94a3b8' }}>— who can view this?</span></label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-crown"></i></span>
+                                        <select name="accessTier" value={formData.accessTier} onChange={handleChange} className="up-input up-select">
+                                            <option value="free">🟢 E0 Free — visible to all</option>
+                                            <option value="plus">🟣 Plus — Plus &amp; Pro users</option>
+                                            <option value="pro">🟡 Pro — Pro users only</option>
                                         </select>
                                     </div>
                                 </div>

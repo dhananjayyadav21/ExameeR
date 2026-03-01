@@ -6,6 +6,11 @@ const pyqSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        accessTier: {
+            type: String,
+            enum: ['free', 'plus', 'pro'],
+            default: 'free',
+        },
         year: {
             type: Number,
             required: true,

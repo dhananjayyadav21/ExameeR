@@ -9,6 +9,11 @@ const videoSchema = new mongoose.Schema({
     description: {
         type: String,
     },
+    accessTier: {
+        type: String,
+        enum: ['free', 'plus', 'pro'],
+        default: 'free',
+    },
     category: {
         type: String,
         enum: ['sciTechnology', 'commerce', 'artscivils'],

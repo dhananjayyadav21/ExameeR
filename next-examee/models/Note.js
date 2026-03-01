@@ -10,6 +10,11 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    accessTier: {
+        type: String,
+        enum: ['free', 'plus', 'pro'],
+        default: 'free',   // 'free' = E0, 'plus' = Plus+, 'pro' = Pro only
+    },
     category: {
         type: String,
         enum: ['sciTechnology', 'commerce', 'artscivils'],

@@ -42,6 +42,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
                 { label: "My Library", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
+                { label: "Plans & Pricing", icon: "fa-crown", href: "/plans" },
                 { label: "Logout", icon: "fa-arrow-right-from-bracket", onClick: true, danger: true },
             ]
         }
@@ -73,7 +74,12 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                     />
                     <div>
                         <p className="fw-bold mb-0 text-dark" style={{ fontSize: '1.05rem' }}>{userData?.FirstName || 'Student'}</p>
-                        <span className="badge bg-success-subtle text-success border border-success-subtle smaller fw-bold px-2 py-1">PRO STUDENT</span>
+                        {/* Show actual plan */}
+                        {(() => {
+                            const plan = userData?.Plan || 'e0';
+                            const meta = { e0: { label: 'E0 Free', color: '#04bd20', bg: '#f0fdf4' }, plus: { label: 'Plus', color: '#8b5cf6', bg: '#faf5ff' }, pro: { label: 'Pro', color: '#f59e0b', bg: '#fffbeb' } }[plan];
+                            return <span style={{ fontSize: '0.65rem', fontWeight: 800, padding: '2px 10px', borderRadius: 20, background: meta.bg, color: meta.color, border: `1px solid ${meta.color}30` }}>{meta.label} Plan</span>;
+                        })()}
                     </div>
                 </div>
             </div>
