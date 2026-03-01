@@ -358,8 +358,8 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 .ps-avatar-edit:hover { transform: scale(1.1); }
                 
                 .ps-hero-text { margin-bottom: 8px; }
-                .ps-user-name { font-size: 1.6rem; font-weight: 600; color: #0f172a; letter-spacing: -0.01em; }
-                .ps-user-handle { font-size: 0.9rem; font-weight: 400; color: #64748b; }
+                .ps-user-name { font-size: 1.4rem; font-weight: 500; color: #0f172a; letter-spacing: -0.01em; }
+                .ps-user-handle { font-size: 0.8rem; font-weight: 400; color: #64748b; }
                 
                 .ps-btn-toggle { border: none; border-radius: 12px; padding: 10px 20px; font-weight: 500; font-size: 0.85rem; display: flex; align-items: center; transition: all 0.2s; }
                 .ps-btn-toggle--edit { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
@@ -368,31 +368,31 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 .ps-btn-toggle--cancel:hover { background: #fee2e2; }
                 
                 .ps-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-                .ps-card-title { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 0; }
-                .ps-label-small { display: block; font-size: 0.68rem; font-weight: 600; color: #94a3b8; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+                .ps-card-title { font-size: 0.92rem; font-weight: 500; color: #0f172a; margin: 0; }
+                .ps-label-small { display: block; font-size: 0.64rem; font-weight: 600; color: #94a3b8; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
                 
-                .ps-text-content { font-size: 0.88rem; font-weight: 300; color: #475569; line-height: 1.6; }
+                .ps-text-content { font-size: 0.82rem; font-weight: 300; color: #475569; line-height: 1.6; }
                 
-                .ps-input-classic { width: 100%; padding: 12px 14px; border-radius: 12px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 0.88rem; transition: all 0.2s; color: #334155; font-weight: 400; }
+                .ps-input-classic { width: 100%; padding: 12px 14px; border-radius: 12px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 0.82rem; transition: all 0.2s; color: #334155; font-weight: 400; }
                 .ps-input-classic:focus { outline: none; border-color: #04bd20; background: #fff; }
                 
-                .ps-input-modern { width: 100%; padding: 8px 0; border: none; border-bottom: 2px solid #f1f5f9; background: transparent; font-size: 0.88rem; font-weight: 400; color: #0f172a; transition: border-color 0.2s; }
+                .ps-input-modern { width: 100%; padding: 8px 0; border: none; border-bottom: 2px solid #f1f5f9; background: transparent; font-size: 0.82rem; font-weight: 400; color: #0f172a; transition: border-color 0.2s; }
                 .ps-input-modern:focus { outline: none; border-color: #04bd20; }
                 .ps-field-icon { position: absolute; right: 0; top: 10px; color: #cbd5e1; font-size: 0.8rem; }
-                .ps-field-value span { font-size: 0.88rem; font-weight: 400; }
+                .ps-field-value span { font-size: 0.82rem; font-weight: 400; }
                 
-                .ps-stat-value { font-size: 0.88rem; font-weight: 600; color: #0f172a; }
+                .ps-stat-value { font-size: 0.82rem; font-weight: 500; color: #0f172a; }
                 
-                .ps-btn { display: inline-flex; align-items: center; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+                .ps-btn { display: inline-flex; align-items: center; border: none; border-radius: 12px; padding: 10px 20px; font-weight: 500; font-size: 0.82rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
                 .ps-btn-primary { background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; box-shadow: 0 8px 16px -4px rgba(4,189,32,0.3); }
                 .ps-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 24px -4px rgba(4,189,32,0.4); }
                 
-                .ps-btn-simple { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; color: #475569; font-weight: 600; font-size: 0.8rem; transition: all 0.2s; }
+                .ps-btn-simple { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; color: #475569; font-weight: 600; font-size: 0.72rem; transition: all 0.2s; }
                 
                 .ps-pref-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f8fafc; }
                 .ps-pref-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
-                .ps-pref-title { font-size: 0.9rem; font-weight: 600; color: #0f172a; }
-                .ps-pref-sub { font-size: 0.78rem; font-weight: 300; }
+                .ps-pref-title { font-size: 0.85rem; font-weight: 500; color: #0f172a; }
+                .ps-pref-sub { font-size: 0.72rem; font-weight: 300; }
                 
                 .ps-switch { width: 2.6em !important; height: 1.4em; border-radius: 20px; cursor: pointer; border: 2px solid #e2e8f0 !important; }
                 .ps-switch:checked { background-color: #04bd20; border-color: #04bd20 !important; }

@@ -20,11 +20,11 @@ function SectionHeader({ icon, color, title, count, unit }) {
         <div className="d-flex align-items-center gap-3 mb-4 pb-2" style={{ borderBottom: '1px solid #f1f1f1' }}>
             <div className={`rounded-3 bg-${color} bg-opacity-10 d-flex align-items-center justify-content-center flex-shrink-0`}
                 style={{ width: '38px', height: '38px' }}>
-                <i className={`fa-solid ${icon} text-${color}`} style={{ fontSize: '0.95rem' }}></i>
+                <i className={`fa-solid ${icon} text-${color}`} style={{ fontSize: '0.85rem' }}></i>
             </div>
             <div>
-                <h2 className="mb-0 text-dark" style={{ fontSize: '0.95rem', fontWeight: 600, letterSpacing: '-0.01em' }}>{title}</h2>
-                <p className="mb-0" style={{ fontSize: '0.72rem', color: '#9ca3af', fontWeight: 500, marginTop: '1px' }}>
+                <h2 className="mb-0 text-dark" style={{ fontSize: '0.88rem', fontWeight: 500, letterSpacing: '-0.01em' }}>{title}</h2>
+                <p className="mb-0" style={{ fontSize: '0.68rem', color: '#9ca3af', fontWeight: 400, marginTop: '1px' }}>
                     {count} {unit}{count !== 1 ? 's' : ''} saved
                 </p>
             </div>
@@ -220,38 +220,38 @@ export default function MyLearningPage({ setProgress = () => { } }) {
                 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
                 
                 .ml-container { max-width: 1400px; margin: 0 auto; }
-                .ml-title { font-size: 2.2rem; font-weight: 850; color: #0f172a; letter-spacing: -0.02em; }
-                .ml-subtitle { font-size: 1rem; font-weight: 500; }
+                .ml-title { font-size: 1.8rem; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; }
+                .ml-subtitle { font-size: 0.88rem; font-weight: 400; }
                 
-                .ml-total-badge { background: #fff; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 16px; font-size: 0.9rem; color: #475569; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+                .ml-total-badge { background: #fff; border: 1px solid #e2e8f0; padding: 10px 20px; border-radius: 12px; font-size: 0.9rem; color: #475569; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
                 
-                .ml-stat-card { position: relative; background: #fff; border-radius: 20px; padding: 20px; border: 1px solid #f1f5f9; cursor: pointer; display: flex; align-items: center; gap: 16px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+                .ml-stat-card { position: relative; background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #f1f5f9; cursor: pointer; display: flex; align-items: center; gap: 16px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
                 .ml-stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); border-color: #e2e8f0; }
                 .ml-stat-card.active { border-color: #04bd20; background: #f0fdf4; box-shadow: 0 4px 12px rgba(4,189,31,0.1); }
                 
-                .ml-stat-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+                .ml-stat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
                 .ml-stat-card--success .ml-stat-icon { background: #dcfce7; color: #16a34a; }
                 .ml-stat-card--primary .ml-stat-icon { background: #dbeafe; color: #2563eb; }
                 .ml-stat-card--warning .ml-stat-icon { background: #fef9c3; color: #ca8a04; }
                 .ml-stat-card--info .ml-stat-icon { background: #e0f2fe; color: #0284c7; }
                 
                 .ml-stat-info { display: flex; flex-direction: column; }
-                .ml-stat-count { font-size: 1.4rem; font-weight: 800; color: #0f172a; line-height: 1; }
-                .ml-stat-label { font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+                .ml-stat-count { font-size: 1.2rem; font-weight: 700; color: #0f172a; line-height: 1; }
+                .ml-stat-label { font-size: 0.65rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
                 
                 .ml-stat-indicator { position: absolute; top: 12px; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: #04bd20; }
                 
                 .ml-nav-wrapper { top: 20px; z-index: 100; padding: 0 10px; }
-                .ml-glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 18px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06); }
+                .ml-glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 14px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06); }
                 
-                .ml-nav-btn { width: 100%; border: none; padding: 12px 18px; border-radius: 14px; background: transparent; color: #64748b; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+                .ml-nav-btn { width: 100%; border: none; padding: 12px 18px; border-radius: 10px; background: transparent; color: #64748b; font-weight: 600; font-size: 0.82rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
                 .ml-nav-btn:hover { background: rgba(0,0,0,0.03); color: #0f172a; }
                 .ml-nav-btn.active { background: #0f172a; color: #fff; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2); }
                 
-                .ml-nav-count { font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; background: rgba(0,0,0,0.08); font-weight: 800; }
+                .ml-nav-count { font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; background: rgba(0,0,0,0.08); font-weight: 700; }
                 .ml-nav-btn.active .ml-nav-count { background: rgba(255, 255, 255, 0.2); color: #fff; }
                 
-                .ml-btn-explore { display: inline-flex; align-items: center; background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; border: none; padding: 16px 36px; border-radius: 18px; font-weight: 800; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 25px -5px rgba(4,189,32,0.4); }
+                .ml-btn-explore { display: inline-flex; align-items: center; background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; border: none; padding: 16px 36px; border-radius: 12px; font-weight: 700; text-decoration: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 25px -5px rgba(4,189,32,0.4); }
                 .ml-btn-explore:hover { transform: translateY(-4px); box-shadow: 0 15px 35px -5px rgba(4,189,32,0.5); color: #fff; }
                 
                 .ml-empty-circle { width: 80px; height: 80px; border-radius: 50%; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #94a3b8; border: 2px dashed #e2e8f0; }
