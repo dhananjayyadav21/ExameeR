@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 function VerifyEmailContent({ setProgress = () => { } }) {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const Email = searchParams.get('Email') || "";
+    const rawEmail = searchParams.get('Email') || "";
+    const Email = rawEmail.replace(/ /g, '+');
     const VerificationCodeParams = searchParams.get('VerificationCode') || "";
     const [VerificationCode, setVerificationCode] = useState(VerificationCodeParams);
     const [loading, setLoading] = useState(false);
