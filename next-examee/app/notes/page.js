@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import NotesItem from "../../components/NotesItem"
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../utils/GlobalURL"
-
 import StudentLayout from "../../components/Home/StudentLayout";
 import { academicOptions } from "../../constants/academicOptions";
+import PageBanners from "../../components/PageBanners";
 
 function NotesContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
@@ -66,6 +66,9 @@ function NotesContent({ setProgress = () => { } }) {
     return (
         <StudentLayout title="Notes">
             <div className="container-fluid px-0">
+                {/* Banners */}
+                <PageBanners page="notes" />
+
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>

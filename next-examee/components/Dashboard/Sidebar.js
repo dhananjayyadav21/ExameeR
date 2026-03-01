@@ -22,6 +22,7 @@ const menuItems = [
         items: [
             { href: "/dashboard/students", label: "Users", icon: "fa-users" },
             { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line", badge: "New" },
+            { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "New" },
         ]
     },
     {

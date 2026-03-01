@@ -7,6 +7,7 @@ import CourceIteam from './CourceIteam';
 import StudentLayout from './StudentLayout';
 import { academicOptions } from '../../constants/academicOptions';
 import { GETCourse_URL, GETNOTE_URL, GETPYQ_URL, GETVideo_URL } from '../../utils/GlobalURL';
+import PageBanners from '../PageBanners';
 
 const LoggedInHome = ({ userData }) => {
     const context = useContext(ContentContext);
@@ -38,6 +39,9 @@ const LoggedInHome = ({ userData }) => {
     return (
         <StudentLayout title="Dashboard">
             <div className="container-fluid px-0">
+                {/* Banners */}
+                <PageBanners page="course" />
+
                 {/* Greeting Section */}
                 <div className="mb-5">
                     <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Welcome Back, {userData?.FirstName || 'Student'}! 👋</h2>
