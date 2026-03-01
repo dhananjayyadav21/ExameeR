@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
+import PageBanners from '../../components/PageBanners';
 
 const CATEGORIES = ['All Books', 'Engineering', 'Medical', 'Management', 'Law', 'Commerce'];
 
@@ -25,6 +26,9 @@ export default function BooksPage() {
     return (
         <StudentLayout title="Examee Books">
             <div className="container-fluid px-0 pb-5 eb-container">
+                {/* Banners */}
+                <PageBanners page="books" />
+
                 {/* Hero / Header */}
                 <div className="eb-header mb-5">
                     <div className="eb-header-content">

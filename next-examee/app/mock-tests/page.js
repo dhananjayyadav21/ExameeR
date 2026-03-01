@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
+import PageBanners from '../../components/PageBanners';
 
 const TEST_CATEGORIES = ['All Tests', 'Engineering', 'Medical', 'GATE', 'UPSC', 'SSC'];
 
@@ -23,6 +24,9 @@ export default function MockTestsPage() {
     return (
         <StudentLayout title="Mock Tests">
             <div className="container-fluid px-0 pb-5 mt-container">
+                {/* Banners */}
+                <PageBanners page="mock-test" />
+
                 {/* Header */}
                 <div className="mt-header mb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>

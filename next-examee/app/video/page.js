@@ -4,9 +4,9 @@ import VideoItem from "../../components/VideoItem";
 import ContentContext from '../../context/ContentContext';
 import * as GlobalUrls from "../../utils/GlobalURL";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import StudentLayout from "../../components/Home/StudentLayout";
 import { academicOptions } from "../../constants/academicOptions";
+import PageBanners from "../../components/PageBanners";
 
 function VideoContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
@@ -66,6 +66,9 @@ function VideoContent({ setProgress = () => { } }) {
     return (
         <StudentLayout title="Video">
             <div className="container-fluid px-0">
+                {/* Banners */}
+                <PageBanners page="video" />
+
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>

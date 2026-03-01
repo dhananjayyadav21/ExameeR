@@ -3,23 +3,27 @@ import connectToMongo from '@/lib/mongodb';
 import Banner from '@/models/Banner';
 import { verifyUser } from '@/lib/middleware/fetchUser';
 
-// GET  – public (student pages call this)
+// GET – admin (no page param) returns ALL banners; student pages filter by page + active + expiry
 export async function GET(req) {
     try {
         await connectToMongo();
         const { searchParams } = new URL(req.url);
-        const page = searchParams.get('page'); // 'notes' | 'pyq' | 'course' | null
+        const page = searchParams.get('page');  // student filter
+        const admin = searchParams.get('admin'); // flag for dashboard
 
-        const now = new Date();
-        const query = {
-            isActive: true,
-            $or: [{ expiresAt: null }, { expiresAt: { $gt: now } }],
-        };
-        if (page) {
-            query.$and = [
-                { pages: { $in: [page, 'all'] } },
-            ];
+        let query = {};
+
+        if (page && !admin) {
+            // Student view: active + not expired + matching page
+            const now = new Date();
+            query = {
+                isActive: true,
+                $or: [{ expiresAt: null }, { expiresAt: { $gt: now } }],
+                pages: { $in: [page, 'all'] },
+            };
         }
+        // Admin view (no page param, or ?admin=1): return everything
+
         const banners = await Banner.find(query).sort({ createdAt: -1 });
         return NextResponse.json({ success: true, banners }, { status: 200 });
     } catch (err) {

@@ -1,11 +1,15 @@
 "use client";
 import React from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
+import PageBanners from '../../components/PageBanners';
 
 export default function CallBookPage() {
     return (
         <StudentLayout title="Call Book">
             <div className="container-fluid px-0 pb-5 cb-container">
+                {/* Banners */}
+                <PageBanners page="call-book" />
+
                 <div className="cb-header mb-5">
                     <h1 className="cb-title mb-2">Examee Support & Mentorship</h1>
                     <p className="cb-subtitle text-muted">Book a call with top mentors, educators, and career counselors.</p>
