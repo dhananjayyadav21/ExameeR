@@ -1,11 +1,11 @@
 "use client";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import StudentLayout from '../../components/Home/StudentLayout';
 import ContentContext from '../../context/ContentContext';
 import Link from 'next/link';
 
-const PLANS = [
+const FALLBACK_PLANS = [
     {
         id: 'e0',
         name: 'E0 Free',
@@ -88,12 +88,40 @@ export default function PlansPage() {
     const { userData } = useContext(ContentContext);
     const userPlan = userData?.Plan || 'e0';
     const [hovered, setHovered] = useState(null);
+    const [plans, setPlans] = useState(FALLBACK_PLANS);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const r = await fetch('/api/plans');
+                const d = await r.json();
+                if (d.success && d.plans?.length > 0) {
+                    setPlans(d.plans.map(p => ({ ...p, id: p.planId })));
+                }
+            } catch (e) {
+                console.error("Plan load error:", e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPlans();
+    }, []);
 
     const handleSelect = (plan) => {
         if (plan.id === 'e0') return; // already free
         if (plan.id === userPlan) return; // already on this plan
         router.push(`/plan-detail?plan=${plan.id}`);
     };
+
+    if (loading) return (
+        <StudentLayout title="Plans">
+            <div style={{ textAlign: 'center', padding: '100px 0' }}>
+                <div className="spinner-border text-success" />
+                <p style={{ marginTop: 12, color: '#64748b', fontWeight: 600 }}>Loading plans...</p>
+            </div>
+        </StudentLayout>
+    );
 
     return (
         <StudentLayout title="Plans">
@@ -114,15 +142,15 @@ export default function PlansPage() {
                     {/* Current plan badge */}
                     <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 20, padding: '6px 16px' }}>
                         <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>Current plan:</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 800, color: PLANS.find(p => p.id === userPlan)?.accent || '#04bd20' }}>
-                            {PLANS.find(p => p.id === userPlan)?.name || 'E0 Free'}
+                        <span style={{ fontSize: '0.8rem', fontWeight: 800, color: plans.find(p => p.id === userPlan)?.accent || '#04bd20' }}>
+                            {plans.find(p => p.id === userPlan)?.name || 'E0 Free'}
                         </span>
                     </div>
                 </div>
 
                 {/* ── Plan Cards ── */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, marginBottom: 52 }}>
-                    {PLANS.map(plan => {
+                    {plans.map(plan => {
                         const isCurrentPlan = plan.id === userPlan;
                         const isHover = hovered === plan.id;
                         const isFeatured = plan.ribbon;
@@ -153,7 +181,7 @@ export default function PlansPage() {
 
                                 <div style={{ padding: '24px 24px 0' }}>
                                     {/* Icon */}
-                                    <div style={{ width: 44, height: 44, borderRadius: 12, background: plan.accentBg, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: 12, background: plan.accentBg || `${plan.accent}10`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
                                         <i className={`fa-solid ${plan.id === 'e0' ? 'fa-bolt' : plan.id === 'plus' ? 'fa-star' : 'fa-crown'}`} style={{ color: plan.accent, fontSize: '1.1rem' }} />
                                     </div>
 
@@ -169,12 +197,12 @@ export default function PlansPage() {
                                             <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
                                                 <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#64748b' }}>₹</span>
                                                 <span style={{ fontSize: '2rem', fontWeight: 900, color: '#0f172a' }}>{plan.price}</span>
-                                                <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>/month</span>
+                                                <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: 600 }}>{plan.priceSuffix || '/month'}</span>
                                             </div>
                                         )}
                                         <p style={{ margin: '4px 0 0', fontSize: '0.72rem', color: plan.accent, fontWeight: 700 }}>
                                             <i className="fa-solid fa-shield-halved me-1" />
-                                            {plan.contentAccess}
+                                            {plan.contentAccess || 'Standard Content Access'}
                                         </p>
                                     </div>
 
@@ -200,7 +228,7 @@ export default function PlansPage() {
                                     <p style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>What&apos;s included</p>
                                     {plan.features.map((f, i) => (
                                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9, opacity: f.ok ? 1 : 0.4 }}>
-                                            <div style={{ width: 18, height: 18, borderRadius: 5, background: f.ok ? plan.accentBg : '#f8fafc', border: `1px solid ${f.ok ? plan.accent + '40' : '#e2e8f0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            <div style={{ width: 18, height: 18, borderRadius: 5, background: f.ok ? (plan.accentBg || `${plan.accent}10`) : '#f8fafc', border: `1px solid ${f.ok ? plan.accent + '40' : '#e2e8f0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                                 <i className={`fa-solid ${f.ok ? 'fa-check' : 'fa-xmark'}`} style={{ fontSize: '0.6rem', color: f.ok ? plan.accent : '#94a3b8' }} />
                                             </div>
                                             <span style={{ fontSize: '0.8rem', fontWeight: f.ok ? 600 : 400, color: f.ok ? '#374151' : '#94a3b8' }}>{f.text}</span>
@@ -225,7 +253,7 @@ export default function PlansPage() {
                             <thead>
                                 <tr style={{ background: '#f8fafc' }}>
                                     <th style={{ padding: '12px 20px', textAlign: 'left', fontWeight: 700, color: '#64748b', width: '40%' }}>Content Tier</th>
-                                    {PLANS.map(p => (
+                                    {plans.map(p => (
                                         <th key={p.id} style={{ padding: '12px 20px', textAlign: 'center', fontWeight: 800, color: p.accent }}>
                                             {p.name}
                                             {p.id === userPlan && <span style={{ display: 'block', fontSize: '0.6rem', fontWeight: 700, color: p.accent, opacity: 0.75 }}>← Your Plan</span>}
@@ -237,13 +265,12 @@ export default function PlansPage() {
                                 {ACCESS_TABLE.map((row, i) => (
                                     <tr key={row.tier} style={{ borderTop: '1px solid #f1f5f9', background: i % 2 === 1 ? '#fafafa' : '#fff' }}>
                                         <td style={{ padding: '13px 20px', fontWeight: 600, color: '#374151' }}>{row.tier}</td>
-                                        {['e0', 'plus', 'pro'].map(pid => {
-                                            const plan = PLANS.find(p => p.id === pid);
-                                            const ok = row[pid];
+                                        {plans.map(p => {
+                                            const ok = row[p.id] !== undefined ? row[p.id] : (p.id === 'pro' ? true : (p.id === 'plus' && row.tier !== 'Pro content'));
                                             return (
-                                                <td key={pid} style={{ padding: '13px 20px', textAlign: 'center' }}>
-                                                    <div style={{ width: 24, height: 24, borderRadius: 6, background: ok ? `${plan.accent}18` : '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
-                                                        <i className={`fa-solid ${ok ? 'fa-check' : 'fa-xmark'}`} style={{ color: ok ? plan.accent : '#cbd5e1', fontSize: '0.75rem' }} />
+                                                <td key={p.id} style={{ padding: '13px 20px', textAlign: 'center' }}>
+                                                    <div style={{ width: 24, height: 24, borderRadius: 6, background: ok ? `${p.accent}18` : '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto' }}>
+                                                        <i className={`fa-solid ${ok ? 'fa-check' : 'fa-xmark'}`} style={{ color: ok ? p.accent : '#cbd5e1', fontSize: '0.75rem' }} />
                                                     </div>
                                                 </td>
                                             );
