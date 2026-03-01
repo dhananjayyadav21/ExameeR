@@ -1,10 +1,12 @@
 "use client";
 import React, { useState, useEffect, useContext } from 'react';
 import ContentContext from '@/context/ContentContext';
+import { usePathname } from 'next/navigation';
 
-const GlobalLoader = () => {
+const GlobalLoader = ({ contextLayout = 'root' }) => {
     const { loading } = useContext(ContentContext);
     const [showLoader, setShowLoader] = useState(false);
+    const pathname = usePathname() || "";
 
     useEffect(() => {
         if (loading) {
@@ -15,6 +17,18 @@ const GlobalLoader = () => {
     }, [loading]);
 
     if (!showLoader) return null;
+
+    const isDashboard = pathname.startsWith('/dashboard');
+    const isStudent = ['/cource', '/myLearning', '/notes', '/pyq', '/profile'].some(p => pathname.startsWith(p)) && !pathname.startsWith('/dashboard');
+
+    let activeLayout = 'root';
+    if (isDashboard) {
+        activeLayout = 'dashboard';
+    } else if (isStudent) {
+        activeLayout = 'student';
+    }
+
+    if (contextLayout !== activeLayout) return null;
 
     return (
         <div className="global-loader-overlay">

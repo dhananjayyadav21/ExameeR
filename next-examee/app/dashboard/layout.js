@@ -120,6 +120,7 @@ export default function DashboardLayout({ children }) {
 
                 {/* Page content */}
                 <main className={`dl-content position-relative ${pathname.includes('/dashboard/upload') ? 'dl-content-full' : ''}`} style={{ minHeight: '600px' }}>
+                    <GlobalLoader contextLayout="dashboard" />
                     {children}
                 </main>
             </div>

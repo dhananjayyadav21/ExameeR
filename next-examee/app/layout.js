@@ -39,12 +39,12 @@ export default function RootLayout({ children }) {
           <ContentState>
             <ProfileSetupGate>
               <div className="flex flex-col min-h-screen">
-                <GlobalLoader />
                 <Suspense fallback={<div className="p-3 text-center bg-white">Loading Navbar...</div>}>
                   <Navbar />
                 </Suspense>
 
-                <main className="flex-grow">
+                <main className="flex-grow position-relative">
+                  <GlobalLoader contextLayout="root" />
                   {children}
                 </main>
 

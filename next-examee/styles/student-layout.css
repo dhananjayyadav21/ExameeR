@@ -57,7 +57,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 2px 0;
+    padding-bottom: 2px;
     overflow: hidden;
 }
 
