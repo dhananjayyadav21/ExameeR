@@ -27,6 +27,10 @@ export default function ProfileSetupModal({ userData, onComplete }) {
     const [formData, setFormData] = useState({
         FirstName: userData?.FirstName || "",
         LastName: userData?.LastName || "",
+        Phone: userData?.Phone || "",
+        Gender: userData?.Gender || "",
+        Location: userData?.Location || "",
+        Institution: userData?.Institution || "",
         Course: userData?.Course || "",
         University: userData?.University || "",
         Semester: userData?.Semester || "",
@@ -43,6 +47,9 @@ export default function ProfileSetupModal({ userData, onComplete }) {
         const newErrors = {};
         if (!formData.FirstName.trim()) newErrors.FirstName = "First name is required";
         if (!formData.LastName.trim()) newErrors.LastName = "Last name is required";
+        if (!formData.Phone.trim()) newErrors.Phone = "Phone number is required";
+        if (!formData.Gender.trim()) newErrors.Gender = "Gender is required";
+        if (!formData.Location.trim()) newErrors.Location = "Location is required";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -50,6 +57,7 @@ export default function ProfileSetupModal({ userData, onComplete }) {
     const validateStep2 = () => {
         const newErrors = {};
         const finalCourse = formData.Course === "Other" ? customCourse : formData.Course;
+        if (!formData.Institution.trim()) newErrors.Institution = "Institution name is required";
         if (!finalCourse.trim()) newErrors.Course = "Please select your course";
         if (!formData.University.trim()) newErrors.University = "University name is required";
         if (!formData.Semester) newErrors.Semester = "Please select your semester";
@@ -61,18 +69,43 @@ export default function ProfileSetupModal({ userData, onComplete }) {
         if (validateStep1()) setStep(2);
     };
 
+    const isStep1Complete = formData.FirstName.trim() !== "" &&
+        formData.LastName.trim() !== "" &&
+        formData.Phone.trim() !== "" &&
+        formData.Gender.trim() !== "" &&
+        formData.Location.trim() !== "";
+
+    const isStep2Complete = formData.Institution.trim() !== "" &&
+        (formData.Course === "Other" ? customCourse.trim() !== "" : formData.Course.trim() !== "") &&
+        formData.University.trim() !== "" &&
+        formData.Semester !== "";
+
     const handleSubmit = async () => {
-        if (!validateStep2()) return;
+        const step1Valid = validateStep1();
+        const step2Valid = validateStep2();
+
+        if (!step1Valid) {
+            setStep(1);
+            toast.warn("Please complete all personal information fields.");
+            return;
+        }
+        if (!step2Valid) {
+            toast.warn("Please complete all academic information fields.");
+            return;
+        }
         setSaving(true);
         try {
             const finalCourse = formData.Course === "Other" ? customCourse.trim() : formData.Course;
             const payload = {
                 FirstName: formData.FirstName.trim(),
                 LastName: formData.LastName.trim(),
+                Phone: formData.Phone.trim(),
+                Gender: formData.Gender.trim(),
+                Location: formData.Location.trim(),
+                Institution: formData.Institution.trim(),
                 Course: finalCourse,
                 University: formData.University.trim(),
                 Semester: formData.Semester,
-                Username: userData?.Username,
             };
             const res = await updateProfile(payload);
             if (res?.success) {
@@ -91,29 +124,31 @@ export default function ProfileSetupModal({ userData, onComplete }) {
     const progress = step === 1 ? 50 : 100;
 
     return (
-        <div className="psm-backdrop">
+        <div className="psm-backdrop" style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.4)',
+            backdropFilter: 'blur(6px)',
+            zIndex: 999999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px'
+        }}>
             <div className="psm-card">
                 {/* Header */}
                 <div className="psm-header">
-                    <div className="psm-logo-wrap">
-                        <i className="fa-solid fa-graduation-cap psm-logo-icon"></i>
-                    </div>
-                    <div className="psm-header-text">
-                        <h2 className="psm-title">Complete Your Profile</h2>
-                        <p className="psm-subtitle">Help us personalise your learning experience</p>
-                    </div>
+                    <h2 className="psm-title">Complete Your Profile</h2>
+                    <p className="psm-subtitle">Help us personalise your learning experience</p>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="psm-progress-track">
-                    <div className="psm-progress-fill" style={{ width: `${progress}%` }}></div>
-                </div>
                 <div className="psm-step-labels">
                     <span className={`psm-step-dot ${step >= 1 ? 'active' : ''}`}>
                         <i className="fa-solid fa-user"></i> Personal Info
                     </span>
+                    <i className="fa-solid fa-chevron-right" style={{ color: '#cbd5e1', fontSize: '0.6rem', alignSelf: 'center', margin: '0 4px' }}></i>
                     <span className={`psm-step-dot ${step >= 2 ? 'active' : ''}`}>
-                        <i className="fa-solid fa-university"></i> Academic Info
+                        <i className="fa-solid fa-building-columns"></i> Academic Info
                     </span>
                 </div>
 
@@ -154,9 +189,57 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                                     {errors.LastName && <span className="psm-error">{errors.LastName}</span>}
                                 </div>
                             </div>
-                            <button className="psm-btn-primary" onClick={handleNext}>
-                                Next <i className="fa-solid fa-arrow-right ms-2"></i>
-                            </button>
+                            <div className="psm-field-row">
+                                <div className={`psm-field ${errors.Phone ? 'psm-field--error' : ''}`}>
+                                    <label className="psm-label">
+                                        <i className="fa-solid fa-phone me-2"></i>Phone Number
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="psm-input"
+                                        placeholder="e.g. +91 9876543210"
+                                        value={formData.Phone}
+                                        onChange={e => handleChange("Phone", e.target.value)}
+                                    />
+                                    {errors.Phone && <span className="psm-error">{errors.Phone}</span>}
+                                </div>
+                                <div className={`psm-field ${errors.Gender ? 'psm-field--error' : ''}`}>
+                                    <label className="psm-label">
+                                        <i className="fa-solid fa-venus-mars me-2"></i>Gender
+                                    </label>
+                                    <select
+                                        className="psm-input"
+                                        value={formData.Gender}
+                                        onChange={e => handleChange("Gender", e.target.value)}
+                                        style={{ height: "46.5px" }}
+                                    >
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    {errors.Gender && <span className="psm-error">{errors.Gender}</span>}
+                                </div>
+                            </div>
+
+                            <div className={`psm-field ${errors.Location ? 'psm-field--error' : ''}`}>
+                                <label className="psm-label">
+                                    <i className="fa-solid fa-location-dot me-2"></i>Location / City
+                                </label>
+                                <input
+                                    type="text"
+                                    className="psm-input"
+                                    placeholder="e.g. Mumbai, India"
+                                    value={formData.Location}
+                                    onChange={e => handleChange("Location", e.target.value)}
+                                />
+                                {errors.Location && <span className="psm-error">{errors.Location}</span>}
+                            </div>
+                            <div className="mt-4">
+                                <button className="psm-btn-primary" onClick={handleNext}>
+                                    Next <i className="fa-solid fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div className="psm-step">
@@ -164,6 +247,21 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                                 <i className="fa-solid fa-book-open me-2" style={{ color: '#4f46e5' }}></i>
                                 This helps us show you the most relevant content.
                             </p>
+
+                            {/* Institution */}
+                            <div className={`psm-field ${errors.Institution ? 'psm-field--error' : ''}`}>
+                                <label className="psm-label">
+                                    <i className="fa-solid fa-building me-2"></i>College / Institution Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className="psm-input"
+                                    placeholder="e.g. Thakur College of Engineering"
+                                    value={formData.Institution}
+                                    onChange={e => handleChange("Institution", e.target.value)}
+                                />
+                                {errors.Institution && <span className="psm-error">{errors.Institution}</span>}
+                            </div>
 
                             {/* Course */}
                             <div className={`psm-field ${errors.Course ? 'psm-field--error' : ''}`}>
@@ -255,124 +353,107 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                 </div>
 
                 <style jsx>{`
-                    .psm-backdrop {
-                        position: fixed;
-                        inset: 0;
-                        background: rgba(10, 14, 30, 0.75);
-                        backdrop-filter: blur(8px);
-                        z-index: 9999;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        padding: 16px;
-                        animation: fadein 0.3s ease;
-                    }
-                    @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
-
                     .psm-card {
-                        background: #fff;
-                        border-radius: 24px;
+                        background: #ffffff;
+                        border-radius: 20px;
                         width: 100%;
-                        max-width: 560px;
-                        box-shadow: 0 30px 80px rgba(0,0,0,0.2);
+                        max-width: 580px;
+                        max-height: 90vh;
+                        display: flex;
+                        flex-direction: column;
+                        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 0 0 1px rgba(226, 232, 240, 0.8);
                         overflow: hidden;
-                        animation: slidein 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                        animation: slideup 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                        position: relative;
+                        z-index: 9999999;
                     }
-                    @keyframes slidein { from { opacity: 0; transform: translateY(30px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+                    .psm-card::before {
+                        content: '';
+                        position: absolute;
+                        top: 0; left: 0; right: 0;
+                        height: 4px;
+                        background: linear-gradient(90deg, #04bd20, #10b981);
+                    }
+                    @keyframes slideup { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
                     .psm-header {
-                        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-                        padding: 28px 32px;
-                        display: flex;
-                        align-items: center;
-                        gap: 16px;
+                        padding: 32px 36px 20px;
+                        text-align: left;
                     }
-                    .psm-logo-wrap {
-                        width: 52px;
-                        height: 52px;
-                        background: linear-gradient(135deg, #04bd20 0%, #029d1a 100%);
-                        border-radius: 16px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        flex-shrink: 0;
-                        box-shadow: 0 8px 20px rgba(4,189,32,0.3);
-                    }
-                    .psm-logo-icon { color: white; font-size: 1.4rem; }
-                    .psm-title { color: #fff; font-size: 1.2rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
-                    .psm-subtitle { color: rgba(255,255,255,0.55); font-size: 0.8rem; margin: 4px 0 0; }
-
-                    .psm-progress-track {
-                        height: 4px;
-                        background: #f1f5f9;
-                    }
-                    .psm-progress-fill {
-                        height: 100%;
-                        background: linear-gradient(90deg, #04bd20, #10b981);
-                        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                    }
+                    .psm-title { color: #0f172a; font-size: 1.6rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
+                    .psm-subtitle { color: #64748b; font-size: 0.95rem; margin: 6px 0 0; }
 
                     .psm-step-labels {
                         display: flex;
-                        gap: 8px;
-                        padding: 12px 24px;
-                        background: #f8fafc;
+                        gap: 16px;
+                        padding: 0 36px 24px;
+                        background: #fff;
                         border-bottom: 1px solid #f1f5f9;
+                        justify-content: flex-start;
+                        align-items: center;
                     }
                     .psm-step-dot {
-                        font-size: 0.72rem;
-                        font-weight: 700;
-                        padding: 5px 12px;
-                        border-radius: 20px;
+                        font-size: 0.85rem;
+                        font-weight: 600;
                         color: #94a3b8;
-                        background: #e2e8f0;
                         display: flex;
                         align-items: center;
-                        gap: 6px;
-                        text-transform: uppercase;
-                        letter-spacing: 0.05em;
-                        transition: all 0.3s;
+                        gap: 8px;
+                        transition: color 0.3s;
                     }
-                    .psm-step-dot.active { background: #f0fdf4; color: #04bd20; }
+                    .psm-step-dot.active { color: #04bd20; }
+                    .psm-step-dot i { font-size: 0.9rem; }
 
-                    .psm-body { padding: 28px 32px 32px; }
+                    .psm-body { 
+                        padding: 28px 36px 36px; 
+                        overflow-y: auto; 
+                        flex: 1; 
+                    }
+                    .psm-body::-webkit-scrollbar { width: 6px; }
+                    .psm-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
                     .psm-step-desc {
-                        font-size: 0.88rem;
-                        color: #64748b;
+                        font-size: 0.9rem;
+                        color: #475569;
+                        margin-bottom: 28px;
+                        display: flex;
+                        align-items: center;
                         background: #f8fafc;
-                        border-radius: 10px;
                         padding: 12px 16px;
-                        margin-bottom: 24px;
-                        border-left: 3px solid #e2e8f0;
+                        border-radius: 12px;
+                        border: 1px solid #f1f5f9;
                     }
 
-                    .psm-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-                    .psm-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
-                    .psm-field:last-of-type { margin-bottom: 24px; }
-                    .psm-label { font-size: 0.8rem; font-weight: 700; color: #374151; display: flex; align-items: center; }
+                    .psm-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+                    .psm-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+                    .psm-field:last-of-type { margin-bottom: 28px; }
+                    
+                    .psm-label { font-size: 0.85rem; font-weight: 700; color: #334155; display: flex; align-items: center; }
+                    .psm-label i { color: #94a3b8; font-size: 0.9rem; margin-right: 8px; }
 
                     .psm-input {
-                        padding: 12px 14px;
-                        border: 1.5px solid #e2e8f0;
+                        padding: 12px 16px;
+                        border: 2px solid #e2e8f0;
                         border-radius: 12px;
-                        font-size: 0.9rem;
+                        font-size: 0.95rem;
                         color: #0f172a;
-                        outline: none;
+                        background: #f8fafc;
                         transition: all 0.2s;
-                        background: #fafafa;
+                        width: 100%;
+                        font-weight: 500;
                     }
-                    .psm-input:focus { border-color: #04bd20; background: #fff; box-shadow: 0 0 0 4px rgba(4,189,32,0.08); }
-                    .psm-field--error .psm-input { border-color: #f87171; }
-                    .psm-error { font-size: 0.75rem; color: #ef4444; margin-top: 2px; }
+                    .psm-input:focus { border-color: #04bd20; background: #fff; outline: none; box-shadow: 0 4px 12px rgba(4,189,32,0.1); }
+                    .psm-input::placeholder { color: #cbd5e1; font-weight: 400; }
+                    .psm-field--error .psm-input { border-color: #ef4444; background: #fef2f2; }
+                    .psm-error { font-size: 0.8rem; color: #ef4444; margin-top: 4px; font-weight: 600; }
 
                     .psm-course-grid {
                         display: flex;
                         flex-wrap: wrap;
-                        gap: 8px;
+                        gap: 10px;
                         max-height: 160px;
                         overflow-y: auto;
-                        padding: 4px;
+                        padding-right: 4px;
                     }
                     .psm-course-grid::-webkit-scrollbar { width: 4px; }
                     .psm-course-grid::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
@@ -380,63 +461,61 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                     .psm-semester-grid { display: flex; flex-wrap: wrap; gap: 8px; }
 
                     .psm-chip {
-                        padding: 7px 14px;
-                        border-radius: 20px;
-                        border: 1.5px solid #e2e8f0;
+                        padding: 8px 16px;
+                        border-radius: 10px;
+                        border: 2px solid #e2e8f0;
                         background: #fff;
-                        font-size: 0.8rem;
+                        font-size: 0.85rem;
                         font-weight: 600;
-                        color: #64748b;
+                        color: #475569;
                         cursor: pointer;
                         transition: all 0.2s;
-                        white-space: nowrap;
                     }
-                    .psm-chip:hover { border-color: #04bd20; color: #04bd20; background: #f0fdf4; }
+                    .psm-chip:hover { border-color: #cbd5e1; background: #f8fafc; }
                     .psm-chip--selected { border-color: #04bd20; background: #f0fdf4; color: #04bd20; }
-                    .psm-chip--sm { padding: 5px 12px; font-size: 0.76rem; }
+                    .psm-chip--sm { padding: 6px 14px; font-size: 0.8rem; }
 
                     .psm-btn-primary {
                         width: 100%;
-                        padding: 14px;
-                        background: linear-gradient(135deg, #04bd20 0%, #029d1a 100%);
+                        padding: 16px;
+                        background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%);
                         color: white;
                         border: none;
                         border-radius: 14px;
-                        font-size: 0.95rem;
+                        font-size: 1rem;
                         font-weight: 700;
                         cursor: pointer;
                         transition: all 0.3s;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        box-shadow: 0 8px 20px rgba(4,189,32,0.25);
+                        box-shadow: 0 8px 20px -6px rgba(4,189,32,0.4);
                     }
-                    .psm-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(4,189,32,0.35); filter: brightness(1.05); }
-                    .psm-btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+                    .psm-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 24px -6px rgba(4,189,32,0.5); }
+                    .psm-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 
-                    .psm-btn-row { display: flex; gap: 12px; }
+                    .psm-btn-row { display: flex; gap: 16px; }
                     .psm-btn-back {
-                        padding: 14px 22px;
+                        padding: 16px 24px;
                         background: #f1f5f9;
-                        color: #64748b;
+                        color: #475569;
                         border: none;
                         border-radius: 14px;
-                        font-size: 0.88rem;
+                        font-size: 0.95rem;
                         font-weight: 700;
                         cursor: pointer;
-                        transition: all 0.2s;
                         display: flex;
                         align-items: center;
-                        white-space: nowrap;
+                        transition: all 0.2s;
                     }
-                    .psm-btn-back:hover { background: #e2e8f0; color: #374151; }
-                    .psm-btn-row .psm-btn-primary { flex: 1; width: auto; }
+                    .psm-btn-back:hover { background: #e2e8f0; color: #0f172a; }
+                    .psm-btn-row .psm-btn-primary { flex: 1; }
 
                     @media (max-width: 480px) {
-                        .psm-card { border-radius: 20px; }
-                        .psm-header { padding: 22px 20px; }
-                        .psm-body { padding: 20px; }
-                        .psm-field-row { grid-template-columns: 1fr; }
+                        .psm-header { padding: 24px 24px 16px; }
+                        .psm-step-labels { padding: 0 24px 20px; }
+                        .psm-body { padding: 24px 24px 24px; }
+                        .psm-field-row { grid-template-columns: 1fr; gap: 0; }
                     }
                 `}</style>
             </div>

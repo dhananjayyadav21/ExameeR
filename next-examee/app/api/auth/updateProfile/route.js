@@ -13,42 +13,39 @@ export async function PUT(req) {
 
         const body = await req.json();
         console.log("UPDATE_PROFILE_REQUEST_BODY:", body);
-        const { Username, FirstName, LastName, Institution, Profile, NotificationPrefs, About, Phone, Gender, Location, Course, University, Semester } = body;
+        const allowedFields = ['Username', 'FirstName', 'LastName', 'Institution', 'Profile', 'NotificationPrefs', 'About', 'Phone', 'Gender', 'Location', 'Course', 'University', 'Semester'];
+        const updateFields = {};
 
-        // Check if username is being changed and if it's already taken
-        if (Username) {
-            const existingUser = await User.findOne({ Username, _id: { $ne: userData._id } });
+        allowedFields.forEach(field => {
+            if (body[field] !== undefined) {
+                updateFields[field] = body[field];
+            }
+        });
+
+        const user = await User.findById(userData._id);
+        if (!user) {
+            console.log("UPDATE_PROFILE_USER_NOT_FOUND:", userData._id);
+            return NextResponse.json({ success: false, message: 'User not found!' }, { status: 404 });
+        }
+
+        // Only check username uniqueness if it's being changed
+        if (updateFields.Username && updateFields.Username !== user.Username) {
+            const existingUser = await User.findOne({
+                Username: updateFields.Username,
+                _id: { $ne: user._id }
+            });
             if (existingUser) {
                 return NextResponse.json({ success: false, message: 'Username is already taken' }, { status: 400 });
             }
         }
 
         const updatedUser = await User.findByIdAndUpdate(
-            userData._id,
-            {
-                $set: {
-                    Username,
-                    FirstName,
-                    LastName,
-                    Institution,
-                    Profile,
-                    NotificationPrefs,
-                    About,
-                    Phone,
-                    Gender,
-                    Location,
-                    Course,
-                    University,
-                    Semester
-                }
-            },
+            user._id,
+            { $set: updateFields },
             { new: true }
         ).select('-Password -ForgotPasswordCode');
 
-        if (!updatedUser) {
-            return NextResponse.json({ success: false, message: 'User not found!' }, { status: 404 });
-        }
-        console.log("UPDATED_USER_RESULT:", updatedUser);
+        console.log("UPDATED_USER_RESULT_SUCCESS:", updatedUser._id);
 
         return NextResponse.json({
             success: true,
@@ -57,7 +54,11 @@ export async function PUT(req) {
         }, { status: 200 });
 
     } catch (error) {
-        console.error("UpdateProfile Error:", error);
-        return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
+        console.error("UpdateProfile ERROR_STACK:", error);
+        return NextResponse.json({
+            success: false,
+            message: 'Failed to update profile. ' + (error.message || 'Internal server error'),
+            error: error.message
+        }, { status: 500 });
     }
 }

@@ -45,9 +45,13 @@ export default function ProfileSetupGate({ children }) {
         // Check if profile is incomplete
         const incomplete = !userData.FirstName?.trim() ||
             !userData.LastName?.trim() ||
+            !userData.Institution?.trim() ||
             !userData.Course?.trim() ||
             !userData.University?.trim() ||
-            !userData.Semester?.trim();
+            !userData.Semester?.trim() ||
+            !userData.Phone?.trim() ||
+            !userData.Gender?.trim() ||
+            !userData.Location?.trim();
 
         setShowModal(incomplete);
     }, [userData, checked]);
@@ -56,10 +60,25 @@ export default function ProfileSetupGate({ children }) {
         setShowModal(false);
     };
 
+    if (!checked) {
+        return (
+            <div className="d-flex align-items-center justify-content-center vh-100 vw-100 bg-white" style={{ position: 'fixed', zIndex: 99999, top: 0, left: 0 }}>
+                <div className="text-center">
+                    <div className="spinner-border text-success" role="status" style={{ width: '3rem', height: '3rem' }}>
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <h5 className="mt-3 text-muted fw-semibold">Verifying Account...</h5>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             {showModal && <ProfileSetupModal userData={userData} onComplete={handleComplete} />}
-            {children}
+            <div style={showModal ? { pointerEvents: 'none', filter: 'blur(3px)', userSelect: 'none', overflow: 'hidden', height: '100vh' } : {}}>
+                {children}
+            </div>
         </>
     );
 }

@@ -30,6 +30,16 @@ export default function ProfilePage({ setProgress = () => { } }) {
         location: ''
     });
 
+    const [notifications, setNotifications] = useState({
+        newCourse: true,
+        studyMaterial: true,
+        videoUploads: false
+    });
+
+    const handleNotificationToggle = (key) => {
+        setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
+    };
+
     useEffect(() => {
         const init = async () => {
             setProgress(0);
@@ -305,6 +315,73 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                 )}
                             </div>
 
+                            {/* Notifications Panel */}
+                            <div className="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
+                                <div className="d-flex align-items-center gap-3 mb-4 pb-2 border-bottom">
+                                    <div className="d-flex align-items-center justify-content-center rounded-3 bg-warning bg-opacity-10" style={{ width: '42px', height: '42px', color: '#f59e0b' }}>
+                                        <i className="fa-solid fa-bell fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '1.05rem' }}>Notifications</h6>
+                                        <p className="text-muted small mb-0">Control what alerts you receive</p>
+                                    </div>
+                                </div>
+                                <div className="d-flex flex-column gap-3">
+                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-info bg-opacity-10" style={{ width: '40px', height: '40px', color: '#0ea5e9' }}>
+                                                <i className="fa-solid fa-graduation-cap"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>New Course Notifications</h6>
+                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Get notified when new courses are published</p>
+                                            </div>
+                                        </div>
+                                        <div className="form-check form-switch fs-4 mb-0">
+                                            <input className="form-check-input custom-switch custom-switch-blue" type="checkbox" role="switch" checked={notifications.newCourse} onChange={() => handleNotificationToggle('newCourse')} />
+                                        </div>
+                                    </div>
+
+                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-success bg-opacity-10" style={{ width: '40px', height: '40px', color: '#16a34a' }}>
+                                                <i className="fa-solid fa-file-pdf"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>Study Material Alerts</h6>
+                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Receive alerts when new notes or PDFs are added</p>
+                                            </div>
+                                        </div>
+                                        <div className="form-check form-switch fs-4 mb-0">
+                                            <input className="form-check-input custom-switch custom-switch-green" type="checkbox" role="switch" checked={notifications.studyMaterial} onChange={() => handleNotificationToggle('studyMaterial')} />
+                                        </div>
+                                    </div>
+
+                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-10" style={{ width: '40px', height: '40px', color: '#8b5cf6' }}>
+                                                <i className="fa-solid fa-circle-play"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>Video Lecture Uploads</h6>
+                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Be notified of newly uploaded video lectures</p>
+                                            </div>
+                                        </div>
+                                        <div className="form-check form-switch fs-4 mb-0">
+                                            <input className="form-check-input custom-switch custom-switch-purple" type="checkbox" role="switch" checked={notifications.videoUploads} onChange={() => handleNotificationToggle('videoUploads')} />
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-2">
+                                        <button className="btn w-100 rounded-3 text-white fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" style={{ background: 'linear-gradient(135deg, #0ea5e9, #4f46e5)', border: 'none', transition: 'all 0.3s' }} onClick={() => toast.success('Preferences saved successfully!')}
+                                            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 15px rgba(79, 70, 229, 0.4)'; }}
+                                            onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0.125rem 0.25rem rgba(0,0,0,0.075)'; }}>
+                                            Save Preferences
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/* Quick Links */}
                             <div className="card border-0 shadow-sm rounded-4 p-4">
                                 <h6 className="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
@@ -331,6 +408,25 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 </div>
             )}
 
+            <style jsx>{`
+                .custom-switch {
+                    cursor: pointer;
+                    height: 1.5em;
+                    width: 2.8em !important;
+                    border: 2px solid #e2e8f0;
+                    background-color: #e2e8f0;
+                }
+                .custom-switch:focus { box-shadow: none; }
+                .custom-switch-blue:checked {
+                    background-color: #0ea5e9; border-color: #0ea5e9;
+                }
+                .custom-switch-green:checked {
+                    background-color: #16a34a; border-color: #16a34a;
+                }
+                .custom-switch-purple:checked {
+                    background-color: #8b5cf6; border-color: #8b5cf6;
+                }
+            `}</style>
         </StudentLayout>
     );
 }
