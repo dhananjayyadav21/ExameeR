@@ -27,7 +27,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "STUDY PACKS",
             items: [
                 { label: "Course", icon: "fa-layer-group", href: "/cource" },
-                { label: "Mock Test", icon: "fa-vial", href: "/mock-test" },
+                { label: "Mock Test", icon: "fa-vial", href: "/mock-tests" },
             ]
         },
         {
