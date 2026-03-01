@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import * as GlobalUrls from "../../utils/GlobalURL"
 import { toast } from "react-toastify";
 
@@ -15,16 +16,28 @@ function VerifyEmailContent({ setProgress = () => { } }) {
     const VerificationCodeParams = searchParams.get('VerificationCode') || "";
     const [VerificationCode, setVerificationCode] = useState(VerificationCodeParams);
     const [loading, setLoading] = useState(false);
+    const [resending, setResending] = useState(false);
+    const [countdown, setCountdown] = useState(0);
 
     useEffect(() => {
         setProgress(0);
         setTimeout(() => setProgress(100), 500);
-    }, []);
+
+        let timer;
+        if (countdown > 0) {
+            timer = setInterval(() => {
+                setCountdown(prev => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [countdown]);
+
+    const inputRef = React.useRef(null);
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        if (!VerificationCode || VerificationCode.length < 4) {
-            toast.warn("Please enter a valid verification code.");
+        if (e) e.preventDefault();
+        if (!VerificationCode || VerificationCode.length < 6) {
+            toast.warn("Please enter a valid 6-digit code.");
             return;
         }
         setLoading(true);
@@ -48,221 +61,340 @@ function VerifyEmailContent({ setProgress = () => { } }) {
         }
     };
 
+    const handleResendOTP = async () => {
+        if (countdown > 0 || resending) return;
+
+        setResending(true);
+        try {
+            const response = await fetch(`${GlobalUrls.RESEND_OTP_URL}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Email }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                toast.success("📬 New code sent successfully!");
+                setCountdown(60);
+            } else {
+                toast.error(result.message || 'Failed to resend code.');
+            }
+        } catch (error) {
+            toast.error('Unable to connect. Please try again later.');
+        } finally {
+            setResending(false);
+        }
+    };
+
     return (
-        <main className="ve-container">
-            <div className="ve-glass-card animate-slide-up">
-                <div className="ve-header-accent" />
+        <main className="ve-page-container">
+            {/* Vibrant Abstract Background Entities */}
+            <div className="ve-blob ve-blob-1"></div>
+            <div className="ve-blob ve-blob-2"></div>
+            <div className="ve-blob ve-blob-3"></div>
 
-                <div className="ve-content p-4 p-md-5">
-                    {/* Dynamic Icon */}
-                    <div className="ve-icon-container mb-4">
-                        <div className="ve-icon-bg">
-                            <i className="fa-solid fa-paper-plane-alt animate-float"></i>
+            <div className="ve-main_card_wrapper">
+                <div className="ve-main-card animate-pop-in">
+                    {/* Top Rocket Icon */}
+                    <div className="ve-rocket-wrapper">
+                        <div className="ve-rocket-circle">
+                            <i className="fa-solid fa-rocket"></i>
                         </div>
-                        <div className="ve-pulse-ring"></div>
                     </div>
 
-                    <h1 className="ve-main-title">Check Your Inbox</h1>
-                    <p className="ve-description">
-                        We've sent a secure verification code to your email.
-                    </p>
+                    <div className="ve-card-content">
+                        <h1 className="ve-main-title">Verify your Email</h1>
+                        <p className="ve-main-subtitle">
+                            Account activation code has been sent to the e-mail address you provided
+                        </p>
 
-                    <div className="ve-email-badge mb-5">
-                        <div className="ve-email-icon">
-                            <i className="fa-solid fa-envelope"></i>
-                        </div>
-                        <span className="ve-email-text">{Email || "your-email@example.com"}</span>
-                    </div>
-
-                    <form onSubmit={handleFormSubmit} className="ve-form">
-                        <div className="ve-input-group mb-4">
-                            <label className="ve-input-label">Verification Code</label>
-                            <input
-                                type="text"
-                                className="ve-modern-input"
-                                value={VerificationCode}
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                placeholder="Enter 6-digit code"
-                                maxLength="8"
-                                required
-                            />
-                            <div className="ve-input-focus-line"></div>
+                        {/* Email Display Pill */}
+                        <div className="ve-user-email">
+                            <span>{Email || "your-email@example.com"}</span>
                         </div>
 
-                        <button type="submit" className="ve-primary-btn" disabled={loading}>
-                            {loading ? (
-                                <><span className="spinner-border spinner-border-sm me-2"></span>Confirming...</>
-                            ) : (
-                                <><i className="fa-solid fa-shield-check me-2"></i>Verify Account</>
-                            )}
-                        </button>
-                    </form>
+                        {/* Illustration Area */}
+                        <div className="ve-illustration-section">
+                            <div className="ve-illustration-box">
+                                <div className="ve-envelope-icon">
+                                    <i className="fa-solid fa-envelope-open-text"></i>
+                                    <div className="ve-check-badge">
+                                        <i className="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div className="ve-footer mt-5">
-                        <p className="ve-footer-text">Didn't get the email?</p>
-                        <div className="d-flex gap-3 justify-content-center">
-                            <button className="ve-secondary-link" onClick={() => router.push('/auth')}>
-                                <i className="fa-solid fa-rotate-left me-1"></i>Resend Code
+                        <form onSubmit={handleFormSubmit} className="ve-otp-form">
+                            <div className="ve-otp-grid" onClick={() => inputRef.current?.focus()}>
+                                {[...Array(6)].map((_, i) => (
+                                    <div key={i} className={`ve-otp-slot ${VerificationCode.length > i ? 'filled' : ''}`}>
+                                        {VerificationCode[i] || ""}
+                                    </div>
+                                ))}
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    inputMode="numeric"
+                                    autoComplete="one-time-code"
+                                    className="ve-hidden-input"
+                                    value={VerificationCode}
+                                    onChange={(e) => {
+                                        const val = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                        setVerificationCode(val);
+                                        // Auto-submit if 6 digits are reached
+                                        if (val.length === 6) {
+                                            // Optional: submit immediately
+                                        }
+                                    }}
+                                    maxLength="6"
+                                    autoFocus
+                                />
+                            </div>
+
+                            <button type="submit" className="ve-action-btn" disabled={loading || resending}>
+                                {loading ? (
+                                    <span className="spinner-border spinner-border-sm"></span>
+                                ) : (
+                                    "Complete Verification"
+                                )}
                             </button>
-                            <div className="ve-v-divider"></div>
-                            <button className="ve-secondary-link" onClick={() => router.push('/auth')}>
-                                <i className="fa-solid fa-user-plus me-1"></i>Change Email
+                        </form>
+
+                        <div className="ve-footer-links">
+                            <button
+                                className="ve-resend-text"
+                                onClick={handleResendOTP}
+                                disabled={countdown > 0 || resending}
+                            >
+                                {resending ? "Sending..." : countdown > 0 ? `Resend code in ${countdown}s` : "Resend Code"}
                             </button>
+                            <div className="ve-divider"></div>
+                            <Link href="/auth" className="ve-back-btn">
+                                Use another account
+                            </Link>
                         </div>
                     </div>
                 </div>
             </div>
 
             <style jsx>{`
-                .ve-container {
+                .ve-page-container {
                     min-height: 100vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background: radial-gradient(circle at top right, #f0fdf4 0%, #ffffff 40%, #f1f5f9 100%);
-                    padding: 20px;
-                    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-                }
-                
-                .ve-glass-card {
-                    width: 100%;
-                    max-width: 480px;
-                    background: rgba(255, 255, 255, 0.9);
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.5);
-                    border-radius: 32px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+                    background: #f0fdf4; /* Very light mint green base */
+                    padding: 12px;
+                    font-family: 'Inter', sans-serif;
+                    position: relative;
                     overflow: hidden;
-                    position: relative;
                 }
-                
-                .ve-header-accent {
-                    height: 6px;
-                    background: linear-gradient(90deg, #04bd20, #10b981, #3b82f6);
+
+                /* Background Blobs (Green themed mesh) */
+                .ve-blob {
+                    position: absolute;
+                    border-radius: 50%;
+                    filter: blur(100px);
+                    z-index: 0;
+                    opacity: 0.4;
                 }
-                
-                .ve-icon-container {
+                .ve-blob-1 { width: 500px; height: 500px; background: #86efac; top: -150px; left: -150px; } /* Emerald */
+                .ve-blob-2 { width: 400px; height: 400px; background: #bbf7d0; bottom: -100px; right: -100px; } /* Light Green */
+                .ve-blob-3 { width: 350px; height: 350px; background: #4ade80; top: 60%; left: -100px; opacity: 0.2; } /* Mint */
+
+                .ve-main_card_wrapper {
+                    width: 100%;
+                    max-width: 600px;
                     position: relative;
-                    width: 90px;
-                    height: 90px;
+                    z-index: 10;
+                    margin: 0 auto;
+                }
+
+                .ve-main-card {
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
+                    border-radius: 20px;
+                    padding: 35px 45px;
+                    border: 1px solid rgba(22, 163, 74, 0.1); /* Subtle green border */
+                    box-shadow: 
+                        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                        0 20px 40px -8px rgba(0, 0, 0, 0.05),
+                        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+                    text-align: center;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .ve-main-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, #04bd20, #10b981);
+                }
+
+                .ve-rocket-wrapper { margin-bottom: 20px; }
+                .ve-rocket-circle {
+                    width: 58px;
+                    height: 58px;
+                    background: #f0fdf4;
+                    border: 1px solid #dcfce7;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0 auto;
+                    color: #04bd20;
+                    font-size: 1.5rem;
+                    box-shadow: 0 8px 15px rgba(4, 189, 32, 0.1);
+                }
+
+                .ve-main-title {
+                    font-family: 'Outfit', sans-serif;
+                    font-size: 1.85rem;
+                    font-weight: 700;
+                    color: #064e3b; /* Deep emerald text */
+                    margin-bottom: 8px;
+                    letter-spacing: -0.02em;
+                }
+                .ve-main-subtitle {
+                    color: #374151;
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                    max-width: 400px;
+                    margin: 0 auto 18px;
+                    font-weight: 400;
+                }
+
+                .ve-user-email {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 6px 16px;
+                    background: #f0fdf4;
+                    border: 1px solid #dcfce7;
+                    border-radius: 100px;
+                    font-weight: 600;
+                    color: #065f46;
+                    font-size: 0.85rem;
+                    margin-bottom: 25px;
+                }
+
+                .ve-illustration-section { margin-bottom: 20px; }
+                .ve-illustration-box {
+                    width: 100px;
+                    height: 100px;
+                    background: #f0fdf4; /* Mint box */
+                    border-radius: 12px;
                     margin: 0 auto;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    position: relative;
+                    border: 1px solid #dcfce7;
                 }
-                
-                .ve-icon-bg {
-                    width: 64px;
-                    height: 64px;
-                    background: linear-gradient(135deg, #04bd20 0%, #10b981 100%);
-                    border-radius: 20px;
+                .ve-envelope-icon {
+                    font-size: 2.5rem;
+                    color: #04bd20;
+                    position: relative;
+                }
+                .ve-check-badge {
+                    position: absolute;
+                    top: -3px;
+                    right: -6px;
+                    width: 24px;
+                    height: 24px;
+                    background: #04bd20;
+                    color: white;
+                    border-radius: 6px;
+                    font-size: 0.8rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    color: white;
-                    font-size: 1.6rem;
-                    box-shadow: 0 12px 24px -6px rgba(4, 189, 32, 0.4);
-                    z-index: 2;
+                    border: 2px solid #f0fdf4;
                 }
-                
-                .ve-pulse-ring {
-                    position: absolute;
+
+                .ve-otp-grid { 
+                    position: relative;
+                    display: flex; 
+                    gap: 10px; 
+                    justify-content: center; 
+                    margin-bottom: 20px; 
+                    cursor: text;
+                }
+                .ve-otp-slot {
+                    width: 46px; 
+                    height: 56px;
+                    background: #ffffff;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.4rem;
+                    font-weight: 700;
+                    color: #064e3b;
+                    transition: all 0.2s;
+                    position: relative;
+                    z-index: 0;
+                }
+                .ve-otp-slot.filled { border-color: #04bd20; background: #f0fdf4; box-shadow: 0 0 0 4px rgba(4, 189, 32, 0.05); }
+
+                .ve-hidden-input { 
+                    position: absolute; 
+                    top: 0;
+                    left: 0;
                     width: 100%;
                     height: 100%;
-                    border: 2px solid rgba(4, 189, 32, 0.2);
-                    border-radius: 50%;
-                    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-                }
-                
-                @keyframes pulse {
-                    0% { transform: scale(0.8); opacity: 1; }
-                    100% { transform: scale(1.2); opacity: 0; }
+                    opacity: 0; 
+                    border: none;
+                    background: transparent;
+                    color: transparent;
+                    caret-color: transparent;
+                    z-index: 1;
+                    cursor: text;
                 }
 
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-5px); }
-                }
-                .animate-float { animation: float 3s ease-in-out infinite; }
-
-                .ve-main-title { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.02em; }
-                .ve-description { color: #64748b; font-size: 1rem; line-height: 1.5; margin-bottom: 24px; }
-                
-                .ve-email-badge {
-                    display: inline-flex;
-                    align-items: center;
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
-                    padding: 8px 20px;
-                    border-radius: 100px;
-                    gap: 10px;
-                    transition: all 0.2s;
-                }
-                .ve-email-badge:hover { border-color: #04bd20; background: #f0fdf4; }
-                .ve-email-icon { color: #04bd20; font-size: 0.9rem; }
-                .ve-email-text { font-weight: 700; color: #1e293b; font-size: 0.9rem; }
-                
-                .ve-input-group { text-align: left; position: relative; }
-                .ve-input-label { display: block; font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-                
-                .ve-modern-input {
+                .ve-action-btn {
                     width: 100%;
-                    padding: 16px 20px;
-                    background: #f1f5f9;
-                    border: 2px solid transparent;
-                    border-radius: 16px;
-                    font-size: 1.5rem;
-                    font-weight: 800;
-                    text-align: center;
-                    letter-spacing: 0.15em;
-                    color: #0f172a;
-                    transition: all 0.3s;
-                }
-                .ve-modern-input:focus {
-                    outline: none;
-                    background: #fff;
-                    border-color: #04bd20;
-                    box-shadow: 0 10px 15px -3px rgba(4, 189, 32, 0.1);
-                }
-                
-                .ve-primary-btn {
-                    width: 100%;
-                    padding: 16px;
-                    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+                    max-width: 260px;
+                    padding: 13px;
+                    background: #04bd20;
                     color: white;
                     border: none;
-                    border-radius: 16px;
+                    border-radius: 10px;
                     font-size: 1rem;
-                    font-weight: 700;
+                    font-weight: 600;
                     cursor: pointer;
                     transition: all 0.3s;
-                    box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+                    margin-bottom: 18px;
+                    box-shadow: 0 10px 20px -5px rgba(4, 189, 32, 0.25);
                 }
-                .ve-primary-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.2); background: #000; }
-                .ve-primary-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-                
-                .ve-footer-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 12px; }
-                .ve-secondary-link {
-                    background: none;
-                    border: none;
-                    color: #04bd20;
-                    font-size: 0.88rem;
-                    font-weight: 700;
-                    cursor: pointer;
-                    padding: 0;
-                    transition: all 0.2s;
-                    opacity: 0.8;
-                }
-                .ve-secondary-link:hover { opacity: 1; text-decoration: underline; }
-                .ve-v-divider { width: 1px; background: #e2e8f0; height: 16px; }
+                .ve-action-btn:hover:not(:disabled) { background: #03a61c; transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(4, 189, 32, 0.35); }
 
-                .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-                @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-                
-                @media (max-width: 480px) {
-                    .ve-glass-card { border-radius: 24px; }
-                    .ve-main-title { font-size: 1.5rem; }
-                    .ve-modern-input { font-size: 1.25rem; }
+                .ve-footer-links { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+                .ve-divider { width: 30px; height: 1px; background: #dcfce7; margin: 2px 0; }
+                .ve-resend-text { background: none; border: none; color: #04bd20; font-size: 0.95rem; font-weight: 600; cursor: pointer; }
+                .ve-back-btn { color: #9ca3af; font-size: 0.8rem; text-decoration: none; }
+
+                .animate-pop-in { animation: popIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+                @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+                @media (max-width: 580px) {
+                    .ve-page-container { padding: 8px; }
+                    .ve-main-card { border-radius: 12px; padding: 20px 15px; margin: 5px; }
+                    .ve-main-title { font-size: 1.5rem; margin-bottom: 5px; }
+                    .ve-main-subtitle { font-size: 0.85rem; margin-bottom: 12px; }
+                    .ve-rocket-wrapper { margin-bottom: 10px; }
+                    .ve-illustration-section { margin-bottom: 15px; }
+                    .ve-illustration-box { width: 80px; height: 80px; border-radius: 10px; }
+                    .ve-envelope-icon { font-size: 2rem; }
+                    .ve-otp-grid { gap: 6px; margin-bottom: 15px; }
+                    .ve-otp-slot { width: 38px; height: 48px; font-size: 1.2rem; border-radius: 6px; }
+                    .ve-action-btn { padding: 11px; margin-bottom: 12px; }
+                    .ve-user-email { margin-bottom: 15px; padding: 3px 10px; font-size: 0.8rem; }
                 }
             `}</style>
         </main>

@@ -382,98 +382,99 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                 
                 .psm-panel-content { position: relative; z-index: 2; }
                 
-                .psm-perks { display: grid; gap: 15px; }
+                .psm-perks { display: grid; gap: 12px; }
                 .psm-perk { 
                     display: flex; 
                     align-items: center; 
                     gap: 12px; 
-                    background: rgba(255,255,255,0.1); 
-                    padding: 10px 15px; 
-                    border-radius: 12px; 
+                    background: rgba(255,255,255,0.08); 
+                    padding: 8px 14px; 
+                    border-radius: 10px; 
                     color: #fff;
-                    font-size: 0.85rem;
-                    font-weight: 600;
+                    font-size: 0.8rem;
+                    font-weight: 400;
                 }
-                .psm-perk i { color: #fff; font-size: 1rem; width: 20px; text-align: center; }
+                .psm-perk i { color: #fff; font-size: 0.9rem; width: 18px; text-align: center; opacity: 0.8; }
 
                 .psm-form-panel {
                     flex: 1;
-                    padding: 50px;
+                    padding: 40px;
                     overflow-y: auto;
                     display: flex;
                     flex-direction: column;
                 }
                 
-                .psm-header { margin-bottom: 40px; }
-                .psm-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0; }
+                .psm-header { margin-bottom: 32px; }
+                .psm-title { font-size: 1.35rem; font-weight: 600; color: #0f172a; margin: 0; letter-spacing: -0.01em; }
                 .psm-badge { 
-                    font-size: 0.75rem; 
-                    font-weight: 700; 
+                    font-size: 0.72rem; 
+                    font-weight: 500; 
                     color: #04bd20; 
                     background: #f0fdf4; 
-                    padding: 5px 12px; 
+                    padding: 4px 10px; 
                     border-radius: 50px; 
-                    border: 1px solid rgba(4,189,32,0.2);
+                    border: 1px solid rgba(4,189,32,0.15);
                 }
                 
-                .psm-progress-bg { height: 6px; background: #f1f5f9; border-radius: 10px; margin-top: 15px; overflow: hidden; }
+                .psm-progress-bg { height: 5px; background: #f1f5f9; border-radius: 10px; margin-top: 12px; overflow: hidden; }
                 .psm-progress-bar { height: 100%; background: #04bd20; border-radius: 10px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
 
-                .psm-input-group { display: flex; flex-direction: column; gap: 8px; }
-                .psm-input-group label { font-size: 0.82rem; font-weight: 700; color: #475569; margin-left: 2px; }
+                .psm-input-group { display: flex; flex-direction: column; gap: 6px; }
+                .psm-input-group label { font-size: 0.8rem; font-weight: 500; color: #64748b; margin-left: 1px; }
                 
                 .psm-input {
-                    padding: 12px 18px;
-                    border: 2px solid #f1f5f9;
-                    background: #f8fafc;
-                    border-radius: 14px;
-                    font-size: 0.95rem;
-                    font-weight: 500;
+                    padding: 11px 16px;
+                    border: 1px solid #e2e8f0;
+                    background: #fff;
+                    border-radius: 12px;
+                    font-size: 0.88rem;
+                    font-weight: 400;
                     color: #1e293b;
                     transition: all 0.2s;
                 }
-                .psm-input:focus { outline: none; border-color: #04bd20; background: #fff; box-shadow: 0 8px 20px rgba(4,189,32,0.08); }
+                .psm-input:focus { outline: none; border-color: #04bd20; box-shadow: 0 4px 12px rgba(4,189,32,0.06); }
                 .psm-input.error { border-color: #ef4444; background: #fff1f2; }
-                .error-text { font-size: 0.75rem; color: #ef4444; font-weight: 600; margin-top: 2px; margin-left: 4px; }
+                .error-text { font-size: 0.72rem; color: #ef4444; font-weight: 500; margin-top: 1px; margin-left: 2px; }
                 
                 .psm-icon-input { position: relative; }
-                .psm-icon-input i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+                .psm-icon-input i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem; }
 
-                .psm-chip-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+                .psm-chip-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
                 .psm-chip {
-                    padding: 8px 16px;
+                    padding: 7px 14px;
                     border-radius: 10px;
                     border: 1px solid #e2e8f0;
                     background: #fff;
-                    font-size: 0.85rem;
-                    font-weight: 600;
+                    font-size: 0.8rem;
+                    font-weight: 500;
                     color: #64748b;
                     cursor: pointer;
                     transition: all 0.2s;
                 }
                 .psm-chip:hover { border-color: #04bd20; color: #04bd20; background: #f0fdf4; }
-                .psm-chip.active { background: #04bd20; color: #fff; border-color: #04bd20; box-shadow: 0 4px 12px rgba(4,189,32,0.3); }
+                .psm-chip.active { background: #04bd20; color: #fff; border-color: #04bd20; }
 
                 .psm-btn-next {
-                    padding: 16px 30px;
+                    padding: 14px 28px;
                     background: #0f172a;
                     color: #fff;
                     border: none;
-                    border-radius: 16px;
-                    font-weight: 700;
-                    font-size: 0.95rem;
+                    border-radius: 12px;
+                    font-weight: 500;
+                    font-size: 0.88rem;
                     transition: all 0.3s;
-                    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+                    box-shadow: 0 8px 20px -5px rgba(15, 23, 42, 0.2);
                 }
-                .psm-btn-next:hover:not(:disabled) { background: #000; transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.4); }
+                .psm-btn-next:hover:not(:disabled) { background: #000; transform: translateY(-1px); box-shadow: 0 12px 25px -5px rgba(15, 23, 42, 0.3); }
                 
                 .psm-btn-outline {
-                    padding: 16px 25px;
+                    padding: 14px 24px;
                     background: #fff;
                     color: #64748b;
                     border: 1px solid #e2e8f0;
-                    border-radius: 16px;
-                    font-weight: 700;
+                    border-radius: 12px;
+                    font-weight: 500;
+                    font-size: 0.88rem;
                     transition: all 0.2s;
                 }
                 .psm-btn-outline:hover { background: #f8fafc; color: #1e293b; border-color: #cbd5e1; }

@@ -23,6 +23,9 @@ export default function ProfilePage({ setProgress = () => { } }) {
         lastName: '',
         username: '',
         institution: '',
+        course: '',
+        university: '',
+        semester: '',
         profile: '',
         about: '',
         phone: '',
@@ -57,6 +60,9 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 lastName: userData.LastName || '',
                 username: userData.Username || '',
                 institution: userData.Institution || '',
+                course: userData.Course || '',
+                university: userData.University || '',
+                semester: userData.Semester || '',
                 profile: userData.Profile || '',
                 about: userData.About || '',
                 phone: userData.Phone || '',
@@ -97,6 +103,9 @@ export default function ProfilePage({ setProgress = () => { } }) {
             LastName: profileData.lastName,
             Username: profileData.username,
             Institution: profileData.institution,
+            Course: profileData.course,
+            University: profileData.university,
+            Semester: profileData.semester,
             Profile: profileData.profile,
             About: profileData.about,
             Phone: profileData.phone,
@@ -210,7 +219,10 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                         { label: 'First Name', value: profileData.firstName, icon: 'fa-signature', name: 'firstName' },
                                         { label: 'Last Name', value: profileData.lastName, icon: 'fa-signature', name: 'lastName' },
                                         { label: 'Username', value: profileData.username, icon: 'fa-at', name: 'username', disabled: true },
-                                        { label: 'College / University', value: profileData.institution, icon: 'fa-building-columns', name: 'institution' },
+                                        { label: 'Institution', value: profileData.institution, icon: 'fa-building', name: 'institution' },
+                                        { label: 'University', value: profileData.university, icon: 'fa-building-columns', name: 'university' },
+                                        { label: 'Course', value: profileData.course, icon: 'fa-graduation-cap', name: 'course' },
+                                        { label: 'Semester', value: profileData.semester, icon: 'fa-calendar-days', name: 'semester' },
                                         { label: 'Phone', value: profileData.phone, icon: 'fa-phone', name: 'phone' },
                                         { label: 'Location', value: profileData.location, icon: 'fa-location-dot', name: 'location' },
                                     ].map((field, idx) => (
@@ -336,53 +348,53 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 .ps-spinner { width: 40px; height: 40px; border: 4px solid #f1f5f9; border-top-color: #04bd20; border-radius: 50%; animation: spin 0.8s linear infinite; }
                 @keyframes spin { to { transform: rotate(360deg); } }
                 
-                .ps-hero { position: relative; border-radius: 24px; overflow: hidden; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-                .ps-cover { height: 160px; background: linear-gradient(135deg, #04bd20 0%, #03a61c 50%, #10b981 100%); }
-                .ps-hero-content { display: flex; align-items: flex-end; gap: 24px; margin-top: -60px; padding-bottom: 30px; }
+                .ps-hero { position: relative; border-radius: 20px; overflow: hidden; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+                .ps-cover { height: 140px; background: linear-gradient(135deg, #04bd20 0%, #03a61c 50%, #10b981 100%); }
+                .ps-hero-content { display: flex; align-items: flex-end; gap: 20px; margin-top: -50px; padding-bottom: 24px; }
                 
-                .ps-avatar-wrapper { position: relative; width: 140px; height: 140px; border-radius: 30px; background: #fff; padding: 6px; z-index: 2; border: 1px solid #e2e8f0; }
-                .ps-avatar { width: 100%; height: 100%; border-radius: 25px; object-fit: cover; }
-                .ps-avatar-edit { position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-radius: 12px; border: 3px solid #fff; background: #0ea5e9; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                .ps-avatar-wrapper { position: relative; width: 120px; height: 120px; border-radius: 24px; background: #fff; padding: 5px; z-index: 2; border: 1px solid #e2e8f0; }
+                .ps-avatar { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; }
+                .ps-avatar-edit { position: absolute; bottom: -8px; right: -8px; width: 36px; height: 36px; border-radius: 10px; border: 3px solid #fff; background: #0ea5e9; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
                 .ps-avatar-edit:hover { transform: scale(1.1); }
                 
-                .ps-hero-text { margin-bottom: 10px; }
-                .ps-user-name { font-size: 2rem; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
-                .ps-user-handle { font-size: 1rem; font-weight: 500; font-family: 'Space Mono', monospace; }
+                .ps-hero-text { margin-bottom: 8px; }
+                .ps-user-name { font-size: 1.6rem; font-weight: 600; color: #0f172a; letter-spacing: -0.01em; }
+                .ps-user-handle { font-size: 0.9rem; font-weight: 400; color: #64748b; }
                 
-                .ps-btn-toggle { border: none; border-radius: 14px; padding: 12px 24px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; transition: all 0.2s; }
+                .ps-btn-toggle { border: none; border-radius: 12px; padding: 10px 20px; font-weight: 500; font-size: 0.85rem; display: flex; align-items: center; transition: all 0.2s; }
                 .ps-btn-toggle--edit { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
                 .ps-btn-toggle--edit:hover { background: #e2e8f0; color: #0f172a; }
                 .ps-btn-toggle--cancel { background: #fef2f2; color: #ef4444; }
                 .ps-btn-toggle--cancel:hover { background: #fee2e2; }
                 
-                .ps-card { background: #fff; border-radius: 24px; padding: 32px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-                .ps-card-title { font-size: 1.1rem; font-weight: 750; color: #0f172a; margin: 0; }
-                .ps-label-small { display: block; font-size: 0.75rem; font-weight: 750; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+                .ps-card { background: #fff; border-radius: 20px; padding: 24px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+                .ps-card-title { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 0; }
+                .ps-label-small { display: block; font-size: 0.68rem; font-weight: 600; color: #94a3b8; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
                 
-                .ps-input-classic { width: 100%; padding: 14px 16px; border-radius: 14px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 0.95rem; transition: all 0.2s; color: #334155; }
+                .ps-text-content { font-size: 0.88rem; font-weight: 300; color: #475569; line-height: 1.6; }
+                
+                .ps-input-classic { width: 100%; padding: 12px 14px; border-radius: 12px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 0.88rem; transition: all 0.2s; color: #334155; font-weight: 400; }
                 .ps-input-classic:focus { outline: none; border-color: #04bd20; background: #fff; }
                 
-                .ps-input-modern { width: 100%; padding: 10px 0; border: none; border-bottom: 2px solid #f1f5f9; background: transparent; font-size: 0.95rem; font-weight: 600; color: #0f172a; transition: border-color 0.2s; }
+                .ps-input-modern { width: 100%; padding: 8px 0; border: none; border-bottom: 2px solid #f1f5f9; background: transparent; font-size: 0.88rem; font-weight: 400; color: #0f172a; transition: border-color 0.2s; }
                 .ps-input-modern:focus { outline: none; border-color: #04bd20; }
-                .ps-field-icon { position: absolute; right: 0; top: 12px; color: #cbd5e1; font-size: 0.85rem; }
+                .ps-field-icon { position: absolute; right: 0; top: 10px; color: #cbd5e1; font-size: 0.8rem; }
+                .ps-field-value span { font-size: 0.88rem; font-weight: 400; }
                 
-                .ps-stat { flex: 1; }
-                .ps-stat-value { font-size: 0.95rem; font-weight: 700; color: #0f172a; }
+                .ps-stat-value { font-size: 0.88rem; font-weight: 600; color: #0f172a; }
                 
-                .ps-btn { display: inline-flex; align-items: center; border: none; border-radius: 14px; padding: 14px 28px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-                .ps-btn-primary { background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; box-shadow: 0 10px 20px -5px rgba(4,189,32,0.4); }
-                .ps-btn-primary:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(4,189,32,0.5); }
+                .ps-btn { display: inline-flex; align-items: center; border: none; border-radius: 12px; padding: 12px 24px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+                .ps-btn-primary { background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; box-shadow: 0 8px 16px -4px rgba(4,189,32,0.3); }
+                .ps-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 24px -4px rgba(4,189,32,0.4); }
                 
-                .ps-btn-simple { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; color: #475569; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; }
-                .ps-btn-simple:hover { background: #e2e8f0; color: #0f172a; }
+                .ps-btn-simple { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; color: #475569; font-weight: 600; font-size: 0.8rem; transition: all 0.2s; }
                 
-                .ps-pref-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #f8fafc; }
-                .ps-pref-item:last-child { border: none; }
-                .ps-pref-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
-                .ps-pref-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
-                .ps-pref-sub { font-size: 0.82rem; font-weight: 500; }
+                .ps-pref-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f8fafc; }
+                .ps-pref-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+                .ps-pref-title { font-size: 0.9rem; font-weight: 600; color: #0f172a; }
+                .ps-pref-sub { font-size: 0.78rem; font-weight: 300; }
                 
-                .ps-switch { width: 3em !important; height: 1.6em; cursor: pointer; border: 2px solid #e2e8f0 !important; background-color: #f1f5f9; }
+                .ps-switch { width: 2.6em !important; height: 1.4em; border-radius: 20px; cursor: pointer; border: 2px solid #e2e8f0 !important; }
                 .ps-switch:checked { background-color: #04bd20; border-color: #04bd20 !important; }
                 .ps-switch:focus { box-shadow: none; }
                 

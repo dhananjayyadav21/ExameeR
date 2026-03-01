@@ -7,6 +7,7 @@ export const VERIFY_URL = `${BASEURL}auth/verifyemail`
 export const FOGOTPASSWORD_URL = `${BASEURL}auth/resetPassword`
 export const FOGOTCODE_URL = `${BASEURL}auth/sendResetCode`
 export const VERIFYTOKEN_URL = `${BASEURL}auth/verifyToken`
+export const RESEND_OTP_URL = `${BASEURL}auth/resend-otp`
 
 //------[User Details Urls]-------------
 export const GETUSER_URL = `${BASEURL}auth/getUser`
