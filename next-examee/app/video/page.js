@@ -6,24 +6,33 @@ import * as GlobalUrls from "../../utils/GlobalURL";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import StudentLayout from "../../components/Home/StudentLayout";
+import { academicOptions } from "../../constants/academicOptions";
 
 function VideoContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Video, getVideo, getDataFromMyLearning, globalSearch } = context;
+    const { Video, getVideo, getDataFromMyLearning, globalSearch, userData } = context;
 
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
 
     useEffect(() => {
         setProgress(0);
-        if (typeof window !== 'undefined' && localStorage.getItem('token')) {
-            getVideo(`${GlobalUrls.GETVideo_URL}?category=${category}&sortBy=${sortBy}`);
+        if (typeof window !== 'undefined' && localStorage.getItem('token') && userData) {
+            let fetchUrl = `${GlobalUrls.GETVideo_URL}?category=${category}&sortBy=${sortBy}`;
+            if (userData.Course) fetchUrl += `&course=${userData.Course}`;
+            if (userData.Semester) fetchUrl += `&semester=${userData.Semester}`;
+            if (userData.University) fetchUrl += `&university=${userData.University}`;
+            if (userData.Category) fetchUrl += `&category=${userData.Category}`;
+
+            getVideo(fetchUrl);
             getDataFromMyLearning();
+        } else if (typeof window !== 'undefined' && localStorage.getItem('token') && !userData) {
+            getVideo(`${GlobalUrls.GETVideo_URL}?category=${category}&sortBy=${sortBy}`);
         }
         setProgress(100);
-    }, [category, sortBy]);
+    }, [category, sortBy, userData]);
 
     const handleSortByChange = (sortBy) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -61,7 +70,7 @@ function VideoContent({ setProgress = () => { } }) {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
                         <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Tutorial Catalog</h2>
-                        <p className="text-muted small mb-0">{filteredVideo.length} videos available in {category}</p>
+                        <p className="text-muted small mb-0">{filteredVideo.length} videos available for your profile</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">

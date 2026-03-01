@@ -13,7 +13,7 @@ export async function PUT(req) {
 
         const body = await req.json();
         console.log("UPDATE_PROFILE_REQUEST_BODY:", body);
-        const allowedFields = ['Username', 'FirstName', 'LastName', 'Institution', 'Profile', 'NotificationPrefs', 'About', 'Phone', 'Gender', 'Location', 'Course', 'University', 'Semester'];
+        const allowedFields = ['Username', 'FirstName', 'LastName', 'Institution', 'Profile', 'NotificationPrefs', 'About', 'Phone', 'Gender', 'Location', 'Course', 'University', 'Semester', 'Category'];
         const updateFields = {};
 
         allowedFields.forEach(field => {

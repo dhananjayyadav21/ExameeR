@@ -17,6 +17,9 @@ export async function GET(req) {
         const { searchParams } = new URL(req.url);
         const category = searchParams.get('category') || "sciTechnology";
         const sortBy = searchParams.get('sortBy') || "latest";
+        const course = searchParams.get('course');
+        const semester = searchParams.get('semester');
+        const university = searchParams.get('university');
 
         let sortOption = sortBy === "oldest" ? { createdAt: 1 } : { createdAt: -1 };
 
@@ -30,6 +33,22 @@ export async function GET(req) {
             status: 'public',
             category: category
         };
+
+        if (course) criteria.course = course;
+        if (semester) {
+            if (semester === "1st Year") {
+                criteria.semester = { $in: ["1st Sem", "2nd Sem", "1st Year"] };
+            } else if (semester === "2nd Year") {
+                criteria.semester = { $in: ["3rd Sem", "4th Sem", "2nd Year"] };
+            } else if (semester === "3rd Year") {
+                criteria.semester = { $in: ["5th Sem", "6th Sem", "3rd Year"] };
+            } else if (semester === "4th Year" || semester === "Final Year") {
+                criteria.semester = { $in: ["7th Sem", "8th Sem", "4th Year", "Final Year"] };
+            } else {
+                criteria.semester = semester;
+            }
+        }
+        if (university) criteria.university = university;
 
         const courses = await Course.find(criteria).sort(sortOption);
 

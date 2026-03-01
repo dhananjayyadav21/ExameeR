@@ -34,6 +34,7 @@ export default function ProfileSetupModal({ userData, onComplete }) {
         Course: userData?.Course || "",
         University: userData?.University || "",
         Semester: userData?.Semester || "",
+        Category: userData?.Category || ""
     });
     const [customCourse, setCustomCourse] = useState("");
     const [errors, setErrors] = useState({});
@@ -61,6 +62,7 @@ export default function ProfileSetupModal({ userData, onComplete }) {
         if (!finalCourse.trim()) newErrors.Course = "Please select your course";
         if (!formData.University.trim()) newErrors.University = "University name is required";
         if (!formData.Semester) newErrors.Semester = "Please select your semester";
+        if (!formData.Category) newErrors.Category = "Please select your academic category";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -78,6 +80,7 @@ export default function ProfileSetupModal({ userData, onComplete }) {
     const isStep2Complete = formData.Institution.trim() !== "" &&
         (formData.Course === "Other" ? customCourse.trim() !== "" : formData.Course.trim() !== "") &&
         formData.University.trim() !== "" &&
+        formData.Category !== "" &&
         formData.Semester !== "";
 
     const handleSubmit = async () => {
@@ -106,6 +109,7 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                 Course: finalCourse,
                 University: formData.University.trim(),
                 Semester: formData.Semester,
+                Category: formData.Category,
             };
             const res = await updateProfile(payload);
             if (res?.success) {
@@ -314,6 +318,26 @@ export default function ProfileSetupModal({ userData, onComplete }) {
                                         {SEMESTERS.map(s => <option key={s} value={s}>{s}</option>)}
                                     </select>
                                     {errors.Semester && <span className="error-text">{errors.Semester}</span>}
+                                </div>
+
+                                <div className="psm-input-group mb-4">
+                                    <label>Academic Category</label>
+                                    <div className="psm-chip-cloud">
+                                        {[
+                                            { value: "sciTechnology", label: "Sci - Technology" },
+                                            { value: "commerce", label: "Commerce" },
+                                            { value: "artscivils", label: "Arts & Civils" }
+                                        ].map(cat => (
+                                            <button
+                                                key={cat.value}
+                                                className={`psm-chip ${formData.Category === cat.value ? 'active' : ''}`}
+                                                onClick={() => handleChange("Category", cat.value)}
+                                            >
+                                                {cat.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    {errors.Category && <span className="error-text">{errors.Category}</span>}
                                 </div>
 
                                 <div className="d-flex gap-3 mt-5">

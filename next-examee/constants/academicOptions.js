@@ -40,5 +40,10 @@ export const academicOptions = {
         { value: "CBSE", label: "CBSE" },
         { value: "ICSE", label: "ICSE" },
         { value: "Other", label: "Other University / Board" }
+    ],
+    categories: [
+        { value: "sciTechnology", label: "Sci - Technology" },
+        { value: "commerce", label: "Commerce" },
+        { value: "artscivils", label: "Arts & Civils" }
     ]
 };

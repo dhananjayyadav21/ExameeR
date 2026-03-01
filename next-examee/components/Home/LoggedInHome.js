@@ -5,6 +5,7 @@ import ContentContext from '../../context/ContentContext';
 import NotesItem from '../NotesItem';
 import CourceIteam from './CourceIteam';
 import StudentLayout from './StudentLayout';
+import { academicOptions } from '../../constants/academicOptions';
 
 const LoggedInHome = ({ userData }) => {
     const context = useContext(ContentContext);
@@ -12,11 +13,19 @@ const LoggedInHome = ({ userData }) => {
     const router = useRouter();
 
     useEffect(() => {
-        getCourse();
-        getNote();
-        getPYQ();
-        getVideo();
-    }, []);
+        if (userData) {
+            const query = `?course=${userData.Course || ''}&semester=${userData.Semester || ''}&university=${userData.University || ''}&category=${userData.Category || ''}`;
+            getCourse(`${GlobalUrls.GETCourse_URL}${query}`);
+            getNote(`${GlobalUrls.GETNOTE_URL}${query}`);
+            getPYQ(`${GlobalUrls.GETPYQ_URL}${query}`);
+            getVideo(`${GlobalUrls.GETVideo_URL}${query}`);
+        } else {
+            getCourse();
+            getNote();
+            getPYQ();
+            getVideo();
+        }
+    }, [userData]);
 
     const dashboardCards = [
         { title: 'Courses', count: Course.length, icon: 'fa-layer-group', color: '#0ea5e9', bg: '#f0f9ff', href: '/cource' },
@@ -64,31 +73,80 @@ const LoggedInHome = ({ userData }) => {
                                 <Link href="/cource" className="text-decoration-none small fw-bold text-success">View All</Link>
                             </div>
                             <div className="row g-3">
-                                {Course.slice(0, 2).map((c, i) => (
-                                    <div key={i} className="col-md-6">
-                                        <CourceIteam Course={c} />
-                                    </div>
-                                ))}
+                                {Course.length === 0 ? (
+                                    <div className="col-12 py-4 text-center text-muted small">No courses matching your preferences.</div>
+                                ) : (
+                                    Course.slice(0, 2).map((c, i) => (
+                                        <div key={i} className="col-md-6">
+                                            <CourceIteam Course={c} />
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
 
                         <div className="card border-0 shadow-sm rounded-4 p-4">
                             <div className="d-flex justify-content-between align-items-center mb-4">
-                                <h5 className="fw-bold mb-0">Latest Notes</h5>
+                                <h5 className="fw-bold mb-0">Personalized Notes</h5>
                                 <Link href="/notes" className="text-decoration-none small fw-bold text-success">Browse All</Link>
                             </div>
                             <div className="row g-3">
-                                {Notes.slice(0, 3).map((n, i) => (
-                                    <div key={i} className="col-md-4">
-                                        <NotesItem notes={n} />
-                                    </div>
-                                ))}
+                                {Notes.length === 0 ? (
+                                    <div className="col-12 py-4 text-center text-muted small">No notes matching your preferences.</div>
+                                ) : (
+                                    Notes.slice(0, 3).map((n, i) => (
+                                        <div key={i} className="col-md-4">
+                                            <NotesItem notes={n} />
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>
 
                     {/* Side Panel: Quick Actions / Profile Summary */}
                     <div className="col-lg-4">
+                        {/* Academic Profile Summary Case: Image shown in request */}
+                        <div className="card border-0 shadow-sm rounded-4 p-4 mb-4" style={{ background: '#fff' }}>
+                            <div className="d-flex align-items-center justify-content-between mb-4">
+                                <h6 className="fw-bold mb-0" style={{ color: '#0f172a' }}>Academic Profile</h6>
+                                <Link href="/profile" className="text-decoration-none smaller fw-bold text-success"><i className="fa-solid fa-pen-to-square"></i></Link>
+                            </div>
+
+                            <div className="row g-3">
+                                <div className="col-6">
+                                    <p className="smaller text-muted text-uppercase fw-bold mb-1" style={{ letterSpacing: '0.05em', fontSize: '0.65rem' }}>University</p>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <i className="fa-solid fa-building-columns text-muted opacity-50 mt-1"></i>
+                                        <span className="small fw-semibold text-dark truncate" title={userData?.University}>{userData?.University || 'Not Set'}</span>
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <p className="smaller text-muted text-uppercase fw-bold mb-1" style={{ letterSpacing: '0.05em', fontSize: '0.65rem' }}>Course</p>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <i className="fa-solid fa-graduation-cap text-muted opacity-50 mt-1"></i>
+                                        <span className="small fw-semibold text-dark truncate" title={userData?.Course}>{userData?.Course || 'Not Set'}</span>
+                                    </div>
+                                </div>
+                                <div className="col-6 mt-3">
+                                    <p className="smaller text-muted text-uppercase fw-bold mb-1" style={{ letterSpacing: '0.05em', fontSize: '0.65rem' }}>Semester</p>
+                                    <div className="d-flex align-items-start gap-2">
+                                        <i className="fa-solid fa-calendar-days text-muted opacity-50 mt-1"></i>
+                                        <span className="small fw-semibold text-dark">{userData?.Semester || 'Not Set'}</span>
+                                    </div>
+                                </div>
+                                <div className="col-12 mt-3 p-2 bg-light-subtle rounded-3" style={{ border: '1px solid #f1f5f9' }}>
+                                    <p className="smaller text-muted text-uppercase fw-bold mb-1" style={{ letterSpacing: '0.05em', fontSize: '0.65rem' }}>Core Category</p>
+                                    <div className="d-flex align-items-center gap-2">
+                                        <div className="p-1 bg-success-subtle rounded-circle d-flex align-items-center justify-content-center" style={{ width: '24px', height: '24px' }}>
+                                            <i className="fa-solid fa-layer-group text-success" style={{ fontSize: '0.7rem' }}></i>
+                                        </div>
+                                        <span className="small fw-bold text-dark">{academicOptions.categories.find(c => c.value === userData?.Category)?.label || 'Not Set'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white mb-4">
                             <div className="d-flex align-items-center gap-3 mb-4">
                                 <img
@@ -97,8 +155,8 @@ const LoggedInHome = ({ userData }) => {
                                     style={{ width: '60px', height: '60px', objectFit: 'cover' }}
                                     alt="User"
                                 />
-                                <div>
-                                    <h6 className="fw-bold mb-0">{userData?.FirstName} {userData?.LastName}</h6>
+                                <div className="overflow-hidden">
+                                    <h6 className="fw-bold mb-0 text-truncate">{userData?.FirstName} {userData?.LastName}</h6>
                                     <p className="mb-0 small opacity-75">{userData?.Role || 'Student'}</p>
                                 </div>
                             </div>

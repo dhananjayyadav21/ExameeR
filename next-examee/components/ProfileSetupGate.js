@@ -58,7 +58,8 @@ export default function ProfileSetupGate({ children }) {
             !userData.Semester?.trim() ||
             !userData.Phone?.trim() ||
             !userData.Gender?.trim() ||
-            !userData.Location?.trim();
+            !userData.Location?.trim() ||
+            !userData.Category?.trim();
 
         setShowModal(incomplete);
     }, [userData, checked]);

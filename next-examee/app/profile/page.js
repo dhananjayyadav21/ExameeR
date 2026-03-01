@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import DriveUpload from '@/utils/DriveUpload';
 
 import StudentLayout from "../../components/Home/StudentLayout";
+import { academicOptions } from "../../constants/academicOptions";
 
 export default function ProfilePage({ setProgress = () => { } }) {
     const router = useRouter();
@@ -30,7 +31,8 @@ export default function ProfilePage({ setProgress = () => { } }) {
         about: '',
         phone: '',
         gender: '',
-        location: ''
+        location: '',
+        category: ''
     });
 
     const [notifications, setNotifications] = useState({
@@ -67,7 +69,8 @@ export default function ProfilePage({ setProgress = () => { } }) {
                 about: userData.About || '',
                 phone: userData.Phone || '',
                 gender: userData.Gender || '',
-                location: userData.Location || ''
+                location: userData.Location || '',
+                category: userData.Category || ''
             });
         }
     }, [userData]);
@@ -110,7 +113,8 @@ export default function ProfilePage({ setProgress = () => { } }) {
             About: profileData.about,
             Phone: profileData.phone,
             Gender: profileData.gender,
-            Location: profileData.location
+            Location: profileData.location,
+            Category: profileData.category
         });
 
         if (res?.success) {
@@ -220,9 +224,10 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                         { label: 'Last Name', value: profileData.lastName, icon: 'fa-signature', name: 'lastName' },
                                         { label: 'Username', value: profileData.username, icon: 'fa-at', name: 'username', disabled: true },
                                         { label: 'Institution', value: profileData.institution, icon: 'fa-building', name: 'institution' },
-                                        { label: 'University', value: profileData.university, icon: 'fa-building-columns', name: 'university' },
-                                        { label: 'Course', value: profileData.course, icon: 'fa-graduation-cap', name: 'course' },
-                                        { label: 'Semester', value: profileData.semester, icon: 'fa-calendar-days', name: 'semester' },
+                                        { label: 'University', value: profileData.university, icon: 'fa-building-columns', name: 'university', type: 'select', options: academicOptions.universities },
+                                        { label: 'Course', value: profileData.course, icon: 'fa-graduation-cap', name: 'course', type: 'select', options: academicOptions.courses },
+                                        { label: 'Semester', value: profileData.semester, icon: 'fa-calendar-days', name: 'semester', type: 'select', options: academicOptions.semesters },
+                                        { label: 'Category', value: profileData.category, icon: 'fa-layer-group', name: 'category', type: 'select', options: academicOptions.categories },
                                         { label: 'Phone', value: profileData.phone, icon: 'fa-phone', name: 'phone' },
                                         { label: 'Location', value: profileData.location, icon: 'fa-location-dot', name: 'location' },
                                     ].map((field, idx) => (
@@ -231,13 +236,27 @@ export default function ProfilePage({ setProgress = () => { } }) {
                                             {isEditing && !field.disabled ? (
                                                 <div className="position-relative">
                                                     <i className={`fa-solid ${field.icon} ps-field-icon`}></i>
-                                                    <input
-                                                        type="text"
-                                                        name={field.name}
-                                                        className="ps-input-modern"
-                                                        value={field.value}
-                                                        onChange={handleProfileChange}
-                                                    />
+                                                    {field.type === 'select' ? (
+                                                        <select
+                                                            name={field.name}
+                                                            className="ps-input-modern"
+                                                            value={field.value}
+                                                            onChange={handleProfileChange}
+                                                        >
+                                                            <option value="">Select {field.label}</option>
+                                                            {field.options.map(opt => (
+                                                                <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                                            ))}
+                                                        </select>
+                                                    ) : (
+                                                        <input
+                                                            type="text"
+                                                            name={field.name}
+                                                            className="ps-input-modern"
+                                                            value={field.value}
+                                                            onChange={handleProfileChange}
+                                                        />
+                                                    )}
                                                 </div>
                                             ) : (
                                                 <div className="ps-field-value d-flex align-items-center gap-2">

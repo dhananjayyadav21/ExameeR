@@ -91,6 +91,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    Category: {
+        type: String,
+        default: 'sciTechnology'
+    },
     NotificationPrefs: {
         newCourse: { type: Boolean, default: true },
         notesUpdate: { type: Boolean, default: true },
