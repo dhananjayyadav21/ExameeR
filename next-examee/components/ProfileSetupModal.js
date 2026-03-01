@@ -124,401 +124,368 @@ export default function ProfileSetupModal({ userData, onComplete }) {
     const progress = step === 1 ? 50 : 100;
 
     return (
-        <div className="psm-backdrop" style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(15, 23, 42, 0.4)',
-            backdropFilter: 'blur(6px)',
-            zIndex: 999999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '16px'
-        }}>
-            <div className="psm-card">
-                {/* Header */}
-                <div className="psm-header">
-                    <h2 className="psm-title">Complete Your Profile</h2>
-                    <p className="psm-subtitle">Help us personalise your learning experience</p>
-                </div>
+        <div className="psm-overlay">
+            <div className="psm-container">
+                {/* Visual Side Decoration (Modern Touch) */}
+                <div className="psm-side-panel d-none d-md-block">
+                    <div className="psm-panel-content">
+                        <div className="psm-logo mb-4">
+                            <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: '30px', filter: 'brightness(0) invert(1)' }} />
+                        </div>
+                        <h3 className="text-white fw-bold mb-3" style={{ fontSize: '1.4rem' }}>Welcome to<br />Examee!</h3>
+                        <p className="text-white-50 small mb-4">Complete your profile to unlock personalized learning paths and expert resources.</p>
 
-                <div className="psm-step-labels">
-                    <span className={`psm-step-dot ${step >= 1 ? 'active' : ''}`}>
-                        <i className="fa-solid fa-user"></i> Personal Info
-                    </span>
-                    <i className="fa-solid fa-chevron-right" style={{ color: '#cbd5e1', fontSize: '0.6rem', alignSelf: 'center', margin: '0 4px' }}></i>
-                    <span className={`psm-step-dot ${step >= 2 ? 'active' : ''}`}>
-                        <i className="fa-solid fa-building-columns"></i> Academic Info
-                    </span>
-                </div>
-
-                {/* Form Body */}
-                <div className="psm-body">
-                    {step === 1 ? (
-                        <div className="psm-step">
-                            <p className="psm-step-desc">
-                                <i className="fa-solid fa-hand-wave me-2" style={{ color: '#f59e0b' }}></i>
-                                Welcome! Tell us your name so we can greet you properly.
-                            </p>
-                            <div className="psm-field-row">
-                                <div className={`psm-field ${errors.FirstName ? 'psm-field--error' : ''}`}>
-                                    <label className="psm-label">
-                                        <i className="fa-solid fa-user me-2"></i>First Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="psm-input"
-                                        placeholder="e.g. Rahul"
-                                        value={formData.FirstName}
-                                        onChange={e => handleChange("FirstName", e.target.value)}
-                                        autoFocus
-                                    />
-                                    {errors.FirstName && <span className="psm-error">{errors.FirstName}</span>}
-                                </div>
-                                <div className={`psm-field ${errors.LastName ? 'psm-field--error' : ''}`}>
-                                    <label className="psm-label">
-                                        <i className="fa-solid fa-user me-2"></i>Last Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="psm-input"
-                                        placeholder="e.g. Sharma"
-                                        value={formData.LastName}
-                                        onChange={e => handleChange("LastName", e.target.value)}
-                                    />
-                                    {errors.LastName && <span className="psm-error">{errors.LastName}</span>}
-                                </div>
+                        <div className="psm-perks">
+                            <div className="psm-perk">
+                                <i className="fa-solid fa-bolt"></i>
+                                <span>Curated Notes</span>
                             </div>
-                            <div className="psm-field-row">
-                                <div className={`psm-field ${errors.Phone ? 'psm-field--error' : ''}`}>
-                                    <label className="psm-label">
-                                        <i className="fa-solid fa-phone me-2"></i>Phone Number
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="psm-input"
-                                        placeholder="e.g. +91 9876543210"
-                                        value={formData.Phone}
-                                        onChange={e => handleChange("Phone", e.target.value)}
-                                    />
-                                    {errors.Phone && <span className="psm-error">{errors.Phone}</span>}
-                                </div>
-                                <div className={`psm-field ${errors.Gender ? 'psm-field--error' : ''}`}>
-                                    <label className="psm-label">
-                                        <i className="fa-solid fa-venus-mars me-2"></i>Gender
-                                    </label>
-                                    <select
-                                        className="psm-input"
-                                        value={formData.Gender}
-                                        onChange={e => handleChange("Gender", e.target.value)}
-                                        style={{ height: "46.5px" }}
-                                    >
-                                        <option value="">Select Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    {errors.Gender && <span className="psm-error">{errors.Gender}</span>}
-                                </div>
+                            <div className="psm-perk">
+                                <i className="fa-solid fa-circle-play"></i>
+                                <span>Expert Videos</span>
                             </div>
-
-                            <div className={`psm-field ${errors.Location ? 'psm-field--error' : ''}`}>
-                                <label className="psm-label">
-                                    <i className="fa-solid fa-location-dot me-2"></i>Location / City
-                                </label>
-                                <input
-                                    type="text"
-                                    className="psm-input"
-                                    placeholder="e.g. Mumbai, India"
-                                    value={formData.Location}
-                                    onChange={e => handleChange("Location", e.target.value)}
-                                />
-                                {errors.Location && <span className="psm-error">{errors.Location}</span>}
-                            </div>
-                            <div className="mt-4">
-                                <button className="psm-btn-primary" onClick={handleNext}>
-                                    Next <i className="fa-solid fa-arrow-right ms-2"></i>
-                                </button>
+                            <div className="psm-perk">
+                                <i className="fa-solid fa-chart-line"></i>
+                                <span>Goal Tracking</span>
                             </div>
                         </div>
-                    ) : (
-                        <div className="psm-step">
-                            <p className="psm-step-desc">
-                                <i className="fa-solid fa-book-open me-2" style={{ color: '#4f46e5' }}></i>
-                                This helps us show you the most relevant content.
-                            </p>
+                    </div>
+                </div>
 
-                            {/* Institution */}
-                            <div className={`psm-field ${errors.Institution ? 'psm-field--error' : ''}`}>
-                                <label className="psm-label">
-                                    <i className="fa-solid fa-building me-2"></i>College / Institution Name
-                                </label>
-                                <input
-                                    type="text"
-                                    className="psm-input"
-                                    placeholder="e.g. Thakur College of Engineering"
-                                    value={formData.Institution}
-                                    onChange={e => handleChange("Institution", e.target.value)}
-                                />
-                                {errors.Institution && <span className="psm-error">{errors.Institution}</span>}
-                            </div>
+                <div className="psm-form-panel">
+                    {/* Header with Progress */}
+                    <div className="psm-header">
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                            <h4 className="psm-title">Setup Profile</h4>
+                            <span className="psm-badge">Step {step} of 2</span>
+                        </div>
+                        <div className="psm-progress-bg">
+                            <div className="psm-progress-bar" style={{ width: `${progress}%` }}></div>
+                        </div>
+                    </div>
 
-                            {/* Course */}
-                            <div className={`psm-field ${errors.Course ? 'psm-field--error' : ''}`}>
-                                <label className="psm-label">
-                                    <i className="fa-solid fa-graduation-cap me-2"></i>Course / Programme
-                                </label>
-                                <div className="psm-course-grid">
-                                    {COURSES.map(c => (
-                                        <button
-                                            key={c}
-                                            type="button"
-                                            className={`psm-chip ${formData.Course === c ? 'psm-chip--selected' : ''}`}
-                                            onClick={() => handleChange("Course", c)}
-                                        >
-                                            {c}
-                                        </button>
-                                    ))}
+                    <div className="psm-body">
+                        {step === 1 ? (
+                            <div className="animate-fade-in">
+                                <h5 className="fw-bold text-dark mb-4">Personal Information</h5>
+
+                                <div className="row g-3">
+                                    <div className="col-md-6">
+                                        <div className="psm-input-group">
+                                            <label>First Name</label>
+                                            <input
+                                                type="text"
+                                                className={`psm-input ${errors.FirstName ? 'error' : ''}`}
+                                                value={formData.FirstName}
+                                                onChange={e => handleChange("FirstName", e.target.value)}
+                                                placeholder="e.g. Aryan"
+                                            />
+                                            {errors.FirstName && <span className="error-text">{errors.FirstName}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="psm-input-group">
+                                            <label>Last Name</label>
+                                            <input
+                                                type="text"
+                                                className={`psm-input ${errors.LastName ? 'error' : ''}`}
+                                                value={formData.LastName}
+                                                onChange={e => handleChange("LastName", e.target.value)}
+                                                placeholder="e.g. Verma"
+                                            />
+                                            {errors.LastName && <span className="error-text">{errors.LastName}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="psm-input-group">
+                                            <label>Contact Number</label>
+                                            <input
+                                                type="tel"
+                                                className={`psm-input ${errors.Phone ? 'error' : ''}`}
+                                                value={formData.Phone}
+                                                onChange={e => handleChange("Phone", e.target.value)}
+                                                placeholder="+91 XXXXX XXXXX"
+                                            />
+                                            {errors.Phone && <span className="error-text">{errors.Phone}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="psm-input-group">
+                                            <label>Gender</label>
+                                            <select
+                                                className={`psm-input ${errors.Gender ? 'error' : ''}`}
+                                                value={formData.Gender}
+                                                onChange={e => handleChange("Gender", e.target.value)}
+                                            >
+                                                <option value="">Select</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            {errors.Gender && <span className="error-text">{errors.Gender}</span>}
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="psm-input-group">
+                                            <label>Current Location / City</label>
+                                            <div className="psm-icon-input">
+                                                <i className="fa-solid fa-location-dot"></i>
+                                                <input
+                                                    type="text"
+                                                    className={`psm-input ps-5 ${errors.Location ? 'error' : ''}`}
+                                                    value={formData.Location}
+                                                    onChange={e => handleChange("Location", e.target.value)}
+                                                    placeholder="e.g. Mumbai, India"
+                                                />
+                                            </div>
+                                            {errors.Location && <span className="error-text">{errors.Location}</span>}
+                                        </div>
+                                    </div>
                                 </div>
-                                {formData.Course === "Other" && (
+
+                                <div className="mt-5">
+                                    <button className="psm-btn-next" onClick={handleNext}>
+                                        Continue <i className="fa-solid fa-arrow-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="animate-fade-in">
+                                <h5 className="fw-bold text-dark mb-4">Academic Details</h5>
+
+                                <div className="psm-input-group mb-4">
+                                    <label>College / Institution Name</label>
                                     <input
                                         type="text"
-                                        className="psm-input mt-2"
-                                        placeholder="Type your course name..."
-                                        value={customCourse}
-                                        onChange={e => setCustomCourse(e.target.value)}
-                                        autoFocus
+                                        className={`psm-input ${errors.Institution ? 'error' : ''}`}
+                                        value={formData.Institution}
+                                        onChange={e => handleChange("Institution", e.target.value)}
+                                        placeholder="Enter your college name"
                                     />
-                                )}
-                                {errors.Course && <span className="psm-error">{errors.Course}</span>}
-                            </div>
+                                    {errors.Institution && <span className="error-text">{errors.Institution}</span>}
+                                </div>
 
-                            {/* University */}
-                            <div className={`psm-field ${errors.University ? 'psm-field--error' : ''}`}>
-                                <label className="psm-label">
-                                    <i className="fa-solid fa-building-columns me-2"></i>University / College
-                                </label>
-                                <input
-                                    type="text"
-                                    className="psm-input"
-                                    placeholder="e.g. Mumbai University"
-                                    value={formData.University}
-                                    onChange={e => handleChange("University", e.target.value)}
-                                    list="university-list"
-                                />
-                                <datalist id="university-list">
-                                    {["Mumbai University", "Pune University", "Delhi University", "Bangalore University",
-                                        "Osmania University", "Anna University", "Calcutta University", "Madras University",
-                                        "Mysore University", "Gujarat University", "Rajasthan University"].map(u => (
-                                            <option key={u} value={u} />
+                                <div className="psm-input-group mb-4">
+                                    <label>University</label>
+                                    <input
+                                        type="text"
+                                        className={`psm-input ${errors.University ? 'error' : ''}`}
+                                        value={formData.University}
+                                        onChange={e => handleChange("University", e.target.value)}
+                                        placeholder="e.g. Mumbai University"
+                                    />
+                                    {errors.University && <span className="error-text">{errors.University}</span>}
+                                </div>
+
+                                <div className="psm-input-group mb-4">
+                                    <label>Select Your Course</label>
+                                    <div className="psm-chip-cloud">
+                                        {COURSES.slice(0, 10).map(c => (
+                                            <button
+                                                key={c}
+                                                className={`psm-chip ${formData.Course === c ? 'active' : ''}`}
+                                                onClick={() => handleChange("Course", c)}
+                                            >
+                                                {c}
+                                            </button>
                                         ))}
-                                </datalist>
-                                {errors.University && <span className="psm-error">{errors.University}</span>}
-                            </div>
-
-                            {/* Semester */}
-                            <div className={`psm-field ${errors.Semester ? 'psm-field--error' : ''}`}>
-                                <label className="psm-label">
-                                    <i className="fa-solid fa-calendar-days me-2"></i>Current Semester / Year
-                                </label>
-                                <div className="psm-semester-grid">
-                                    {SEMESTERS.map(s => (
-                                        <button
-                                            key={s}
-                                            type="button"
-                                            className={`psm-chip psm-chip--sm ${formData.Semester === s ? 'psm-chip--selected' : ''}`}
-                                            onClick={() => handleChange("Semester", s)}
-                                        >
-                                            {s}
-                                        </button>
-                                    ))}
-                                </div>
-                                {errors.Semester && <span className="psm-error">{errors.Semester}</span>}
-                            </div>
-
-                            <div className="psm-btn-row">
-                                <button className="psm-btn-back" onClick={() => setStep(1)}>
-                                    <i className="fa-solid fa-arrow-left me-2"></i>Back
-                                </button>
-                                <button className="psm-btn-primary" onClick={handleSubmit} disabled={saving}>
-                                    {saving ? (
-                                        <><span className="spinner-border spinner-border-sm me-2" role="status"></span> Saving...</>
-                                    ) : (
-                                        <><i className="fa-solid fa-rocket me-2"></i>Start Learning!</>
+                                        {formData.Course !== "Other" && COURSES.length > 10 && <button className="psm-chip" onClick={() => handleChange("Course", "Other")}>More...</button>}
+                                    </div>
+                                    {formData.Course === "Other" && (
+                                        <input
+                                            type="text"
+                                            className="psm-input mt-3"
+                                            placeholder="Specify your course"
+                                            value={customCourse}
+                                            onChange={e => setCustomCourse(e.target.value)}
+                                        />
                                     )}
-                                </button>
+                                    {errors.Course && <span className="error-text">{errors.Course}</span>}
+                                </div>
+
+                                <div className="psm-input-group mb-4">
+                                    <label>Current Semester</label>
+                                    <select
+                                        className={`psm-input ${errors.Semester ? 'error' : ''}`}
+                                        value={formData.Semester}
+                                        onChange={e => handleChange("Semester", e.target.value)}
+                                    >
+                                        <option value="">Select Semester</option>
+                                        {SEMESTERS.map(s => <option key={s} value={s}>{s}</option>)}
+                                    </select>
+                                    {errors.Semester && <span className="error-text">{errors.Semester}</span>}
+                                </div>
+
+                                <div className="d-flex gap-3 mt-5">
+                                    <button className="psm-btn-outline" onClick={() => setStep(1)}>
+                                        <i className="fa-solid fa-arrow-left me-2"></i>Back
+                                    </button>
+                                    <button className="psm-btn-next flex-grow-1" onClick={handleSubmit} disabled={saving}>
+                                        {saving ? (
+                                            <><span className="spinner-border spinner-border-sm me-2"></span>Saving...</>
+                                        ) : (
+                                            <><i className="fa-solid fa-rocket me-2"></i>Start Exploring</>
+                                        )}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
-
-                <style jsx>{`
-                    .psm-card {
-                        background: #ffffff;
-                        border-radius: 20px;
-                        width: 100%;
-                        max-width: 580px;
-                        max-height: 90vh;
-                        display: flex;
-                        flex-direction: column;
-                        box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 0 0 1px rgba(226, 232, 240, 0.8);
-                        overflow: hidden;
-                        animation: slideup 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                        position: relative;
-                        z-index: 9999999;
-                    }
-                    .psm-card::before {
-                        content: '';
-                        position: absolute;
-                        top: 0; left: 0; right: 0;
-                        height: 4px;
-                        background: linear-gradient(90deg, #04bd20, #10b981);
-                    }
-                    @keyframes slideup { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
-                    .psm-header {
-                        padding: 32px 36px 20px;
-                        text-align: left;
-                    }
-                    .psm-title { color: #0f172a; font-size: 1.6rem; font-weight: 800; margin: 0; letter-spacing: -0.02em; }
-                    .psm-subtitle { color: #64748b; font-size: 0.95rem; margin: 6px 0 0; }
-
-                    .psm-step-labels {
-                        display: flex;
-                        gap: 16px;
-                        padding: 0 36px 24px;
-                        background: #fff;
-                        border-bottom: 1px solid #f1f5f9;
-                        justify-content: flex-start;
-                        align-items: center;
-                    }
-                    .psm-step-dot {
-                        font-size: 0.85rem;
-                        font-weight: 600;
-                        color: #94a3b8;
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                        transition: color 0.3s;
-                    }
-                    .psm-step-dot.active { color: #04bd20; }
-                    .psm-step-dot i { font-size: 0.9rem; }
-
-                    .psm-body { 
-                        padding: 28px 36px 36px; 
-                        overflow-y: auto; 
-                        flex: 1; 
-                    }
-                    .psm-body::-webkit-scrollbar { width: 6px; }
-                    .psm-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-
-                    .psm-step-desc {
-                        font-size: 0.9rem;
-                        color: #475569;
-                        margin-bottom: 28px;
-                        display: flex;
-                        align-items: center;
-                        background: #f8fafc;
-                        padding: 12px 16px;
-                        border-radius: 12px;
-                        border: 1px solid #f1f5f9;
-                    }
-
-                    .psm-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-                    .psm-field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-                    .psm-field:last-of-type { margin-bottom: 28px; }
-                    
-                    .psm-label { font-size: 0.85rem; font-weight: 700; color: #334155; display: flex; align-items: center; }
-                    .psm-label i { color: #94a3b8; font-size: 0.9rem; margin-right: 8px; }
-
-                    .psm-input {
-                        padding: 12px 16px;
-                        border: 2px solid #e2e8f0;
-                        border-radius: 12px;
-                        font-size: 0.95rem;
-                        color: #0f172a;
-                        background: #f8fafc;
-                        transition: all 0.2s;
-                        width: 100%;
-                        font-weight: 500;
-                    }
-                    .psm-input:focus { border-color: #04bd20; background: #fff; outline: none; box-shadow: 0 4px 12px rgba(4,189,32,0.1); }
-                    .psm-input::placeholder { color: #cbd5e1; font-weight: 400; }
-                    .psm-field--error .psm-input { border-color: #ef4444; background: #fef2f2; }
-                    .psm-error { font-size: 0.8rem; color: #ef4444; margin-top: 4px; font-weight: 600; }
-
-                    .psm-course-grid {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 10px;
-                        max-height: 160px;
-                        overflow-y: auto;
-                        padding-right: 4px;
-                    }
-                    .psm-course-grid::-webkit-scrollbar { width: 4px; }
-                    .psm-course-grid::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-
-                    .psm-semester-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-
-                    .psm-chip {
-                        padding: 8px 16px;
-                        border-radius: 10px;
-                        border: 2px solid #e2e8f0;
-                        background: #fff;
-                        font-size: 0.85rem;
-                        font-weight: 600;
-                        color: #475569;
-                        cursor: pointer;
-                        transition: all 0.2s;
-                    }
-                    .psm-chip:hover { border-color: #cbd5e1; background: #f8fafc; }
-                    .psm-chip--selected { border-color: #04bd20; background: #f0fdf4; color: #04bd20; }
-                    .psm-chip--sm { padding: 6px 14px; font-size: 0.8rem; }
-
-                    .psm-btn-primary {
-                        width: 100%;
-                        padding: 16px;
-                        background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%);
-                        color: white;
-                        border: none;
-                        border-radius: 14px;
-                        font-size: 1rem;
-                        font-weight: 700;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        box-shadow: 0 8px 20px -6px rgba(4,189,32,0.4);
-                    }
-                    .psm-btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 24px -6px rgba(4,189,32,0.5); }
-                    .psm-btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
-
-                    .psm-btn-row { display: flex; gap: 16px; }
-                    .psm-btn-back {
-                        padding: 16px 24px;
-                        background: #f1f5f9;
-                        color: #475569;
-                        border: none;
-                        border-radius: 14px;
-                        font-size: 0.95rem;
-                        font-weight: 700;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        transition: all 0.2s;
-                    }
-                    .psm-btn-back:hover { background: #e2e8f0; color: #0f172a; }
-                    .psm-btn-row .psm-btn-primary { flex: 1; }
-
-                    @media (max-width: 480px) {
-                        .psm-header { padding: 24px 24px 16px; }
-                        .psm-step-labels { padding: 0 24px 20px; }
-                        .psm-body { padding: 24px 24px 24px; }
-                        .psm-field-row { grid-template-columns: 1fr; gap: 0; }
-                    }
-                `}</style>
             </div>
+
+            <style jsx>{`
+                .psm-overlay {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(15, 23, 42, 0.4);
+                    backdrop-filter: blur(8px);
+                    z-index: 1000000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                }
+                
+                .psm-container {
+                    width: 100%;
+                    max-width: 900px;
+                    height: auto;
+                    max-height: 90vh;
+                    background: #fff;
+                    border-radius: 30px;
+                    overflow: hidden;
+                    display: flex;
+                    box-shadow: 0 40px 100px -20px rgba(0,0,0,0.25);
+                    animation: modalEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                
+                @keyframes modalEntry {
+                    from { transform: translateY(40px) scale(0.95); opacity: 0; }
+                    to { transform: translateY(0) scale(1); opacity: 1; }
+                }
+
+                .psm-side-panel {
+                    flex: 0 0 350px;
+                    background: linear-gradient(150deg, #04bd20 0%, #03a61c 100%);
+                    position: relative;
+                    padding: 60px 40px;
+                }
+                
+                .psm-side-panel::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: url("https://www.transparenttextures.com/patterns/cubes.png");
+                    opacity: 0.1;
+                }
+                
+                .psm-panel-content { position: relative; z-index: 2; }
+                
+                .psm-perks { display: grid; gap: 15px; }
+                .psm-perk { 
+                    display: flex; 
+                    align-items: center; 
+                    gap: 12px; 
+                    background: rgba(255,255,255,0.1); 
+                    padding: 10px 15px; 
+                    border-radius: 12px; 
+                    color: #fff;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                }
+                .psm-perk i { color: #fff; font-size: 1rem; width: 20px; text-align: center; }
+
+                .psm-form-panel {
+                    flex: 1;
+                    padding: 50px;
+                    overflow-y: auto;
+                    display: flex;
+                    flex-direction: column;
+                }
+                
+                .psm-header { margin-bottom: 40px; }
+                .psm-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin: 0; }
+                .psm-badge { 
+                    font-size: 0.75rem; 
+                    font-weight: 700; 
+                    color: #04bd20; 
+                    background: #f0fdf4; 
+                    padding: 5px 12px; 
+                    border-radius: 50px; 
+                    border: 1px solid rgba(4,189,32,0.2);
+                }
+                
+                .psm-progress-bg { height: 6px; background: #f1f5f9; border-radius: 10px; margin-top: 15px; overflow: hidden; }
+                .psm-progress-bar { height: 100%; background: #04bd20; border-radius: 10px; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+                .psm-input-group { display: flex; flex-direction: column; gap: 8px; }
+                .psm-input-group label { font-size: 0.82rem; font-weight: 700; color: #475569; margin-left: 2px; }
+                
+                .psm-input {
+                    padding: 12px 18px;
+                    border: 2px solid #f1f5f9;
+                    background: #f8fafc;
+                    border-radius: 14px;
+                    font-size: 0.95rem;
+                    font-weight: 500;
+                    color: #1e293b;
+                    transition: all 0.2s;
+                }
+                .psm-input:focus { outline: none; border-color: #04bd20; background: #fff; box-shadow: 0 8px 20px rgba(4,189,32,0.08); }
+                .psm-input.error { border-color: #ef4444; background: #fff1f2; }
+                .error-text { font-size: 0.75rem; color: #ef4444; font-weight: 600; margin-top: 2px; margin-left: 4px; }
+                
+                .psm-icon-input { position: relative; }
+                .psm-icon-input i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+
+                .psm-chip-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+                .psm-chip {
+                    padding: 8px 16px;
+                    border-radius: 10px;
+                    border: 1px solid #e2e8f0;
+                    background: #fff;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #64748b;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+                .psm-chip:hover { border-color: #04bd20; color: #04bd20; background: #f0fdf4; }
+                .psm-chip.active { background: #04bd20; color: #fff; border-color: #04bd20; box-shadow: 0 4px 12px rgba(4,189,32,0.3); }
+
+                .psm-btn-next {
+                    padding: 16px 30px;
+                    background: #0f172a;
+                    color: #fff;
+                    border: none;
+                    border-radius: 16px;
+                    font-weight: 700;
+                    font-size: 0.95rem;
+                    transition: all 0.3s;
+                    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.3);
+                }
+                .psm-btn-next:hover:not(:disabled) { background: #000; transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(15, 23, 42, 0.4); }
+                
+                .psm-btn-outline {
+                    padding: 16px 25px;
+                    background: #fff;
+                    color: #64748b;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 16px;
+                    font-weight: 700;
+                    transition: all 0.2s;
+                }
+                .psm-btn-outline:hover { background: #f8fafc; color: #1e293b; border-color: #cbd5e1; }
+
+                .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+                @media (max-width: 768px) {
+                    .psm-container { max-width: 500px; }
+                    .psm-form-panel { padding: 35px 25px; }
+                }
+            `}</style>
         </div>
     );
 }

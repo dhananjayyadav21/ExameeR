@@ -116,292 +116,215 @@ export default function ProfilePage({ setProgress = () => { } }) {
     return (
         <StudentLayout title="Profile">
             {!user ? (
-                <div className="text-center py-5 my-5">
-                    <div className="spinner-grow me-2 text-success" role="status"></div>
-                    <div className="spinner-grow me-2 text-success" role="status"></div>
-                    <div className="spinner-grow text-success" role="status"></div>
-                    <p className="text-muted mt-4 fw-medium">Fetching your profile details...</p>
+                <div className="ps-loader container-fluid d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '60vh' }}>
+                    <div className="ps-spinner"></div>
+                    <p className="mt-4 text-muted fw-medium animate-pulse">Building your profile...</p>
                 </div>
             ) : (
-                <div className="container-fluid px-0">
-                    <div className="d-flex justify-content-between align-items-center mb-5">
-                        <div>
-                            <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>My Account</h2>
-                            <p className="text-muted small mb-0">Manage your profile and account settings</p>
+                <div className="container-fluid px-0 pb-5">
+                    {/* Hero Section with Cover */}
+                    <div className="ps-hero mb-4">
+                        <div className="ps-cover"></div>
+                        <div className="ps-hero-content px-4">
+                            <div className="ps-avatar-wrapper shadow-lg">
+                                <img
+                                    src={profileData.profile ? (profileData.profile.startsWith('http') ? profileData.profile : `https://lh3.googleusercontent.com/d/${profileData.profile}`) : "/assets/img/Avtar.jpg"}
+                                    alt="Avatar"
+                                    className="ps-avatar"
+                                    onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (profileData.firstName || 'User') + "&background=04bd20&color=fff"; }}
+                                />
+                                {isEditing && (
+                                    <label className="ps-avatar-edit">
+                                        <i className={`fa-solid ${uploading ? 'fa-spinner fa-spin' : 'fa-camera'}`}></i>
+                                        <input type="file" className="d-none" accept="image/*" onChange={handleAvatarUpload} disabled={uploading} />
+                                    </label>
+                                )}
+                            </div>
+                            <div className="ps-hero-text">
+                                <h1 className="ps-user-name mb-0">
+                                    {(user?.FirstName || user?.LastName) ? `${user.FirstName} ${user.LastName}`.trim() : user?.Username}
+                                    {user?.isVerified && <i className="fa-solid fa-circle-check text-green ms-2 fs-5"></i>}
+                                </h1>
+                                <p className="ps-user-handle mb-0 text-muted">@{user?.Username}</p>
+                            </div>
+                            <div className="ms-auto pt-4">
+                                <button
+                                    onClick={() => setIsEditing(!isEditing)}
+                                    className={`ps-btn-toggle ${isEditing ? 'ps-btn-toggle--cancel' : 'ps-btn-toggle--edit'}`}
+                                >
+                                    {isEditing ? (
+                                        <><i className="fa-solid fa-xmark me-2"></i>Cancel</>
+                                    ) : (
+                                        <><i className="fa-solid fa-pen-to-square me-2"></i>Edit Profile</>
+                                    )}
+                                </button>
+                            </div>
                         </div>
-                        <button
-                            onClick={() => setIsEditing(!isEditing)}
-                            className={`btn ${isEditing ? 'btn-outline-danger' : 'btn-green'} rounded-pill px-4 shadow-sm`}
-                            style={!isEditing ? { background: '#04bd20', color: '#fff', border: 'none' } : {}}
-                        >
-                            {isEditing ? 'Cancel Edit' : 'Edit Profile'}
-                        </button>
                     </div>
 
-                    <div className="row g-4">
-                        {/* Profile Card */}
+                    <div className="row g-4 px-2">
+                        {/* Profile Info Card */}
                         <div className="col-lg-4">
-                            <div className="card border-0 shadow-sm rounded-4 text-center p-4 p-lg-5 h-100">
-                                {/* Avatar */}
-                                <div className="position-relative d-inline-block mx-auto mb-3">
-                                    <div className="position-relative">
-                                        <img
-                                            src={profileData.profile ? (profileData.profile.startsWith('http') ? profileData.profile : `https://lh3.googleusercontent.com/d/${profileData.profile}`) : "/assets/img/Avtar.jpg"}
-                                            alt="Avatar"
-                                            className="rounded-circle shadow-sm"
-                                            style={{ width: '110px', height: '110px', objectFit: 'cover', border: '4px solid #04bd20', opacity: uploading ? 0.5 : 1 }}
-                                            onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (profileData.firstName || 'User') + "&background=04bd20&color=fff"; }}
-                                        />
-                                        {isEditing && (
-                                            <label className="position-absolute bottom-0 end-0 rounded-circle d-flex align-items-center justify-content-center cursor-pointer"
-                                                style={{ width: '32px', height: '32px', background: '#0ea5e9', border: '2px solid #fff', cursor: 'pointer' }}>
-                                                <i className={`fa-solid ${uploading ? 'fa-spinner fa-spin' : 'fa-camera'} text-white`} style={{ fontSize: '0.8rem' }}></i>
-                                                <input type="file" className="d-none" accept="image/*" onChange={handleAvatarUpload} disabled={uploading} />
-                                            </label>
-                                        )}
-                                        {!isEditing && (
-                                            <span className="position-absolute bottom-0 end-0 rounded-circle d-flex align-items-center justify-content-center"
-                                                style={{ width: '28px', height: '28px', background: '#04bd20', border: '2px solid #fff' }}>
-                                                <i className="fa-solid fa-check text-white" style={{ fontSize: '0.65rem' }}></i>
-                                            </span>
-                                        )}
-                                    </div>
-                                    {uploading && <div className="small text-green mt-1 fw-medium">Uploading...</div>}
+                            <div className="ps-card h-100">
+                                <div className="ps-card-header mb-4">
+                                    <h3 className="ps-card-title"><i className="fa-solid fa-address-card me-2 text-green"></i>Biographical</h3>
                                 </div>
-
-                                <h5 className="fw-semibold text-dark mb-1" style={{ fontSize: '1.1rem' }}>
-                                    {(user?.FirstName || user?.LastName) ? `${user.FirstName} ${user.LastName}`.trim() : user?.Username}
-                                </h5>
-                                <p className="text-muted small mb-3">@{user?.Username}</p>
-
-                                {user?.isVerified ? (
-                                    <span className="badge rounded-pill mx-auto mb-3 px-3 py-2" style={{ background: 'rgba(4,189,32,0.12)', color: '#039419', fontSize: '0.82rem' }}>
-                                        <i className="fas fa-check-circle me-1"></i> Verified Account
-                                    </span>
-                                ) : (
-                                    <span className="badge bg-danger-subtle text-danger rounded-pill mx-auto mb-3 px-3 py-2">
-                                        <i className="fas fa-times-circle me-1"></i> Not Verified
-                                    </span>
-                                )}
-
-                                <hr className="my-3 opacity-50" />
-
-                                <div className="text-start small">
-                                    <div className="mb-3">
-                                        <p className="text-muted mb-1 text-uppercase fw-bold" style={{ fontSize: '0.7rem', letterSpacing: '0.08em' }}>Role</p>
-                                        <p className="fw-medium text-dark mb-0 d-flex align-items-center gap-2" style={{ fontSize: '0.85rem' }}>
-                                            <i className="fa-solid fa-user-tag text-green"></i>
-                                            {user?.Role || 'Student'}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-muted mb-1 text-uppercase fw-bold" style={{ fontSize: '0.7rem', letterSpacing: '0.08em' }}>About</p>
-                                        <p className="text-dark mb-0" style={{ fontSize: '0.82rem', lineHeight: '1.5' }}>{user?.About || 'One lesson at a time, one step closer to greatness.'}</p>
+                                <div className="ps-bio-section">
+                                    <label className="ps-label-small">BIO / ABOUT</label>
+                                    {isEditing ? (
+                                        <textarea
+                                            name="about"
+                                            className="ps-input-classic"
+                                            rows="4"
+                                            placeholder="Tell us about yourself..."
+                                            value={profileData.about}
+                                            onChange={handleProfileChange}
+                                        />
+                                    ) : (
+                                        <p className="ps-text-content">{profileData.about || "No bio added yet. Tell the world who you are."}</p>
+                                    )}
+                                </div>
+                                <div className="ps-stats-bar mt-auto pt-4 border-top">
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div className="ps-stat">
+                                            <span className="ps-label-small">MEMBER SINCE</span>
+                                            <span className="ps-stat-value">{new Date(user?.createdAt).toLocaleDateString()}</span>
+                                        </div>
+                                        <div className="ps-stat text-end">
+                                            <span className="ps-label-small">ACCOUNT TYPE</span>
+                                            <span className="ps-stat-value text-green">{user?.Role || "Student"}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Details Panel */}
+                        {/* Account Details Panel */}
                         <div className="col-lg-8">
-                            <div className="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
-                                <h6 className="fw-semibold text-dark mb-4 d-flex align-items-center gap-2" style={{ fontSize: '0.95rem' }}>
-                                    <i className="fa-solid fa-circle-info text-green"></i> Account Information
-                                </h6>
-                                <div className="row g-3">
+                            <div className="ps-card mb-4">
+                                <div className="ps-card-header mb-4 pb-2 border-bottom">
+                                    <h3 className="ps-card-title"><i className="fa-solid fa-user-gear me-2 text-green"></i>Account Details</h3>
+                                </div>
+                                <div className="row g-4">
                                     {[
-                                        { label: 'First Name', value: profileData.firstName, icon: 'fa-user', name: 'firstName' },
-                                        { label: 'Last Name', value: profileData.lastName, icon: 'fa-user', name: 'lastName' },
-                                        { label: 'Username', value: profileData.username, icon: 'fa-at', name: 'username' },
-                                        { label: 'Institution', value: profileData.institution, icon: 'fa-building', name: 'institution' },
-                                        { label: 'Phone Number', value: profileData.phone, icon: 'fa-phone', name: 'phone' },
+                                        { label: 'First Name', value: profileData.firstName, icon: 'fa-signature', name: 'firstName' },
+                                        { label: 'Last Name', value: profileData.lastName, icon: 'fa-signature', name: 'lastName' },
+                                        { label: 'Username', value: profileData.username, icon: 'fa-at', name: 'username', disabled: true },
+                                        { label: 'College / University', value: profileData.institution, icon: 'fa-building-columns', name: 'institution' },
+                                        { label: 'Phone', value: profileData.phone, icon: 'fa-phone', name: 'phone' },
                                         { label: 'Location', value: profileData.location, icon: 'fa-location-dot', name: 'location' },
-                                    ].map((item, idx) => (
-                                        <div key={idx} className="col-sm-6">
-                                            <div className="bg-light rounded-3 p-3 transition-all">
-                                                <div className="d-flex align-items-center gap-2 mb-1">
-                                                    <i className={`fa-solid ${item.icon} text-green`} style={{ fontSize: '0.8rem' }}></i>
-                                                    <span className="text-muted fw-semibold text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.08em' }}>{item.label}</span>
-                                                </div>
-                                                {isEditing ? (
+                                    ].map((field, idx) => (
+                                        <div key={idx} className="col-md-6 border-bottom pb-3 border-light-subtle">
+                                            <label className="ps-label-small text-muted mb-1">{field.label}</label>
+                                            {isEditing && !field.disabled ? (
+                                                <div className="position-relative">
+                                                    <i className={`fa-solid ${field.icon} ps-field-icon`}></i>
                                                     <input
                                                         type="text"
-                                                        name={item.name}
-                                                        className="form-control form-control-sm border-0 bg-white shadow-sm"
-                                                        value={item.value}
+                                                        name={field.name}
+                                                        className="ps-input-modern"
+                                                        value={field.value}
                                                         onChange={handleProfileChange}
                                                     />
-                                                ) : (
-                                                    <p className="fw-medium text-dark mb-0" style={{ fontSize: '0.85rem' }}>{item.value || 'Not Set'}</p>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-
-                                    {/* About field is special as it's a textarea */}
-                                    <div className="col-12">
-                                        <div className="bg-light rounded-3 p-3">
-                                            <div className="d-flex align-items-center gap-2 mb-1">
-                                                <i className="fa-solid fa-pen-nib text-green" style={{ fontSize: '0.8rem' }}></i>
-                                                <span className="text-muted fw-semibold text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.08em' }}>About / Bio</span>
-                                            </div>
-                                            {isEditing ? (
-                                                <textarea
-                                                    name="about"
-                                                    className="form-control form-control-sm border-0 bg-white shadow-sm"
-                                                    rows="3"
-                                                    value={profileData.about}
-                                                    onChange={handleProfileChange}
-                                                />
-                                            ) : (
-                                                <p className="text-dark mb-0" style={{ fontSize: '0.82rem', lineHeight: '1.5' }}>{profileData.about || 'One lesson at a time.'}</p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Gender is a select */}
-                                    <div className="col-sm-6">
-                                        <div className="bg-light rounded-3 p-3">
-                                            <div className="d-flex align-items-center gap-2 mb-1">
-                                                <i className="fa-solid fa-venus-mars text-green" style={{ fontSize: '0.8rem' }}></i>
-                                                <span className="text-muted fw-semibold text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.08em' }}>Gender</span>
-                                            </div>
-                                            {isEditing ? (
-                                                <select
-                                                    name="gender"
-                                                    className="form-select form-select-sm border-0 bg-white shadow-sm"
-                                                    value={profileData.gender}
-                                                    onChange={handleProfileChange}
-                                                >
-                                                    <option value="">Select</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                            ) : (
-                                                <p className="fw-medium text-dark mb-0" style={{ fontSize: '0.85rem' }}>{profileData.gender || 'Not Set'}</p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Read-only fields */}
-                                    {[
-                                        { label: 'Email Address', value: user?.Email, icon: 'fa-envelope' },
-                                        { label: 'Account Role', value: user?.Role || 'Student', icon: 'fa-user-shield' },
-                                    ].map((item, idx) => (
-                                        <div key={idx} className="col-sm-6">
-                                            <div className="bg-light rounded-3 p-3" style={{ opacity: 0.8 }}>
-                                                <div className="d-flex align-items-center gap-2 mb-1">
-                                                    <i className={`fa-solid ${item.icon} text-muted`} style={{ fontSize: '0.8rem' }}></i>
-                                                    <span className="text-muted fw-semibold text-uppercase" style={{ fontSize: '0.68rem', letterSpacing: '0.08em' }}>{item.label}</span>
                                                 </div>
-                                                <p className="fw-medium text-muted mb-0" style={{ fontSize: '0.85rem' }}>{item.value}</p>
-                                            </div>
+                                            ) : (
+                                                <div className="ps-field-value d-flex align-items-center gap-2">
+                                                    <i className={`fa-solid ${field.icon} text-muted opacity-50`} style={{ width: '16px' }}></i>
+                                                    <span className={field.value ? "text-dark fw-medium" : "text-muted italic"}>
+                                                        {field.value || "Not specified"}
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
+
+                                    <div className="col-md-6 pb-3">
+                                        <label className="ps-label-small text-muted mb-1">Gender</label>
+                                        {isEditing ? (
+                                            <select
+                                                name="gender"
+                                                className="ps-input-modern"
+                                                value={profileData.gender}
+                                                onChange={handleProfileChange}
+                                            >
+                                                <option value="">Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        ) : (
+                                            <div className="ps-field-value d-flex align-items-center gap-2">
+                                                <i className="fa-solid fa-venus-mars text-muted opacity-50" style={{ width: '16px' }}></i>
+                                                <span className={profileData.gender ? "text-dark fw-medium" : "text-muted italic"}>
+                                                    {profileData.gender || "Not specified"}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="col-md-6 pb-3">
+                                        <label className="ps-label-small text-muted mb-1">Email (Primary)</label>
+                                        <div className="ps-field-value d-flex align-items-center gap-2 bg-light-subtle p-2 rounded-2" style={{ border: '1px dashed #e2e8f0' }}>
+                                            <i className="fa-solid fa-envelope text-muted opacity-50" style={{ width: '16px' }}></i>
+                                            <span className="text-muted small">{user?.Email}</span>
+                                            <i className="fa-solid fa-lock ms-auto text-muted fs-7" title="Email cannot be changed"></i>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {isEditing && (
-                                    <div className="mt-4 d-flex justify-content-end">
+                                    <div className="mt-5 d-flex gap-3">
                                         <button
-                                            className="btn btn-green rounded-pill px-5 fw-bold shadow-sm"
-                                            style={{ background: '#04bd20', color: '#fff', border: 'none' }}
+                                            className="ps-btn ps-btn-primary ms-auto"
                                             onClick={handleSave}
                                             disabled={saving}
                                         >
-                                            {saving ? 'Saving...' : 'Save Profile Changes'}
+                                            {saving ? (
+                                                <><span className="spinner-border spinner-border-sm me-2"></span>Saving Changes...</>
+                                            ) : (
+                                                <><i className="fa-solid fa-check me-2"></i>Save Final Changes</>
+                                            )}
                                         </button>
                                     </div>
                                 )}
                             </div>
 
-                            {/* Notifications Panel */}
-                            <div className="card border-0 shadow-sm rounded-4 p-4 p-lg-5 mb-4">
-                                <div className="d-flex align-items-center gap-3 mb-4 pb-2 border-bottom">
-                                    <div className="d-flex align-items-center justify-content-center rounded-3 bg-warning bg-opacity-10" style={{ width: '42px', height: '42px', color: '#f59e0b' }}>
-                                        <i className="fa-solid fa-bell fs-5"></i>
-                                    </div>
-                                    <div>
-                                        <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '1.05rem' }}>Notifications</h6>
-                                        <p className="text-muted small mb-0">Control what alerts you receive</p>
-                                    </div>
+                            {/* Settings & Preferences */}
+                            <div className="ps-card">
+                                <div className="ps-card-header mb-4">
+                                    <h3 className="ps-card-title"><i className="fa-solid fa-sliders me-2 text-green"></i>Preferences</h3>
                                 </div>
-                                <div className="d-flex flex-column gap-3">
-                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
-                                        <div className="d-flex align-items-center gap-3">
-                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-info bg-opacity-10" style={{ width: '40px', height: '40px', color: '#0ea5e9' }}>
-                                                <i className="fa-solid fa-graduation-cap"></i>
-                                            </div>
-                                            <div>
-                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>New Course Notifications</h6>
-                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Get notified when new courses are published</p>
-                                            </div>
-                                        </div>
-                                        <div className="form-check form-switch fs-4 mb-0">
-                                            <input className="form-check-input custom-switch custom-switch-blue" type="checkbox" role="switch" checked={notifications.newCourse} onChange={() => handleNotificationToggle('newCourse')} />
-                                        </div>
-                                    </div>
-
-                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
-                                        <div className="d-flex align-items-center gap-3">
-                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-success bg-opacity-10" style={{ width: '40px', height: '40px', color: '#16a34a' }}>
-                                                <i className="fa-solid fa-file-pdf"></i>
-                                            </div>
-                                            <div>
-                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>Study Material Alerts</h6>
-                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Receive alerts when new notes or PDFs are added</p>
-                                            </div>
-                                        </div>
-                                        <div className="form-check form-switch fs-4 mb-0">
-                                            <input className="form-check-input custom-switch custom-switch-green" type="checkbox" role="switch" checked={notifications.studyMaterial} onChange={() => handleNotificationToggle('studyMaterial')} />
-                                        </div>
-                                    </div>
-
-                                    <div className="d-flex align-items-center justify-content-between pb-3" style={{ borderBottom: '1px solid #f1f5f9' }}>
-                                        <div className="d-flex align-items-center gap-3">
-                                            <div className="d-flex align-items-center justify-content-center rounded-3 bg-primary bg-opacity-10" style={{ width: '40px', height: '40px', color: '#8b5cf6' }}>
-                                                <i className="fa-solid fa-circle-play"></i>
-                                            </div>
-                                            <div>
-                                                <h6 className="fw-bold text-dark mb-1" style={{ fontSize: '0.95rem' }}>Video Lecture Uploads</h6>
-                                                <p className="text-muted small mb-0" style={{ fontSize: '0.8rem' }}>Be notified of newly uploaded video lectures</p>
-                                            </div>
-                                        </div>
-                                        <div className="form-check form-switch fs-4 mb-0">
-                                            <input className="form-check-input custom-switch custom-switch-purple" type="checkbox" role="switch" checked={notifications.videoUploads} onChange={() => handleNotificationToggle('videoUploads')} />
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-2">
-                                        <button className="btn w-100 rounded-3 text-white fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" style={{ background: 'linear-gradient(135deg, #0ea5e9, #4f46e5)', border: 'none', transition: 'all 0.3s' }} onClick={() => toast.success('Preferences saved successfully!')}
-                                            onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 15px rgba(79, 70, 229, 0.4)'; }}
-                                            onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0.125rem 0.25rem rgba(0,0,0,0.075)'; }}>
-                                            Save Preferences
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Quick Links */}
-                            <div className="card border-0 shadow-sm rounded-4 p-4">
-                                <h6 className="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
-                                    <i className="fa-solid fa-rocket text-green"></i> Quick Links
-                                </h6>
-                                <div className="row g-3">
+                                <div className="ps-pref-list">
                                     {[
-                                        { href: '/myLearning', icon: 'fa-graduation-cap', label: 'My Learning', color: 'success' },
-                                        { href: '/notes', icon: 'fa-file-lines', label: 'Browse Notes', color: 'primary' },
-                                        { href: '/video', icon: 'fa-circle-play', label: 'Video Lectures', color: 'warning' },
-                                        { href: '/cource', icon: 'fa-book', label: 'All Courses', color: 'info' },
-                                    ].map((link, idx) => (
-                                        <div key={idx} className="col-6 col-md-3">
-                                            <a href={link.href} className="card border-0 bg-light text-decoration-none rounded-3 p-3 text-center d-block quick-link">
-                                                <i className={`fa-solid ${link.icon} text-${link.color} fs-4 mb-2 d-block`}></i>
-                                                <span className="small fw-medium text-dark">{link.label}</span>
-                                            </a>
+                                        { key: 'newCourse', label: 'Push Notifications', sub: 'Instant alerts for new courses and announcements.', icon: 'fa-bell', color: '#0ea5e9' },
+                                        { key: 'studyMaterial', label: 'Email Digest', sub: 'Weekly summary of new notes and study material.', icon: 'fa-envelope-open-text', color: '#16a34a' },
+                                        { key: 'videoUploads', label: 'Video Alerts', sub: 'Notifications when new lectures are uploaded.', icon: 'fa-circle-play', color: '#8b5cf6' },
+                                    ].map((pref) => (
+                                        <div key={pref.key} className="ps-pref-item">
+                                            <div className="ps-pref-icon" style={{ backgroundColor: `${pref.color}10`, color: pref.color }}>
+                                                <i className={`fa-solid ${pref.icon}`}></i>
+                                            </div>
+                                            <div className="ps-pref-text">
+                                                <h4 className="ps-pref-title mb-0">{pref.label}</h4>
+                                                <p className="ps-pref-sub text-muted mb-0">{pref.sub}</p>
+                                            </div>
+                                            <div className="ps-pref-action ms-auto">
+                                                <div className="form-check form-switch ps-0 fs-4">
+                                                    <input
+                                                        className="form-check-input ps-switch"
+                                                        type="checkbox"
+                                                        role="switch"
+                                                        checked={notifications[pref.key]}
+                                                        onChange={() => handleNotificationToggle(pref.key)}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
+                                <button className="ps-btn-simple mt-4 w-100" onClick={() => toast.success('Preferences updated locally')}>
+                                    Update My Preferences
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -409,25 +332,69 @@ export default function ProfilePage({ setProgress = () => { } }) {
             )}
 
             <style jsx>{`
-                .custom-switch {
-                    cursor: pointer;
-                    height: 1.5em;
-                    width: 2.8em !important;
-                    border: 2px solid #e2e8f0;
-                    background-color: #e2e8f0;
-                }
-                .custom-switch:focus { box-shadow: none; }
-                .custom-switch-blue:checked {
-                    background-color: #0ea5e9; border-color: #0ea5e9;
-                }
-                .custom-switch-green:checked {
-                    background-color: #16a34a; border-color: #16a34a;
-                }
-                .custom-switch-purple:checked {
-                    background-color: #8b5cf6; border-color: #8b5cf6;
+                .ps-loader { animation: fadeIn 0.5s ease; }
+                .ps-spinner { width: 40px; height: 40px; border: 4px solid #f1f5f9; border-top-color: #04bd20; border-radius: 50%; animation: spin 0.8s linear infinite; }
+                @keyframes spin { to { transform: rotate(360deg); } }
+                
+                .ps-hero { position: relative; border-radius: 24px; overflow: hidden; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+                .ps-cover { height: 160px; background: linear-gradient(135deg, #04bd20 0%, #03a61c 50%, #10b981 100%); }
+                .ps-hero-content { display: flex; align-items: flex-end; gap: 24px; margin-top: -60px; padding-bottom: 30px; }
+                
+                .ps-avatar-wrapper { position: relative; width: 140px; height: 140px; border-radius: 30px; background: #fff; padding: 6px; z-index: 2; border: 1px solid #e2e8f0; }
+                .ps-avatar { width: 100%; height: 100%; border-radius: 25px; object-fit: cover; }
+                .ps-avatar-edit { position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-radius: 12px; border: 3px solid #fff; background: #0ea5e9; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+                .ps-avatar-edit:hover { transform: scale(1.1); }
+                
+                .ps-hero-text { margin-bottom: 10px; }
+                .ps-user-name { font-size: 2rem; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
+                .ps-user-handle { font-size: 1rem; font-weight: 500; font-family: 'Space Mono', monospace; }
+                
+                .ps-btn-toggle { border: none; border-radius: 14px; padding: 12px 24px; font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; transition: all 0.2s; }
+                .ps-btn-toggle--edit { background: #f8fafc; color: #475569; border: 1px solid #e2e8f0; }
+                .ps-btn-toggle--edit:hover { background: #e2e8f0; color: #0f172a; }
+                .ps-btn-toggle--cancel { background: #fef2f2; color: #ef4444; }
+                .ps-btn-toggle--cancel:hover { background: #fee2e2; }
+                
+                .ps-card { background: #fff; border-radius: 24px; padding: 32px; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+                .ps-card-title { font-size: 1.1rem; font-weight: 750; color: #0f172a; margin: 0; }
+                .ps-label-small { display: block; font-size: 0.75rem; font-weight: 750; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+                
+                .ps-input-classic { width: 100%; padding: 14px 16px; border-radius: 14px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 0.95rem; transition: all 0.2s; color: #334155; }
+                .ps-input-classic:focus { outline: none; border-color: #04bd20; background: #fff; }
+                
+                .ps-input-modern { width: 100%; padding: 10px 0; border: none; border-bottom: 2px solid #f1f5f9; background: transparent; font-size: 0.95rem; font-weight: 600; color: #0f172a; transition: border-color 0.2s; }
+                .ps-input-modern:focus { outline: none; border-color: #04bd20; }
+                .ps-field-icon { position: absolute; right: 0; top: 12px; color: #cbd5e1; font-size: 0.85rem; }
+                
+                .ps-stat { flex: 1; }
+                .ps-stat-value { font-size: 0.95rem; font-weight: 700; color: #0f172a; }
+                
+                .ps-btn { display: inline-flex; align-items: center; border: none; border-radius: 14px; padding: 14px 28px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+                .ps-btn-primary { background: linear-gradient(135deg, #04bd20 0%, #03a61c 100%); color: #fff; box-shadow: 0 10px 20px -5px rgba(4,189,32,0.4); }
+                .ps-btn-primary:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 30px -5px rgba(4,189,32,0.5); }
+                
+                .ps-btn-simple { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 10px; color: #475569; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; }
+                .ps-btn-simple:hover { background: #e2e8f0; color: #0f172a; }
+                
+                .ps-pref-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #f8fafc; }
+                .ps-pref-item:last-child { border: none; }
+                .ps-pref-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+                .ps-pref-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
+                .ps-pref-sub { font-size: 0.82rem; font-weight: 500; }
+                
+                .ps-switch { width: 3em !important; height: 1.6em; cursor: pointer; border: 2px solid #e2e8f0 !important; background-color: #f1f5f9; }
+                .ps-switch:checked { background-color: #04bd20; border-color: #04bd20 !important; }
+                .ps-switch:focus { box-shadow: none; }
+                
+                @media (max-width: 768px) {
+                    .ps-cover { height: 100px; }
+                    .ps-hero-content { flex-direction: column; align-items: center; text-align: center; margin-top: -50px; }
+                    .ps-hero-text { margin-bottom: 16px; }
+                    .ps-avatar-wrapper { width: 120px; height: 120px; border-radius: 20px; }
+                    .ps-btn-toggle { width: 100%; justify-content: center; }
+                    .ps-hero-text h1 { font-size: 1.5rem; }
                 }
             `}</style>
         </StudentLayout>
     );
 }
-

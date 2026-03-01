@@ -6,9 +6,17 @@ import { usePathname } from 'next/navigation';
 const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) => {
     const pathname = usePathname();
 
+    const isProfileComplete = (user) => {
+        if (!user) return false;
+        return !!(user.FirstName?.trim() && user.LastName?.trim() && user.Institution?.trim() && user.Phone?.trim());
+    };
+
+    const profileComplete = isProfileComplete(userData);
+
     const sidebarMenu = [
         {
             section: "LEARN Today",
+            locked: !profileComplete,
             items: [
                 { label: "Notes", icon: "fa-file-lines", href: "/notes" },
                 { label: "PYQ", icon: "fa-circle-question", href: "/Q-paper" },
@@ -33,7 +41,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "ACCOUNT",
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
-                { label: "My Library", icon: "fa-book-open", href: "/myLearning" },
+                { label: "My Library", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
                 { label: "Logout", icon: "fa-arrow-right-from-bracket", onClick: true, danger: true },
             ]
         }
@@ -72,8 +80,11 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
 
             <div className="flex-grow-1 py-4 overflow-auto custom-scrollbar">
                 {sidebarMenu.map((sec, idx) => (
-                    <div key={idx} className="li-nav-section">
-                        <p className="li-section-label">{sec.section}</p>
+                    <div key={idx} className={`li-nav-section ${sec.locked ? 'li-nav-section--locked' : ''}`}>
+                        <p className="li-section-label d-flex align-items-center justify-content-between">
+                            {sec.section}
+                            {sec.locked && <i className="fa-solid fa-lock ms-2 opacity-50" style={{ fontSize: '0.65rem' }}></i>}
+                        </p>
                         {sec.items.map((item, i) => (
                             item.onClick ? (
                                 <button
@@ -87,11 +98,20 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                             ) : (
                                 <Link
                                     key={i}
-                                    href={item.href}
-                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''}`}
+                                    href={item.locked ? "#" : item.href}
+                                    onClick={(e) => {
+                                        if (item.locked) {
+                                            e.preventDefault();
+                                            toast.warn("Complete your profile to unlock this section!");
+                                        }
+                                    }}
+                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''} ${item.locked ? 'li-menu-item--locked' : ''}`}
                                 >
-                                    <span className="li-menu-icon"><i className={`fa-solid ${item.icon}`}></i></span>
+                                    <span className="li-menu-icon">
+                                        <i className={`fa-solid ${item.icon}`}></i>
+                                    </span>
                                     <span className="ms-3">{item.label}</span>
+                                    {item.locked && <i className="fa-solid fa-lock ms-auto opacity-40" style={{ fontSize: '0.7rem' }}></i>}
                                 </Link>
                             )
                         ))}

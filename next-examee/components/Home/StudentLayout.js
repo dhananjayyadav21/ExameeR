@@ -119,25 +119,47 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
                                     <i className="fa-solid fa-gear text-dark" style={{ fontSize: '0.9rem' }}></i>
                                 </button>
                                 {isDropdownOpen && (
-                                    <div className="dropdown-menu show shadow border-0 p-2 mt-2 position-absolute end-0 rounded-4 animate-fade-in" style={{ minWidth: '220px', zIndex: 1050 }}>
-                                        <div className="px-3 py-2 border-bottom mb-2">
-                                            <p className="fw-bold mb-0 smaller text-dark">{userData?.FirstName} {userData?.LastName}</p>
-                                            <p className="text-muted mb-0" style={{ fontSize: '0.7rem' }}>{userData?.Email}</p>
+                                    <div className="dropdown-menu show shadow-lg border-0 p-2 mt-2 position-absolute end-0 rounded-4 animate-nav-dropdown" style={{ minWidth: '240px', zIndex: 1050, background: '#fff' }}>
+                                        <div className="px-3 py-3 mb-2 rounded-3" style={{ background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)' }}>
+                                            <p className="fw-bold mb-0 text-dark" style={{ fontSize: '0.9rem', lineHeight: '1.2' }}>{userData?.FirstName} {userData?.LastName}</p>
+                                            <p className="text-muted mb-0 truncate" style={{ fontSize: '0.72rem' }}>{userData?.Email}</p>
+                                            <div className="mt-2">
+                                                <span className="badge bg-success-subtle text-success border border-success-subtle smaller fw-bold px-2 py-1" style={{ fontSize: '0.6rem' }}>PRO STUDENT</span>
+                                            </div>
                                         </div>
-                                        <Link href="/profile" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 bg-transparent border-0 text-start text-dark text-decoration-none">
-                                            <i className="fa-regular fa-user-circle opacity-50"></i> My Profile
-                                        </Link>
-                                        <Link href="/myLearning" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 bg-transparent border-0 text-start text-dark text-decoration-none">
-                                            <i className="fa-solid fa-book-open opacity-50"></i> My Library
-                                        </Link>
-                                        {isSpecialUser && (
-                                            <Link href="/dashboard" className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-primary fw-bold text-decoration-none">
-                                                <i className="fa-solid fa-gauge-high"></i> Instructor Dashboard
+
+                                        <div className="dropdown-list-group p-1">
+                                            <Link href="/profile" className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 bg-transparent border-0 text-start text-dark text-decoration-none">
+                                                <div className="d-flex align-items-center justify-content-center bg-light rounded-2" style={{ width: '32px', height: '32px' }}>
+                                                    <i className="fa-regular fa-user-circle opacity-75"></i>
+                                                </div>
+                                                <span style={{ fontSize: '0.88rem', fontWeight: '500' }}>My Profile</span>
                                             </Link>
-                                        )}
-                                        <div className="dropdown-divider mx-2"></div>
-                                        <button onClick={handleLogout} className="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-danger border-0 bg-transparent w-100 text-start">
-                                            <i className="fa-solid fa-arrow-right-from-bracket opacity-50"></i> Logout
+
+                                            <Link href="/myLearning" className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 bg-transparent border-0 text-start text-dark text-decoration-none">
+                                                <div className="d-flex align-items-center justify-content-center bg-light rounded-2" style={{ width: '32px', height: '32px' }}>
+                                                    <i className="fa-solid fa-book-open opacity-75"></i>
+                                                </div>
+                                                <span style={{ fontSize: '0.88rem', fontWeight: '500' }}>My Library</span>
+                                            </Link>
+
+                                            {isSpecialUser && (
+                                                <Link href="/dashboard" className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 bg-transparent border-0 text-start text-primary text-decoration-none">
+                                                    <div className="d-flex align-items-center justify-content-center bg-primary-subtle rounded-2" style={{ width: '32px', height: '32px' }}>
+                                                        <i className="fa-solid fa-gauge-high"></i>
+                                                    </div>
+                                                    <span style={{ fontSize: '0.88rem', fontWeight: '700' }}>Instructor Hub</span>
+                                                </Link>
+                                            )}
+                                        </div>
+
+                                        <div className="dropdown-divider mx-2 my-2 opacity-50"></div>
+
+                                        <button onClick={handleLogout} className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 text-danger border-0 bg-transparent w-100 text-start">
+                                            <div className="d-flex align-items-center justify-content-center bg-danger-subtle rounded-2" style={{ width: '32px', height: '32px' }}>
+                                                <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                                            </div>
+                                            <span style={{ fontSize: '0.88rem', fontWeight: '600' }}>Logout Current Session</span>
                                         </button>
                                     </div>
                                 )}
