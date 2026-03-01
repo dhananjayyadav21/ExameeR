@@ -8,6 +8,7 @@ import { useContext } from "react";
 import ContentContext from "../../context/ContentContext";
 import GlobalLoader from "../../components/GlobalLoader";
 
+import hasUserRole from "../../utils/hasUserRole";
 import "../../styles/dashboard-layout.css";
 
 const menuItems = [
@@ -27,6 +28,7 @@ export default function DashboardLayout({ children }) {
     const router = useRouter();
     const pathname = usePathname();
     const [isAuthorized, setIsAuthorized] = useState(false);
+    const [authError, setAuthError] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleLogout = () => {
@@ -35,19 +37,46 @@ export default function DashboardLayout({ children }) {
     };
 
     useEffect(() => {
-        const userRole = typeof window !== 'undefined' && localStorage.getItem("userRole");
-        const allowedRoles = ["Admin", "Instructor"];
-        if (!userRole || !allowedRoles.includes(userRole)) {
-            router.push("/");
+        const token = localStorage.getItem("token");
+        if (!token) {
+            router.push('/login');
+            return;
+        }
+
+        if (!hasUserRole('Admin', 'Instructor')) {
+            setAuthError(true);
+            setIsAuthorized(false);
         } else {
             setIsAuthorized(true);
+            setAuthError(false);
             if (!userData) {
                 getUser();
             }
         }
-    }, []);
+    }, [userData]);
 
     if (!isAuthorized) {
+        if (authError) {
+            return (
+                <div className="d-flex flex-column align-items-center justify-content-center vh-100 bg-light p-4 text-center">
+                    <div className="bg-white p-5 rounded-4 shadow-sm border border-danger-subtle" style={{ maxWidth: '450px' }}>
+                        <div className="bg-danger bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center mx-auto mb-4" style={{ width: '80px', height: '80px' }}>
+                            <i className="fa-solid fa-shield-halved text-danger fs-1"></i>
+                        </div>
+                        <h3 className="fw-black mb-2 text-dark">Access Denied</h3>
+                        <p className="text-secondary mb-4">You are not authenticated as an Admin or Instructor to view this dashboard. Please contact support if you believe this is an error.</p>
+                        <div className="d-flex flex-column gap-2">
+                            <button className="btn btn-dark rounded-pill py-2 fw-bold" onClick={() => router.push("/")}>
+                                <i className="fa-solid fa-house me-2"></i>Back to Website
+                            </button>
+                            <button className="btn btn-outline-danger rounded-pill py-2 fw-bold border-0" onClick={handleLogout}>
+                                <i className="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout Session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
         return (
             <div className="dl-loading">
                 <div className="dl-spinner"></div>

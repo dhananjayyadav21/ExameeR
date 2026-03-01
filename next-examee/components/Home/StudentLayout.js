@@ -32,8 +32,16 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
             return;
         }
         setToken(storedToken);
+
+        // Verify if user exists in DB and fetch data
         if (!userData) {
-            getUser();
+            getUser().then((res) => {
+                if (res && res.success === false) {
+                    localStorage.clear();
+                    router.push('/login');
+                    toast.error(res.message || "Session expired or user not found. Please login again.");
+                }
+            });
         }
 
         const handleClickOutside = (event) => {

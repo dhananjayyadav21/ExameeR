@@ -26,7 +26,14 @@ export default function ProfileSetupGate({ children }) {
 
         // Fetch user if not loaded yet
         if (!userData) {
-            getUser().then(() => setChecked(true));
+            getUser().then((res) => {
+                if (res && res.success === false) {
+                    localStorage.clear();
+                    window.location.href = '/login';
+                } else {
+                    setChecked(true);
+                }
+            });
         } else {
             setChecked(true);
         }
