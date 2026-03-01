@@ -20,6 +20,9 @@ export async function GET(req) {
         const status = searchParams.get('status') || "";   // empty = all statuses
         const searchType = searchParams.get('type') || "notes";
         const search = searchParams.get('search') || "";   // empty = no text filter
+        const course = searchParams.get('course') || "";
+        const semester = searchParams.get('semester') || "";
+        const university = searchParams.get('university') || "";
 
         const user = await User.findById(userData._id);
         if (!user) {
@@ -30,6 +33,9 @@ export async function GET(req) {
         const filter = {};
         if (category) filter.category = category;
         if (status) filter.status = status;
+        if (course) filter.course = course;
+        if (semester) filter.semester = semester;
+        if (university) filter.university = university;
         if (user.Role === "Instructor") filter.ExmeeUserId = user.ExmeeUserId;
 
         // Text search — if empty, match everything (no $or restriction)

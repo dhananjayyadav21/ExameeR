@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import ContentContext from '../../../context/ContentContext';
 import * as GlobalUrls from "../../../utils/GlobalURL";
 import { toast } from "react-toastify";
+import { academicOptions } from "../../../constants/academicOptions";
 
 export default function DashboardCoursesPage() {
     const context = useContext(ContentContext);
@@ -16,6 +17,9 @@ export default function DashboardCoursesPage() {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState("sciTechnology");
     const [status, setStatus] = useState("");
+    const [course, setCourse] = useState("");
+    const [semester, setSemester] = useState("");
+    const [university, setUniversity] = useState("");
     const [isloading, setIsloading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalCourse, setModalCourse] = useState(null);
@@ -30,13 +34,15 @@ export default function DashboardCoursesPage() {
     useEffect(() => { getCourse(); }, []);
 
     // Auto-search when dropdowns change
-    useEffect(() => { doSearch(search, category, status); }, [category, status]);
+    // Auto-search when dropdowns change
+    useEffect(() => { doSearch(search, category, status, course, semester, university); }, [category, status, course, semester, university]);
 
-    const doSearch = async (s = search, c = category, st = status) => {
+    const doSearch = async (s = search, c = category, st = status, cr = course, sm = semester, un = university) => {
         setIsloading(true);
         try {
-            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${s}&category=${c}&status=${st}&type=course`);
-            if (res.success === false) toast.warning(res.message || "No matching content found");
+            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${s}&category=${c}&status=${st}&course=${cr}&semester=${sm}&university=${un}&type=course`);
+            if (res.success === false) toast.warning(res.message || "No matching courses found");
+            setCurrentPage(1);
         } catch (error) { console.error(error); }
         finally { setIsloading(false); }
     };
@@ -82,7 +88,7 @@ export default function DashboardCoursesPage() {
             {/* Search Card */}
             <div className="dc-search-card">
                 <form onSubmit={handleSubmit} className="row g-3 align-items-end">
-                    <div className="col-md-5">
+                    <div className="col-md-6">
                         <label className="dc-label">Search</label>
                         <div className="dc-input-wrap">
                             <span className="dc-input-icon"><i className="fa-solid fa-search"></i></span>
@@ -100,7 +106,38 @@ export default function DashboardCoursesPage() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
+                        <label className="dc-label">Course</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                            <select className="dc-input dc-select" value={course} onChange={e => setCourse(e.target.value)}>
+                                <option value="">All Courses</option>
+                                {academicOptions.courses.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <label className="dc-label">Semester</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-clock"></i></span>
+                            <select className="dc-input dc-select" value={semester} onChange={e => setSemester(e.target.value)}>
+                                <option value="">All Semesters</option>
+                                {academicOptions.semesters.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <label className="dc-label">University</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-university"></i></span>
+                            <select className="dc-input dc-select" value={university} onChange={e => setUniversity(e.target.value)}>
+                                <option value="">All Universities</option>
+                                {academicOptions.universities.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <label className="dc-label">Status & Action</label>
                         <div className="d-flex gap-2">
                             <div className="dc-input-wrap flex-grow-1">
                                 <span className="dc-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
@@ -114,8 +151,8 @@ export default function DashboardCoursesPage() {
                             <button type="submit" className="dc-search-btn" title="Search" disabled={isloading}>
                                 {isloading ? <div className="dc-spinner"></div> : <i className="fa-solid fa-magnifying-glass"></i>}
                             </button>
-                            {(search || category !== 'sciTechnology' || status !== 'public') && (
-                                <button type="button" className="dc-clear-btn" title="Clear Filters" onClick={() => { setSearch(''); setCategory('sciTechnology'); setStatus('public'); getCourse(); }}>
+                            {(search || category !== 'sciTechnology' || status !== '' || course !== '' || semester !== '' || university !== '') && (
+                                <button type="button" className="dc-clear-btn" title="Clear Filters" onClick={() => { setSearch(''); setCategory('sciTechnology'); setStatus(''); setCourse(''); setSemester(''); setUniversity(''); getCourse(); }}>
                                     <i className="fa-solid fa-xmark"></i>
                                 </button>
                             )}
