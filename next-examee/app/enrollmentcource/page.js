@@ -196,36 +196,33 @@ function EnrollmentPage({ setProgress = () => { } }) {
                             <span className="ep-content-meta">{lectureCnt} lectures</span>
                         </div>
                         <div className="ep-curriculum">
-                            <div className="mb-5">
-                                <h4 className="fw-black h5 text-uppercase tracking-wide mb-4">Core Lectures</h4>
-                                <div className="rounded-4 border overflow-hidden bg-white">
-                                    {course?.lectures?.map((lec, i) => (
-                                        <div
-                                            key={i}
-                                            className={`p-3 d-flex justify-content-between align-items-center border-bottom lec-row ${lec.isFree ? 'lec-free' : 'lec-locked'}`}
-                                            onClick={() => {
-                                                if (lec.isFree) { setVideoUrl(lec.videoUrl); setShowModal(true); }
-                                            }}
-                                            style={{ cursor: lec.isFree ? 'pointer' : 'default' }}
-                                        >
-                                            <div className="d-flex align-items-center gap-3">
-                                                <i className={`fa-regular ${lec.isFree ? 'fa-circle-play text-green' : 'fa-circle-play text-muted opacity-50'}`}></i>
-                                                <span className="small fw-semibold text-secondary">{lec.title}</span>
-                                            </div>
-                                            <div className="d-flex align-items-center gap-2">
-                                                {lec.isFree ? (
-                                                    <span className="free-lecture-badge">
-                                                        <i className="fa-solid fa-unlock-keyhole me-1" style={{ fontSize: '0.6rem' }}></i>Free
-                                                    </span>
-                                                ) : (
-                                                    <span className="locked-lecture-badge">
-                                                        <i className="fa-solid fa-lock me-1" style={{ fontSize: '0.6rem' }}></i>Enrolled
-                                                    </span>
-                                                )}
-                                            </div>
+                            <div className="rounded-4 border overflow-hidden bg-white">
+                                {course?.lectures?.map((lec, i) => (
+                                    <div
+                                        key={i}
+                                        className={`p-3 d-flex justify-content-between align-items-center border-bottom lec-row ${lec.isFree ? 'lec-free' : 'lec-locked'}`}
+                                        onClick={() => {
+                                            if (lec.isFree) { setVideoUrl(lec.videoUrl); setShowModal(true); }
+                                        }}
+                                        style={{ cursor: lec.isFree ? 'pointer' : 'default' }}
+                                    >
+                                        <div className="d-flex align-items-center gap-3">
+                                            <i className={`fa-regular ${lec.isFree ? 'fa-circle-play text-green' : 'fa-circle-play text-muted opacity-50'}`}></i>
+                                            <span className="small fw-semibold text-secondary">{lec.title}</span>
                                         </div>
-                                    ))}
-                                </div>
+                                        <div className="d-flex align-items-center gap-2">
+                                            {lec.isFree ? (
+                                                <span className="free-lecture-badge">
+                                                    <i className="fa-solid fa-unlock-keyhole me-1" style={{ fontSize: '0.6rem' }}></i>Free
+                                                </span>
+                                            ) : (
+                                                <span className="locked-lecture-badge">
+                                                    <i className="fa-solid fa-lock me-1" style={{ fontSize: '0.6rem' }}></i>Enrolled
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
