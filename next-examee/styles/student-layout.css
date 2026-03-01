@@ -46,7 +46,7 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 1050;
+    z-index: 1000;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border-subtle);
@@ -131,20 +131,21 @@ body {
     min-width: 0;
     background: var(--main-bg);
     transition: all 0.4s ease;
+    z-index: auto;
 }
 
 /* Header Styling */
 .li-header {
     height: 72px;
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-subtle);
+    background: #ffffff !important;
+    border-bottom: 2px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--border-subtle);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     padding: 0 1.5rem;
 }
 
@@ -205,7 +206,7 @@ body {
     inset: 0;
     background: rgba(15, 23, 42, 0.3);
     backdrop-filter: blur(4px);
-    z-index: 1040;
+    z-index: 950;
     animation: fadeIn 0.3s ease;
 }
 

@@ -102,7 +102,7 @@
         top: 0;
         left: -260px;
         height: 100vh;
-        z-index: 1050;
+        z-index: 1000;
         transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -114,7 +114,7 @@
 .dl-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1040;
+    z-index: 950;
     background: rgba(15, 23, 42, 0.3);
     backdrop-filter: blur(4px);
 }
@@ -133,13 +133,12 @@
     justify-content: flex-end;
     padding: 0 16px;
     height: 72px;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
-    box-shadow: 0 4px 24px -10px rgba(0, 0, 0, 0.05);
+    background: #ffffff !important;
+    border-bottom: 2px solid #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 10;
 }
 
 @media (min-width: 768px) {
@@ -381,7 +380,7 @@
     overflow-x: hidden;
     padding-bottom: 100px;
     position: relative;
-    z-index: 1;
+    z-index: auto;
 }
 
 .dl-content-full {

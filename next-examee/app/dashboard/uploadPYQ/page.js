@@ -5,6 +5,7 @@ import ContentContext from '../../../context/ContentContext';
 import DriveUpload from '../../../utils/DriveUpload';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
+import { academicOptions } from '../../../constants/academicOptions';
 
 const Content = () => {
     const context = useContext(ContentContext);
@@ -19,6 +20,9 @@ const Content = () => {
         year: '',
         subject: '',
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         tags: '',
         isPublic: true,
         status: 'public',
@@ -37,6 +41,9 @@ const Content = () => {
                     year: pyqToEdit.year || '',
                     subject: pyqToEdit.subject || '',
                     category: pyqToEdit.category || 'sciTechnology',
+                    course: pyqToEdit.course || '',
+                    semester: pyqToEdit.semester || '',
+                    university: pyqToEdit.university || '',
                     tags: pyqToEdit.tags ? pyqToEdit.tags.join(', ') : '',
                     isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
                     status: pyqToEdit.status || 'public',
@@ -77,15 +84,23 @@ const Content = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setUploading(true);
-        if (!file || file.type !== 'application/pdf') {
+        if (!isEditMode && (!file || file.type !== 'application/pdf')) {
             setUploading(false);
             return toast.warning("Please upload a valid PDF question paper.");
+        }
+
+        if (file && file.type !== 'application/pdf') {
+            setUploading(false);
+            return toast.warning("The uploaded file must be a PDF");
         }
         const data = {
             title: formData.title,
             year: formData.year,
             subject: formData.subject,
             category: formData.category,
+            course: formData.course,
+            semester: formData.semester,
+            university: formData.university,
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
@@ -177,6 +192,43 @@ const Content = () => {
                                             <option value="sciTechnology">Sci - Technology</option>
                                             <option value="commerce">Commerce</option>
                                             <option value="artscivils">Arts &amp; Civils</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Course / Program</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                        <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Course</option>
+                                            {academicOptions.courses.map(course => (
+                                                <option key={course.value} value={course.value}>{course.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="up-label">Semester / Session</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                        <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Semester</option>
+                                            {academicOptions.semesters.map(semester => (
+                                                <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">University / Board</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                        <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select University</option>
+                                            {academicOptions.universities.map(university => (
+                                                <option key={university.value} value={university.value}>{university.label}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>

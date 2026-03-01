@@ -19,6 +19,18 @@ const pyqSchema = new mongoose.Schema(
             enum: ['sciTechnology', 'commerce', 'artscivils'],
             default: 'sciTechnology',
         },
+        course: {
+            type: String,
+            default: '',
+        },
+        semester: {
+            type: String,
+            default: '',
+        },
+        university: {
+            type: String,
+            default: '',
+        },
         tags: {
             type: [String],
             default: [],
