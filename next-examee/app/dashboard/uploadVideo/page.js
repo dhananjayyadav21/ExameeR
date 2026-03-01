@@ -5,6 +5,7 @@ import ContentContext from '../../../context/ContentContext';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
+import PageLoader from "../../../components/PageLoader";
 
 const Content = () => {
     const context = useContext(ContentContext);
@@ -287,7 +288,7 @@ const Content = () => {
 
 export default function UploadVideoPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<PageLoader text="Loading editor..." subtext="Preparing video upload interface" />}>
             <Content />
         </Suspense>
     );
