@@ -78,7 +78,7 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
             </div>
 
             <main className="li-main">
-                <header className="li-header px-3 px-md-5">
+                <header className="li-header px-3 px-md-5 shadow-sm">
                     <div className="d-flex align-items-center gap-2 gap-md-4 flex-grow-1">
                         {/* Mobile Toggle */}
                         <button
