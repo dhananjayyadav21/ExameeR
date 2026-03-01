@@ -26,6 +26,7 @@ const Content = () => {
         tags: '',
         isPublic: true,
         status: 'public',
+        accessTier: 'free',
     });
 
     const [file, setFile] = useState(null);
@@ -56,6 +57,7 @@ const Content = () => {
                         tags: pyqToEdit.tags ? (Array.isArray(pyqToEdit.tags) ? pyqToEdit.tags.join(', ') : pyqToEdit.tags) : '',
                         isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
                         status: pyqToEdit.status || 'public',
+                        accessTier: pyqToEdit.accessTier || 'free',
                     });
                     setFileUrl(pyqToEdit.fileUrl || null);
                 }
@@ -115,6 +117,7 @@ const Content = () => {
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
+            accessTier: formData.accessTier,
             fileUrl: fileUrl
         };
         try {
@@ -251,6 +254,17 @@ const Content = () => {
                                             <option value="public">Published</option>
                                             <option value="draft">Draft</option>
                                             <option value="archived">Archived</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Access Tier <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#94a3b8' }}>— who can view this?</span></label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-crown"></i></span>
+                                        <select name="accessTier" value={formData.accessTier} onChange={handleChange} className="up-input up-select">
+                                            <option value="free">🟢 E0 Free — visible to all</option>
+                                            <option value="plus">🟣 Plus — Plus &amp; Pro users</option>
+                                            <option value="pro">🟡 Pro — Pro users only</option>
                                         </select>
                                     </div>
                                 </div>

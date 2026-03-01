@@ -50,6 +50,7 @@ export async function PUT(req, { params }) {
             university: data.university || '',
             isPublic: data.isPublic !== undefined ? data.isPublic : true,
             status: data.status || 'public',
+            accessTier: data.accessTier || 'free',
             fileUrl: data.fileUrl
         };
 

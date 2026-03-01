@@ -136,7 +136,7 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: "Access denied" }, { status: 401 });
         }
 
-        const { title, description, category, course, semester, university, tags, isPublic, status, fileUrl } = await req.json();
+        const { title, description, category, course, semester, university, tags, isPublic, status, fileUrl, accessTier } = await req.json();
 
         if (!title || !category || !status || !fileUrl) {
             return NextResponse.json({ success: false, message: "Required fields missing" }, { status: 400 });
@@ -152,6 +152,7 @@ export async function POST(req) {
             tags: Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim()),
             isPublic: isPublic === false ? false : true,
             status: status || 'public',
+            accessTier: accessTier || 'free',
             fileUrl,
             uploadedBy: userData._id,
             ExmeeUserId: user.ExmeeUserId,
