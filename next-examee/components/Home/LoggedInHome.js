@@ -6,6 +6,7 @@ import NotesItem from '../NotesItem';
 import CourceIteam from './CourceIteam';
 import StudentLayout from './StudentLayout';
 import { academicOptions } from '../../constants/academicOptions';
+import { GETCourse_URL, GETNOTE_URL, GETPYQ_URL, GETVideo_URL } from '../../utils/GlobalURL';
 
 const LoggedInHome = ({ userData }) => {
     const context = useContext(ContentContext);
@@ -15,10 +16,10 @@ const LoggedInHome = ({ userData }) => {
     useEffect(() => {
         if (userData) {
             const query = `?course=${userData.Course || ''}&semester=${userData.Semester || ''}&university=${userData.University || ''}&category=${userData.Category || ''}`;
-            getCourse(`${GlobalUrls.GETCourse_URL}${query}`);
-            getNote(`${GlobalUrls.GETNOTE_URL}${query}`);
-            getPYQ(`${GlobalUrls.GETPYQ_URL}${query}`);
-            getVideo(`${GlobalUrls.GETVideo_URL}${query}`);
+            getCourse(`${GETCourse_URL}${query}`);
+            getNote(`${GETNOTE_URL}${query}`);
+            getPYQ(`${GETPYQ_URL}${query}`);
+            getVideo(`${GETVideo_URL}${query}`);
         } else {
             getCourse();
             getNote();

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const lectureSchema = new mongoose.Schema({
     title: { type: String, required: true },
     videoUrl: { type: String, required: true },
+    isFree: { type: Boolean, default: false },
 });
 
 const courseSchema = new mongoose.Schema({

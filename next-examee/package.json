@@ -25,6 +25,7 @@
     "next": "16.1.6",
     "nodemailer": "^8.0.1",
     "pdfjs-dist": "^5.1.91",
+    "razorpay": "^2.9.6",
     "react": "19.2.3",
     "react-bootstrap": "^2.10.7",
     "react-dom": "19.2.3",
