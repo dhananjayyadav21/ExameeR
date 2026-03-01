@@ -67,6 +67,15 @@ const VideoItem = ({ video }) => {
         }
     };
 
+    const getYouTubeId = (url) => {
+        if (!url) return '';
+        if (url.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+        return match ? match[1] : url;
+    };
+
+    const videoId = getYouTubeId(Video?.fileUrl);
+
     return (
         <div className="h-100">
             <Modal
@@ -81,7 +90,7 @@ const VideoItem = ({ video }) => {
                 <div className="position-relative overflow-hidden bg-dark" ref={videoContainerRef} style={{ aspectRatio: '16/9' }}>
                     <iframe
                         className="w-100 h-100 border-0"
-                        src={`https://www.youtube.com/embed/${Video?.fileUrl}?rel=0&modestbranding=1`}
+                        src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
                         title={Video?.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
