@@ -33,21 +33,25 @@ export async function GET(req) {
             category: category
         };
 
-        if (course) criteria.course = course;
-        if (semester) {
+        if (course && course !== "For All") {
+            criteria.course = { $in: [course, "For All"] };
+        }
+        if (semester && semester !== "For All") {
             if (semester === "1st Year") {
-                criteria.semester = { $in: ["1st Sem", "2nd Sem", "1st Year"] };
+                criteria.semester = { $in: ["1st Sem", "2nd Sem", "1st Year", "For All"] };
             } else if (semester === "2nd Year") {
-                criteria.semester = { $in: ["3rd Sem", "4th Sem", "2nd Year"] };
+                criteria.semester = { $in: ["3rd Sem", "4th Sem", "2nd Year", "For All"] };
             } else if (semester === "3rd Year") {
-                criteria.semester = { $in: ["5th Sem", "6th Sem", "3rd Year"] };
+                criteria.semester = { $in: ["5th Sem", "6th Sem", "3rd Year", "For All"] };
             } else if (semester === "4th Year" || semester === "Final Year") {
-                criteria.semester = { $in: ["7th Sem", "8th Sem", "4th Year", "Final Year"] };
+                criteria.semester = { $in: ["7th Sem", "8th Sem", "4th Year", "Final Year", "For All"] };
             } else {
-                criteria.semester = semester;
+                criteria.semester = { $in: [semester, "For All"] };
             }
         }
-        if (university) criteria.university = university;
+        if (university && university !== "For All") {
+            criteria.university = { $in: [university, "For All"] };
+        }
 
         const pyqs = await PYQ.aggregate([
             { $match: criteria },

@@ -12,6 +12,7 @@ export const academicOptions = {
         { value: "SSC CGL", label: "SSC CGL" },
         { value: "NEET", label: "NEET" },
         { value: "JEE Mains", label: "JEE Mains" },
+        { value: "For All", label: "For All" },
         { value: "Other", label: "Other / General" }
     ],
     semesters: [
@@ -27,6 +28,7 @@ export const academicOptions = {
         { value: "2nd Year", label: "2nd Year" },
         { value: "3rd Year", label: "3rd Year" },
         { value: "Final Year", label: "Final Year" },
+        { value: "For All", label: "For All" },
         { value: "N/A", label: "Not Applicable" }
     ],
     universities: [
@@ -39,6 +41,7 @@ export const academicOptions = {
         { value: "VTU", label: "VTU (Karnataka)" },
         { value: "CBSE", label: "CBSE" },
         { value: "ICSE", label: "ICSE" },
+        { value: "For All", label: "For All" },
         { value: "Other", label: "Other University / Board" }
     ],
     categories: [
