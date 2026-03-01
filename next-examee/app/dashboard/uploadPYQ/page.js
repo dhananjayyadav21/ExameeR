@@ -9,7 +9,7 @@ import { academicOptions } from '../../../constants/academicOptions';
 
 const Content = () => {
     const context = useContext(ContentContext);
-    const { addPYQ, updatePYQ, dashPYQ } = context;
+    const { addPYQ, updatePYQ, getPYQById, dashPYQ } = context;
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get('edit');
@@ -33,25 +33,36 @@ const Content = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        if (isEditMode && dashPYQ) {
-            const pyqToEdit = dashPYQ.find(p => p._id === editId);
-            if (pyqToEdit) {
-                setFormData({
-                    title: pyqToEdit.title || '',
-                    year: pyqToEdit.year || '',
-                    subject: pyqToEdit.subject || '',
-                    category: pyqToEdit.category || 'sciTechnology',
-                    course: pyqToEdit.course || '',
-                    semester: pyqToEdit.semester || '',
-                    university: pyqToEdit.university || '',
-                    tags: pyqToEdit.tags ? pyqToEdit.tags.join(', ') : '',
-                    isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
-                    status: pyqToEdit.status || 'public',
-                });
-                setFileUrl(pyqToEdit.fileUrl || null);
+        const fetchPYQ = async () => {
+            if (isEditMode) {
+                let pyqToEdit = dashPYQ.find(p => p._id === editId);
+
+                if (!pyqToEdit) {
+                    const response = await getPYQById(editId);
+                    if (response && response.success) {
+                        pyqToEdit = response.data;
+                    }
+                }
+
+                if (pyqToEdit) {
+                    setFormData({
+                        title: pyqToEdit.title || '',
+                        year: pyqToEdit.year || '',
+                        subject: pyqToEdit.subject || '',
+                        category: pyqToEdit.category || 'sciTechnology',
+                        course: pyqToEdit.course || '',
+                        semester: pyqToEdit.semester || '',
+                        university: pyqToEdit.university || '',
+                        tags: pyqToEdit.tags ? (Array.isArray(pyqToEdit.tags) ? pyqToEdit.tags.join(', ') : pyqToEdit.tags) : '',
+                        isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
+                        status: pyqToEdit.status || 'public',
+                    });
+                    setFileUrl(pyqToEdit.fileUrl || null);
+                }
             }
-        }
-    }, [isEditMode, editId, dashPYQ]);
+        };
+        fetchPYQ();
+    }, [isEditMode, editId, dashPYQ, getPYQById]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;

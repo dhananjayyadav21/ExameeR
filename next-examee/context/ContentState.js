@@ -208,10 +208,57 @@ const ContentState = (props) => {
         });
     };
 
+    const getNoteById = async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETNOTE_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch note by id", error);
+            }
+        });
+    };
+
+    const getPYQById = async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETPYQ_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch pyq by id", error);
+            }
+        });
+    };
+
+    const getVideoById = async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETVideo_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch video by id", error);
+            }
+        });
+    };
+
+    const getCourseById = async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETCourse_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch course by id", error);
+            }
+        });
+    };
+
     //======================================================[ Update Content ]=========================================
     const updateNotes = async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATENOTES_URL}/${id}`, Data);
+            if (json.success) {
+                setdashNotes(prev => prev.map(note => note._id === id ? { ...note, ...json.data } : note));
+            }
             return json;
         } catch (error) {
             console.log("Do not update note due to some error", error);
@@ -221,6 +268,9 @@ const ContentState = (props) => {
     const updatePYQ = async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATEPYQS_URL}/${id}`, Data);
+            if (json.success) {
+                setdashPYQ(prev => prev.map(pyq => pyq._id === id ? { ...pyq, ...json.data } : pyq));
+            }
             return json;
         } catch (error) {
             console.log("Do not update pyq due to some error", error);
@@ -567,6 +617,7 @@ const ContentState = (props) => {
                 Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
                 LatestData,
                 addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
+                getNoteById, getPYQById, getVideoById, getCourseById,
                 updateNotes, updatePYQ, updateVideo, updateCourse,
                 deleteNotes, deletePYQ, deleteVideo, deleteCourse,
                 addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes, RemoveMyLearningPYQ, RemoveMyLearningVideo,

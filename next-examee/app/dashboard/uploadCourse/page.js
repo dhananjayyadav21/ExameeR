@@ -6,6 +6,7 @@ import ContentContext from '../../../context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
+import { academicOptions } from '../../../constants/academicOptions';
 
 const extractYouTubeID = (url) => {
     if (!url) return null;
@@ -37,6 +38,9 @@ const Content = () => {
         courseImage: null,
         trialVideo: "",
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         isPublic: true,
         status: 'public',
         lectures: [
@@ -66,6 +70,9 @@ const Content = () => {
                     courseImage: courseToEdit.courseImage || null,
                     trialVideo: courseToEdit.trialVideo || "",
                     category: courseToEdit.category || 'sciTechnology',
+                    course: courseToEdit.course || '',
+                    semester: courseToEdit.semester || '',
+                    university: courseToEdit.university || '',
                     isPublic: courseToEdit.isPublic !== undefined ? courseToEdit.isPublic : true,
                     status: courseToEdit.status || 'public',
                     lectures: courseToEdit.lectures || [{ title: "", videoUrl: "" }],
@@ -203,13 +210,49 @@ const Content = () => {
                                         </div>
                                     </div>
                                     <div className="col-md-4">
-                                        <label className="up-label">Category</label>
+                                        <label className="up-label">Category / Stream</label>
                                         <div className="up-input-wrap">
                                             <span className="up-input-icon"><i className="fa-solid fa-layer-group"></i></span>
                                             <select name="category" value={formData.category} onChange={handleChange} className="up-input up-select">
                                                 <option value="sciTechnology">Sci - Technology</option>
                                                 <option value="commerce">Commerce</option>
                                                 <option value="artscivils">Arts &amp; Civils</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">Course / Program</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                            <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select Course</option>
+                                                {academicOptions.courses.map(course => (
+                                                    <option key={course.value} value={course.value}>{course.label}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">Semester / Year</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                            <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select Semester</option>
+                                                {academicOptions.semesters.map(semester => (
+                                                    <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">University / Board</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                            <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select University</option>
+                                                {academicOptions.universities.map(university => (
+                                                    <option key={university.value} value={university.value}>{university.label}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>

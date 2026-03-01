@@ -28,6 +28,18 @@ const courseSchema = new mongoose.Schema({
         enum: ['sciTechnology', 'commerce', 'artscivils'],
         default: 'sciTechnology',
     },
+    course: {
+        type: String,
+        default: '',
+    },
+    semester: {
+        type: String,
+        default: '',
+    },
+    university: {
+        type: String,
+        default: '',
+    },
     isPublic: {
         type: Boolean,
         default: true,
@@ -41,4 +53,7 @@ const courseSchema = new mongoose.Schema({
     timestamps: true
 });
 
-export default mongoose.models.Course || mongoose.model('Course', courseSchema);
+if (mongoose.models && mongoose.models.Course) {
+    delete mongoose.models.Course;
+}
+export default mongoose.model('Course', courseSchema);

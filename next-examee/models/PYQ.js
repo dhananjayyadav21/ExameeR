@@ -64,4 +64,7 @@ const pyqSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.models.PYQ || mongoose.model('PYQ', pyqSchema);
+if (mongoose.models && mongoose.models.PYQ) {
+    delete mongoose.models.PYQ;
+}
+export default mongoose.model('PYQ', pyqSchema);

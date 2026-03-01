@@ -9,7 +9,7 @@ import { academicOptions } from '../../../constants/academicOptions';
 
 const Content = () => {
     const context = useContext(ContentContext);
-    const { addNote, updateNotes, dashNotes } = context;
+    const { addNote, updateNotes, getNoteById, dashNotes } = context;
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get('edit');
@@ -33,25 +33,36 @@ const Content = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        if (isEditMode && dashNotes) {
-            const noteToEdit = dashNotes.find(n => n._id === editId);
-            if (noteToEdit) {
-                setFormData({
-                    title: noteToEdit.title || '',
-                    description: noteToEdit.description || '',
-                    professor: noteToEdit.professor || '',
-                    category: noteToEdit.category || 'sciTechnology',
-                    course: noteToEdit.course || '',
-                    semester: noteToEdit.semester || '',
-                    university: noteToEdit.university || '',
-                    tags: noteToEdit.tags ? noteToEdit.tags.join(', ') : '',
-                    isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
-                    status: noteToEdit.status || 'public',
-                });
-                setFileUrl(noteToEdit.fileUrl || null);
+        const fetchNote = async () => {
+            if (isEditMode) {
+                let noteToEdit = dashNotes.find(n => n._id === editId);
+
+                if (!noteToEdit) {
+                    const response = await getNoteById(editId);
+                    if (response && response.success) {
+                        noteToEdit = response.data;
+                    }
+                }
+
+                if (noteToEdit) {
+                    setFormData({
+                        title: noteToEdit.title || '',
+                        description: noteToEdit.description || '',
+                        professor: noteToEdit.professor || '',
+                        category: noteToEdit.category || 'sciTechnology',
+                        course: noteToEdit.course || '',
+                        semester: noteToEdit.semester || '',
+                        university: noteToEdit.university || '',
+                        tags: noteToEdit.tags ? (Array.isArray(noteToEdit.tags) ? noteToEdit.tags.join(', ') : noteToEdit.tags) : '',
+                        isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
+                        status: noteToEdit.status || 'public',
+                    });
+                    setFileUrl(noteToEdit.fileUrl || null);
+                }
             }
-        }
-    }, [isEditMode, editId, dashNotes]);
+        };
+        fetchNote();
+    }, [isEditMode, editId, dashNotes, getNoteById]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;

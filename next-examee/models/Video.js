@@ -57,4 +57,7 @@ const videoSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.models.Video || mongoose.model('Video', videoSchema);
+if (mongoose.models && mongoose.models.Video) {
+    delete mongoose.models.Video;
+}
+export default mongoose.model('Video', videoSchema);
