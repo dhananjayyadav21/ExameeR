@@ -33,34 +33,61 @@ export function PlanGate({ userPlan = 'e0', contentTier = 'free', children }) {
 
     return (
         <div style={{ position: 'relative', borderRadius: 'inherit' }}>
-            {/* Blurred-out content underneath */}
-            <div style={{ filter: 'blur(2px)', pointerEvents: 'none', userSelect: 'none', opacity: 0.55 }}>
+            {/* Sharper content underneath - NO BLUR */}
+            <div style={{ pointerEvents: 'none', userSelect: 'none' }}>
                 {children}
             </div>
 
-            {/* Lock overlay */}
+            {/* Premium Lock overlay */}
             <div
                 onClick={() => router.push('/plans')}
                 style={{
                     position: 'absolute', inset: 0, borderRadius: 'inherit',
-                    background: 'rgba(15,23,42,0.55)', backdropFilter: 'blur(3px)',
+                    background: 'rgba(15, 23, 42, 0.25)', // Subtle dark tint
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', gap: 8, zIndex: 2,
-                    transition: 'background 0.2s',
+                    cursor: 'pointer', gap: 12, zIndex: 5,
+                    transition: 'all 0.2s',
+                    backdropFilter: 'grayscale(0.3) contrast(1.1)', // Slight aesthetic tint without blurring
                 }}
+                className="plan-gate-overlay"
                 title="Upgrade to unlock"
             >
-                <div style={{ width: 36, height: 36, borderRadius: 10, background: meta.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 12px ${meta.color}30` }}>
-                    <i className="fa-solid fa-lock" style={{ color: meta.color, fontSize: '0.9rem' }} />
+                <div style={{
+                    width: 44, height: 44, borderRadius: 14,
+                    background: '#fff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
+                    color: meta.color,
+                }}>
+                    <i className="fa-solid fa-lock" style={{ fontSize: '1.2rem' }} />
                 </div>
-                <p style={{ margin: 0, color: '#fff', fontWeight: 800, fontSize: '0.75rem', textAlign: 'center', lineHeight: 1.3 }}>
-                    {meta.label} Plan required
-                </p>
-                <div style={{ background: meta.color, color: '#fff', fontSize: '0.68rem', fontWeight: 800, padding: '4px 14px', borderRadius: 20 }}>
-                    Upgrade →
+
+                <div style={{ textAlign: 'center' }}>
+                    <p style={{ margin: 0, color: '#fff', fontWeight: 900, fontSize: '0.85rem', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                        {meta.label} Plan required
+                    </p>
+                    <div style={{
+                        marginTop: 8,
+                        background: meta.color, color: '#fff',
+                        fontSize: '0.7rem', fontWeight: 800,
+                        padding: '6px 18px', borderRadius: 20,
+                        boxShadow: `0 4px 12px ${meta.color}50`,
+                        display: 'inline-block'
+                    }}>
+                        UPGRADE NOW →
+                    </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                .plan-gate-overlay:hover {
+                    background: rgba(15, 23, 42, 0.35) !important;
+                }
+                .plan-gate-overlay:hover div {
+                    transform: scale(1.05);
+                }
+            `}</style>
         </div>
     );
 }
