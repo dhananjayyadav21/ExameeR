@@ -22,6 +22,9 @@ export default function BooksPage() {
     const [activeCategory, setActiveCategory] = useState('All Books');
     const [searchQuery, setSearchQuery] = useState('');
 
+    const [selectedBook, setSelectedBook] = useState(null);
+    const [viewerOpen, setViewerOpen] = useState(false);
+
     const isLocked = userPlan === 'e0';
 
     useEffect(() => {
@@ -42,6 +45,11 @@ export default function BooksPage() {
         if (isLocked) { router.push('/plans'); return; }
         if (book.isPremium && userPlan === 'e0') { router.push('/plans'); return; }
 
+        if (!book.fileUrl) {
+            toast.info('No file linked to this book yet.');
+            return;
+        }
+
         // Track access in background
         const token = getToken();
         if (token) {
@@ -52,11 +60,8 @@ export default function BooksPage() {
             }).catch(() => { });
         }
 
-        if (book.fileUrl) {
-            window.open(book.fileUrl, '_blank');
-        } else {
-            toast.info('No file linked to this book yet.');
-        }
+        setSelectedBook(book);
+        setViewerOpen(true);
     };
 
     const filteredBooks = books.filter(book =>
@@ -158,9 +163,9 @@ export default function BooksPage() {
                                 ))
                             ) : filteredBooks.length > 0 ? (
                                 filteredBooks.map(book => (
-                                    <div key={book._id} className="col-6 col-sm-4 col-md-3 col-xl-2">
-                                        <div className="eb-book-card-v5" onClick={() => handleOpenBook(book)}>
-                                            <div className="eb-book-cover-wrap-v5">
+                                    <div key={book._id} className="col-6 col-sm-4 col-md-4 col-xl-3">
+                                        <div className="eb-book-card-v5 border border-white shadow-sm p-3 rounded-4" onClick={() => handleOpenBook(book)}>
+                                            <div className="eb-book-cover-wrap-v5 shadow-sm">
                                                 {book.coverImage ? (
                                                     <img src={book.coverImage} alt={book.title} className="eb-book-img" />
                                                 ) : (
@@ -169,15 +174,20 @@ export default function BooksPage() {
                                                     </div>
                                                 )}
                                                 <div className="eb-book-overlay-v5">
-                                                    <button className="eb-book-btn-v5 px-3 py-1 fw-700">Open</button>
+                                                    <div className="eb-book-btn-v5 px-3 py-2 fw-700">
+                                                        <i className="fa-solid fa-book-open me-2"></i>READ NOW
+                                                    </div>
                                                 </div>
                                                 {book.isPremium && <span className="eb-prem-badge-v5"><i className="fa-solid fa-crown"></i></span>}
                                             </div>
-                                            <div className="eb-book-meta-v5 pt-2">
+                                            <div className="eb-book-meta-v5 pt-3">
                                                 <h3 className="eb-book-title-v5">{book.title}</h3>
-                                                <div className="d-flex justify-content-between align-items-center">
-                                                    <span className="eb-book-author-v5">by {book.author.split(' ')[0]}</span>
-                                                    <span className="eb-book-stats-v5"><i className="fa-solid fa-eye me-1"></i>{book.accessCount || 0}</span>
+                                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="eb-author-avatar me-2">{book.author?.[0] || 'A'}</div>
+                                                        <span className="eb-book-author-v5">{book.author || 'Anonymous'}</span>
+                                                    </div>
+                                                    <span className="eb-book-stats-v5"><i className="fa-regular fa-eye me-1"></i>{book.accessCount || 0}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -208,6 +218,37 @@ export default function BooksPage() {
                             <button className="btn btn-dark w-100 py-2 rounded-4 fw-800" onClick={() => router.push('/plans')}>
                                 VIEW PLANS <i className="fa-solid fa-arrow-right ms-1"></i>
                             </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Resource Viewer Modal */}
+                {viewerOpen && selectedBook && (
+                    <div className="eb-viewer-overlay">
+                        <div className="eb-viewer-inner container">
+                            <div className="eb-viewer-header d-flex align-items-center justify-content-between p-3 rounded-top-4">
+                                <div className="d-flex align-items-center">
+                                    <button className="btn btn-sm btn-light rounded-circle eb-v-close me-3" onClick={() => setViewerOpen(false)}>
+                                        <i className="fa-solid fa-xmark"></i>
+                                    </button>
+                                    <div>
+                                        <h6 className="mb-0 fw-800 text-truncate" style={{ maxWidth: '300px' }}>{selectedBook.title}</h6>
+                                        <span className="smaller opacity-75">Reading Mode</span>
+                                    </div>
+                                </div>
+                                <div className="d-flex gap-2">
+                                    <button className="btn btn-sm btn-dark px-3 rounded-pill fw-700" onClick={() => window.open(selectedBook.fileUrl, '_blank')}>
+                                        <i className="fa-solid fa-up-right-from-square me-2"></i>EXTERNAL
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="eb-viewer-body bg-white rounded-bottom-4 shadow-lg overflow-hidden">
+                                <iframe
+                                    src={`${selectedBook.fileUrl}#toolbar=0&navpanes=0`}
+                                    className="w-100 h-100 border-0"
+                                    title={selectedBook.title}
+                                ></iframe>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -246,21 +287,34 @@ export default function BooksPage() {
 
                 /* Dense Grid V5 */
                 .eb-book-card-v5 { cursor: pointer; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-                .eb-book-card-v5:hover { transform: translateY(-6px); }
-                .eb-book-cover-wrap-v5 { position: relative; aspect-ratio: 1/1.4; border-radius: 8px; overflow: hidden; background: transparent; }
-                .eb-book-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-                .eb-book-card-v5:hover .eb-book-img { transform: scale(1.08); }
-                .eb-book-overlay-v5 { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+                .eb-book-card-v5:hover { transform: translateY(-8px); }
+                .eb-book-cover-wrap-v5 { position: relative; aspect-ratio: 1/1.4; border-radius: 14px; overflow: hidden; background: #f8fafc; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1); }
+                .eb-book-img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s cubic-bezier(0.2, 1, 0.3, 1); }
+                .eb-book-card-v5:hover .eb-book-img { transform: scale(1.1) rotate(1deg); }
+                .eb-book-overlay-v5 { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
                 .eb-book-card-v5:hover .eb-book-overlay-v5 { opacity: 1; }
-                .eb-book-btn-v5 { border: none; background: #fff; color: #0f172a; border-radius: 6px; font-size: 0.8rem; }
-                .eb-prem-badge-v5 { position: absolute; top: 8px; left: 8px; width: 22px; height: 22px; background: #f59e0b; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.7rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
                 
-                .eb-book-title-v5 { font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.3rem; line-height: 1.35; }
-                .eb-book-author-v5 { font-size: 0.68rem; font-weight: 600; color: #94a3b8; }
-                .eb-book-stats-v5 { font-size: 0.68rem; font-weight: 700; color: #cbd5e1; }
+                .eb-book-btn-v5 { border: none; background: #fff; color: #0f172a; border-radius: 12px; font-size: 0.75rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transform: translateY(10px); transition: 0.4s; }
+                .eb-book-card-v5:hover .eb-book-btn-v5 { transform: translateY(0); }
+                
+                .eb-prem-badge-v5 { position: absolute; top: 12px; left: 12px; width: 28px; height: 28px; background: #f59e0b; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+                
+                .eb-book-title-v5 { font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.6rem; line-height: 1.3; }
+                .eb-author-avatar { width: 20px; height: 20px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 800; color: #64748b; border: 1px solid #e2e8f0; }
+                .eb-book-author-v5 { font-size: 0.75rem; font-weight: 600; color: #64748b; }
+                .eb-book-stats-v5 { font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
+
+                /* Viewer Style */
+                .eb-viewer-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
+                .eb-viewer-inner { width: 100%; height: 95vh; display: flex; flex-direction: column; }
+                .eb-viewer-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); color: #0f172a; }
+                .eb-viewer-body { flex: 1; height: 0; background: #fff; }
+                .eb-v-close { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+                .eb-v-close:hover { background: #f43f5e; color: #fff; transform: rotate(90deg); }
 
                 .eb-skel { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px; }
                 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                 @keyframes pulse {
                     0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
                     70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
@@ -276,6 +330,8 @@ export default function BooksPage() {
                     .eb-hero-title-v5 { font-size: 1.8rem; }
                     .eb-hero-sub-v5 { font-size: 0.85rem; }
                     .eb-locked-overlay-v5 { top: 320px; }
+                    .eb-viewer-inner { height: 100vh; width: 100%; margin: 0; }
+                    .eb-viewer-overlay { padding: 0; }
                 }
             `}</style>
 
