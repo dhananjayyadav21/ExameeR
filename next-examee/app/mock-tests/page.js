@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
 import PageBanners from '../../components/PageBanners';
+import ContentContext from '../../context/ContentContext';
+import { getLimit } from '../../utils/planAccess';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const TEST_CATEGORIES = ['All Tests', 'Engineering', 'Medical', 'GATE', 'UPSC', 'SSC'];
 
@@ -15,11 +19,36 @@ const DUMMY_TESTS = [
 ];
 
 export default function MockTestsPage() {
+    const { userData, usage, getUsage, recordUsage } = React.useContext(ContentContext);
     const [activeCategory, setActiveCategory] = useState('All Tests');
+    const userPlan = userData?.Plan || 'e0';
+    const router = useRouter();
+
+    React.useEffect(() => {
+        getUsage();
+    }, []);
+
+    const limit = getLimit(userPlan, 'mockTests');
+    const taken = usage?.mockTestsTaken || 0;
+    const remaining = limit === Infinity ? 'Unlimited' : Math.max(0, limit - taken);
 
     const filteredTests = DUMMY_TESTS.filter(test =>
         activeCategory === 'All Tests' || test.category === activeCategory
     );
+
+    const handleStartTest = async (test) => {
+        if (limit !== Infinity && taken >= limit) {
+            toast.info(`Monthly limit reached! (${limit} tests). Upgrade your plan for more.`);
+            router.push('/plans');
+            return;
+        }
+
+        const confirmed = window.confirm(`Start "${test.title}"? This will count as 1 attempt for this month.`);
+        if (confirmed) {
+            await recordUsage('mockTests');
+            toast.success("Test session started! (Usage recorded)");
+        }
+    };
 
     return (
         <StudentLayout title="Mock Tests">
@@ -35,12 +64,12 @@ export default function MockTestsPage() {
                     </div>
                     <div className="mt-stats-pills d-flex gap-2">
                         <div className="mt-stat-pill">
-                            <span className="mt-pill-count">240+</span>
-                            <span className="mt-pill-label">Total Tests</span>
+                            <span className="mt-pill-count">{remaining}</span>
+                            <span className="mt-pill-label">Remaining</span>
                         </div>
                         <div className="mt-stat-pill mt-stat-pill--active">
-                            <span className="mt-pill-count">12</span>
-                            <span className="mt-pill-label">Completed</span>
+                            <span className="mt-pill-count">{taken}</span>
+                            <span className="mt-pill-label">Taken ({(new Date().toLocaleString('default', { month: 'long' }))})</span>
                         </div>
                     </div>
                 </div>
@@ -102,7 +131,7 @@ export default function MockTestsPage() {
                                     </div>
                                 </div>
 
-                                <button className="mt-start-btn">
+                                <button className="mt-start-btn" onClick={() => handleStartTest(test)}>
                                     Start Mock Test <i className="fa-solid fa-chevron-right ms-2"></i>
                                 </button>
                             </div>

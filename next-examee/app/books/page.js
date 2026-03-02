@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
 import PageBanners from '../../components/PageBanners';
+import ContentContext from '../../context/ContentContext';
+import { useRouter } from 'next/navigation';
 
 const CATEGORIES = ['All Books', 'Engineering', 'Medical', 'Management', 'Law', 'Commerce'];
 
@@ -15,6 +17,10 @@ const DUMMY_BOOKS = [
 ];
 
 export default function BooksPage() {
+    const { userData } = React.useContext(ContentContext);
+    const userPlan = userData?.Plan || 'e0';
+    const router = useRouter();
+
     const [activeCategory, setActiveCategory] = useState('All Books');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -22,6 +28,8 @@ export default function BooksPage() {
         (activeCategory === 'All Books' || book.category === activeCategory) &&
         (book.title.toLowerCase().includes(searchQuery.toLowerCase()) || book.author.toLowerCase().includes(searchQuery.toLowerCase()))
     );
+
+    const isLocked = userPlan === 'e0';
 
     return (
         <StudentLayout title="Examee Books">
@@ -64,7 +72,7 @@ export default function BooksPage() {
                 </div>
 
                 {/* Grid */}
-                <div className="row g-4">
+                <div className="row g-4" style={isLocked ? { filter: 'blur(5px)', pointerEvents: 'none', userSelect: 'none' } : {}}>
                     {filteredBooks.map(book => (
                         <div key={book.id} className="col-6 col-md-4 col-lg-3 col-xl-2">
                             <div className="eb-book-card">
@@ -94,7 +102,26 @@ export default function BooksPage() {
                     ))}
                 </div>
 
-                {filteredBooks.length === 0 && (
+                {isLocked && (
+                    <div className="eb-locked-overlay">
+                        <div className="eb-locked-content text-center shadow-lg border">
+                            <div className="eb-lock-icon mb-4">
+                                <i className="fa-solid fa-crown"></i>
+                            </div>
+                            <h2 className="eb-locked-title fw-black mb-3">Examee Digital Library is Premium</h2>
+                            <p className="eb-locked-text mb-4">Access 50,000+ textbooks, research journals, and study materials specially curated for your exams.</p>
+                            <div className="eb-locked-badges mb-4 d-flex gap-2 justify-content-center">
+                                <span className="badge rounded-pill bg-purple-soft text-purple px-3">Plus Access</span>
+                                <span className="badge rounded-pill bg-amber-soft text-amber px-3">Pro Access</span>
+                            </div>
+                            <button className="btn btn-dark btn-lg fw-black px-5 rounded-pill" onClick={() => router.push('/plans')}>
+                                UNLOCK LIBRARY NOW <i className="fa-solid fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {!isLocked && filteredBooks.length === 0 && (
                     <div className="text-center py-5">
                         <i className="fa-solid fa-book-open display-1 opacity-10 mb-4 d-block"></i>
                         <h4 className="text-muted">No books found matching your criteria</h4>
@@ -188,8 +215,21 @@ export default function BooksPage() {
                 .eb-book-price { font-size: 0.72rem; font-weight: 700; }
                 .text-green { color: #04bd20; }
 
+                /* Locked Library Styling */
+                .eb-locked-overlay { position: relative; margin-top: -300px; z-index: 10; padding: 40px 20px; }
+                .eb-locked-content { background: white; border-radius: 24px; max-width: 600px; margin: 0 auto; padding: 48px; }
+                .eb-lock-icon { width: 70px; height: 70px; background: #fffbeb; color: #f59e0b; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 2rem; box-shadow: 0 10px 20px rgba(245,158,11,0.2); border: 1.5px solid #fef3c7; }
+                .eb-locked-title { font-size: 1.6rem; color: #0f172a; }
+                .eb-locked-text { color: #64748b; font-size: 0.95rem; line-height: 1.6; }
+                .fw-black { font-weight: 900; }
+                .bg-purple-soft { background: #faf5ff; border: 1px solid #e9d5ff; }
+                .text-purple { color: #8b5cf6; }
+                .bg-amber-soft { background: #fffbeb; border: 1px solid #fef3c7; }
+                .text-amber { color: #f59e0b; }
+
                 @media (max-width: 768px) {
                     .eb-title { font-size: 1.5rem; }
+                    .eb-locked-content { padding: 32px 20px; }
                 }
             `}</style>
         </StudentLayout>

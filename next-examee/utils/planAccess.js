@@ -38,3 +38,33 @@ export const PLAN_LABELS = {
     plus: { label: 'Plus', color: '#8b5cf6' },
     pro: { label: 'Pro', color: '#f59e0b' },
 };
+
+/**
+ * Monthly limits for different features based on plan.
+ */
+export const PLAN_LIMITS = {
+    e0: {
+        mockTests: 3,
+        callBook: 0,
+        exameeBooks: false,
+    },
+    plus: {
+        mockTests: 10,
+        callBook: 5,
+        exameeBooks: true,
+    },
+    pro: {
+        mockTests: Infinity,
+        callBook: Infinity,
+        exameeBooks: true,
+    },
+};
+
+/**
+ * Returns the limit for a specific feature based on user plan.
+ */
+export function getLimit(userPlan = 'e0', feature) {
+    const limits = PLAN_LIMITS[userPlan] || PLAN_LIMITS.e0;
+    return limits[feature];
+}
+

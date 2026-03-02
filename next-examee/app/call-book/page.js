@@ -2,17 +2,63 @@
 import React from 'react';
 import StudentLayout from '../../components/Home/StudentLayout';
 import PageBanners from '../../components/PageBanners';
+import ContentContext from '../../context/ContentContext';
+import { getLimit } from '../../utils/planAccess';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function CallBookPage() {
-    return (
-        <StudentLayout title="Call Book">
+    const { userData, usage, getUsage, recordUsage } = React.useContext(ContentContext);
+    const userPlan = userData?.Plan || 'e0';
+    const router = useRouter();
+
+    React.useEffect(() => {
+        getUsage();
+    }, []);
+
+    const limit = getLimit(userPlan, 'callBook');
+    const taken = usage?.callsBooked || 0;
+    const remaining = limit === Infinity ? 'Unlimited' : Math.max(0, limit - taken);
+
+    const handleBookSession = async (mentor) => {
+        if (userPlan === 'e0') {
+            toast.info("Mentorship calls are exclusive to Plus and Pro users!");
+            router.push('/plans');
+            return;
+        }
+
+        if (limit !== Infinity && taken >= limit) {
+            toast.info(`Monthly limit reached! (${limit} calls). Upgrade your plan for more.`);
+            router.push('/plans');
+            return;
+        }
+
+        const confirmed = window.confirm(`Book session with ${mentor.name}? This will count towards your monthly limit.`);
+        if (confirmed) {
+            await recordUsage('calls');
+            toast.success("Session booked successfully! (Usage recorded)");
+        }
+    };
+
             <div className="container-fluid px-0 pb-5 cb-container">
                 {/* Banners */}
                 <PageBanners page="call-book" />
 
-                <div className="cb-header mb-5">
-                    <h1 className="cb-title mb-2">Examee Support & Mentorship</h1>
-                    <p className="cb-subtitle text-muted">Book a call with top mentors, educators, and career counselors.</p>
+                <div className="cb-header mb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                    <div>
+                        <h1 className="cb-title mb-2">Examee Support & Mentorship</h1>
+                        <p className="cb-subtitle text-muted">Book a call with top mentors, educators, and career counselors.</p>
+                    </div>
+                    <div className="cb-usage-stats d-flex gap-2">
+                        <div className="cb-usage-pill">
+                            <span className="cb-usage-count">{remaining}</span>
+                            <span className="cb-usage-label">Remaining Calls</span>
+                        </div>
+                        <div className="cb-usage-pill cb-usage-pill--active">
+                            <span className="cb-usage-count">{taken}</span>
+                            <span className="cb-usage-label">Taken This Month</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="row g-4">
@@ -41,7 +87,7 @@ export default function CallBookPage() {
                                     </div>
                                 </div>
 
-                                <button className="cb-call-btn">
+                                <button className="cb-call-btn" onClick={() => handleBookSession(mentor)}>
                                     <i className="fa-solid fa-phone-volume me-2"></i> Book Session
                                 </button>
                             </div>
@@ -69,6 +115,11 @@ export default function CallBookPage() {
                 .cb-mentor-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; }
                 .cb-mentor-name { font-size: 1rem; font-weight: 700; color: #0f172a; }
                 
+                .cb-usage-pill { background: #fff; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; min-width: 120px; text-align: center; }
+                .cb-usage-pill--active { background: #f0fdf4; border-color: #04bd20; }
+                .cb-usage-count { font-size: 1.1rem; font-weight: 700; color: #0f172a; line-height: 1.2; }
+                .cb-usage-label { font-size: 0.64rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
+
                 .cb-call-btn {
                     width: 100%;
                     background: #f8fafc;
@@ -84,6 +135,6 @@ export default function CallBookPage() {
                 
                 .smaller { font-size: 0.65rem; }
             `}</style>
-        </StudentLayout>
+        </StudentLayout >
     );
 }

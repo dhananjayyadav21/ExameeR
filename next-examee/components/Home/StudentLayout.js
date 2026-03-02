@@ -132,7 +132,31 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
                                             <p className="fw-bold mb-0 text-dark" style={{ fontSize: '0.9rem', lineHeight: '1.2' }}>{userData?.FirstName} {userData?.LastName}</p>
                                             <p className="text-muted mb-0 truncate" style={{ fontSize: '0.72rem' }}>{userData?.Email}</p>
                                             <div className="mt-2">
-                                                <span className="badge bg-success-subtle text-success border border-success-subtle smaller fw-bold px-2 py-1" style={{ fontSize: '0.6rem' }}>PRO STUDENT</span>
+                                                {(() => {
+                                                    const plan = userData?.Plan || 'e0';
+                                                    const meta = {
+                                                        e0: { label: 'E0 Free', color: '#04bd20', bg: '#f0fdf4', icon: 'fa-bolt', grad: 'linear-gradient(135deg, #04bd20 0%, #059669 100%)' },
+                                                        plus: { label: 'Plus Student', color: '#8b5cf6', bg: '#faf5ff', icon: 'fa-star', grad: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)' },
+                                                        pro: { label: 'Pro Student', color: '#f59e0b', bg: '#fffbeb', icon: 'fa-crown', grad: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)' }
+                                                    }[plan];
+                                                    return (
+                                                        <span className="smaller fw-bold px-2 py-1 rounded-pill d-inline-flex align-items-center gap-1" style={{
+                                                            fontSize: '0.62rem',
+                                                            background: meta.bg,
+                                                            color: meta.color,
+                                                            border: `1px solid ${meta.color}40`,
+                                                            textTransform: 'uppercase'
+                                                        }}>
+                                                            <i className={`fa-solid ${meta.icon}`} style={{
+                                                                fontSize: '0.65rem',
+                                                                background: meta.grad,
+                                                                WebkitBackgroundClip: 'text',
+                                                                WebkitTextFillColor: 'transparent'
+                                                            }} />
+                                                            {meta.label}
+                                                        </span>
+                                                    );
+                                                })()}
                                             </div>
                                         </div>
 
@@ -174,13 +198,35 @@ const StudentLayout = ({ children, title = "Exploration" }) => {
                             </div>
                             <div className="li-greet-text d-none d-lg-block ms-2">
                                 <p className="li-greet-hi fw-bold mb-0" style={{ fontSize: '0.85rem' }}>Hi, {userData?.FirstName || 'Student'}</p>
-                                <p className="smaller text-success mb-0 fw-bold"><i className="fa-solid fa-circle small me-1" style={{ fontSize: '0.5rem' }}></i>Pro Student</p>
+                                {(() => {
+                                    const plan = userData?.Plan || 'e0';
+                                    const meta = {
+                                        e0: { label: 'E0 Free Student', color: '#04bd20', icon: 'fa-bolt', grad: 'linear-gradient(135deg, #04bd20 0%, #059669 100%)' },
+                                        plus: { label: 'Plus Student', color: '#8b5cf6', icon: 'fa-star', grad: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)' },
+                                        pro: { label: 'Pro Student', color: '#f59e0b', icon: 'fa-crown', grad: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)' }
+                                    }[plan];
+                                    return (
+                                        <p className="smaller mb-0 fw-bold d-flex align-items-center gap-1" style={{ color: meta.color }}>
+                                            <i className={`fa-solid ${meta.icon}`} style={{
+                                                fontSize: '0.7rem',
+                                                background: meta.grad,
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent'
+                                            }}></i>
+                                            {meta.label}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                             <img
                                 src={userProfile}
                                 alt="Profile"
-                                className="li-user-avatar d-none d-md-block ms-1 ms-md-2"
-                                style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #04bd20' }}
+                                className="li-user-avatar d-none d-md-block ms-1 ms-md-2 shadow-sm"
+                                style={{
+                                    width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover',
+                                    border: `2px solid ${userData?.Plan === 'pro' ? '#f59e0b' : userData?.Plan === 'plus' ? '#8b5cf6' : '#04bd20'}`,
+                                    padding: '2px', background: '#fff'
+                                }}
                                 onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + (userData?.FirstName || 'User') + "&background=04bd20&color=fff"; }}
                             />
                         </div>

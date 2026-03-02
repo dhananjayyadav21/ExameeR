@@ -1,10 +1,13 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { PLAN_LIMITS } from '../../utils/planAccess';
 
 const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) => {
     const pathname = usePathname();
+    const router = useRouter();
+    const userPlan = userData?.Plan || 'e0';
 
     const isProfileComplete = (user) => {
         if (!user) return false;
@@ -27,14 +30,14 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "STUDY PACKS",
             items: [
                 { label: "Course", icon: "fa-layer-group", href: "/cource" },
-                { label: "Mock Test", icon: "fa-vial", href: "/mock-tests" },
+                { label: "Mock Test", icon: "fa-vial", href: "/mock-tests", premium: true },
             ]
         },
         {
             section: "EXPLORE EXAMEE",
             items: [
-                { label: "Examee Books", icon: "fa-book", href: "/books" },
-                { label: "Call Book", icon: "fa-headset", href: "/call-book" },
+                { label: "Examee Books", icon: "fa-book", href: "/books", locked: userPlan === 'e0', premium: true },
+                { label: "Call Book", icon: "fa-headset", href: "/call-book", locked: userPlan === 'e0', premium: true },
             ]
         },
         {
@@ -77,8 +80,26 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                         {/* Show actual plan */}
                         {(() => {
                             const plan = userData?.Plan || 'e0';
-                            const meta = { e0: { label: 'E0 Free', color: '#04bd20', bg: '#f0fdf4' }, plus: { label: 'Plus', color: '#8b5cf6', bg: '#faf5ff' }, pro: { label: 'Pro', color: '#f59e0b', bg: '#fffbeb' } }[plan];
-                            return <span style={{ fontSize: '0.65rem', fontWeight: 800, padding: '2px 10px', borderRadius: 20, background: meta.bg, color: meta.color, border: `1px solid ${meta.color}30` }}>{meta.label} Plan</span>;
+                            const meta = {
+                                e0: { label: 'E0 Free', color: '#04bd20', bg: '#f0fdf4', icon: 'fa-bolt', grad: 'linear-gradient(135deg, #04bd20 0%, #059669 100%)' },
+                                plus: { label: 'Plus', color: '#8b5cf6', bg: '#faf5ff', icon: 'fa-star', grad: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)' },
+                                pro: { label: 'Pro', color: '#f59e0b', bg: '#fffbeb', icon: 'fa-crown', grad: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)' }
+                            }[plan];
+                            return (
+                                <span style={{
+                                    fontSize: '0.65rem', fontWeight: 800, padding: '3px 12px', borderRadius: 20,
+                                    background: meta.bg, color: meta.color, border: `1px solid ${meta.color}40`,
+                                    display: 'inline-flex', alignItems: 'center', gap: 5, textTransform: 'uppercase'
+                                }}>
+                                    <i className={`fa-solid ${meta.icon}`} style={{
+                                        fontSize: '0.7rem',
+                                        background: meta.grad,
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent'
+                                    }}></i>
+                                    {meta.label} Plan
+                                </span>
+                            );
                         })()}
                     </div>
                 </div>
@@ -108,13 +129,25 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                                     onClick={(e) => {
                                         if (item.locked) {
                                             e.preventDefault();
-                                            toast.warn("Complete your profile to unlock this section!");
+                                            if (item.href === "/books" || item.href === "/call-book") {
+                                                toast.info("Plus/Pro Plan required to access this feature!");
+                                                router.push('/plans');
+                                            } else {
+                                                toast.warn("Complete your profile to unlock this section!");
+                                            }
                                         }
                                     }}
                                     className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''} ${item.locked ? 'li-menu-item--locked' : ''}`}
                                 >
-                                    <span className="li-menu-icon">
+                                    <span className="li-menu-icon" style={{ position: 'relative' }}>
                                         <i className={`fa-solid ${item.icon}`}></i>
+                                        {item.premium && (
+                                            <i className="fa-solid fa-crown" style={{
+                                                position: 'absolute', top: -6, right: -6,
+                                                fontSize: '0.5rem', color: '#f59e0b',
+                                                textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+                                            }}></i>
+                                        )}
                                     </span>
                                     <span className="ms-3">{item.label}</span>
                                     {item.locked && <i className="fa-solid fa-lock ms-auto opacity-40" style={{ fontSize: '0.7rem' }}></i>}
