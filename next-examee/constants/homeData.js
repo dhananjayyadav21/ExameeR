@@ -6,28 +6,28 @@ export const homeData = {
         ctaStarted: "Get Started",
         ctaCourses: "Explore Courses",
         stats: [
-            { count: "15,000+", label: "Active Students" },
-            { count: "500+", label: "Premium Courses" },
+            { count: "1500+", label: "Active Students" },
+            { count: "50+", label: "Premium Courses" },
             { count: "98%", label: "Success Rate" }
         ]
     },
     marqueeStats: [
-        { val: '4k+', label: 'Prog. Notes', icon: 'fa-file-lines', color: '#04bd20', bg: 'rgba(4, 189, 32, 0.08)' },
-        { val: '150+', label: 'Lectures', icon: 'fa-circle-play', color: '#0d6efd', bg: 'rgba(13, 110, 253, 0.08)' },
-        { val: '500+', label: 'Papers', icon: 'fa-file-invoice', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.08)' },
-        { val: '10k+', label: 'Students', icon: 'fa-users', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.08)' },
+        { val: '100+', label: 'Prog. Notes', icon: 'fa-file-lines', color: '#04bd20', bg: 'rgba(4, 189, 32, 0.08)' },
+        { val: '50+', label: 'Lectures', icon: 'fa-circle-play', color: '#0d6efd', bg: 'rgba(13, 110, 253, 0.08)' },
+        { val: '50+', label: 'Papers', icon: 'fa-file-invoice', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.08)' },
+        { val: '1500+', label: 'Students', icon: 'fa-users', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.08)' },
         { val: '24/7', label: 'Support', icon: 'fa-headset', color: '#ec4899', bg: 'rgba(236, 72, 153, 0.08)' },
     ],
     trustedStats: [
-        { count: "15 Million+", label: "Happy Students", bg: "#f8f9ff", color: "#5d5edc", icon: "user-group" },
-        { count: "24000+", label: "Mock Tests", bg: "#fff5f5", color: "#ff4d4d", icon: "square-check" },
-        { count: "14000+", label: "Video Lectures", bg: "#f0fff4", color: "#22c55e", icon: "video" },
-        { count: "80000+", label: "Practice Papers", bg: "#fff9eb", color: "#f59e0b", icon: "file-signature" }
+        { count: "1500+", label: "Happy Students", bg: "#f8f9ff", color: "#5d5edc", icon: "user-group" },
+        { count: "240+", label: "Mock Tests", bg: "#fff5f5", color: "#ff4d4d", icon: "square-check" },
+        { count: "140+", label: "Video Lectures", bg: "#f0fff4", color: "#22c55e", icon: "video" },
+        { count: "100+", label: "Practice Papers", bg: "#fff9eb", color: "#f59e0b", icon: "file-signature" }
     ],
     studyResources: [
-        { title: "Reference Books", desc: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.", bg: "#f0f9ff", icon: "book-open", img: "/assets/img/DSA.jpg" },
-        { title: "Previous Year Papers", desc: "Master the exam pattern with our extensive collection of previous year question papers and detailed solutions for all categories.", bg: "#fff7ed", icon: "file-shield", img: "/assets/img/Sidebaneer.png" },
-        { title: "Expert Notes", desc: "Use Examee's detailed study materials that simplify complex ideas into easily understandable language with quick revision points.", bg: "#f0fdf4", icon: "sticky-note", img: "/assets/img/Sidebarbanner2.png" }
+        { title: "Reference Books", desc: "Our experts have created thorough study materials that break down complicated concepts into easily understandable content.", bg: "#f0f9ff", icon: "book-open", img: "/assets/img/ReferenceBooks-home.jpg" },
+        { title: "Previous Year Papers", desc: "Master the exam pattern with our extensive collection of previous year question papers and detailed solutions for all categories.", bg: "#fff7ed", icon: "file-shield", img: "/assets/img/Pyq-home.jpg" },
+        { title: "Expert Notes", desc: "Use Examee's detailed study materials that simplify complex ideas into easily understandable language with quick revision points.", bg: "#f0fdf4", icon: "sticky-note", img: "/assets/img/ExpertNotes-home.jpg" }
     ],
     howItWorks: {
         steps: [
@@ -51,8 +51,23 @@ export const homeData = {
         { title: "BSc General", tags: ["Physics", "Chemistry", "Maths"], icon: "book-atlas", color: "#8b5cf6", bg: "rgba(139, 92, 246, 0.08)" }
     ],
     testimonials: [
-        { name: "Anmol Rathore", achievement: "UPSC CSE 2023 AIR 7", text: "I used to regularly follow the youtube videos, prelims booster videos and specially editorial discussion from where I made important pointers. All these were very clearly explained and helpful.", img: "https://i.pravatar.cc/150?u=a" },
-        { name: "Raja Majhi", achievement: "GATE 2024 AIR 1", text: "I am Raja Majhi, and I am thrilled to share that I have secured All India Rank 1 (AIR 1) in the GATE 2024 examination in ECE. From the very beginning, Examee stood out for its structured curriculum.", img: "https://i.pravatar.cc/150?u=b" },
-        { name: "Amit Kumar Mandal", achievement: "IBPS Topper", text: "Examee helped me in establishing the basics of every subject through which I was able to progress quickly and was also able to increase my speed and also maintaining accuracy. Mocks were realistic.", img: "https://i.pravatar.cc/150?u=c" }
+        {
+            name: "Sneha Kulkarni",
+            achievement: "BSc IT - 8.9 CGPA",
+            text: "The structured modules and topic-wise practice tests improved my conceptual clarity. I was able to score high marks in Java, Python, and Software Engineering because of regular mock tests.",
+            img: "https://i.pravatar.cc/150?u=sneha"
+        },
+        {
+            name: "Aman Yadav",
+            achievement: "B.Tech CSE - 9.5 CGPA",
+            text: "Examee’s important questions and last-minute revision sheets helped me perform confidently in university exams. The content is aligned with semester syllabus which made preparation easy.",
+            img: "https://i.pravatar.cc/150?u=aman"
+        },
+        {
+            name: "Prajwal Singh",
+            achievement: "BSc IT - University Top 5 Rank",
+            text: "The subject-wise explanations and doubt-solving sessions made complex topics easy to understand. I improved both my internal marks and semester exam scores significantly.",
+            img: "https://i.pravatar.cc/150?u=priya"
+        }
     ]
 };

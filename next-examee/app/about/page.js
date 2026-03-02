@@ -18,10 +18,10 @@ export default function AboutPage() {
     ];
 
     const stats = [
-        { val: '10K+', label: 'Resources', icon: 'fa-layer-group', color: '#16a34a', bg: 'rgba(22,163,74,0.05)' },
-        { val: '5K+', label: 'Students', icon: 'fa-users', color: '#2563eb', bg: 'rgba(37,99,235,0.05)' },
-        { val: '100+', label: 'Instructors', icon: 'fa-user-tie', color: '#7c3aed', bg: 'rgba(124,58,237,0.05)' },
-        { val: '500+', label: 'Q-Papers', icon: 'fa-file-invoice', color: '#d97706', bg: 'rgba(217,119,6,0.05)' },
+        { val: '100+', label: 'Resources', icon: 'fa-layer-group', color: '#16a34a', bg: 'rgba(22,163,74,0.05)' },
+        { val: '1K+', label: 'Students', icon: 'fa-users', color: '#2563eb', bg: 'rgba(37,99,235,0.05)' },
+        { val: '10+', label: 'Instructors', icon: 'fa-user-tie', color: '#7c3aed', bg: 'rgba(124,58,237,0.05)' },
+        { val: '100+', label: 'Q-Papers', icon: 'fa-file-invoice', color: '#d97706', bg: 'rgba(217,119,6,0.05)' },
     ];
 
     return (
