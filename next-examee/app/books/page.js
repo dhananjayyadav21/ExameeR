@@ -24,6 +24,7 @@ export default function BooksPage() {
 
     const [selectedBook, setSelectedBook] = useState(null);
     const [viewerOpen, setViewerOpen] = useState(false);
+    const [isMaximized, setIsMaximized] = useState(false);
 
     const isLocked = userPlan === 'e0';
 
@@ -62,6 +63,7 @@ export default function BooksPage() {
 
         setSelectedBook(book);
         setViewerOpen(true);
+        setIsMaximized(true);
     };
 
     const filteredBooks = books.filter(book =>
@@ -224,11 +226,11 @@ export default function BooksPage() {
 
                 {/* Resource Viewer Modal */}
                 {viewerOpen && selectedBook && (
-                    <div className="eb-viewer-overlay">
-                        <div className="eb-viewer-inner container">
-                            <div className="eb-viewer-header d-flex align-items-center justify-content-between p-3 rounded-top-4">
+                    <div className={`eb-viewer-overlay ${isMaximized ? 'is-maximized' : ''}`}>
+                        <div className={`eb-viewer-inner ${isMaximized ? 'w-100 h-100' : 'container'}`}>
+                            <div className={`eb-viewer-header d-flex align-items-center justify-content-between p-3 ${isMaximized ? '' : 'rounded-top-4'}`}>
                                 <div className="d-flex align-items-center">
-                                    <button className="btn btn-sm btn-light rounded-circle eb-v-close me-3" onClick={() => setViewerOpen(false)}>
+                                    <button className="btn btn-sm btn-light rounded-circle eb-v-close me-3" onClick={() => { setViewerOpen(false); setIsMaximized(false); }}>
                                         <i className="fa-solid fa-xmark"></i>
                                     </button>
                                     <div>
@@ -236,18 +238,24 @@ export default function BooksPage() {
                                         <span className="smaller opacity-75">Reading Mode</span>
                                     </div>
                                 </div>
-                                <div className="d-flex gap-2">
-                                    <button className="btn btn-sm btn-dark px-3 rounded-pill fw-700" onClick={() => window.open(selectedBook.fileUrl, '_blank')}>
-                                        <i className="fa-solid fa-up-right-from-square me-2"></i>EXTERNAL
-                                    </button>
+                                <div className="d-flex align-items-center pe-2">
+                                    <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: '28px', width: 'auto' }} />
                                 </div>
                             </div>
-                            <div className="eb-viewer-body bg-white rounded-bottom-4 shadow-lg overflow-hidden">
-                                <iframe
-                                    src={`${selectedBook.fileUrl}#toolbar=0&navpanes=0`}
-                                    className="w-100 h-100 border-0"
-                                    title={selectedBook.title}
-                                ></iframe>
+                            <div className={`eb-viewer-body bg-white shadow-lg overflow-hidden ${isMaximized ? '' : 'rounded-bottom-4'}`}>
+                                {selectedBook && (
+                                    <>
+                                        <div style={{ position: 'absolute', top: 0, right: 0, width: '60px', height: '60px', zIndex: 10, background: '#1E1E1E' }}></div>
+                                        <iframe
+                                            src={selectedBook.fileUrl.startsWith('http')
+                                                ? selectedBook.fileUrl.replace('/view', '/preview').replace('?usp=sharing', '')
+                                                : `https://drive.google.com/file/d/${selectedBook.fileUrl}/preview`}
+                                            className="w-100 h-100 border-0"
+                                            title={selectedBook.title}
+                                            allow="autoplay"
+                                        ></iframe>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -305,10 +313,11 @@ export default function BooksPage() {
                 .eb-book-stats-v5 { font-size: 0.7rem; font-weight: 700; color: #94a3b8; }
 
                 /* Viewer Style */
-                .eb-viewer-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; }
-                .eb-viewer-inner { width: 100%; height: 95vh; display: flex; flex-direction: column; }
+                .eb-viewer-overlay { position: fixed; inset: 0; z-index: 1100; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeIn 0.3s ease; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+                .eb-viewer-overlay.is-maximized { padding: 0; backdrop-filter: blur(0px); }
+                .eb-viewer-inner { width: 100%; height: 95vh; display: flex; flex-direction: column; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
                 .eb-viewer-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); color: #0f172a; }
-                .eb-viewer-body { flex: 1; height: 0; background: #fff; }
+                .eb-viewer-body { flex: 1; height: 0; background: #fff; position: relative; }
                 .eb-v-close { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
                 .eb-v-close:hover { background: #f43f5e; color: #fff; transform: rotate(90deg); }
 
