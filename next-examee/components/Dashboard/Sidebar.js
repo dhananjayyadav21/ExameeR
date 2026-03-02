@@ -15,7 +15,6 @@ const menuItems = [
             { href: "/dashboard/notes", label: "Study Notes", icon: "fa-file-lines" },
             { href: "/dashboard/pyq", label: "Previous Papers", icon: "fa-circle-question" },
             { href: "/dashboard/videos", label: "Video Lectures", icon: "fa-circle-play" },
-            { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial", badge: "New" },
         ]
     },
     {
@@ -23,8 +22,14 @@ const menuItems = [
         items: [
             { href: "/dashboard/students", label: "Users", icon: "fa-users" },
             { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line", badge: "New" },
-            { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "New" },
+        ]
+    },
+    {
+        title: "PRO PLANS",
+        items: [
+            { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "Ad" },
             { href: "/dashboard/certify", label: "Certification", icon: "fa-award", badge: "Pro" },
+            { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial", badge: "Pro" },
             { href: "/dashboard/plans", label: "Plans & Pricing", icon: "fa-crown" },
         ]
     },
@@ -112,18 +117,7 @@ const Sidebar = () => {
                     <i className="fa-solid fa-chevron-right ms-auto" style={{ fontSize: '0.75rem', color: '#cbd5e1' }}></i>
                 </Link>
 
-                <div className="ds-upgrade-card">
-                    <div className="ds-upgrade-icon">
-                        <i className="fa-solid fa-rocket"></i>
-                    </div>
-                    <div className="ds-upgrade-info">
-                        <p className="ds-upgrade-title">Pro Plan</p>
-                        <p className="ds-upgrade-desc">Unlock all features</p>
-                    </div>
-                    <div className="ds-upgrade-arrow text-end" style={{ flex: 1 }}>
-                        <i className="fa-solid fa-arrow-right" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}></i>
-                    </div>
-                </div>
+
             </div>
         </nav>
     );
