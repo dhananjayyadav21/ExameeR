@@ -30,7 +30,9 @@ const menuItems = [
             { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "Ad" },
             { href: "/dashboard/certify", label: "Certification", icon: "fa-award", badge: "Pro" },
             { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial", badge: "Pro" },
+            { href: "/dashboard/books", label: "Examee Books", icon: "fa-book-open", badge: "Pro" },
             { href: "/dashboard/plans", label: "Plans & Pricing", icon: "fa-crown" },
+
         ]
     },
     {
