@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
-import '../../../styles/student-layout.css';
-import '../../../styles/mock-test.css';
+import '@/styles/student-layout.css';
+import '@/styles/mock-test.css';
 
 export default function TakeTestPage() {
     const params = useParams();
