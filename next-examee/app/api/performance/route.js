@@ -14,7 +14,7 @@ export async function GET(req) {
         const decoded = jwt.verify(token, process.env.AUTHTOKEN_SECRATE);
 
         const attempts = await MockTestAttempt.find({ userId: decoded._id })
-            .populate('mockTestId', 'title category difficulty durationMinutes totalQuestions')
+            .populate('mockTestId', 'title category course difficulty durationMinutes totalQuestions')
             .sort({ attemptedAt: -1 });
 
         // Calculate aggregates

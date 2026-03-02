@@ -120,7 +120,7 @@ export default function PerformancePage() {
                                                     <td className="px-4 py-3">
                                                         <div>
                                                             <span className="fw-bold text-dark d-block mb-1">{h.mockTestId?.title || 'Unknown Test'}</span>
-                                                            <span className="badge bg-light text-muted border" style={{ fontSize: '0.65rem' }}>{h.mockTestId?.category || 'N/A'}</span>
+                                                            <span className="badge" style={{ backgroundColor: 'rgba(4, 189, 32, 0.1)', color: '#039618', border: '1px solid rgba(4, 189, 32, 0.2)', fontSize: '0.65rem' }}>{h.mockTestId?.course || h.mockTestId?.category || 'N/A'}</span>
                                                         </div>
                                                     </td>
                                                     <td className="py-3 text-muted fw-medium" style={{ fontSize: '0.85rem' }}>

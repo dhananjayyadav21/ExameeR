@@ -86,34 +86,18 @@ export default function MockTestsPage() {
             return;
         }
 
+        // Check if it's a real DB test that the student can take interactively
+        if (test._id) {
+            router.push(`/mock-tests/${test._id}`);
+            return;
+        }
+
+        // Fallback for purely simulated frontend/AI mocks that aren't stored in DB yet
         const confirmed = window.confirm(`Start and auto-complete "${test.title}" for demo?`);
         if (confirmed) {
             await recordUsage('mockTests');
-
-            // Simulate taking the test with a decent score
-            const randomPercentage = Math.floor(Math.random() * 40) + 60; // 60-100%
-            const tQ = test.totalQuestions || test.questions || 10;
-            const score = Math.round((randomPercentage / 100) * tQ);
-
-            if (test._id) { // If it's a DB test, submit to backend
-                try {
-                    const token = localStorage.getItem('token');
-                    await fetch('/api/mock-test/submit', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            token,
-                            mockTestId: test._id,
-                            score: score,
-                            durationTaken: 1200 // simulated 20 mins
-                        })
-                    });
-                } catch (err) {
-                    console.error("Submit test failed", err);
-                }
-            }
-
-            toast.success(`Mock Test Completed! You scored ${randomPercentage}% (${score}/${tQ}). View Profile > Performance for details.`);
+            const randomScore = Math.floor(Math.random() * 20) + 75; // 75-95
+            toast.success(`Mock Test Completed! You scored ${randomScore}%`);
         }
     };
 
@@ -147,7 +131,7 @@ export default function MockTestsPage() {
                         color: '#fff'
                     }}>
                         {/* Decorative Glow */}
-                        <div className="position-absolute top-0 end-0 p-5 bg-success rounded-circle blur-3xl opacity-25" style={{ transform: 'translate(30%, -30%)' }}></div>
+                        <div className="position-absolute top-0 end-0 p-5 bg-success rounded-circle" style={{ transform: 'translate(30%, -30%)', filter: 'blur(60px)', opacity: 0.15 }}></div>
 
                         <div className="row align-items-center g-4 position-relative">
                             <div className="col-lg-7">
@@ -211,7 +195,7 @@ export default function MockTestsPage() {
                             </div>
                             <div className="col-lg-5 d-none d-lg-block text-center">
                                 <div className="position-relative d-inline-block p-5">
-                                    <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 bg-success rounded-circle blur-2xl opacity-10"></div>
+                                    <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 bg-success rounded-circle" style={{ filter: 'blur(40px)', opacity: 0.15 }}></div>
                                     <i
                                         className="fa-solid fa-brain text-success position-relative"
                                         style={{
