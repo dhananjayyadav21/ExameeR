@@ -3,6 +3,7 @@ import connectToMongo from '@/lib/mongodb';
 import Note from '@/models/Note';
 import PYQ from '@/models/PYQ';
 import Video from '@/models/Video';
+import MockTest from '@/models/MockTest';
 
 export async function GET(req) {
     try {
@@ -52,6 +53,16 @@ export async function GET(req) {
                 ]
             }).lean();
             results = results.map(item => ({ ...item, type: 'video' }));
+        } else if (searchType === "mocktest") {
+            results = await MockTest.find({
+                isPublished: true,
+                $or: [
+                    { title: regex },
+                    { description: regex },
+                    { category: regex }
+                ]
+            }).lean();
+            results = results.map(item => ({ ...item, type: 'mocktest' }));
         }
 
         if (results.length === 0) {

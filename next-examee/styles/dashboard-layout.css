@@ -205,6 +205,31 @@
     border: 1px solid #e2e8f0;
 }
 
+.dl-search-results {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    z-index: 2000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.hover-bg-light {
+    transition: background 0.2s ease;
+}
+
+.hover-bg-light:hover {
+    background: #f8fafc;
+}
+
+.text-orange {
+    color: #f97316;
+}
+
 .dl-topbar-right {
     display: flex;
     align-items: center;
