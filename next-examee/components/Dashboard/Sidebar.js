@@ -23,6 +23,7 @@ const menuItems = [
             { href: "/dashboard/students", label: "Users", icon: "fa-users" },
             { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line", badge: "New" },
             { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "New" },
+            { href: "/dashboard/certify", label: "Certification", icon: "fa-award", badge: "Pro" },
             { href: "/dashboard/plans", label: "Plans & Pricing", icon: "fa-crown" },
         ]
     },

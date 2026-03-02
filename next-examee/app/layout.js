@@ -51,9 +51,6 @@ export default function RootLayout({ children }) {
                 <Footer />
               </div>
 
-              <FloatingWhatsAppButton />
-
-              <GoToImpsButton />
               <ToastContainer position="bottom-right" autoClose={3000} hideProgressBar={false} />
             </ProfileSetupGate>
           </ContentState>

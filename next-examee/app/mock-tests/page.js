@@ -43,10 +43,29 @@ export default function MockTestsPage() {
             return;
         }
 
-        const confirmed = window.confirm(`Start "${test.title}"? This will count as 1 attempt for this month.`);
+        const confirmed = window.confirm(`Start and auto-complete "${test.title}" for demo? This will issue a certificate.`);
         if (confirmed) {
             await recordUsage('mockTests');
-            toast.success("Test session started! (Usage recorded)");
+
+            // Demo: Issue a certificate via API
+            try {
+                const token = localStorage.getItem('token');
+                await fetch('/api/certificates', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        token,
+                        testTitle: test.title,
+                        category: test.category,
+                        score: Math.floor(Math.random() * 10) + 80, // High score for demo
+                        totalQuestions: 100
+                    })
+                });
+                toast.success("Test completed! Certificate issued.");
+                router.push('/certificates');
+            } catch (err) {
+                toast.error("Failed to issue certificate");
+            }
         }
     };
 

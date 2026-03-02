@@ -235,3 +235,82 @@ export const SupportEmail_Template = (name, email, subject, body) => `<!DOCTYPE 
     </div>
 </body>
 </html>`;
+
+export const CertificationPass_Template = (userName, testTitle, score, certificateId) => `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Congratulations on Your Certification!</title>
+</head>
+<body style="font-family: 'Inter', sans-serif; background-color: #f0fdf4; padding: 40px 20px; margin: 0;">
+    <table align="center" width="100%" style="max-width: 600px; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(4,189,32,0.1);">
+        <tr>
+            <td style="background: linear-gradient(135deg, #04bd20 0%, #064e3b 100%); padding: 50px; text-align: center;">
+                <div style="background: rgba(255,255,255,0.2); width: 80px; height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; line-height: 80px;">
+                    <span style="font-size: 40px;">🏆</span>
+                </div>
+                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 900;">Certification Earned!</h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 40px; text-align: center;">
+                <p style="font-size: 18px; color: #1e293b; margin-bottom: 8px;">Outstanding work, <strong>${userName}</strong>!</p>
+                <p style="font-size: 16px; color: #64748b; margin-bottom: 30px;">You have successfully cleared the professional assessment for:</p>
+                
+                <div style="background: #f8fafc; border: 2px solid #e2e8f0; padding: 24px; border-radius: 16px; margin-bottom: 32px;">
+                    <h2 style="color: #04bd20; margin: 0 0 8px 0; font-size: 20px;">${testTitle}</h2>
+                    <p style="margin: 0; color: #94a3b8; font-weight: 700; font-size: 14px; text-transform: uppercase;">Final Score: ${score}%</p>
+                </div>
+
+                <p style="font-size: 15px; color: #475569; margin-bottom: 32px;">Your official digital certificate is now available on your dashboard. You can download it and share your achievement on professional networks like LinkedIn.</p>
+                
+                <a href="https://examee.netlify.app/certificates" style="display: inline-block; background: #04bd20; color: #ffffff; padding: 18px 40px; text-decoration: none; border-radius: 14px; font-weight: 800; font-size: 16px; box-shadow: 0 10px 20px rgba(4,189,32,0.2);">
+                    View My Certificate →
+                </a>
+
+                <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #f1f5f9;">
+                    <p style="font-size: 12px; color: #94a3b8; margin: 0;">Verification ID: <strong>${certificateId}</strong></p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;
+
+export const CertificationFail_Template = (userName, testTitle, score) => `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Keep Going: Certification Result</title>
+</head>
+<body style="font-family: 'Inter', sans-serif; background-color: #fffaf0; padding: 40px 20px; margin: 0;">
+    <table align="center" width="100%" style="max-width: 600px; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.05);">
+        <tr>
+            <td style="background: #1e293b; padding: 40px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800;">Assessment Completed</h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 40px; text-align: center;">
+                <p style="font-size: 18px; color: #1e293b; margin-bottom: 12px;">Hello ${userName},</p>
+                <p style="font-size: 16px; color: #64748b; margin-bottom: 30px;">Thank you for attempting the <strong>${testTitle}</strong> certification.</p>
+                
+                <div style="background: #fff1f2; border: 1px solid #fecaca; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+                    <p style="margin: 0; color: #e11d48; font-weight: 700;">Score Achieved: ${score}%</p>
+                    <p style="margin: 4px 0 0 0; font-size: 13px; color: #991b1b;">75% is required to earn the certification.</p>
+                </div>
+
+                <p style="font-size: 15px; color: #475569; margin-bottom: 24px; line-height: 1.6;">Don't be discouraged! This was a challenging assessment designed to validate true mastery. Use this time to review the core concepts and strengthen your knowledge.</p>
+                
+                <div style="background: #fefce8; border: 1px solid #fef08a; padding: 16px; border-radius: 12px; margin-bottom: 32px;">
+                    <p style="margin: 0; color: #854d0e; font-size: 14px; font-weight: 600;">⚠️ You can re-attempt this certification in <strong>7 days</strong>.</p>
+                </div>
+
+                <a href="https://examee.netlify.app/dashboard" style="display: inline-block; background: #1e293b; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px;">
+                    Back to Dashboard
+                </a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>`;

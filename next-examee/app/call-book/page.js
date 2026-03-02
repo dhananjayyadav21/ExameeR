@@ -40,6 +40,8 @@ export default function CallBookPage() {
         }
     };
 
+    return (
+        <StudentLayout title="Mentorship Calls">
             <div className="container-fluid px-0 pb-5 cb-container">
                 {/* Banners */}
                 <PageBanners page="call-book" />
@@ -135,6 +137,6 @@ export default function CallBookPage() {
                 
                 .smaller { font-size: 0.65rem; }
             `}</style>
-        </StudentLayout >
+        </StudentLayout>
     );
 }

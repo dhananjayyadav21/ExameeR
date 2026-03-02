@@ -31,6 +31,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             items: [
                 { label: "Course", icon: "fa-layer-group", href: "/cource" },
                 { label: "Mock Test", icon: "fa-vial", href: "/mock-tests", premium: true },
+                { label: "Get Certified", icon: "fa-certificate", href: "/certify", premium: true },
             ]
         },
         {
@@ -45,6 +46,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
                 { label: "My Library", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
+                { label: "My Certificates", icon: "fa-award", href: "/certificates" },
                 { label: "Plans & Pricing", icon: "fa-crown", href: "/plans" },
                 { label: "Logout", icon: "fa-arrow-right-from-bracket", onClick: true, danger: true },
             ]
