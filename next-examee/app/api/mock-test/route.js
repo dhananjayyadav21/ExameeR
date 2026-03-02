@@ -151,11 +151,17 @@ export async function GET(req) {
     try {
         await connectToMongo();
         const url = new URL(req.url);
-        const filterStr = url.searchParams.get('filter');
+        const id = url.searchParams.get('id');
 
-        let query = {};
+        // ── Single test (with questions) for edit modal ──
+        if (id) {
+            const test = await MockTest.findById(id).lean();
+            if (!test) return NextResponse.json({ success: false, message: 'Test not found' }, { status: 404 });
+            return NextResponse.json({ success: true, test }, { status: 200 });
+        }
 
-        const testList = await MockTest.find(query)
+        // ── All tests (without questions for the list) ──
+        const testList = await MockTest.find({})
             .select('-questions')
             .populate('createdBy', 'FirstName LastName')
             .sort({ createdAt: -1 })
