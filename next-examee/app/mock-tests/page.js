@@ -17,6 +17,7 @@ export default function MockTestsPage() {
     const [aiTests, setAiTests] = useState([]);
     const [dbTests, setDbTests] = useState([]);
     const [testMode, setTestMode] = useState('timed');
+    const [testTopic, setTestTopic] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
     const userPlan = userData?.Plan || 'e0';
     const router = useRouter();
@@ -49,18 +50,24 @@ export default function MockTestsPage() {
             return;
         }
 
-        setIsGenerating(true);
+        if (!testTopic.trim()) {
+            toast.warn("Please enter a topic or subject for the mock test.");
+            setIsGenerating(false);
+            return;
+        }
+
         try {
             const token = localStorage.getItem('token');
             const res = await fetch('/api/mock-tests/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ token, mode: testMode })
+                body: JSON.stringify({ token, mode: testMode, topic: testTopic })
             });
             const data = await res.json();
             if (data.success) {
                 setAiTests([data.test, ...aiTests]);
                 toast.success("AI Mock Test Generated Successfully!");
+                setTestTopic(""); // Clear after success
             } else {
                 toast.error(data.message || "Failed to generate AI Mock");
             }
@@ -159,6 +166,18 @@ export default function MockTestsPage() {
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+
+                                <div className="mb-4">
+                                    <p className="smaller fw-black text-uppercase text-success mb-2 letter-spacing-1">Specify Topic / Subject</p>
+                                    <input
+                                        type="text"
+                                        className="form-control bg-transparent border-slate-700 text-white rounded-3 py-2 px-3 fs-7 mt-topic-input"
+                                        placeholder="e.g. Data Structures, ReactJS Hooks, Physics Chapter 1..."
+                                        value={testTopic}
+                                        onChange={(e) => setTestTopic(e.target.value)}
+                                        style={{ border: '1px solid rgba(255,255,255,0.1)' }}
+                                    />
                                 </div>
 
                                 <div className="mb-4">
@@ -363,6 +382,15 @@ export default function MockTestsPage() {
 
                 @media (max-width: 768px) {
                     .mt-title { font-size: 1.5rem; }
+                }
+
+                .mt-topic-input::placeholder {
+                    color: rgba(255, 255, 255, 0.4);
+                }
+                .mt-topic-input:focus {
+                    background: rgba(4, 189, 32, 0.1) !important;
+                    border-color: #04bd20 !important;
+                    box-shadow: none;
                 }
             `}</style>
         </StudentLayout>
