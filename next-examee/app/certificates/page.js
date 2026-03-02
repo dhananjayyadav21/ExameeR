@@ -181,25 +181,53 @@ const CertificatePage = () => {
                 
                 @media print {
                     @page { size: landscape; margin: 0; }
-                    html, body { height: 100%; margin: 0 !important; padding: 0 !important; }
-                    body * { visibility: hidden; }
-                    #printable-certificate, #printable-certificate * { visibility: visible !important; }
+                    
+                    /* Completely hide all background elements */
+                    header, footer, .li-sidebar-container, .container-fluid, .modal-backdrop, .modal-header, .modal-footer, .btn-close, .bg-light {
+                        display: none !important;
+                    }
+
+                    /* Reset body to prevent any scrolling or extra space */
+                    html, body { 
+                        height: 100vh !important; 
+                        margin: 0 !important; 
+                        padding: 0 !important; 
+                        overflow: hidden !important;
+                        background: #fff !important; 
+                    }
+
+                    /* Ensure the modal content doesn't have borders or shadows */
+                    .modal, .modal-dialog, .modal-content, .modal-body { 
+                        display: block !important;
+                        position: static !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        border: none !important;
+                        box-shadow: none !important;
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        height: 100% !important;
+                        background: transparent !important;
+                    }
+
                     #printable-certificate { 
-                        position: absolute !important;
+                        display: flex !important;
+                        position: fixed !important;
                         left: 0 !important;
                         top: 0 !important;
-                        width: 100% !important;
-                        height: 100% !important;
+                        width: 100vw !important;
+                        height: 100vh !important;
                         margin: 0 !important;
-                        padding: 2cm !important;
-                        border: 15px double #f1f5f9 !important;
-                        display: flex !important;
+                        padding: 1.5cm !important;
+                        border: 20px double #f1f5f9 !important;
                         flex-direction: column !important;
                         justify-content: center !important;
+                        align-items: center !important;
                         background-color: #fff !important;
-                        z-index: 9999;
+                        box-sizing: border-box !important;
                         -webkit-print-color-adjust: exact !important;
                         print-color-adjust: exact !important;
+                        z-index: 99999;
                     }
                 }
             `}</style>

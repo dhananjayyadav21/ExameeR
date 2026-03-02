@@ -45,13 +45,24 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "ACCOUNT",
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
-                { label: "My Library", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
+                { label: "My Learning", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
                 { label: "My Certificates", icon: "fa-award", href: "/certificates" },
+                { label: "My Performance", icon: "fa-chart-pie", href: "/performance" },
                 { label: "Plans & Pricing", icon: "fa-crown", href: "/plans" },
                 { label: "Logout", icon: "fa-arrow-right-from-bracket", onClick: true, danger: true },
             ]
         }
     ];
+
+    if (userData?.Role === 'instructor' || userData?.Role === 'admin') {
+        sidebarMenu.splice(3, 0, {
+            section: "INSTRUCTOR",
+            items: [
+                { label: "Manage Mock Tests", icon: "fa-user-tie", href: "/dashboard/mock-tests" }
+            ]
+        });
+    }
+
 
     const isActive = (href) => {
         if (!href) return false;

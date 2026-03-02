@@ -54,8 +54,15 @@ const CertifyPage = () => {
         <StudentLayout title="Get Certified">
             <div className="container-fluid pb-5">
                 <div className="mt-4 mb-5">
-                    <h1 className="fw-bold text-dark" style={{ fontSize: '2.5rem', letterSpacing: '-0.04em' }}>Professional <span className="text-success">Certifications</span></h1>
-                    <p className="text-muted fs-5">Validate your expertise with industry-recognized certifications. 75% score required to pass.</p>
+                    <h1 className="fw-black text-dark" style={{ fontSize: '2.5rem', letterSpacing: '-0.04em' }}>Professional <span className="text-success">Certifications</span></h1>
+                    <div className="d-flex flex-wrap align-items-center gap-3 mt-2">
+                        <p className="text-muted fw-medium mb-0" style={{ fontSize: '1rem' }}>
+                            Validate your expertise with industry-recognized certifications.
+                        </p>
+                        <span className="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 smaller fw-black text-uppercase">
+                            75% Score Required to Pass
+                        </span>
+                    </div>
                 </div>
 
                 {loading ? (

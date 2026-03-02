@@ -7,34 +7,77 @@ import { getLimit } from '../../utils/planAccess';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-const TEST_CATEGORIES = ['All Tests', 'Engineering', 'Medical', 'GATE', 'UPSC', 'SSC'];
+const TEST_CATEGORIES = ['All Tests'];
 
-const DUMMY_TESTS = [
-    { id: 1, title: "JEE Mains - Phase 1 Full Mock", category: "Engineering", questions: 90, duration: "180 min", attempts: "12k+", rating: 4.8, difficulty: 'High' },
-    { id: 2, title: "NEET Biology Sectional Test", category: "Medical", questions: 100, duration: "60 min", attempts: "8.5k+", rating: 4.9, difficulty: 'Medium' },
-    { id: 3, title: "GATE CS - Algorithm & Data Structures", category: "GATE", questions: 30, duration: "90 min", attempts: "5k+", rating: 4.7, difficulty: 'Pro' },
-    { id: 4, title: "UPSC GS Paper 1 - Weekly Quiz", category: "UPSC", questions: 100, duration: "120 min", attempts: "25k+", rating: 4.6, difficulty: 'Hard' },
-    { id: 5, title: "SSC CGL Tier 1 - Quantitative Aptitude", category: "SSC", questions: 25, duration: "20 min", attempts: "15k+", rating: 4.5, difficulty: 'Medium' },
-    { id: 6, title: "JEE Advanced - Physics Complex Problems", category: "Engineering", questions: 54, duration: "180 min", attempts: "3k+", rating: 4.9, difficulty: 'Extreme' },
-];
+const DUMMY_TESTS = [];
 
 export default function MockTestsPage() {
     const { userData, usage, getUsage, recordUsage } = React.useContext(ContentContext);
     const [activeCategory, setActiveCategory] = useState('All Tests');
+    const [aiTests, setAiTests] = useState([]);
+    const [dbTests, setDbTests] = useState([]);
+    const [testMode, setTestMode] = useState('timed');
+    const [isGenerating, setIsGenerating] = useState(false);
     const userPlan = userData?.Plan || 'e0';
     const router = useRouter();
 
     React.useEffect(() => {
         getUsage();
+        fetchDbTests();
     }, []);
+
+    const fetchDbTests = async () => {
+        try {
+            const res = await fetch('/api/mock-test');
+            const data = await res.json();
+            if (data.success) {
+                setDbTests(data.tests);
+            }
+        } catch (err) {
+            console.error("Failed to load DB tests");
+        }
+    };
 
     const limit = getLimit(userPlan, 'mockTests');
     const taken = usage?.mockTestsTaken || 0;
     const remaining = limit === Infinity ? 'Unlimited' : Math.max(0, limit - taken);
 
-    const filteredTests = DUMMY_TESTS.filter(test =>
-        activeCategory === 'All Tests' || test.category === activeCategory
-    );
+    const handleGenerateAITest = async () => {
+        if (limit !== Infinity && taken >= limit) {
+            toast.info(`Monthly limit reached! (${limit} tests). Upgrade your plan for more.`);
+            router.push('/plans');
+            return;
+        }
+
+        setIsGenerating(true);
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch('/api/mock-tests/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, mode: testMode })
+            });
+            const data = await res.json();
+            if (data.success) {
+                setAiTests([data.test, ...aiTests]);
+                toast.success("AI Mock Test Generated Successfully!");
+            } else {
+                toast.error(data.message || "Failed to generate AI Mock");
+            }
+        } catch (err) {
+            toast.error("AI Engine Timeout. Please try again.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    const filteredTests = [
+        ...aiTests,
+        ...dbTests,
+        ...DUMMY_TESTS.filter(test =>
+            activeCategory === 'All Tests' || test.category === activeCategory
+        )
+    ];
 
     const handleStartTest = async (test) => {
         if (limit !== Infinity && taken >= limit) {
@@ -43,29 +86,34 @@ export default function MockTestsPage() {
             return;
         }
 
-        const confirmed = window.confirm(`Start and auto-complete "${test.title}" for demo? This will issue a certificate.`);
+        const confirmed = window.confirm(`Start and auto-complete "${test.title}" for demo?`);
         if (confirmed) {
             await recordUsage('mockTests');
 
-            // Demo: Issue a certificate via API
-            try {
-                const token = localStorage.getItem('token');
-                await fetch('/api/certificates', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        token,
-                        testTitle: test.title,
-                        category: test.category,
-                        score: Math.floor(Math.random() * 10) + 80, // High score for demo
-                        totalQuestions: 100
-                    })
-                });
-                toast.success("Test completed! Certificate issued.");
-                router.push('/certificates');
-            } catch (err) {
-                toast.error("Failed to issue certificate");
+            // Simulate taking the test with a decent score
+            const randomPercentage = Math.floor(Math.random() * 40) + 60; // 60-100%
+            const tQ = test.totalQuestions || test.questions || 10;
+            const score = Math.round((randomPercentage / 100) * tQ);
+
+            if (test._id) { // If it's a DB test, submit to backend
+                try {
+                    const token = localStorage.getItem('token');
+                    await fetch('/api/mock-test/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            token,
+                            mockTestId: test._id,
+                            score: score,
+                            durationTaken: 1200 // simulated 20 mins
+                        })
+                    });
+                } catch (err) {
+                    console.error("Submit test failed", err);
+                }
             }
+
+            toast.success(`Mock Test Completed! You scored ${randomPercentage}% (${score}/${tQ}). View Profile > Performance for details.`);
         }
     };
 
@@ -93,6 +141,100 @@ export default function MockTestsPage() {
                     </div>
                 </div>
 
+                <div className="mb-5">
+                    <div className="p-4 rounded-4 border-0 shadow-sm position-relative overflow-hidden mb-4" style={{
+                        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                        color: '#fff'
+                    }}>
+                        {/* Decorative Glow */}
+                        <div className="position-absolute top-0 end-0 p-5 bg-success rounded-circle blur-3xl opacity-25" style={{ transform: 'translate(30%, -30%)' }}></div>
+
+                        <div className="row align-items-center g-4 position-relative">
+                            <div className="col-lg-7">
+                                <div className="d-flex align-items-center gap-3 mb-3">
+                                    <div className="bg-success rounded-3 p-2 d-flex align-items-center justify-content-center shadow-lg" style={{ width: '42px', height: '42px' }}>
+                                        <i className="fa-solid fa-wand-magic-sparkles text-white"></i>
+                                    </div>
+                                    <h4 className="fw-black mb-0 letter-spacing-tight">AI Personalized <span className="text-success">Mock Generator</span></h4>
+                                </div>
+                                <p className="mb-4 text-slate-400" style={{ fontSize: '0.92rem', color: '#94a3b8' }}>
+                                    Our AI engine analyzes your academic profile to generate a custom assessment tailored to your university curriculum and current semester.
+                                </p>
+
+                                <div className="d-flex flex-wrap gap-2 mb-4">
+                                    {[
+                                        { label: 'University', value: userData?.University || 'Mumbai University', icon: 'fa-university' },
+                                        { label: 'Course', value: userData?.Course || 'B.Sc CS/IT', icon: 'fa-graduation-cap' },
+                                        { label: 'Semester', value: userData?.Semester || '3rd Year', icon: 'fa-calendar-alt' }
+                                    ].map((pref, i) => (
+                                        <div key={i} className="px-3 py-2 rounded-3 d-flex align-items-center gap-2 border border-slate-700 mx-1" style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }}>
+                                            <i className={`fa-solid ${pref.icon} text-success smaller`}></i>
+                                            <div style={{ lineHeight: '1.2' }}>
+                                                <p className="mb-0 text-uppercase fw-black text-muted" style={{ fontSize: '0.55rem', letterSpacing: '0.5px' }}>{pref.label}</p>
+                                                <p className="mb-0 fw-bold" style={{ fontSize: '0.78rem' }}>{pref.value}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mb-4">
+                                    <p className="smaller fw-black text-uppercase text-success mb-2 letter-spacing-1">Select Test Mode</p>
+                                    <div className="d-flex gap-2">
+                                        <button
+                                            className={`btn btn-sm rounded-pill px-3 py-2 d-flex align-items-center gap-2 transition-all ${testMode === 'timed' ? 'btn-success fw-black' : 'btn-outline-secondary text-slate-400 border-slate-700'}`}
+                                            onClick={() => setTestMode('timed')}
+                                            style={{ fontSize: '0.75rem' }}
+                                        >
+                                            <i className="fa-solid fa-stopwatch"></i> Timed Challenge
+                                        </button>
+                                        <button
+                                            className={`btn btn-sm rounded-pill px-3 py-2 d-flex align-items-center gap-2 transition-all ${testMode === 'practice' ? 'btn-success fw-black' : 'btn-outline-secondary text-slate-400 border-slate-700'}`}
+                                            onClick={() => setTestMode('practice')}
+                                            style={{ fontSize: '0.75rem' }}
+                                        >
+                                            <i className="fa-solid fa-book-open-reader"></i> Practice Mode
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button
+                                    className={`btn btn-success rounded-pill px-4 py-2 fw-black shadow-lg d-flex align-items-center gap-2 hover-lift border-0 ${isGenerating ? 'disabled opacity-75' : ''}`}
+                                    onClick={() => !isGenerating && handleGenerateAITest()}
+                                    style={{ fontSize: '0.85rem' }}
+                                >
+                                    {isGenerating ? (
+                                        <>Generating Master Mock... <div className="spinner-border spinner-border-sm ms-2" role="status"></div></>
+                                    ) : (
+                                        <>Generate Master Mock with AI <i className="fa-solid fa-bolt ms-1"></i></>
+                                    )}
+                                </button>
+                            </div>
+                            <div className="col-lg-5 d-none d-lg-block text-center">
+                                <div className="position-relative d-inline-block p-5">
+                                    <div className="position-absolute top-50 start-50 translate-middle w-100 h-100 bg-success rounded-circle blur-2xl opacity-10"></div>
+                                    <i
+                                        className="fa-solid fa-brain text-success position-relative"
+                                        style={{
+                                            fontSize: '8rem',
+                                            filter: 'drop-shadow(0 15px 25px rgba(4, 189, 32, 0.3))'
+                                        }}
+                                    ></i>
+                                    <i
+                                        className="fa-solid fa-bolt position-absolute text-warning"
+                                        style={{
+                                            fontSize: '2rem',
+                                            top: '10%',
+                                            right: '10%',
+                                            filter: 'drop-shadow(0 0 10px rgba(255, 193, 7, 0.5))',
+                                            transform: 'rotate(15deg)'
+                                        }}
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* Categories */}
                 <div className="mt-nav-wrapper mb-4">
                     <div className="d-flex gap-2 overflow-auto pb-2" style={{ scrollbarWidth: 'none' }}>
@@ -110,52 +252,68 @@ export default function MockTestsPage() {
 
                 {/* Grid */}
                 <div className="row g-4">
-                    {filteredTests.map(test => (
-                        <div key={test.id} className="col-md-6 col-lg-4">
-                            <div className="mt-test-card">
-                                <div className="mt-card-top d-flex justify-content-between align-items-start mb-3">
-                                    <div className={`mt-diff-badge mt-diff--${test.difficulty.toLowerCase()}`}>
-                                        {test.difficulty}
-                                    </div>
-                                    <div className="mt-test-rating">
-                                        <i className="fa-solid fa-star me-1 text-warning"></i> {test.rating}
-                                    </div>
+                    {filteredTests.length === 0 ? (
+                        <div className="col-12 text-center py-5">
+                            <div className="py-5 bg-light rounded-4 border-dashed border-2" style={{ borderStyle: 'dashed', borderColor: '#e2e8f0' }}>
+                                <div className="mb-3 d-inline-flex bg-white shadow-sm p-3 rounded-circle">
+                                    <i className="fa-solid fa-clipboard-list text-muted fs-4"></i>
                                 </div>
-                                <h3 className="mt-test-title mb-3">{test.title}</h3>
-
-                                <div className="mt-test-details row g-2 mb-4">
-                                    <div className="col-6">
-                                        <div className="mt-detail-item">
-                                            <i className="fa-solid fa-circle-question me-2 text-muted"></i>
-                                            <span>{test.questions} MCQs</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="mt-detail-item">
-                                            <i className="fa-solid fa-clock me-2 text-muted"></i>
-                                            <span>{test.duration}</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="mt-detail-item">
-                                            <i className="fa-solid fa-users me-2 text-muted"></i>
-                                            <span>{test.attempts} Taken</span>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="mt-detail-item">
-                                            <i className="fa-solid fa-tag me-2 text-muted"></i>
-                                            <span>{test.category}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button className="mt-start-btn" onClick={() => handleStartTest(test)}>
-                                    Start Mock Test <i className="fa-solid fa-chevron-right ms-2"></i>
-                                </button>
+                                <h5 className="fw-bold text-dark">Ready to Start?</h5>
+                                <p className="text-muted smaller">Use the <b>AI Generator</b> above to create a custom mock test tailored to your profile.</p>
                             </div>
                         </div>
-                    ))}
+                    ) : (
+                        filteredTests.map(test => (
+                            <div key={test._id || test.id} className="col-md-6 col-lg-4">
+                                <div className="mt-test-card">
+                                    <div className="mt-card-top d-flex justify-content-between align-items-start mb-3">
+                                        <div className={`mt-diff-badge mt-diff--${(test.difficulty || 'Medium').toLowerCase()}`}>
+                                            {test.difficulty || 'Medium'}
+                                        </div>
+                                        <div className="mt-test-rating">
+                                            <i className="fa-solid fa-star me-1 text-warning"></i> {test.rating || '4.5'}
+                                        </div>
+                                    </div>
+                                    <h3 className="mt-test-title mb-3">{test.title}</h3>
+
+                                    <div className="mt-test-details row g-2 mb-4">
+                                        <div className="col-6">
+                                            <div className="mt-detail-item">
+                                                <i className="fa-solid fa-circle-question me-2 text-muted"></i>
+                                                <span>{test.questions || test.totalQuestions} MCQs</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="mt-detail-item">
+                                                <i className="fa-solid fa-clock me-2 text-muted"></i>
+                                                <span>{test.duration || `${test.durationMinutes} min`}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="mt-detail-item">
+                                                {test.isAI ? (
+                                                    <i className="fa-solid fa-wand-magic-sparkles me-2 text-success"></i>
+                                                ) : (
+                                                    <i className="fa-solid fa-user-tie me-2 text-muted"></i>
+                                                )}
+                                                <span>{test.isAI ? 'AI Tailored' : `By ${test.createdBy?.FirstName || 'Instructor'}`}</span>
+                                            </div>
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="mt-detail-item">
+                                                <i className="fa-solid fa-tag me-2 text-muted"></i>
+                                                <span>{test.category}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button className="mt-start-btn" onClick={() => handleStartTest(test)}>
+                                        Start Mock Test <i className="fa-solid fa-chevron-right ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 

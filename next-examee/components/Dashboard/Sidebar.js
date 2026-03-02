@@ -15,6 +15,7 @@ const menuItems = [
             { href: "/dashboard/notes", label: "Study Notes", icon: "fa-file-lines" },
             { href: "/dashboard/pyq", label: "Previous Papers", icon: "fa-circle-question" },
             { href: "/dashboard/videos", label: "Video Lectures", icon: "fa-circle-play" },
+            { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial", badge: "New" },
         ]
     },
     {
