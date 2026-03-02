@@ -5,10 +5,11 @@ import ContentContext from '../../../context/ContentContext';
 import DriveUpload from '../../../utils/DriveUpload';
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
+import { academicOptions } from '../../../constants/academicOptions';
 
 const Content = () => {
     const context = useContext(ContentContext);
-    const { addNote, updateNotes, dashNotes } = context;
+    const { addNote, updateNotes, getNoteById, dashNotes } = context;
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get('edit');
@@ -19,9 +20,13 @@ const Content = () => {
         description: '',
         professor: '',
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         tags: '',
         isPublic: true,
         status: 'public',
+        accessTier: 'free',   // 'free' | 'plus' | 'pro'
     });
 
     const [fileUrl, setFileUrl] = useState(null);
@@ -29,22 +34,37 @@ const Content = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        if (isEditMode && dashNotes) {
-            const noteToEdit = dashNotes.find(n => n._id === editId);
-            if (noteToEdit) {
-                setFormData({
-                    title: noteToEdit.title || '',
-                    description: noteToEdit.description || '',
-                    professor: noteToEdit.professor || '',
-                    category: noteToEdit.category || 'sciTechnology',
-                    tags: noteToEdit.tags ? noteToEdit.tags.join(', ') : '',
-                    isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
-                    status: noteToEdit.status || 'public',
-                });
-                setFileUrl(noteToEdit.fileUrl || null);
+        const fetchNote = async () => {
+            if (isEditMode) {
+                let noteToEdit = dashNotes.find(n => n._id === editId);
+
+                if (!noteToEdit) {
+                    const response = await getNoteById(editId);
+                    if (response && response.success) {
+                        noteToEdit = response.data;
+                    }
+                }
+
+                if (noteToEdit) {
+                    setFormData({
+                        title: noteToEdit.title || '',
+                        description: noteToEdit.description || '',
+                        professor: noteToEdit.professor || '',
+                        category: noteToEdit.category || 'sciTechnology',
+                        course: noteToEdit.course || '',
+                        semester: noteToEdit.semester || '',
+                        university: noteToEdit.university || '',
+                        tags: noteToEdit.tags ? (Array.isArray(noteToEdit.tags) ? noteToEdit.tags.join(', ') : noteToEdit.tags) : '',
+                        isPublic: noteToEdit.isPublic !== undefined ? noteToEdit.isPublic : true,
+                        status: noteToEdit.status || 'public',
+                        accessTier: noteToEdit.accessTier || 'free',
+                    });
+                    setFileUrl(noteToEdit.fileUrl || null);
+                }
             }
-        }
-    }, [isEditMode, editId, dashNotes]);
+        };
+        fetchNote();
+    }, [isEditMode, editId, dashNotes, getNoteById]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -79,9 +99,14 @@ const Content = () => {
         e.preventDefault();
         setUploading(true);
 
-        if (!file || file.type !== 'application/pdf') {
+        if (!isEditMode && (!file || file.type !== 'application/pdf')) {
             setUploading(false);
             return toast.warning("Please upload a valid PDF file");
+        }
+
+        if (file && file.type !== 'application/pdf') {
+            setUploading(false);
+            return toast.warning("The uploaded file must be a PDF");
         }
 
         const data = {
@@ -89,9 +114,13 @@ const Content = () => {
             description: formData.description,
             professor: formData.professor,
             category: formData.category,
+            course: formData.course,
+            semester: formData.semester,
+            university: formData.university,
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
+            accessTier: formData.accessTier,
             fileUrl: fileUrl
         };
 
@@ -168,13 +197,50 @@ const Content = () => {
                                     </div>
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="up-label">Category</label>
+                                    <label className="up-label">Category / Stream</label>
                                     <div className="up-input-wrap">
                                         <span className="up-input-icon"><i className="fa-solid fa-layer-group"></i></span>
                                         <select name="category" value={formData.category} onChange={handleChange} className="up-input up-select">
                                             <option value="sciTechnology">Sci - Technology</option>
                                             <option value="commerce">Commerce</option>
                                             <option value="artscivils">Arts &amp; Civils</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Course / Program</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                        <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Course</option>
+                                            {academicOptions.courses.map(course => (
+                                                <option key={course.value} value={course.value}>{course.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="up-label">Semester / Year</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                        <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Semester</option>
+                                            {academicOptions.semesters.map(semester => (
+                                                <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">University / Board</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                        <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select University</option>
+                                            {academicOptions.universities.map(university => (
+                                                <option key={university.value} value={university.value}>{university.label}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -195,6 +261,17 @@ const Content = () => {
                                             <option value="public">Publish Immediately</option>
                                             <option value="draft">Save as Draft</option>
                                             <option value="archived">Archive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Access Tier <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#94a3b8' }}>— who can view this?</span></label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-crown"></i></span>
+                                        <select name="accessTier" value={formData.accessTier} onChange={handleChange} className="up-input up-select">
+                                            <option value="free">🟢 E0 Free — visible to all</option>
+                                            <option value="plus">🟣 Plus — Plus &amp; Pro users</option>
+                                            <option value="pro">🟡 Pro — Pro users only</option>
                                         </select>
                                     </div>
                                 </div>

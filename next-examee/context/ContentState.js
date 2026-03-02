@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback, useEffect, Suspense } from "react";
+import { useState, useCallback, useEffect, Suspense, useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import ContentContext from "./ContentContext";
 import { getData, postData, patchData, deleteData, putData } from "../services/HttpService";
@@ -35,7 +35,7 @@ const ContentState = (props) => {
     }, []);
 
     //======================================================[ ADD Content ]=========================================
-    const addNote = async (Data) => {
+    const addNote = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDNOTE_URL}`, Data);
@@ -47,9 +47,9 @@ const ContentState = (props) => {
                 console.log("Do not add Note due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const addPYQ = async (Data) => {
+    const addPYQ = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDPYQ_URL}`, Data);
@@ -61,9 +61,9 @@ const ContentState = (props) => {
                 console.log("Do not add PYQ due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const addVideo = async (Data) => {
+    const addVideo = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDVIDEO_URL}`, Data);
@@ -75,9 +75,9 @@ const ContentState = (props) => {
                 console.log("Do not add Video due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const addCourse = async (Data) => {
+    const addCourse = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDCOURSE_URL}`, Data);
@@ -89,9 +89,9 @@ const ContentState = (props) => {
                 console.log("Do not add Course due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const enrollCourse = async (Data) => {
+    const enrollCourse = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ENROLLINCOURSE_URL}`, Data);
@@ -103,10 +103,10 @@ const ContentState = (props) => {
                 console.log("Do not enroll in course due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
     //======================================================[ GET Content ]=========================================
-    const getNote = async (URL) => {
+    const getNote = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETNOTE_URL}`);
@@ -126,9 +126,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch Note due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getPYQ = async (URL) => {
+    const getPYQ = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETPYQ_URL}`);
@@ -148,9 +148,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch PYQ due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getVideo = async (URL) => {
+    const getVideo = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETVideo_URL}`);
@@ -170,9 +170,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch Videos due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getCourse = async (URL) => {
+    const getCourse = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETCourse_URL}`);
@@ -192,9 +192,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch course due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getLatestUpload = async (URL) => {
+    const getLatestUpload = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETLATESTDATA_URL}`);
@@ -206,47 +206,97 @@ const ContentState = (props) => {
                 console.log("Do not fetch setLatest Data due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
+
+    const getNoteById = useCallback(async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETNOTE_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch note by id", error);
+            }
+        });
+    }, [withLoading]);
+
+    const getPYQById = useCallback(async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETPYQ_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch pyq by id", error);
+            }
+        });
+    }, [withLoading]);
+
+    const getVideoById = useCallback(async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETVideo_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch video by id", error);
+            }
+        });
+    }, [withLoading]);
+
+    const getCourseById = useCallback(async (id) => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GETCourse_URL}/${id}`);
+                return json;
+            } catch (error) {
+                console.log("Do not fetch course by id", error);
+            }
+        });
+    }, [withLoading]);
 
     //======================================================[ Update Content ]=========================================
-    const updateNotes = async (Data, id) => {
+    const updateNotes = useCallback(async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATENOTES_URL}/${id}`, Data);
+            if (json.success) {
+                setdashNotes(prev => prev.map(note => note._id === id ? { ...note, ...json.data } : note));
+            }
             return json;
         } catch (error) {
             console.log("Do not update note due to some error", error);
         }
-    };
+    }, []);
 
-    const updatePYQ = async (Data, id) => {
+    const updatePYQ = useCallback(async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATEPYQS_URL}/${id}`, Data);
+            if (json.success) {
+                setdashPYQ(prev => prev.map(pyq => pyq._id === id ? { ...pyq, ...json.data } : pyq));
+            }
             return json;
         } catch (error) {
             console.log("Do not update pyq due to some error", error);
         }
-    };
+    }, []);
 
-    const updateVideo = async (Data, id) => {
+    const updateVideo = useCallback(async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATEVIDEOS_URL}/${id}`, Data);
             return json;
         } catch (error) {
             console.log("Do not update video due to some error", error);
         }
-    };
+    }, []);
 
-    const updateCourse = async (Data, id) => {
+    const updateCourse = useCallback(async (Data, id) => {
         try {
             const json = await putData(`${GlobalUrls.UPDATECOURSE_URL}/${id}`, Data);
             return json;
         } catch (error) {
             console.log("Do not update course due to some error", error);
         }
-    };
+    }, []);
 
     //======================================================[ Delete Content ]=========================================
-    const deleteNotes = async (id) => {
+    const deleteNotes = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await deleteData(`${GlobalUrls.DELETENOTE_URL}/${id}`);
@@ -255,9 +305,9 @@ const ContentState = (props) => {
                 console.log("Do not delete note due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const deletePYQ = async (id) => {
+    const deletePYQ = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await deleteData(`${GlobalUrls.DELETEPYQ_URL}/${id}`);
@@ -266,9 +316,9 @@ const ContentState = (props) => {
                 console.log("Do not delete pyq due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const deleteVideo = async (id) => {
+    const deleteVideo = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await deleteData(`${GlobalUrls.DELETEVIDEO_URL}/${id}`);
@@ -277,9 +327,9 @@ const ContentState = (props) => {
                 console.log("Do not delete pyq due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const deleteCourse = async (id) => {
+    const deleteCourse = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await deleteData(`${GlobalUrls.DELETECOURSE_URL}/${id}`);
@@ -288,10 +338,10 @@ const ContentState = (props) => {
                 console.log("Do not delete course due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
     //========================================  [ MY Learning ]=================================================
-    const addInMylearning = async (Data) => {
+    const addInMylearning = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDINMYLEARNING_URL}`, Data);
@@ -300,9 +350,9 @@ const ContentState = (props) => {
                 console.log("Do not add in mylearning due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const removeFromMylearning = async (Data) => {
+    const removeFromMylearning = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.REMOVEFROMMYLEARNING_URL}`, Data);
@@ -311,24 +361,21 @@ const ContentState = (props) => {
                 console.log("Do not remove mylearning data due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const RemoveMyLearningNotes = async (id) => {
-        const filtered = MyLearningNotes.filter(x => x._id !== id) ?? [];
-        setMyLearningNotes(filtered)
-    }
+    const RemoveMyLearningNotes = useCallback((id) => {
+        setMyLearningNotes(prev => prev.filter(x => x._id !== id));
+    }, []);
 
-    const RemoveMyLearningPYQ = async (id) => {
-        const filtered = MyLearningPYQ.filter(x => x._id !== id) ?? [];
-        setMyLearningPYQ(filtered)
-    }
+    const RemoveMyLearningPYQ = useCallback((id) => {
+        setMyLearningPYQ(prev => prev.filter(x => x._id !== id));
+    }, []);
 
-    const RemoveMyLearningVideo = async (id) => {
-        const filtered = MyLearningVideo.filter(x => x._id !== id) ?? [];
-        setMyLearningVideo(filtered)
-    }
+    const RemoveMyLearningVideo = useCallback((id) => {
+        setMyLearningVideo(prev => prev.filter(x => x._id !== id));
+    }, []);
 
-    const getDataFromMyLearning = async (URL) => {
+    const getDataFromMyLearning = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETDATAFROMMYLEARNING_URL}`);
@@ -343,10 +390,10 @@ const ContentState = (props) => {
                 console.log("Do not fetch MyLearning Data due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
     //======================================================[ Search Content ]=========================================
-    const searchContent = async (URL) => {
+    const searchContent = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.SEARCHCONTENT_URL}`);
@@ -355,10 +402,10 @@ const ContentState = (props) => {
                 console.log("Do not fetch search details Data due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
     //======================================================[ DASHBOARD ]=========================================
-    const searchDashContent = async (URL) => {
+    const searchDashContent = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.SEARDASHCHCONTENT_URL}`);
@@ -379,9 +426,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch dashContent Data due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getdashAnalytics = async (URL) => {
+    const getdashAnalytics = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.DASHANALYTICS_URL}`);
@@ -393,9 +440,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch dash analytics due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getStudentsByRole = async (URL) => {
+    const getStudentsByRole = useCallback(async (URL) => {
         return withLoading(async () => {
             try {
                 const json = await getData(URL || `${GlobalUrls.GETSTUDENTSBYROLE_URL}`);
@@ -407,9 +454,9 @@ const ContentState = (props) => {
                 console.log("Do not fetch students due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const addStudent = async (Data) => {
+    const addStudent = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.ADDSTUDENS_URL}`, Data);
@@ -421,9 +468,9 @@ const ContentState = (props) => {
                 console.log("Do not add student due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const updateStudent = async (Data, id) => {
+    const updateStudent = useCallback(async (Data, id) => {
         return withLoading(async () => {
             try {
                 const json = await putData(`${GlobalUrls.UPDATESTUDENT_URL}/${id}`, Data);
@@ -432,9 +479,9 @@ const ContentState = (props) => {
                 console.log("Do not update student due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const deleteStudent = async (id) => {
+    const deleteStudent = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await deleteData(`${GlobalUrls.DELETESTUDENT_URL}/${id}`);
@@ -443,9 +490,9 @@ const ContentState = (props) => {
                 console.log("Do not delete student due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const changeStudentStatus = async (id) => {
+    const changeStudentStatus = useCallback(async (id) => {
         return withLoading(async () => {
             try {
                 const json = await patchData(`${GlobalUrls.CHANGESTUDENTSTATUS_URL}/${id}`);
@@ -455,10 +502,10 @@ const ContentState = (props) => {
                 console.log("Do not change student status due to some error", error);
             }
         });
-    };
+    }, [withLoading, getStudentsByRole]);
 
     //-------------[ Announce ] ----------------------------------
-    const getAllUser = async (URL) => {
+    const getAllUser = useCallback(async (URL) => {
         try {
             const json = await getData(URL || `${GlobalUrls.GETALLUSER_URL}`);
             if (json.success === true) {
@@ -468,9 +515,9 @@ const ContentState = (props) => {
         } catch (error) {
             console.log("Do not fetch All user due to some error", error);
         }
-    };
+    }, []);
 
-    const sendAnnounceMent = async (Data) => {
+    const sendAnnounceMent = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await postData(`${GlobalUrls.SENDANNOUNCEMENT_URL}`, Data);
@@ -479,9 +526,9 @@ const ContentState = (props) => {
                 console.log("Do not Send announcsment due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const getUser = async () => {
+    const getUser = useCallback(async () => {
         return withLoading(async () => {
             try {
                 const json = await getData(`${GlobalUrls.GETUSER_URL}`);
@@ -495,9 +542,35 @@ const ContentState = (props) => {
                 console.log("Do not fetch user due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const updateProfile = async (Data) => {
+    const getUsage = useCallback(async () => {
+        return withLoading(async () => {
+            try {
+                const json = await getData(`${GlobalUrls.GET_USAGE_URL}`);
+                if (json.success === true) {
+                    setUsage(json.usage || { mockTestsTaken: 0, callsBooked: 0 });
+                }
+                return json;
+            } catch (error) {
+                console.log("Do not fetch usage due to some error", error);
+            }
+        });
+    }, [withLoading]);
+
+    const recordUsage = useCallback(async (feature) => {
+        try {
+            const json = await postData(`${GlobalUrls.GET_USAGE_URL}`, { feature });
+            if (json.success === true) {
+                setUsage(json.usage);
+            }
+            return json;
+        } catch (error) {
+            console.log("Do not record usage due to some error", error);
+        }
+    }, []);
+
+    const updateProfile = useCallback(async (Data) => {
         return withLoading(async () => {
             try {
                 const json = await putData(`${GlobalUrls.UPDATEPROFILE_URL}`, Data);
@@ -511,25 +584,25 @@ const ContentState = (props) => {
                 console.log("Do not update profile due to some error", error);
             }
         });
-    };
+    }, [withLoading]);
 
-    const updatePassword = async (Data) => {
+    const updatePassword = useCallback(async (Data) => {
         try {
             const json = await postData(`${GlobalUrls.UPDATEPASSWORD_URL}`, Data);
             return json;
         } catch (error) {
             console.log("Do not update password due to some error", error);
         }
-    };
+    }, []);
 
-    const deleteAccount = async () => {
+    const deleteAccount = useCallback(async () => {
         try {
             const json = await deleteData(`${GlobalUrls.DELETEACCOUNT_URL}`);
             return json;
         } catch (error) {
             console.log("Do not delete account due to some error", error);
         }
-    };
+    }, []);
 
     const [Notes, setNotes] = useState([]);
     const [MyNotes, setMyNotes] = useState([]);
@@ -555,32 +628,49 @@ const ContentState = (props) => {
     const [dasCourse, setdasCourse] = useState([]);
     const [dashAnalytics, setDashAnalytics] = useState([]);
     const [studentsByRole, setStudentsByRole] = useState([]);
+    const [usage, setUsage] = useState({ mockTestsTaken: 0, callsBooked: 0 });
     const [allUser, setAllUser] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [selectedPlan, setSelectedPlan] = useState(null);
     const [userData, setUserData] = useState(null);
     const [globalSearch, setGlobalSearch] = useState('');
 
+    const contextValue = useMemo(() => ({
+        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
+        LatestData,
+        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
+        getNoteById, getPYQById, getVideoById, getCourseById,
+        updateNotes, updatePYQ, updateVideo, updateCourse,
+        deleteNotes, deletePYQ, deleteVideo, deleteCourse,
+        addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes, RemoveMyLearningPYQ, RemoveMyLearningVideo,
+        searchContent, setSearchContentData, searchContentData,
+        searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
+        getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus,
+        getAllUser, allUser, sendAnnounceMent,
+        enrollCourse, MyLearningCourse,
+        selectedCourse, setSelectedCourse,
+        selectedPlan, setSelectedPlan,
+        getUser, updateProfile, updatePassword, deleteAccount, userData,
+        getUsage, recordUsage, usage,
+        globalSearch, setGlobalSearch,
+        loading
+    }), [
+        Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
+        LatestData, MyLearningNotes, MyLearningVideo, MyLearningPYQ, searchContentData,
+        dashNotes, dashPYQ, dasVideo, dasCourse, dashAnalytics, studentsByRole, allUser,
+        MyLearningCourse, selectedCourse, selectedPlan, userData, usage, globalSearch, loading,
+        addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
+        getNoteById, getPYQById, getVideoById, getCourseById, updateNotes, updatePYQ, updateVideo,
+        updateCourse, deleteNotes, deletePYQ, deleteVideo, deleteCourse, addInMylearning,
+        removeFromMylearning, RemoveMyLearningNotes, RemoveMyLearningPYQ, RemoveMyLearningVideo,
+        getDataFromMyLearning, searchContent, searchDashContent, getdashAnalytics,
+        getStudentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus,
+        getAllUser, sendAnnounceMent, enrollCourse, getUser, updateProfile, updatePassword,
+        deleteAccount, getUsage, recordUsage, setGlobalSearch
+    ]);
+
     return (
-        <ContentContext.Provider
-            value={{
-                Notes, MyNotes, AllNotes, PYQS, MyPYQS, AllPYQS, Video, MyVideo, AllVideo, Course, MyCourse, AllCourse,
-                LatestData,
-                addNote, getNote, addPYQ, getPYQ, addVideo, getVideo, addCourse, getCourse, getLatestUpload,
-                updateNotes, updatePYQ, updateVideo, updateCourse,
-                deleteNotes, deletePYQ, deleteVideo, deleteCourse,
-                addInMylearning, removeFromMylearning, getDataFromMyLearning, MyLearningNotes, MyLearningVideo, MyLearningPYQ, RemoveMyLearningNotes, RemoveMyLearningPYQ, RemoveMyLearningVideo,
-                searchContent, setSearchContentData, searchContentData,
-                searchDashContent, dashNotes, dashPYQ, dasVideo, dasCourse,
-                getdashAnalytics, dashAnalytics, getStudentsByRole, studentsByRole, addStudent, updateStudent, deleteStudent, changeStudentStatus,
-                getAllUser, allUser, sendAnnounceMent,
-                enrollCourse, MyLearningCourse,
-                selectedCourse, setSelectedCourse,
-                selectedPlan, setSelectedPlan,
-                getUser, updateProfile, updatePassword, deleteAccount, userData,
-                globalSearch, setGlobalSearch,
-                loading
-            }}>
+        <ContentContext.Provider value={contextValue}>
             <Suspense fallback={null}>
                 <RouteChangeTracker setLoadingCount={setLoadingCount} />
             </Suspense>

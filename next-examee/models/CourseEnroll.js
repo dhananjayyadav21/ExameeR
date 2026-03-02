@@ -43,7 +43,15 @@ const CourseEnrollSchema = new mongoose.Schema({
     certificateIssued: {
         type: Boolean,
         default: false
-    }
+    },
+    paymentId: {
+        type: String,
+        default: ''
+    },
+    orderId: {
+        type: String,
+        default: ''
+    },
 });
 
 export default mongoose.models.CourseEnroll || mongoose.model('CourseEnroll', CourseEnrollSchema);

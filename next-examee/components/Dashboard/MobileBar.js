@@ -10,6 +10,7 @@ const bottomNavItems = [
     { href: "/dashboard/videos", label: "Videos", icon: "fa-circle-play" },
     { href: "/dashboard/courses", label: "Courses", icon: "fa-book-open" },
     { href: "/dashboard/students", label: "Users", icon: "fa-users" },
+    { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial" },
 ];
 
 function MobileMenuButton() {

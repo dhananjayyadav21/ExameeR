@@ -10,10 +10,27 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    accessTier: {
+        type: String,
+        enum: ['free', 'plus', 'pro'],
+        default: 'free',   // 'free' = E0, 'plus' = Plus+, 'pro' = Pro only
+    },
     category: {
         type: String,
         enum: ['sciTechnology', 'commerce', 'artscivils'],
         default: 'sciTechnology',
+    },
+    course: {
+        type: String,
+        default: '',
+    },
+    semester: {
+        type: String,
+        default: '',
+    },
+    university: {
+        type: String,
+        default: '',
     },
     tags: [String],
     isPublic: {
@@ -43,4 +60,7 @@ const noteSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.models.Note || mongoose.model('Note', noteSchema);
+if (mongoose.models && mongoose.models.Note) {
+    delete mongoose.models.Note;
+}
+export default mongoose.model('Note', noteSchema);

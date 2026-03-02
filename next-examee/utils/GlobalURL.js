@@ -7,6 +7,7 @@ export const VERIFY_URL = `${BASEURL}auth/verifyemail`
 export const FOGOTPASSWORD_URL = `${BASEURL}auth/resetPassword`
 export const FOGOTCODE_URL = `${BASEURL}auth/sendResetCode`
 export const VERIFYTOKEN_URL = `${BASEURL}auth/verifyToken`
+export const RESEND_OTP_URL = `${BASEURL}auth/resend-otp`
 
 //------[User Details Urls]-------------
 export const GETUSER_URL = `${BASEURL}auth/getUser`
@@ -14,6 +15,7 @@ export const SUPPORTUSER_URL = `${BASEURL}auth/support`
 export const UPDATEPROFILE_URL = `${BASEURL}auth/updateProfile`
 export const UPDATEPASSWORD_URL = `${BASEURL}auth/updatePassword`
 export const DELETEACCOUNT_URL = `${BASEURL}auth/deleteAccount`
+export const GET_USAGE_URL = `${BASEURL}user/usage`
 
 //------[ Announce ]-------------
 export const GETALLUSER_URL = `${BASEURL}announcement/getAllUser`

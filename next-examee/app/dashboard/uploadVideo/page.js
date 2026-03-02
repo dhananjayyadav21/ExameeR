@@ -4,6 +4,9 @@ import { useSearchParams } from 'next/navigation';
 import ContentContext from '../../../context/ContentContext';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
+import { academicOptions } from '../../../constants/academicOptions';
+import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
+import PageLoader from "../../../components/PageLoader";
 
 const Content = () => {
     const context = useContext(ContentContext);
@@ -17,10 +20,14 @@ const Content = () => {
         title: '',
         description: '',
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         tags: '',
         fileUrl: '',
         isPublic: true,
         status: 'public',
+        accessTier: 'free',
     });
 
     const [uploading, setUploading] = useState(false);
@@ -33,10 +40,14 @@ const Content = () => {
                     title: videoToEdit.title || '',
                     description: videoToEdit.description || '',
                     category: videoToEdit.category || 'sciTechnology',
+                    course: videoToEdit.course || '',
+                    semester: videoToEdit.semester || '',
+                    university: videoToEdit.university || '',
                     tags: videoToEdit.tags ? videoToEdit.tags.join(', ') : '',
                     fileUrl: videoToEdit.fileUrl || '',
                     isPublic: videoToEdit.isPublic !== undefined ? videoToEdit.isPublic : true,
                     status: videoToEdit.status || 'public',
+                    accessTier: videoToEdit.accessTier || 'free',
                 });
             }
         }
@@ -57,9 +68,13 @@ const Content = () => {
             title: formData.title,
             description: formData.description,
             category: formData.category,
+            course: formData.course,
+            semester: formData.semester,
+            university: formData.university,
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
+            accessTier: formData.accessTier,
             fileUrl: formData.fileUrl
         };
         try {
@@ -138,6 +153,11 @@ const Content = () => {
                                             className="up-input" placeholder="https://www.youtube.com/watch?v=... or YouTube Video ID" required />
                                     </div>
                                     <p className="up-hint">Paste the full YouTube URL or just the video ID (11 characters)</p>
+                                    <YoutubeUploader
+                                        defaultTitle={formData.title}
+                                        defaultDescription={formData.description}
+                                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, fileUrl: url }))}
+                                    />
                                 </div>
 
                                 {/* YouTube Preview */}
@@ -183,6 +203,43 @@ const Content = () => {
                                     </div>
                                 </div>
                                 <div className="col-md-6">
+                                    <label className="up-label">Course / Program</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                        <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Course</option>
+                                            {academicOptions.courses.map(course => (
+                                                <option key={course.value} value={course.value}>{course.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="up-label">Semester / Year</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                        <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Semester</option>
+                                            {academicOptions.semesters.map(semester => (
+                                                <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">University / Institution</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                        <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select University</option>
+                                            {academicOptions.universities.map(university => (
+                                                <option key={university.value} value={university.value}>{university.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
                                     <label className="up-label">Status</label>
                                     <div className="up-input-wrap">
                                         <span className="up-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
@@ -190,6 +247,17 @@ const Content = () => {
                                             <option value="public">Live on Site</option>
                                             <option value="draft">Save to Drafts</option>
                                             <option value="archived">Archived</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Access Tier <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#94a3b8' }}>— who can watch?</span></label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-crown"></i></span>
+                                        <select name="accessTier" value={formData.accessTier} onChange={handleChange} className="up-input up-select">
+                                            <option value="free">🟢 E0 Free — visible to all</option>
+                                            <option value="plus">🟣 Plus — Plus &amp; Pro users</option>
+                                            <option value="pro">🟡 Pro — Pro users only</option>
                                         </select>
                                     </div>
                                 </div>
@@ -281,7 +349,7 @@ const Content = () => {
 
 export default function UploadVideoPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<PageLoader text="Loading editor..." subtext="Preparing video upload interface" />}>
             <Content />
         </Suspense>
     );

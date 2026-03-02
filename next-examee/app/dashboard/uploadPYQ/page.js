@@ -5,10 +5,11 @@ import ContentContext from '../../../context/ContentContext';
 import DriveUpload from '../../../utils/DriveUpload';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
+import { academicOptions } from '../../../constants/academicOptions';
 
 const Content = () => {
     const context = useContext(ContentContext);
-    const { addPYQ, updatePYQ, dashPYQ } = context;
+    const { addPYQ, updatePYQ, getPYQById, dashPYQ } = context;
     const router = useRouter();
     const searchParams = useSearchParams();
     const editId = searchParams.get('edit');
@@ -19,9 +20,13 @@ const Content = () => {
         year: '',
         subject: '',
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         tags: '',
         isPublic: true,
         status: 'public',
+        accessTier: 'free',
     });
 
     const [file, setFile] = useState(null);
@@ -29,22 +34,37 @@ const Content = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        if (isEditMode && dashPYQ) {
-            const pyqToEdit = dashPYQ.find(p => p._id === editId);
-            if (pyqToEdit) {
-                setFormData({
-                    title: pyqToEdit.title || '',
-                    year: pyqToEdit.year || '',
-                    subject: pyqToEdit.subject || '',
-                    category: pyqToEdit.category || 'sciTechnology',
-                    tags: pyqToEdit.tags ? pyqToEdit.tags.join(', ') : '',
-                    isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
-                    status: pyqToEdit.status || 'public',
-                });
-                setFileUrl(pyqToEdit.fileUrl || null);
+        const fetchPYQ = async () => {
+            if (isEditMode) {
+                let pyqToEdit = dashPYQ.find(p => p._id === editId);
+
+                if (!pyqToEdit) {
+                    const response = await getPYQById(editId);
+                    if (response && response.success) {
+                        pyqToEdit = response.data;
+                    }
+                }
+
+                if (pyqToEdit) {
+                    setFormData({
+                        title: pyqToEdit.title || '',
+                        year: pyqToEdit.year || '',
+                        subject: pyqToEdit.subject || '',
+                        category: pyqToEdit.category || 'sciTechnology',
+                        course: pyqToEdit.course || '',
+                        semester: pyqToEdit.semester || '',
+                        university: pyqToEdit.university || '',
+                        tags: pyqToEdit.tags ? (Array.isArray(pyqToEdit.tags) ? pyqToEdit.tags.join(', ') : pyqToEdit.tags) : '',
+                        isPublic: pyqToEdit.isPublic !== undefined ? pyqToEdit.isPublic : true,
+                        status: pyqToEdit.status || 'public',
+                        accessTier: pyqToEdit.accessTier || 'free',
+                    });
+                    setFileUrl(pyqToEdit.fileUrl || null);
+                }
             }
-        }
-    }, [isEditMode, editId, dashPYQ]);
+        };
+        fetchPYQ();
+    }, [isEditMode, editId, dashPYQ, getPYQById]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -77,18 +97,27 @@ const Content = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setUploading(true);
-        if (!file || file.type !== 'application/pdf') {
+        if (!isEditMode && (!file || file.type !== 'application/pdf')) {
             setUploading(false);
             return toast.warning("Please upload a valid PDF question paper.");
+        }
+
+        if (file && file.type !== 'application/pdf') {
+            setUploading(false);
+            return toast.warning("The uploaded file must be a PDF");
         }
         const data = {
             title: formData.title,
             year: formData.year,
             subject: formData.subject,
             category: formData.category,
+            course: formData.course,
+            semester: formData.semester,
+            university: formData.university,
             tags: formData.tags.split(',').map(tag => tag.trim()),
             isPublic: formData.isPublic,
             status: formData.status,
+            accessTier: formData.accessTier,
             fileUrl: fileUrl
         };
         try {
@@ -181,6 +210,43 @@ const Content = () => {
                                     </div>
                                 </div>
                                 <div className="col-md-6">
+                                    <label className="up-label">Course / Program</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                        <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Course</option>
+                                            {academicOptions.courses.map(course => (
+                                                <option key={course.value} value={course.value}>{course.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="up-label">Semester / Session</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                        <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select Semester</option>
+                                            {academicOptions.semesters.map(semester => (
+                                                <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">University / Board</label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                        <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                            <option value="">Select University</option>
+                                            {academicOptions.universities.map(university => (
+                                                <option key={university.value} value={university.value}>{university.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
                                     <label className="up-label">Status</label>
                                     <div className="up-input-wrap">
                                         <span className="up-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
@@ -188,6 +254,17 @@ const Content = () => {
                                             <option value="public">Published</option>
                                             <option value="draft">Draft</option>
                                             <option value="archived">Archived</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="up-label">Access Tier <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#94a3b8' }}>— who can view this?</span></label>
+                                    <div className="up-input-wrap">
+                                        <span className="up-input-icon"><i className="fa-solid fa-crown"></i></span>
+                                        <select name="accessTier" value={formData.accessTier} onChange={handleChange} className="up-input up-select">
+                                            <option value="free">🟢 E0 Free — visible to all</option>
+                                            <option value="plus">🟣 Plus — Plus &amp; Pro users</option>
+                                            <option value="pro">🟡 Pro — Pro users only</option>
                                         </select>
                                     </div>
                                 </div>

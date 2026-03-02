@@ -4,10 +4,13 @@ import { usePathname } from 'next/navigation';
 import Modal from './Modal';
 import ContentContext from '../context/ContentContext'
 import { toast } from "react-toastify";
+import { TierBadge, PlanGate } from './PlanGate';
 
 const VideoItem = ({ video }) => {
     const context = useContext(ContentContext);
-    const { addInMylearning, removeFromMylearning, getDataFromMyLearning, RemoveMyLearningVideo } = context;
+    const { addInMylearning, removeFromMylearning, getDataFromMyLearning, RemoveMyLearningVideo, userData } = context;
+    const userPlan = userData?.Plan || 'e0';
+    const contentTier = video?.accessTier || 'free';
 
     const videoContainerRef = useRef();
 
@@ -67,6 +70,15 @@ const VideoItem = ({ video }) => {
         }
     };
 
+    const getYouTubeId = (url) => {
+        if (!url) return '';
+        if (url.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+        return match ? match[1] : url;
+    };
+
+    const videoId = getYouTubeId(Video?.fileUrl);
+
     return (
         <div className="h-100">
             <Modal
@@ -77,50 +89,54 @@ const VideoItem = ({ video }) => {
                 subHeading={Video?.title}
             />
 
-            <div className="pw-card h-100 shadow-sm transition-all rounded-4 overflow-hidden bg-white border d-flex flex-column">
-                <div className="position-relative overflow-hidden bg-dark" ref={videoContainerRef} style={{ aspectRatio: '16/9' }}>
-                    <iframe
-                        className="w-100 h-100 border-0"
-                        src={`https://www.youtube.com/embed/${Video?.fileUrl}?rel=0&modestbranding=1`}
-                        title={Video?.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
-                    <button
-                        onClick={handleFullscreen}
-                        className="btn btn-sm btn-white position-absolute top-0 end-0 m-2 opacity-0 hover-show rounded-pill shadow-sm"
-                        style={{ zIndex: 10 }}
-                    >
-                        <i className="fa-solid fa-expand"></i>
-                    </button>
-                </div>
-
-                <div className="card-body p-3 d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-start mb-2">
-                        <div className="flex-grow-1 overflow-hidden">
-                            <span className="badge bg-danger text-white px-2 py-1 rounded-1 fw-bold mb-2 uppercase-ls" style={{ fontSize: '0.6rem' }}>VIDEO LECTURE</span>
-                            <h6 className="fw-bold mb-1 text-truncate-2" style={{ fontSize: '0.9rem' }} title={Video?.title}>{Video?.title}</h6>
-                        </div>
+            <PlanGate userPlan={userPlan} contentTier={contentTier}>
+                <div className="pw-card h-100 shadow-sm transition-all rounded-4 overflow-hidden bg-white border d-flex flex-column">
+                    <div className="position-relative overflow-hidden bg-dark" ref={videoContainerRef} style={{ aspectRatio: '16/9' }}>
+                        <iframe
+                            className="w-100 h-100 border-0"
+                            src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+                            title={Video?.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
                         <button
-                            className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-dark' : 'text-muted'}`}
-                            onClick={() => setShowModal(true)}
+                            onClick={handleFullscreen}
+                            className="btn btn-sm btn-white position-absolute top-0 end-0 m-2 opacity-0 hover-show rounded-pill shadow-sm"
+                            style={{ zIndex: 10 }}
                         >
-                            <i className={`${isMyLearning || Video?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
+                            <i className="fa-solid fa-expand"></i>
                         </button>
                     </div>
 
-                    <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75 mb-3">
-                        {Video?.description || "Watch this comprehensive video lecture to master the core concepts."}
-                    </p>
+                    <div className="card-body p-3 d-flex flex-column">
+                        <div className="d-flex justify-content-between align-items-start mb-2">
+                            <div className="flex-grow-1 overflow-hidden">
+                                <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 6 }}>
+                                    <span className="badge bg-danger text-white px-2 py-1 rounded-1 fw-bold uppercase-ls" style={{ fontSize: '0.6rem' }}>VIDEO LECTURE</span>
+                                    <TierBadge tier={contentTier} />
+                                </div>
+                                <h6 className="fw-bold mb-1 text-truncate-2" style={{ fontSize: '0.9rem' }} title={Video?.title}>{Video?.title}</h6>
+                            </div>
+                            <button
+                                className={`btn p-0 border-0 ${isMyLearning || Video?.isWatching ? 'text-dark' : 'text-muted'}`}
+                                onClick={() => setShowModal(true)}
+                            >
+                                <i className={`${isMyLearning || Video?.isWatching ? 'fa-solid' : 'fa-regular'} fa-bookmark`}></i>
+                            </button>
+                        </div>
 
-                    <div className="mt-auto pt-3 border-top">
-                        <button className="btn btn-dark fw-bold rounded-2 w-100 py-2 d-flex align-items-center justify-content-center gap-2" style={{ fontSize: '0.85rem' }} onClick={handleFullscreen}>
-                            Watch Fullscreen <i className="fa-solid fa-play small"></i>
-                        </button>
+                        <p className="text-muted smaller mb-0 text-truncate-2 lh-sm opacity-75 mb-3">
+                            {Video?.description || "Watch this comprehensive video lecture to master the core concepts."}
+                        </p>
+
+                        <div className="mt-auto pt-3 border-top">
+                            <button className="btn btn-dark fw-bold rounded-2 w-100 py-2 d-flex align-items-center justify-content-center gap-2" style={{ fontSize: '0.85rem' }} onClick={handleFullscreen}>
+                                Watch Fullscreen <i className="fa-solid fa-play small"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <style jsx>{`
+                    <style jsx>{`
                     .pw-card { border-radius: 16px; overflow: hidden; transition: transform 0.3s ease; }
                     .pw-card:hover { transform: translateY(-5px); }
                     .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.4rem; }
@@ -130,7 +146,8 @@ const VideoItem = ({ video }) => {
                     .pw-card:hover .hover-show { opacity: 1 !important; }
                     .uppercase-ls { letter-spacing: 0.05em; }
                 `}</style>
-            </div>
+                </div>
+            </PlanGate>
         </div>
     )
 }

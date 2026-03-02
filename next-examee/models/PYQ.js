@@ -6,6 +6,11 @@ const pyqSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        accessTier: {
+            type: String,
+            enum: ['free', 'plus', 'pro'],
+            default: 'free',
+        },
         year: {
             type: Number,
             required: true,
@@ -18,6 +23,18 @@ const pyqSchema = new mongoose.Schema(
             type: String,
             enum: ['sciTechnology', 'commerce', 'artscivils'],
             default: 'sciTechnology',
+        },
+        course: {
+            type: String,
+            default: '',
+        },
+        semester: {
+            type: String,
+            default: '',
+        },
+        university: {
+            type: String,
+            default: '',
         },
         tags: {
             type: [String],
@@ -52,4 +69,7 @@ const pyqSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.models.PYQ || mongoose.model('PYQ', pyqSchema);
+if (mongoose.models && mongoose.models.PYQ) {
+    delete mongoose.models.PYQ;
+}
+export default mongoose.model('PYQ', pyqSchema);

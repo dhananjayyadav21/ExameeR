@@ -1,14 +1,25 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { PLAN_LIMITS } from '../../utils/planAccess';
 
 const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) => {
     const pathname = usePathname();
+    const router = useRouter();
+    const userPlan = userData?.Plan || 'e0';
+
+    const isProfileComplete = (user) => {
+        if (!user) return false;
+        return !!(user.FirstName?.trim() && user.LastName?.trim() && user.Institution?.trim() && user.Phone?.trim());
+    };
+
+    const profileComplete = isProfileComplete(userData);
 
     const sidebarMenu = [
         {
             section: "LEARN Today",
+            locked: !profileComplete,
             items: [
                 { label: "Notes", icon: "fa-file-lines", href: "/notes" },
                 { label: "PYQ", icon: "fa-circle-question", href: "/Q-paper" },
@@ -19,25 +30,39 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "STUDY PACKS",
             items: [
                 { label: "Course", icon: "fa-layer-group", href: "/cource" },
-                { label: "Mock Test", icon: "fa-vial", href: "/mock-test" },
+                { label: "Mock Test", icon: "fa-vial", href: "/mock-tests", premium: true },
+                { label: "Get Certified", icon: "fa-certificate", href: "/certify", premium: true },
             ]
         },
         {
             section: "EXPLORE EXAMEE",
             items: [
-                { label: "Examee Books", icon: "fa-book", href: "/books" },
-                { label: "Call Book", icon: "fa-headset", href: "/call-book" },
+                { label: "Examee Books", icon: "fa-book", href: "/books", locked: userPlan === 'e0', premium: true },
+                { label: "Call Book", icon: "fa-headset", href: "/call-book", locked: userPlan === 'e0', premium: true },
             ]
         },
         {
             section: "ACCOUNT",
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
-                { label: "My Library", icon: "fa-book-open", href: "/myLearning" },
+                { label: "My Learning", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
+                { label: "My Certificates", icon: "fa-award", href: "/certificates" },
+                { label: "My Performance", icon: "fa-chart-pie", href: "/performance" },
+                { label: "Plans & Pricing", icon: "fa-crown", href: "/plans" },
                 { label: "Logout", icon: "fa-arrow-right-from-bracket", onClick: true, danger: true },
             ]
         }
     ];
+
+    if (userData?.Role === 'instructor' || userData?.Role === 'admin') {
+        sidebarMenu.splice(3, 0, {
+            section: "INSTRUCTOR",
+            items: [
+                { label: "Manage Mock Tests", icon: "fa-user-tie", href: "/dashboard/mock-tests" }
+            ]
+        });
+    }
+
 
     const isActive = (href) => {
         if (!href) return false;
@@ -65,15 +90,41 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                     />
                     <div>
                         <p className="fw-bold mb-0 text-dark" style={{ fontSize: '1.05rem' }}>{userData?.FirstName || 'Student'}</p>
-                        <span className="badge bg-success-subtle text-success border border-success-subtle smaller fw-bold px-2 py-1">PRO STUDENT</span>
+                        {/* Show actual plan */}
+                        {(() => {
+                            const plan = userData?.Plan || 'e0';
+                            const meta = {
+                                e0: { label: 'E0 Free', color: '#04bd20', bg: '#f0fdf4', icon: 'fa-bolt', grad: 'linear-gradient(135deg, #04bd20 0%, #059669 100%)' },
+                                plus: { label: 'Plus', color: '#8b5cf6', bg: '#faf5ff', icon: 'fa-star', grad: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)' },
+                                pro: { label: 'Pro', color: '#f59e0b', bg: '#fffbeb', icon: 'fa-crown', grad: 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)' }
+                            }[plan];
+                            return (
+                                <span style={{
+                                    fontSize: '0.65rem', fontWeight: 800, padding: '3px 12px', borderRadius: 20,
+                                    background: meta.bg, color: meta.color, border: `1px solid ${meta.color}40`,
+                                    display: 'inline-flex', alignItems: 'center', gap: 5, textTransform: 'uppercase'
+                                }}>
+                                    <i className={`fa-solid ${meta.icon}`} style={{
+                                        fontSize: '0.7rem',
+                                        background: meta.grad,
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent'
+                                    }}></i>
+                                    {meta.label} Plan
+                                </span>
+                            );
+                        })()}
                     </div>
                 </div>
             </div>
 
             <div className="flex-grow-1 py-4 overflow-auto custom-scrollbar">
                 {sidebarMenu.map((sec, idx) => (
-                    <div key={idx} className="li-nav-section">
-                        <p className="li-section-label">{sec.section}</p>
+                    <div key={idx} className={`li-nav-section ${sec.locked ? 'li-nav-section--locked' : ''}`}>
+                        <p className="li-section-label d-flex align-items-center justify-content-between">
+                            {sec.section}
+                            {sec.locked && <i className="fa-solid fa-lock ms-2 opacity-50" style={{ fontSize: '0.65rem' }}></i>}
+                        </p>
                         {sec.items.map((item, i) => (
                             item.onClick ? (
                                 <button
@@ -87,11 +138,32 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                             ) : (
                                 <Link
                                     key={i}
-                                    href={item.href}
-                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''}`}
+                                    href={item.locked ? "#" : item.href}
+                                    onClick={(e) => {
+                                        if (item.locked) {
+                                            e.preventDefault();
+                                            if (item.href === "/books" || item.href === "/call-book") {
+                                                toast.info("Plus/Pro Plan required to access this feature!");
+                                                router.push('/plans');
+                                            } else {
+                                                toast.warn("Complete your profile to unlock this section!");
+                                            }
+                                        }
+                                    }}
+                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''} ${item.locked ? 'li-menu-item--locked' : ''}`}
                                 >
-                                    <span className="li-menu-icon"><i className={`fa-solid ${item.icon}`}></i></span>
+                                    <span className="li-menu-icon" style={{ position: 'relative' }}>
+                                        <i className={`fa-solid ${item.icon}`}></i>
+                                        {item.premium && (
+                                            <i className="fa-solid fa-crown" style={{
+                                                position: 'absolute', top: -6, right: -6,
+                                                fontSize: '0.5rem', color: '#f59e0b',
+                                                textShadow: '0 1px 2px rgba(0,0,0,0.2)'
+                                            }}></i>
+                                        )}
+                                    </span>
                                     <span className="ms-3">{item.label}</span>
+                                    {item.locked && <i className="fa-solid fa-lock ms-auto opacity-40" style={{ fontSize: '0.7rem' }}></i>}
                                 </Link>
                             )
                         ))}
@@ -101,15 +173,21 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
 
             {/* Sidebar Support Card (Premium V2) */}
             <div className="mt-auto px-1">
-                <div className="li-support-card m-2 shadow-lg" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', borderRadius: '16px', padding: '16px' }}>
-                    <p className="fw-bold mb-1" style={{ fontSize: '0.85rem', color: '#fff' }}>Need Help?</p>
-                    <p className="mb-2" style={{ fontSize: '0.72rem', opacity: '0.8', color: '#fff', lineHeight: '1.3' }}>Get 24/7 priority support from our exam experts.</p>
-                    <button
-                        className="btn btn-success btn-sm w-100 rounded-pill fw-bold border-0 py-1"
-                        style={{ background: '#04bd20', fontSize: '0.78rem', boxShadow: '0 4px 12px rgba(4, 189, 32, 0.3)' }}
-                    >
-                        Chat with Us
-                    </button>
+                <div className="li-support-card m-2 shadow-lg" style={{
+                    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                    color: '#fff', borderRadius: '20px', padding: '20px',
+                    border: '1px solid rgba(255,255,255,0.05)'
+                }}>
+                    <p className="fw-bold mb-1" style={{ fontSize: '0.9rem', color: '#fff' }}>Need Help?</p>
+                    <p className="mb-3" style={{ fontSize: '0.72rem', opacity: '0.8', color: '#fff', lineHeight: '1.4' }}>Get 24/7 priority support from our exam experts.</p>
+                    <Link href="/contact" className="text-decoration-none">
+                        <div className="d-flex align-items-center bg-success rounded-pill p-1 pe-3" style={{ background: '#04bd20', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
+                            <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <span style={{ fontWeight: 900, fontSize: '0.75rem', color: '#fff' }}>N</span>
+                            </div>
+                            <span className="ms-1 fw-bold text-white mb-0" style={{ fontSize: '0.8rem' }}>Chat with Us</span>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </aside>

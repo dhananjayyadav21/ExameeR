@@ -4,26 +4,35 @@ import { useRouter, useSearchParams } from "next/navigation";
 import NotesItem from "../../components/NotesItem"
 import ContentContext from '../../context/ContentContext'
 import * as GlobalUrls from "../../utils/GlobalURL"
-
 import StudentLayout from "../../components/Home/StudentLayout";
+import { academicOptions } from "../../constants/academicOptions";
+import PageBanners from "../../components/PageBanners";
 
 function NotesContent({ setProgress = () => { } }) {
     const searchParams = useSearchParams();
     const router = useRouter();
     const context = useContext(ContentContext);
-    const { Notes, getNote, getDataFromMyLearning, globalSearch } = context;
-
+    const { Notes, getNote, getDataFromMyLearning, globalSearch, userData } = context;
     const category = searchParams.get('category') || 'sciTechnology';
     const sortBy = searchParams.get('sortBy') || 'latest';
 
     useEffect(() => {
         setProgress(0);
-        if (localStorage.getItem('token')) {
-            getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`);
+        if (localStorage.getItem('token') && userData) {
+            let fetchUrl = `${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`;
+            if (userData.Course) fetchUrl += `&course=${userData.Course}`;
+            if (userData.Semester) fetchUrl += `&semester=${userData.Semester}`;
+            if (userData.University) fetchUrl += `&university=${userData.University}`;
+            if (userData.Category) fetchUrl += `&category=${userData.Category}`; // Ensure category from profile is used if it matches
+
+            getNote(fetchUrl);
             getDataFromMyLearning();
+        } else if (localStorage.getItem('token') && !userData) {
+            // Wait for user data to load if not already present
+            getNote(`${GlobalUrls.GETNOTE_URL}?category=${category}&sortBy=${sortBy}`);
         }
         setProgress(100);
-    }, [category, sortBy]);
+    }, [category, sortBy, userData]);
 
     const handleSortByChange = (sortBy) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -31,10 +40,10 @@ function NotesContent({ setProgress = () => { } }) {
         router.push(`?${params.toString()}`);
     }
 
-    const filteredNotes = Notes.filter(note =>
-        note.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
-        note.professor?.toLowerCase().includes(globalSearch.toLowerCase()) ||
-        note.subject?.toLowerCase().includes(globalSearch.toLowerCase())
+    const filteredNotes = Notes.filter(n =>
+        n.title?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        n.professor?.toLowerCase().includes(globalSearch.toLowerCase()) ||
+        n.description?.toLowerCase().includes(globalSearch.toLowerCase())
     );
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,16 +66,19 @@ function NotesContent({ setProgress = () => { } }) {
     return (
         <StudentLayout title="Notes">
             <div className="container-fluid px-0">
+                {/* Banners */}
+                <PageBanners page="notes" />
+
                 {/* Header & Controls */}
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
                     <div>
-                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Study Resources</h2>
-                        <p className="text-muted small mb-0">{filteredNotes.length} notes available in {category}</p>
+                        <h2 className="fw-black mb-1" style={{ fontSize: '1.8rem' }}>Study Library</h2>
+                        <p className="text-muted small mb-0">{filteredNotes.length} notes available for your profile</p>
                     </div>
                     <div className="dropdown">
                         <button className="btn btn-white shadow-sm border rounded-pill px-4 py-2 dropdown-toggle fw-medium" type="button" data-bs-toggle="dropdown">
-                            <i className="fa-solid fa-arrow-down-wide-short me-2 text-muted"></i>
-                            Sort by: <span className="text-primary">{sortBy === 'latest' ? 'Newest First' : 'Oldest First'}</span>
+                            <i className="fa-solid fa-sort me-2 text-muted"></i>
+                            Sort: <span className="text-green">{sortBy === 'latest' ? 'Newest' : 'Oldest'}</span>
                         </button>
                         <ul className="dropdown-menu dropdown-menu-end shadow-lg border-0">
                             <li><button className="dropdown-item py-2" onClick={() => handleSortByChange('latest')}>Newest First</button></li>

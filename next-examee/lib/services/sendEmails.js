@@ -1,5 +1,12 @@
 import transporter from './Email.config';
-import { VerificationEmail_Template, WelcomeEmail_Template, SupportEmail_Template, ForgotPasswordEmail_Template } from './emailTemplate';
+import {
+    VerificationEmail_Template,
+    WelcomeEmail_Template,
+    SupportEmail_Template,
+    ForgotPasswordEmail_Template,
+    CertificationPass_Template,
+    CertificationFail_Template
+} from './emailTemplate';
 
 const MyEmail = process.env.EMAIL;
 
@@ -78,5 +85,29 @@ export const announceMentEmail = async (Email, subject, emailBody) => {
     } catch (error) {
         console.log('Announce Email error', error);
         throw error;
+    }
+};
+
+export const sendCertificationEmail = async (email, userName, testTitle, score, passed, certificateId = "") => {
+    try {
+        const subject = passed
+            ? `Congratulations! You earned your ${testTitle} Certification`
+            : `Your Result: ${testTitle} Certification Attempt`;
+
+        const html = passed
+            ? CertificationPass_Template(userName, testTitle, score, certificateId)
+            : CertificationFail_Template(userName, testTitle, score);
+
+        const response = await transporter.sendMail({
+            from: `"Examee Certification" <${MyEmail}>`,
+            to: email,
+            subject: subject,
+            text: passed ? `Congratulations! You passed ${testTitle}.` : `You completed ${testTitle}.`,
+            html: html,
+        });
+        console.log('Certification Email sent Successfully');
+        return response;
+    } catch (error) {
+        console.log('Certification Email error', error);
     }
 };

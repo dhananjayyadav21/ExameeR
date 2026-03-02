@@ -16,6 +16,9 @@ export async function GET(req) {
         const { searchParams } = new URL(req.url);
         const category = searchParams.get('category') || "sciTechnology";
         const sortBy = searchParams.get('sortBy') || "latest";
+        const course = searchParams.get('course');
+        const semester = searchParams.get('semester');
+        const university = searchParams.get('university');
 
         let sortOption = sortBy === "oldest" ? { createdAt: 1 } : { createdAt: -1 };
 
@@ -29,6 +32,26 @@ export async function GET(req) {
             status: 'public',
             category: category
         };
+
+        if (course && course !== "For All") {
+            criteria.course = { $in: [course, "For All"] };
+        }
+        if (semester && semester !== "For All") {
+            if (semester === "1st Year") {
+                criteria.semester = { $in: ["1st Sem", "2nd Sem", "1st Year", "For All"] };
+            } else if (semester === "2nd Year") {
+                criteria.semester = { $in: ["3rd Sem", "4th Sem", "2nd Year", "For All"] };
+            } else if (semester === "3rd Year") {
+                criteria.semester = { $in: ["5th Sem", "6th Sem", "3rd Year", "For All"] };
+            } else if (semester === "4th Year" || semester === "Final Year") {
+                criteria.semester = { $in: ["7th Sem", "8th Sem", "4th Year", "Final Year", "For All"] };
+            } else {
+                criteria.semester = { $in: [semester, "For All"] };
+            }
+        }
+        if (university && university !== "For All") {
+            criteria.university = { $in: [university, "For All"] };
+        }
 
         const pyqs = await PYQ.aggregate([
             { $match: criteria },
@@ -113,7 +136,7 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: "Access denied" }, { status: 401 });
         }
 
-        const { title, year, subject, category, tags, isPublic, status, fileUrl } = await req.json();
+        const { title, year, subject, category, course, semester, university, tags, isPublic, status, fileUrl, accessTier } = await req.json();
 
         if (!title || !year || !subject || !category || !status || !fileUrl) {
             return NextResponse.json({ success: false, message: "Required fields missing" }, { status: 400 });
@@ -124,9 +147,13 @@ export async function POST(req) {
             year,
             subject,
             category,
+            course,
+            semester,
+            university,
             tags: Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim()),
             isPublic: isPublic === false ? false : true,
             status: status || 'public',
+            accessTier: accessTier || 'free',
             fileUrl,
             uploadedBy: userData._id,
             ExmeeUserId: user.ExmeeUserId,

@@ -1,12 +1,15 @@
 "use client";
 import React, { useContext, useEffect, useState, Suspense } from "react";
 import Modal from "../../../components/Modal";
+import VideoModalService from "../../../components/VideoPlay";
+import PageLoader from "../../../components/PageLoader";
 import Link from "next/link";
 import '../../../styles/dashboard-content.css';
 import { useRouter } from "next/navigation";
 import ContentContext from '../../../context/ContentContext';
 import * as GlobalUrls from "../../../utils/GlobalURL";
 import { toast } from "react-toastify";
+import { academicOptions } from "../../../constants/academicOptions";
 
 
 function DashboardVideosContent() {
@@ -17,9 +20,20 @@ function DashboardVideosContent() {
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState("sciTechnology");
     const [status, setStatus] = useState("");
+    const [course, setCourse] = useState("");
+    const [semester, setSemester] = useState("");
+    const [university, setUniversity] = useState("");
     const [isloading, setIsloading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalVideo, setModalVideo] = useState(null);
+    const [previewVideo, setPreviewVideo] = useState(null);
+
+    const getYouTubeId = (url) => {
+        if (!url) return '';
+        if (url.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+        const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+        return match ? match[1] : url;
+    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
@@ -31,13 +45,14 @@ function DashboardVideosContent() {
     useEffect(() => { getVideo(); }, []);
 
     // Auto-search when dropdowns change
-    useEffect(() => { doSearch(search, category, status); }, [category, status]);
+    // Auto-search when dropdowns change
+    useEffect(() => { doSearch(search, category, status, course, semester, university); }, [category, status, course, semester, university]);
 
-    const doSearch = async (s = search, c = category, st = status) => {
+    const doSearch = async (s = search, c = category, st = status, cr = course, sm = semester, un = university) => {
         setIsloading(true);
         try {
-            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${s}&category=${c}&status=${st}&type=video`);
-            if (res.success === false) toast.warning(res.message || "No matching content found");
+            const res = await searchDashContent(`${GlobalUrls.SEARDASHCHCONTENT_URL}?search=${s}&category=${c}&status=${st}&course=${cr}&semester=${sm}&university=${un}&type=video`);
+            if (res.success === false) toast.warning(res.message || "No matching videos found");
             setCurrentPage(1);
         } catch (error) { console.error(error); }
         finally { setIsloading(false); }
@@ -70,6 +85,8 @@ function DashboardVideosContent() {
             <Modal isOpen={showModal} onClose={() => setShowModal(false)} onConfirm={() => deleteConfirm(modalVideo)}
                 heading={`Delete "${modalVideo?.title}"?`} subHeading="This action cannot be undone." />
 
+            <VideoModalService videoUrl={previewVideo} show={!!previewVideo} onClose={() => setPreviewVideo(null)} />
+
             {/* Header */}
             <div className="dc-header">
                 <div>
@@ -84,7 +101,7 @@ function DashboardVideosContent() {
             {/* Search Card */}
             <div className="dc-search-card">
                 <form onSubmit={handleSubmit} className="row g-3 align-items-end">
-                    <div className="col-md-5">
+                    <div className="col-md-6">
                         <label className="dc-label">Search</label>
                         <div className="dc-input-wrap">
                             <span className="dc-input-icon"><i className="fa-solid fa-search"></i></span>
@@ -102,7 +119,38 @@ function DashboardVideosContent() {
                             </select>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
+                        <label className="dc-label">Course</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                            <select className="dc-input dc-select" value={course} onChange={e => setCourse(e.target.value)}>
+                                <option value="">All Courses</option>
+                                {academicOptions.courses.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <label className="dc-label">Semester</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-clock"></i></span>
+                            <select className="dc-input dc-select" value={semester} onChange={e => setSemester(e.target.value)}>
+                                <option value="">All Semesters</option>
+                                {academicOptions.semesters.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <label className="dc-label">University</label>
+                        <div className="dc-input-wrap">
+                            <span className="dc-input-icon"><i className="fa-solid fa-university"></i></span>
+                            <select className="dc-input dc-select" value={university} onChange={e => setUniversity(e.target.value)}>
+                                <option value="">All Universities</option>
+                                {academicOptions.universities.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <label className="dc-label">Status & Action</label>
                         <div className="d-flex gap-2">
                             <div className="dc-input-wrap flex-grow-1">
                                 <span className="dc-input-icon"><i className="fa-solid fa-circle-dot"></i></span>
@@ -116,8 +164,8 @@ function DashboardVideosContent() {
                             <button type="submit" className="dc-search-btn" title="Search" disabled={isloading}>
                                 {isloading ? <div className="dc-spinner"></div> : <i className="fa-solid fa-magnifying-glass"></i>}
                             </button>
-                            {(search || category !== 'sciTechnology' || status !== 'public') && (
-                                <button type="button" className="dc-clear-btn" title="Clear Filters" onClick={() => { setSearch(''); setCategory('sciTechnology'); setStatus('public'); getVideo(); }}>
+                            {(search || category !== 'sciTechnology' || status !== '' || course !== '' || semester !== '' || university !== '') && (
+                                <button type="button" className="dc-clear-btn" title="Clear Filters" onClick={() => { setSearch(''); setCategory('sciTechnology'); setStatus(''); setCourse(''); setSemester(''); setUniversity(''); getVideo(); }}>
                                     <i className="fa-solid fa-xmark"></i>
                                 </button>
                             )}
@@ -153,7 +201,7 @@ function DashboardVideosContent() {
                                         <div className="dc-video-card">
                                             <div className="dc-video-preview">
                                                 <iframe width="100%" height="100%"
-                                                    src={`https://www.youtube.com/embed/${data?.link?.split('v=')[1] || data?.link?.split('/').pop()}`}
+                                                    src={`https://www.youtube.com/embed/${getYouTubeId(data?.fileUrl || data?.link)}?rel=0&modestbranding=1`}
                                                     title={data?.title} frameBorder="0" allowFullScreen></iframe>
                                                 <span className="dc-v-status" style={{ background: cfg.bg, color: cfg.color }}>{cfg.label}</span>
                                             </div>
@@ -163,6 +211,9 @@ function DashboardVideosContent() {
                                                 <div className="dc-video-footer">
                                                     <span className="dc-td-muted"><i className="fa-solid fa-calendar-days me-1"></i>{data?.updatedAt?.slice(0, 10)}</span>
                                                     <div className="dc-actions">
+                                                        <button className="dc-action-btn dc-preview-btn" title="Preview Video" onClick={() => setPreviewVideo(data?.fileUrl || data?.link)}>
+                                                            <i className="fa-solid fa-play"></i>
+                                                        </button>
                                                         <button className="dc-action-btn dc-edit" title="Edit" onClick={() => handleEdit(data)}><i className="fa-solid fa-edit"></i></button>
                                                         <button className="dc-action-btn dc-del" title="Delete" onClick={() => { setModalVideo(data); setShowModal(true); }}>
                                                             <i className="fa-solid fa-trash"></i>
@@ -239,6 +290,10 @@ function DashboardVideosContent() {
 
                 .dc-actions { display: flex; gap: 8px; }
                 .dc-action-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; background: transparent; }
+                
+                .dc-preview-btn { border-color: #d8b4fe; color: #a855f7; }
+                .dc-preview-btn:hover { background: #faf5ff; border-color: #a855f7; transform: scale(1.05); }
+
                 .dc-edit { border-color: #bfdbfe; color: #3b82f6; }
                 .dc-edit:hover { background: #eff6ff; border-color: #3b82f6; transform: scale(1.05); }
                 .dc-del { border-color: #fecaca; color: #ef4444; }
@@ -259,7 +314,7 @@ function DashboardVideosContent() {
 
 export default function DashboardVideosPage(props) {
     return (
-        <Suspense fallback={<div className="dc-loading"><div className="dc-spinner-lg"></div><p>Preparing dashboard...</p></div>}>
+        <Suspense fallback={<PageLoader text="Loading video catalog..." subtext="Syncing educational records" />}>
             <DashboardVideosContent {...props} />
         </Suspense>
     );

@@ -1,10 +1,12 @@
 "use client";
 import React, { useState, useEffect, useContext } from 'react';
 import ContentContext from '@/context/ContentContext';
+import { usePathname } from 'next/navigation';
 
-const GlobalLoader = () => {
+const GlobalLoader = ({ contextLayout = 'root' }) => {
     const { loading } = useContext(ContentContext);
     const [showLoader, setShowLoader] = useState(false);
+    const pathname = usePathname() || "";
 
     useEffect(() => {
         if (loading) {
@@ -16,10 +18,25 @@ const GlobalLoader = () => {
 
     if (!showLoader) return null;
 
+    const isDashboard = pathname.startsWith('/dashboard');
+    const isStudent = ['/cource', '/myLearning', '/notes', '/Q-paper', '/video', '/pyq', '/profile'].some(p => pathname.startsWith(p)) && !pathname.startsWith('/dashboard');
+
+    let activeLayout = 'root';
+    if (isDashboard) {
+        activeLayout = 'dashboard';
+    } else if (isStudent) {
+        activeLayout = 'student';
+    }
+
+    if (contextLayout !== activeLayout) return null;
+
     return (
         <div className="global-loader-overlay">
             <div className="loader-container text-center">
-                <div className="premium-spinner mb-2"></div>
+                <div className="spinner-wrapper" style={{ position: "relative", width: "60px", height: "60px", margin: "0 auto", marginBottom: "8px" }}>
+                    <div className="premium-spinner" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></div>
+                    <i className="fa-solid fa-graduation-cap" style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", color: "#04bd20", fontSize: "1.2rem" }}></i>
+                </div>
                 <div className="loader-text mt-3">
                     <h5 className="mb-1">Examee is preparing</h5>
                     <p className="mb-0">Crafting your premium experience...</p>

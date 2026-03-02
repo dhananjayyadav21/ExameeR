@@ -15,6 +15,7 @@ const menuItems = [
             { href: "/dashboard/notes", label: "Study Notes", icon: "fa-file-lines" },
             { href: "/dashboard/pyq", label: "Previous Papers", icon: "fa-circle-question" },
             { href: "/dashboard/videos", label: "Video Lectures", icon: "fa-circle-play" },
+            { href: "/dashboard/mock-tests", label: "Mock Tests", icon: "fa-vial", badge: "New" },
         ]
     },
     {
@@ -22,6 +23,9 @@ const menuItems = [
         items: [
             { href: "/dashboard/students", label: "Users", icon: "fa-users" },
             { href: "/dashboard/analytics", label: "Analytics", icon: "fa-chart-line", badge: "New" },
+            { href: "/dashboard/banners", label: "Banners & Offers", icon: "fa-rectangle-ad", badge: "New" },
+            { href: "/dashboard/certify", label: "Certification", icon: "fa-award", badge: "Pro" },
+            { href: "/dashboard/plans", label: "Plans & Pricing", icon: "fa-crown" },
         ]
     },
     {

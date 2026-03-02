@@ -5,6 +5,142 @@ import DriveUpload from "../../../utils/DriveUpload";
 import ContentContext from '../../../context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
+import { academicOptions } from '../../../constants/academicOptions';
+
+const extractYouTubeID = (url) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/);
+    return match ? match[1] : (url.length === 11 ? url : null);
+};
+
+// ─── Reusable Tag/Chip Input ─────────────────────────────────────────────────
+const TagInput = ({ label, tags, onChange, placeholder, color = '#0ea5e9' }) => {
+    const [inputVal, setInputVal] = useState('');
+    const [focused, setFocused] = useState(false);
+
+    const bgMap = {
+        '#0ea5e9': 'rgba(14,165,233,0.08)',
+        '#10b981': 'rgba(16,185,129,0.08)',
+        '#8b5cf6': 'rgba(139,92,246,0.08)',
+    };
+    const chipBg = bgMap[color] || 'rgba(14,165,233,0.08)';
+
+    const addTag = () => {
+        const trimmed = inputVal.trim();
+        if (!trimmed || tags.includes(trimmed)) return;
+        onChange([...tags, trimmed]);
+        setInputVal('');
+    };
+    const removeTag = (i) => onChange(tags.filter((_, idx) => idx !== i));
+    const handleKey = (e) => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } };
+
+    return (
+        <div>
+            <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#374151', marginBottom: '7px', display: 'block' }}>{label}</label>
+            <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '6px',
+                alignItems: 'center',
+                minHeight: '52px',
+                padding: '8px 12px',
+                border: `1.5px solid ${focused ? color : '#e2e8f0'}`,
+                borderRadius: '12px',
+                background: focused ? '#fff' : '#f8fafc',
+                boxShadow: focused ? `0 0 0 3px ${color}22` : 'none',
+                cursor: 'text',
+                transition: 'all 0.2s',
+            }}>
+                {tags.map((t, i) => (
+                    <span key={i} style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '4px 8px 4px 12px',
+                        borderRadius: '20px',
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        color: color,
+                        background: chipBg,
+                        border: `1.5px solid ${color}`,
+                        whiteSpace: 'nowrap',
+                        lineHeight: 1.4,
+                    }}>
+                        {t}
+                        <button
+                            type="button"
+                            onClick={() => removeTag(i)}
+                            style={{
+                                background: `${color}22`,
+                                border: 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '16px',
+                                height: '16px',
+                                borderRadius: '50%',
+                                padding: 0,
+                                fontSize: '0.6rem',
+                                color: color,
+                                flexShrink: 0,
+                            }}
+                        >
+                            <i className="fa-solid fa-xmark"></i>
+                        </button>
+                    </span>
+                ))}
+                <input
+                    value={inputVal}
+                    onChange={e => setInputVal(e.target.value)}
+                    onKeyDown={handleKey}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
+                    placeholder={tags.length === 0 ? placeholder : 'Add more...'}
+                    style={{
+                        border: 'none',
+                        outline: 'none',
+                        background: 'transparent',
+                        fontSize: '0.85rem',
+                        color: '#374151',
+                        minWidth: '100px',
+                        flex: 1,
+                        fontFamily: 'inherit',
+                        padding: '2px 0',
+                    }}
+                />
+                {inputVal.trim() && (
+                    <button
+                        type="button"
+                        onMouseDown={(e) => { e.preventDefault(); addTag(); }}
+                        style={{
+                            background: color,
+                            border: 'none',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '26px',
+                            height: '26px',
+                            borderRadius: '8px',
+                            padding: 0,
+                            fontSize: '0.85rem',
+                            color: '#fff',
+                            flexShrink: 0,
+                            fontWeight: 900,
+                            transition: 'opacity 0.15s',
+                        }}
+                        title="Add item (or press Enter)"
+                    >
+                        <i className="fa-solid fa-plus"></i>
+                    </button>
+                )}
+            </div>
+
+        </div>
+    );
+};
 
 const Content = () => {
     const router = useRouter();
@@ -30,14 +166,28 @@ const Content = () => {
         courseImage: null,
         trialVideo: "",
         category: 'sciTechnology',
+        course: '',
+        semester: '',
+        university: '',
         isPublic: true,
         status: 'public',
         lectures: [
-            { title: "", videoUrl: "" },
+            { title: "", videoUrl: "", isFree: false },
         ],
     });
 
     const [uploading, setUploading] = useState(false);
+
+    // Tag arrays (derived from string fields)
+    const [whyChooseTags, setWhyChooseTags] = useState([]);
+    const [benefitsTags, setBenefitsTags] = useState([]);
+    const [courseContentsTags, setCourseContentsTags] = useState([]);
+
+    // Sync tag arrays → formData
+    const syncTags = (name, tags, setter) => {
+        setter(tags);
+        setFormData(prev => ({ ...prev, [name]: tags.join(',') }));
+    };
 
     useEffect(() => {
         if (isEditMode && dasCourse) {
@@ -59,10 +209,17 @@ const Content = () => {
                     courseImage: courseToEdit.courseImage || null,
                     trialVideo: courseToEdit.trialVideo || "",
                     category: courseToEdit.category || 'sciTechnology',
+                    course: courseToEdit.course || '',
+                    semester: courseToEdit.semester || '',
+                    university: courseToEdit.university || '',
                     isPublic: courseToEdit.isPublic !== undefined ? courseToEdit.isPublic : true,
                     status: courseToEdit.status || 'public',
-                    lectures: courseToEdit.lectures || [{ title: "", videoUrl: "" }],
+                    lectures: courseToEdit.lectures?.map(l => ({ title: l.title || '', videoUrl: l.videoUrl || '', isFree: l.isFree || false })) || [{ title: '', videoUrl: '', isFree: false }],
                 });
+                // Seed tag arrays from comma-separated strings
+                setWhyChooseTags(courseToEdit.whyChoose ? courseToEdit.whyChoose.split(',').map(s => s.trim()).filter(Boolean) : []);
+                setBenefitsTags(courseToEdit.benefits ? courseToEdit.benefits.split(',').map(s => s.trim()).filter(Boolean) : []);
+                setCourseContentsTags(courseToEdit.courseContents ? courseToEdit.courseContents.split(',').map(s => s.trim()).filter(Boolean) : []);
             }
         }
     }, [isEditMode, editId, dasCourse]);
@@ -79,14 +236,14 @@ const Content = () => {
 
     const handleLectureChange = (index, field, value) => {
         const updatedLectures = [...formData.lectures];
-        updatedLectures[index][field] = value;
+        updatedLectures[index][field] = field === 'isFree' ? Boolean(value) : value;
         setFormData((prev) => ({ ...prev, lectures: updatedLectures }));
     };
 
     const addLectureField = () => {
         setFormData((prev) => ({
             ...prev,
-            lectures: [...prev.lectures, { title: "", videoUrl: "" }],
+            lectures: [...prev.lectures, { title: "", videoUrl: "", isFree: false }],
         }));
     };
 
@@ -101,12 +258,23 @@ const Content = () => {
         setImageFile(file);
         setImageUploading(true);
         try {
-            const result = await DriveUpload(file);
-            if (result?.success && result?.fileId) {
-                setFormData((prev) => ({ ...prev, courseImage: result.fileId }));
+            // Vercel Blob API Route
+            const response = await fetch(`/api/upload?filename=${file.name}`, {
+                method: 'POST',
+                body: file,
+            });
+
+            if (!response.ok) {
+                throw new Error("Upload failed. Status: " + response.status);
+            }
+
+            const result = await response.json();
+
+            if (result && result.url) {
+                setFormData((prev) => ({ ...prev, courseImage: result.url }));
                 toast.success("Thumbnail uploaded successfully!");
             } else {
-                toast.warning("Failed to upload thumbnail.");
+                toast.warning("Failed to upload thumbnail to Blob storage.");
             }
         } catch (err) {
             toast.error(err.message);
@@ -118,12 +286,29 @@ const Content = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setUploading(true);
-        const { title, mentor, price, courseImage, trialVideo } = formData;
+        const { title, mentor, price, courseImage, trialVideo, lectures } = formData;
+
+        // Comprehensive Validation
         if (!title || !mentor || !price || !courseImage || !trialVideo) {
             toast.warning("Please fill all required fields marked with *");
             setUploading(false);
             return;
         }
+
+        // Validate Lectures
+        const invalidLecture = lectures.some(lec => !lec.title || !lec.videoUrl);
+        if (invalidLecture) {
+            toast.warning("Please provide both title and video URL for all lectures.");
+            setUploading(false);
+            return;
+        }
+
+        if (lectures.length === 0) {
+            toast.warning("Course must have at least one lecture.");
+            setUploading(false);
+            return;
+        }
+
         try {
             let response;
             if (isEditMode) {
@@ -185,13 +370,49 @@ const Content = () => {
                                         </div>
                                     </div>
                                     <div className="col-md-4">
-                                        <label className="up-label">Category</label>
+                                        <label className="up-label">Category / Stream</label>
                                         <div className="up-input-wrap">
                                             <span className="up-input-icon"><i className="fa-solid fa-layer-group"></i></span>
                                             <select name="category" value={formData.category} onChange={handleChange} className="up-input up-select">
                                                 <option value="sciTechnology">Sci - Technology</option>
                                                 <option value="commerce">Commerce</option>
                                                 <option value="artscivils">Arts &amp; Civils</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">Course / Program</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-graduation-cap"></i></span>
+                                            <select name="course" value={formData.course} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select Course</option>
+                                                {academicOptions.courses.map(course => (
+                                                    <option key={course.value} value={course.value}>{course.label}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">Semester / Year</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-clock-rotate-left"></i></span>
+                                            <select name="semester" value={formData.semester} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select Semester</option>
+                                                {academicOptions.semesters.map(semester => (
+                                                    <option key={semester.value} value={semester.value}>{semester.label}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label className="up-label">University / Board</label>
+                                        <div className="up-input-wrap">
+                                            <span className="up-input-icon"><i className="fa-solid fa-building-columns"></i></span>
+                                            <select name="university" value={formData.university} onChange={handleChange} className="up-input up-select">
+                                                <option value="">Select University</option>
+                                                {academicOptions.universities.map(university => (
+                                                    <option key={university.value} value={university.value}>{university.label}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     </div>
@@ -310,6 +531,30 @@ const Content = () => {
                                                 className="up-input" placeholder="https://youtube.com/watch?v=..." required />
                                         </div>
                                         <p className="up-hint mt-2">This will be shown as a free preview to prospective students.</p>
+                                        <YoutubeUploader
+                                            defaultTitle={`Trial Video: ${formData.title}`}
+                                            defaultDescription={formData.description}
+                                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, trialVideo: url }))}
+                                        />
+
+                                        {formData.trialVideo && extractYouTubeID(formData.trialVideo) && (
+                                            <div className="up-preview mt-3">
+                                                <div className="up-preview-header">
+                                                    <i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i>
+                                                    <span>Trial Video Preview</span>
+                                                    <span className="up-preview-badge">Live</span>
+                                                </div>
+                                                <div className="up-preview-embed">
+                                                    <iframe
+                                                        src={`https://www.youtube.com/embed/${extractYouTubeID(formData.trialVideo)}`}
+                                                        title="Video Preview"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowFullScreen
+                                                        style={{ border: 'none', width: '100%', height: '100%' }}
+                                                    ></iframe>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -324,25 +569,65 @@ const Content = () => {
                             <div className="up-card mb-4">
                                 <div className="col-12 d-flex flex-column gap-3">
                                     {formData.lectures.map((lecture, index) => (
-                                        <div key={index} className="up-lecture-row">
-                                            <div className="up-lecture-num">{index + 1}</div>
-                                            <div className="up-input-wrap flex-grow-1">
-                                                <span className="up-input-icon"><i className="fa-solid fa-play"></i></span>
-                                                <input type="text" className="up-input" placeholder="Lecture title (e.g. Introduction)"
-                                                    value={lecture.title}
-                                                    onChange={(e) => handleLectureChange(index, "title", e.target.value)} />
+                                        <div key={index} className="up-lecture-row-container">
+                                            <div className="up-lecture-row d-flex align-items-center gap-2 mb-2">
+                                                <div className="up-lecture-num">{index + 1}</div>
+                                                <div className="up-input-wrap flex-grow-1">
+                                                    <span className="up-input-icon"><i className="fa-solid fa-play"></i></span>
+                                                    <input type="text" className="up-input" placeholder="Lecture title (e.g. Introduction)"
+                                                        value={lecture.title}
+                                                        onChange={(e) => handleLectureChange(index, "title", e.target.value)} />
+                                                </div>
+                                                <div className="up-input-wrap flex-grow-1" style={{ flex: 1.4 }}>
+                                                    <span className="up-input-icon"><i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i></span>
+                                                    <input type="text" className="up-input" placeholder="YouTube URL or Video ID"
+                                                        value={lecture.videoUrl}
+                                                        onChange={(e) => handleLectureChange(index, "videoUrl", e.target.value)} />
+                                                </div>
+                                                {/* Free Preview Toggle */}
+                                                <label className="up-free-toggle" title="Mark as Free Preview">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={lecture.isFree || false}
+                                                        onChange={(e) => handleLectureChange(index, "isFree", e.target.checked)}
+                                                    />
+                                                    <span className={`up-free-badge ${lecture.isFree ? 'active' : ''}`}>
+                                                        <i className="fa-solid fa-unlock-keyhole me-1" style={{ fontSize: '0.65rem' }}></i>
+                                                        Free
+                                                    </span>
+                                                </label>
+                                                {formData.lectures.length > 1 && (
+                                                    <button type="button" className="up-remove-btn" onClick={() => removeLectureField(index)} title="Remove lecture">
+                                                        <i className="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                )}
                                             </div>
-                                            <div className="up-input-wrap flex-grow-1" style={{ flex: 1.4 }}>
-                                                <span className="up-input-icon"><i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i></span>
-                                                <input type="url" className="up-input" placeholder="YouTube video URL"
-                                                    value={lecture.videoUrl}
-                                                    onChange={(e) => handleLectureChange(index, "videoUrl", e.target.value)} />
+                                            <div className="pl-5 ml-4 mb-4">
+                                                <YoutubeUploader
+                                                    defaultTitle={`${formData.title || 'Course'} - Lecture ${index + 1}: ${lecture.title || 'Untitled'}`}
+                                                    defaultDescription={`Curriculum video for ${formData.title}`}
+                                                    onUploadSuccess={(url) => handleLectureChange(index, "videoUrl", url)}
+                                                />
+
+                                                {lecture.videoUrl && extractYouTubeID(lecture.videoUrl) && (
+                                                    <div className="up-preview mt-3">
+                                                        <div className="up-preview-header" style={{ padding: '8px 12px', fontSize: '0.85rem' }}>
+                                                            <i className="fa-brands fa-youtube" style={{ color: '#ef4444' }}></i>
+                                                            <span>Lecture {index + 1} Preview</span>
+                                                        </div>
+                                                        <div className="up-preview-embed" style={{ maxHeight: '200px' }}>
+                                                            <iframe
+                                                                src={`https://www.youtube.com/embed/${extractYouTubeID(lecture.videoUrl)}`}
+                                                                title="Video Preview"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                allowFullScreen
+                                                                style={{ border: 'none', width: '100%', height: '100%' }}
+                                                            ></iframe>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
-                                            {formData.lectures.length > 1 && (
-                                                <button type="button" className="up-remove-btn" onClick={() => removeLectureField(index)} title="Remove lecture">
-                                                    <i className="fa-solid fa-xmark"></i>
-                                                </button>
-                                            )}
+                                            <hr className="mb-4" style={{ borderColor: '#e2e8f0', opacity: 0.6 }} />
                                         </div>
                                     ))}
                                     <button type="button" className="up-add-lecture-btn" onClick={addLectureField}>
@@ -361,22 +646,31 @@ const Content = () => {
                             <div className="up-card mb-4">
                                 <div className="row g-4">
                                     <div className="col-md-6">
-                                        <label className="up-label">Why Choose This Course?</label>
-                                        <textarea name="whyChoose" value={formData.whyChoose} onChange={handleChange}
-                                            className="up-input up-textarea" rows="3" placeholder="Unique selling points, what makes it special..."
-                                            style={{ paddingLeft: '14px' }} />
+                                        <TagInput
+                                            label="Why Choose This Course?"
+                                            tags={whyChooseTags}
+                                            onChange={(tags) => syncTags('whyChoose', tags, setWhyChooseTags)}
+                                            placeholder="e.g. Hands-on projects"
+                                            color="#0ea5e9"
+                                        />
                                     </div>
                                     <div className="col-md-6">
-                                        <label className="up-label">Student Benefits</label>
-                                        <textarea name="benefits" value={formData.benefits} onChange={handleChange}
-                                            className="up-input up-textarea" rows="3" placeholder="What value will they get? Skills gained..."
-                                            style={{ paddingLeft: '14px' }} />
+                                        <TagInput
+                                            label="Student Benefits"
+                                            tags={benefitsTags}
+                                            onChange={(tags) => syncTags('benefits', tags, setBenefitsTags)}
+                                            placeholder="e.g. Certificate of completion"
+                                            color="#10b981"
+                                        />
                                     </div>
                                     <div className="col-12">
-                                        <label className="up-label">Detailed Course Contents</label>
-                                        <textarea name="courseContents" value={formData.courseContents} onChange={handleChange}
-                                            className="up-input up-textarea" rows="3" placeholder="Bullet points or summary of all topics covered..."
-                                            style={{ paddingLeft: '14px' }} />
+                                        <TagInput
+                                            label="Detailed Course Contents"
+                                            tags={courseContentsTags}
+                                            onChange={(tags) => syncTags('courseContents', tags, setCourseContentsTags)}
+                                            placeholder="e.g. Python, Machine Learning"
+                                            color="#8b5cf6"
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -458,6 +752,85 @@ const Content = () => {
                 .up-remove-btn:hover { background: #fee2e2; border-color: #ef4444; }
                 .up-add-lecture-btn { align-self: flex-start; padding: 9px 20px; border-radius: 10px; border: 1.5px dashed #c7d2fe; background: rgba(99,102,241,0.04); color: #6366f1; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; transition: all 0.2s; }
                 .up-add-lecture-btn:hover { border-color: #6366f1; background: rgba(99,102,241,0.08); }
+                /* Free preview toggle */
+                .up-free-toggle { cursor: pointer; flex-shrink: 0; margin: 0; }
+                .up-free-toggle input { display: none; }
+                .up-free-badge { display: flex; align-items: center; padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; border: 1.5px solid #e2e8f0; color: #94a3b8; background: #f8fafc; transition: all 0.2s; white-space: nowrap; user-select: none; }
+                .up-free-badge.active { border-color: #10b981; color: #059669; background: #ecfdf5; }
+
+                /* Tag / Chip Input */
+                .tag-input-box {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 6px;
+                    align-items: center;
+                    min-height: 52px;
+                    padding: 8px 12px;
+                    border: 1.5px solid #e2e8f0;
+                    border-radius: 12px;
+                    background: #f8fafc;
+                    transition: border-color 0.2s, box-shadow 0.2s;
+                    cursor: text;
+                }
+                .tag-input-box:focus-within {
+                    border-color: #0ea5e9;
+                    background: #fff;
+                    box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+                }
+                .tag-chip {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 5px;
+                    padding: 4px 8px 4px 12px;
+                    border-radius: 20px;
+                    font-size: 0.78rem;
+                    font-weight: 700;
+                    background: rgba(255,255,255,0.9);
+                    border: 1.5px solid currentColor;
+                    white-space: nowrap;
+                    line-height: 1.4;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+                }
+                .tag-remove {
+                    background: rgba(0,0,0,0.07);
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    padding: 0;
+                    font-size: 0.6rem;
+                    color: inherit;
+                    transition: background 0.15s;
+                    flex-shrink: 0;
+                }
+                .tag-remove:hover { background: rgba(0,0,0,0.18); }
+                .tag-text-input {
+                    border: none;
+                    outline: none;
+                    background: transparent;
+                    font-size: 0.85rem;
+                    color: #374151;
+                    min-width: 100px;
+                    flex: 1;
+                    font-family: inherit;
+                    padding: 2px 0;
+                }
+                .tag-text-input::placeholder { color: #94a3b8; font-weight: 500; }
+                kbd {
+                    display: inline-block;
+                    padding: 1px 7px;
+                    background: #1e293b;
+                    border: 1px solid #0f172a;
+                    border-radius: 5px;
+                    font-size: 0.72rem;
+                    font-family: monospace;
+                    color: #fff;
+                    letter-spacing: 0.02em;
+                }
 
                 /* Toggle */
                 .up-toggle-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -477,7 +850,7 @@ const Content = () => {
                 .up-spinner { width: 26px; height: 26px; border: 2.5px solid rgba(14,165,233,0.15); border-top-color: #0ea5e9; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
                 .up-btn-spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; }
                 @keyframes spin { to { transform: rotate(360deg); } }
-                @media (max-width: 576px) { .up-card { padding: 20px 14px; } .up-lecture-row { flex-wrap: wrap; } }
+                @media (max-width: 576px) { .up-card { padding: 20px 14px; } .up-lecture-row { flex-direction: column; align-items: stretch !important; } .up-lecture-row > div { width: 100%; } .up-remove-btn { align-self: flex-end; } }
             `}</style>
         </main>
     );

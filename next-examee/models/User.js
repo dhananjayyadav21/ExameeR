@@ -91,10 +91,27 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    Category: {
+        type: String,
+        default: 'sciTechnology'
+    },
     NotificationPrefs: {
         newCourse: { type: Boolean, default: true },
         notesUpdate: { type: Boolean, default: true },
         videoAlert: { type: Boolean, default: true }
+    },
+    Plan: {
+        type: String,
+        enum: ['e0', 'plus', 'pro'],
+        default: 'e0',    // e0 = free, plus = ₹X/mo, pro = ₹Y/mo
+    },
+    PlanExpiresAt: {
+        type: Date,
+        default: null,   // null = never expires (e0) or active paid plan
+    },
+    welcomeEmailSent: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 

@@ -46,7 +46,7 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 1050;
+    z-index: 1000;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border-subtle);
@@ -57,7 +57,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 2px 0;
+    padding-bottom: 2px;
     overflow: hidden;
 }
 
@@ -131,20 +131,21 @@ body {
     min-width: 0;
     background: var(--main-bg);
     transition: all 0.4s ease;
+    z-index: auto;
 }
 
 /* Header Styling */
 .li-header {
     height: 72px;
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-subtle);
+    background: #ffffff !important;
+    border-bottom: 2px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--border-subtle);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     padding: 0 1.5rem;
 }
 
@@ -205,7 +206,7 @@ body {
     inset: 0;
     background: rgba(15, 23, 42, 0.3);
     backdrop-filter: blur(4px);
-    z-index: 1040;
+    z-index: 950;
     animation: fadeIn 0.3s ease;
 }
 
@@ -354,4 +355,60 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+}
+
+/* Nav Dropdown Animation */
+.animate-nav-dropdown {
+    animation: navDropdown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: top right;
+}
+
+@keyframes navDropdown {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Locked UI */
+.li-nav-section--locked .li-section-label {
+    opacity: 0.6;
+}
+
+.li-menu-item--locked {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    filter: grayscale(0.5);
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.li-menu-item--locked:hover {
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: inherit !important;
+    transform: none !important;
+}
+
+.dropdown-item {
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc !important;
+    transform: translateX(4px);
+}
+
+.dropdown-item:active {
+    background: #f1f5f9 !important;
+    transform: translateX(2px);
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
