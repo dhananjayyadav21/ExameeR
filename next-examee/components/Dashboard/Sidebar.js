@@ -58,15 +58,8 @@ const Sidebar = () => {
     return (
         <nav className="ds-sidebar">
             {/* Brand */}
-            <Link href="/" className="ds-brand p-4"
-                style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none', color: 'inherit' }}>
-                <div className="ds-brand-logo">
-                    <i className="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div className="ds-brand-text">
-                    <span className="ds-brand-name">Examee</span>
-                    <span className="ds-brand-tag">Premium Learning</span>
-                </div>
+            <Link href="/" className="ds-brand p-4 text-decoration-none">
+                <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: "32px", width: "auto" }} />
             </Link>
 
             {/* Navigation Sections */}

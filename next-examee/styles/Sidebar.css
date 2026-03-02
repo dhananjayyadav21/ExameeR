@@ -19,16 +19,16 @@
 }
 
 .ds-brand-logo {
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #04bd20 0%, #029d1a 100%);
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    background: #04BD20;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1.2rem;
-    box-shadow: 0 8px 16px rgba(4, 189, 32, 0.2);
+    font-size: 1.4rem;
+    box-shadow: 0 8px 20px rgba(4, 189, 32, 0.2);
 }
 
 .ds-brand-text {
@@ -37,20 +37,21 @@
 }
 
 .ds-brand-name {
-    font-size: 1.25rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: 900;
     color: #0f172a;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     line-height: 1;
 }
 
 .ds-brand-tag {
-    font-size: 0.65rem;
-    font-weight: 600;
+    font-size: 0.68rem;
+    font-weight: 700;
     color: #94a3b8;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.12em;
     margin-top: 4px;
+    opacity: 0.8;
 }
 
 .ds-nav-container {
