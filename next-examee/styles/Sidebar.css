@@ -14,8 +14,14 @@
 .ds-brand {
     padding: 28px 24px;
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 12px;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 10;
+    margin-bottom: 12px;
 }
 
 .ds-brand-logo {

@@ -61,6 +61,15 @@ body {
     overflow: hidden;
 }
 
+.li-sidebar-brand {
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+    background: #fff;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 10;
+}
+
 .li-sidebar::-webkit-scrollbar {
     width: 4px;
 }
@@ -138,14 +147,14 @@ body {
 .li-header {
     height: 72px;
     background: #ffffff !important;
-    border-bottom: 2px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 1050;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
     padding: 0 1.5rem;
 }
 

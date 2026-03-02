@@ -73,7 +73,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
     return (
         <aside className="li-sidebar">
             {/* Logo Area */}
-            <div className="px-5 pt-3 pb-4 d-none d-lg-block text-center shadow-sm">
+            <div className="li-sidebar-brand px-5 pt-3 pb-4 d-none d-lg-block text-center">
                 <Link href="/" className="text-decoration-none">
                     <img src="/assets/img/brandlog.png" alt="Examee" style={{ height: "32px", width: "auto" }} />
                 </Link>
