@@ -245,7 +245,7 @@ export default function DashboardBooks() {
                                         <div className="db-empty-icon"><i className="fa-solid fa-book-open"></i></div>
                                         <div className="db-empty-title">No books found</div>
                                         <div className="db-empty-sub">Add your first digital resource.</div>
-                                        <button className="db-create-btn mt-3" onClick={openCreate}><i className="fa-solid fa-plus"></i> Add Now</button>
+
                                     </td>
                                 </tr>
                             ) : (
@@ -514,7 +514,7 @@ export default function DashboardBooks() {
             )}
 
             <style jsx>{`
-                .db-page { padding: 28px 24px; max-width: 1300px; margin: 0 auto; font-family: 'Inter', sans-serif; }
+                .db-page { max-width: 1300px; margin: 0 auto; font-family: 'Inter', sans-serif; }
 
                 /* Header */
                 .db-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
@@ -623,7 +623,6 @@ export default function DashboardBooks() {
                 .acc-empty { text-align: center; padding: 48px 20px; }
 
                 @media (max-width: 640px) {
-                    .db-page { padding: 16px 12px; }
                     .db-form-row { grid-template-columns: 1fr; }
                     .acc-panel { width: 100%; }
                 }
