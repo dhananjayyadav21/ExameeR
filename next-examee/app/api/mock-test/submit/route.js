@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import connectToMongo from '@/lib/mongodb';
 import MockTest from '@/models/MockTest';
 import MockTestAttempt from '@/models/MockTestAttempt';
+import Usage from '@/models/Usage';
 import jwt from 'jsonwebtoken';
-import Users from '@/models/User';
 
 export async function POST(req) {
     try {
@@ -33,8 +33,16 @@ export async function POST(req) {
 
         await attempt.save();
 
-        // Increment user's mock test usage
-        await Users.findByIdAndUpdate(decoded._id, { $inc: { 'usage.mockTestsTaken': 1 } });
+        // Increment monthly usage in the Usage collection (correct model)
+        const month = new Date().toISOString().slice(0, 7); // "YYYY-MM"
+        await Usage.findOneAndUpdate(
+            { userId: decoded._id, month },
+            { $inc: { mockTestsTaken: 1 } },
+            { upsert: true, new: true }
+        );
+
+        // Increment test's total attempts count
+        await MockTest.findByIdAndUpdate(test._id, { $inc: { attemptsCount: 1 } });
 
         return NextResponse.json({ success: true, attempt }, { status: 201 });
 

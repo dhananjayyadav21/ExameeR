@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectToMongo from '@/lib/mongodb';
 import MockTest from '@/models/MockTest';
+import MockTestAttempt from '@/models/MockTestAttempt';
 import Users from '@/models/User';
 import jwt from 'jsonwebtoken';
 
@@ -150,14 +151,29 @@ export async function GET(req) {
     try {
         await connectToMongo();
         const url = new URL(req.url);
-        const filterStr = url.searchParams.get('filter'); // 'instructor' or 'all'
+        const filterStr = url.searchParams.get('filter');
 
-        let query = {}; // define query
-        // add logic depending on filterStr if needed later
+        let query = {};
 
-        const testList = await MockTest.find(query).select('-questions').populate('createdBy', 'FirstName LastName').sort({ createdAt: -1 });
+        const testList = await MockTest.find(query)
+            .select('-questions')
+            .populate('createdBy', 'FirstName LastName')
+            .sort({ createdAt: -1 })
+            .lean();
 
-        return NextResponse.json({ success: true, tests: testList }, { status: 200 });
+        // Compute real attempt counts from MockTestAttempt collection
+        const attemptCounts = await MockTestAttempt.aggregate([
+            { $group: { _id: '$mockTestId', count: { $sum: 1 } } }
+        ]);
+        const countMap = {};
+        attemptCounts.forEach(a => { countMap[String(a._id)] = a.count; });
+
+        const testsWithCount = testList.map(t => ({
+            ...t,
+            attemptsCount: countMap[String(t._id)] || 0
+        }));
+
+        return NextResponse.json({ success: true, tests: testsWithCount }, { status: 200 });
 
     } catch (error) {
         console.error("Fetch Mock Tests Error:", error);

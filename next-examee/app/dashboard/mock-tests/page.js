@@ -224,7 +224,10 @@ export default function DashboardMockTests() {
                                             </div>
                                         </td>
                                         <td className="py-3 text-center border-0">
-                                            <span className="badge rounded-2 px-2 py-1 fs-8 fw-semibold" style={{ backgroundColor: '#F0FDF4', color: '#15803D', border: '1px solid #DCFCE7' }}>Active</span>
+                                            <div className="d-flex flex-column align-items-center">
+                                                <span className="badge rounded-2 px-2 py-1 fs-8 fw-semibold" style={{ backgroundColor: '#F0FDF4', color: '#15803D', border: '1px solid #DCFCE7' }}>Active</span>
+                                                <span className="smaller text-muted mt-1 fw-medium"><i className="fa-solid fa-users me-1 opacity-75"></i> {t.attemptsCount || 0} Attempts</span>
+                                            </div>
                                         </td>
                                         <td className="px-4 py-3 text-end border-0">
                                             <div className="d-flex justify-content-end gap-2">
