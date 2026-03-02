@@ -4,7 +4,7 @@ import ContentContext from '@/context/ContentContext';
 import { usePathname } from 'next/navigation';
 
 const GlobalLoader = ({ contextLayout = 'root' }) => {
-    const { loading } = useContext(ContentContext);
+    const { loading, userData } = useContext(ContentContext);
     const [showLoader, setShowLoader] = useState(false);
     const pathname = usePathname() || "";
 
@@ -19,7 +19,15 @@ const GlobalLoader = ({ contextLayout = 'root' }) => {
     if (!showLoader) return null;
 
     const isDashboard = pathname.startsWith('/dashboard');
-    const isStudent = ['/cource', '/myLearning', '/notes', '/Q-paper', '/video', '/pyq', '/profile'].some(p => pathname.startsWith(p)) && !pathname.startsWith('/dashboard');
+    const studentPaths = [
+        '/cource', '/myLearning', '/notes', '/Q-paper', '/video', '/pyq', '/profile',
+        '/performance', '/plans', '/mock-tests', '/certify', '/enrollmentcource',
+        '/WatchCourse', '/call-book', '/books', '/certificates', '/announcement',
+        '/plan-detail', '/searchcontent'
+    ];
+
+    // Determine if it's a student page: matches student paths OR is logged-in home
+    const isStudent = studentPaths.some(p => pathname.startsWith(p)) || (pathname === '/' && !!userData);
 
     let activeLayout = 'root';
     if (isDashboard) {
