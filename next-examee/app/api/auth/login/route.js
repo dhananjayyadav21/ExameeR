@@ -34,8 +34,9 @@ export async function POST(req) {
             { expiresIn: process.env.JWT_TIMEOUT || '7d' }
         );
 
-        if (!user.lastActive) {
+        if (!user.welcomeEmailSent) {
             await sendWelcomeEmail(user.Email, user.Username);
+            user.welcomeEmailSent = true;
         }
 
         const ip = req.headers.get('x-forwarded-for')?.split(',')[0] || req.ip || null;

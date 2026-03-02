@@ -160,15 +160,21 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
 
             {/* Sidebar Support Card (Premium V2) */}
             <div className="mt-auto px-1">
-                <div className="li-support-card m-2 shadow-lg" style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', borderRadius: '16px', padding: '16px' }}>
-                    <p className="fw-bold mb-1" style={{ fontSize: '0.85rem', color: '#fff' }}>Need Help?</p>
-                    <p className="mb-2" style={{ fontSize: '0.72rem', opacity: '0.8', color: '#fff', lineHeight: '1.3' }}>Get 24/7 priority support from our exam experts.</p>
-                    <button
-                        className="btn btn-success btn-sm w-100 rounded-pill fw-bold border-0 py-1"
-                        style={{ background: '#04bd20', fontSize: '0.78rem', boxShadow: '0 4px 12px rgba(4, 189, 32, 0.3)' }}
-                    >
-                        Chat with Us
-                    </button>
+                <div className="li-support-card m-2 shadow-lg" style={{
+                    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+                    color: '#fff', borderRadius: '20px', padding: '20px',
+                    border: '1px solid rgba(255,255,255,0.05)'
+                }}>
+                    <p className="fw-bold mb-1" style={{ fontSize: '0.9rem', color: '#fff' }}>Need Help?</p>
+                    <p className="mb-3" style={{ fontSize: '0.72rem', opacity: '0.8', color: '#fff', lineHeight: '1.4' }}>Get 24/7 priority support from our exam experts.</p>
+                    <Link href="/contact" className="text-decoration-none">
+                        <div className="d-flex align-items-center bg-success rounded-pill p-1 pe-3" style={{ background: '#04bd20', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
+                            <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center" style={{ width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                <span style={{ fontWeight: 900, fontSize: '0.75rem', color: '#fff' }}>N</span>
+                            </div>
+                            <span className="ms-1 fw-bold text-white mb-0" style={{ fontSize: '0.8rem' }}>Chat with Us</span>
+                        </div>
+                    </Link>
                 </div>
             </div>
         </aside>

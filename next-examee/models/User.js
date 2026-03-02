@@ -109,6 +109,10 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: null,   // null = never expires (e0) or active paid plan
     },
+    welcomeEmailSent: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 if (mongoose.models && mongoose.models.Users) {
