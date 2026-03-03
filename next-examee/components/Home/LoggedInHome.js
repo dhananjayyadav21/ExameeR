@@ -30,10 +30,10 @@ const LoggedInHome = ({ userData }) => {
     }, [userData]);
 
     const dashboardCards = [
-        { title: 'Courses', count: Course.length, icon: 'fa-layer-group', color: '#0ea5e9', bg: '#f0f9ff', href: '/cource' },
+        { title: 'Courses', count: Course.length, icon: 'fa-layer-group', color: '#0ea5e9', bg: '#f0f9ff', href: '/course' },
         { title: 'Notes', count: Notes.length, icon: 'fa-file-lines', color: '#16a34a', bg: '#f0fdf4', href: '/notes' },
         { title: 'Video Lectures', count: Video.length, icon: 'fa-circle-play', color: '#6366f1', bg: '#f5f3ff', href: '/video' },
-        { title: 'Question Papers', count: PYQS.length, icon: 'fa-circle-question', color: '#f59e0b', bg: '#fffbeb', href: '/Q-paper' },
+        { title: 'Question Papers', count: PYQS.length, icon: 'fa-circle-question', color: '#f59e0b', bg: '#fffbeb', href: '/q-paper' },
     ];
 
     return (
@@ -75,7 +75,7 @@ const LoggedInHome = ({ userData }) => {
                         <div className="card border-0 shadow-sm rounded-4 p-4 mb-4">
                             <div className="d-flex justify-content-between align-items-center mb-4">
                                 <h5 className="fw-bold mb-0">Recommended for You</h5>
-                                <Link href="/cource" className="text-decoration-none small fw-bold text-success">View All</Link>
+                                <Link href="/course" className="text-decoration-none small fw-bold text-success">View All</Link>
                             </div>
                             <div className="row g-3">
                                 {Course.length === 0 ? (
@@ -170,7 +170,7 @@ const LoggedInHome = ({ userData }) => {
                                 <Link href="/profile" className="btn btn-outline-light rounded-pill btn-sm text-start ps-3 py-2 border-0 bg-white bg-opacity-10 d-flex align-items-center gap-3">
                                     <i className="fa-regular fa-user-circle"></i> View My Profile
                                 </Link>
-                                <Link href="/myLearning" className="btn btn-outline-light rounded-pill btn-sm text-start ps-3 py-2 border-0 bg-white bg-opacity-10 d-flex align-items-center gap-3">
+                                <Link href="/mylearning" className="btn btn-outline-light rounded-pill btn-sm text-start ps-3 py-2 border-0 bg-white bg-opacity-10 d-flex align-items-center gap-3">
                                     <i className="fa-solid fa-book-open"></i> My Library
                                 </Link>
                             </div>
