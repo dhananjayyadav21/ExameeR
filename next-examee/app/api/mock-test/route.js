@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 import connectToMongo from '@/lib/mongodb';
 import MockTest from '@/models/MockTest';
+import MockTestAttempt from '@/models/MockTestAttempt';
 import Users from '@/models/User';
 import jwt from 'jsonwebtoken';
 
 export async function POST(req) {
     try {
         await connectToMongo();
-        const { token, title, description, category, course, semester, difficulty, durationMinutes, totalQuestions, questions } = await req.json();
+        const body = await req.json();
+        const { token, title, description, category, course, semester, difficulty, durationMinutes, totalQuestions, questions, preview } = body;
 
         if (!token) return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
         const decoded = jwt.verify(token, process.env.AUTHTOKEN_SECRATE);
@@ -18,59 +20,130 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: "Only Admin or Instructor can create mock tests." }, { status: 403 });
         }
 
-        // --- AI (Simulated) Question Generation ---
         let generatedQuestions = questions;
+
+        // --- AI Question Generation ---
         if (!generatedQuestions || generatedQuestions.length === 0) {
-            generatedQuestions = [];
             const numQ = parseInt(totalQuestions) || 5;
+            const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-            const prefixes = [
-                "What is the primary function of",
-                "Which methodology is most applicable to",
-                "Identify the core component of",
-                "What is the main advantage of using",
-                "Explain the fundamental principle behind"
-            ];
+            if (GEMINI_API_KEY) {
+                console.log("Gemini AI: Architecting assessment using gemini-2.0-flash-lite for topic:", title);
+                try {
+                    const prompt = `
+                        As an expert examiner, generate exactly ${numQ} high-quality multiple-choice questions for a professional mock test.
+                        
+                        PRIMARY SUBJECT (Title): ${title}
+                        SPECIFIC FOCUS & INSTRUCTIONS (Description): ${description}
+                        TARGET DIFFICULTY: ${difficulty}
+                        
+                        CRITICAL GUIDELINES:
+                        1. Every question MUST be directly relevant to the PRIMARY SUBJECT.
+                        2. Incorporate specific concepts mentioned in the SPECIFIC FOCUS. 
+                        3. Ensure options are plausible but distinct.
+                        4. Each question needs a clear, educational explanation.
+                        5. Difficulty level should be strictly observed as "${difficulty}".
 
-            for (let i = 0; i < numQ; i++) {
-                const prefix = prefixes[i % prefixes.length];
-                const subject = i % 2 === 0 ? title : course;
+                        REQUIRED JSON FORMAT (Array only, no extra text):
+                        [
+                          {
+                            "questionText": "The question content here?",
+                            "options": ["Accurate Option", "Plausible Distractor 1", "Plausible Distractor 2", "Plausible Distractor 3"],
+                            "correctAnswerIndex": 0,
+                            "explanation": "Scientific/Logical explanation for why the answer is correct."
+                          }
+                        ]
+                    `;
 
-                generatedQuestions.push({
-                    questionText: `${prefix} ${subject} in a standard application context?`,
-                    options: [
-                        `Option A related to ${subject} concepts`,
-                        `Alternative B for ${title} frameworks`,
-                        `Option C demonstrating ${course} fundamentals`,
-                        `None of the above`
-                    ],
-                    correctAnswerIndex: i % 3,
-                    marks: 1
-                });
+                    // Using gemini-2.0-flash-lite as it was verified available in your account discovery logs
+                    const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+
+                    const aiData = await aiResponse.json();
+
+                    if (aiData.error) {
+                        if (aiData.error.status === "RESOURCE_EXHAUSTED") {
+                            console.error("Gemini AI: Quota Error (429). The free limit for Lite model might be exhausted or not yet active.");
+                        } else {
+                            console.error("Gemini AI: API error detail:", JSON.stringify(aiData.error, null, 2));
+                        }
+                    } else if (aiData.candidates) {
+                        const aiText = aiData.candidates[0].content.parts[0].text;
+                        const jsonMatch = aiText.match(/\[[\s\S]*\]/);
+                        if (jsonMatch) {
+                            generatedQuestions = JSON.parse(jsonMatch[0]);
+                            console.log(`Gemini AI: Successfully generated ${generatedQuestions.length} questions.`);
+                        }
+                    }
+                } catch (aiErr) {
+                    console.error("Gemini Critical Error:", aiErr);
+                }
+            }
+            else {
+                console.warn("Gemini AI: API Key missing, using simulation mode.");
+            }
+
+            // Fallback Simulation
+            if (!generatedQuestions || generatedQuestions.length === 0) {
+                generatedQuestions = [];
+                for (let i = 0; i < numQ; i++) {
+                    generatedQuestions.push({
+                        questionText: `Simulated Question about ${title} #${i + 1}?`,
+                        options: ["Option A", "Option B", "Option C", "None"],
+                        correctAnswerIndex: 0,
+                        marks: 1,
+                        explanation: "Explanation placeholder."
+                    });
+                }
             }
         }
-        // -------------------------------------------
 
-        const mockTest = new MockTest({
-            title,
-            description,
-            category,
-            course,
-            semester,
-            difficulty,
-            durationMinutes,
-            totalQuestions,
-            questions: generatedQuestions, // Assign the generated questions
-            createdBy: user._id,
-            isPublished: true,
-        });
+        if (preview) {
+            return NextResponse.json({ success: true, questions: generatedQuestions }, { status: 200 });
+        }
+
+        let mockTest;
+        const testId = body._id || body.id;
+
+        if (testId) {
+            mockTest = await MockTest.findById(testId);
+            if (!mockTest) return NextResponse.json({ success: false, message: "Test not found" }, { status: 404 });
+
+            mockTest.title = title;
+            mockTest.description = description;
+            mockTest.category = category || course || 'General';
+            mockTest.course = course;
+            mockTest.semester = semester;
+            mockTest.difficulty = difficulty;
+            mockTest.durationMinutes = durationMinutes;
+            mockTest.totalQuestions = generatedQuestions.length;
+            mockTest.questions = generatedQuestions;
+            mockTest.isPublished = true;
+        } else {
+            mockTest = new MockTest({
+                title,
+                description,
+                category: category || course || 'General',
+                course,
+                semester,
+                difficulty,
+                durationMinutes,
+                totalQuestions: generatedQuestions.length,
+                questions: generatedQuestions,
+                createdBy: user._id,
+                isPublished: true,
+            });
+        }
 
         await mockTest.save();
-        return NextResponse.json({ success: true, message: "Mock test created successfully", test: mockTest }, { status: 201 });
+        return NextResponse.json({ success: true, message: testId ? "Mock test updated successfully" : "Mock test published successfully", test: mockTest }, { status: testId ? 200 : 201 });
 
     } catch (error) {
-        console.error("Create Mock Test Error:", error);
-        return NextResponse.json({ success: false, message: "Failed to create mock test" }, { status: 500 });
+        console.error("Mock Test Processing Error:", error);
+        return NextResponse.json({ success: false, message: "Failed to process mock test" }, { status: 500 });
     }
 }
 
@@ -78,14 +151,35 @@ export async function GET(req) {
     try {
         await connectToMongo();
         const url = new URL(req.url);
-        const filterStr = url.searchParams.get('filter'); // 'instructor' or 'all'
+        const id = url.searchParams.get('id');
 
-        let query = {}; // define query
-        // add logic depending on filterStr if needed later
+        // ── Single test (with questions) for edit modal ──
+        if (id) {
+            const test = await MockTest.findById(id).lean();
+            if (!test) return NextResponse.json({ success: false, message: 'Test not found' }, { status: 404 });
+            return NextResponse.json({ success: true, test }, { status: 200 });
+        }
 
-        const testList = await MockTest.find(query).select('-questions').populate('createdBy', 'FirstName LastName').sort({ createdAt: -1 });
+        // ── All tests (without questions for the list) ──
+        const testList = await MockTest.find({})
+            .select('-questions')
+            .populate('createdBy', 'FirstName LastName')
+            .sort({ createdAt: -1 })
+            .lean();
 
-        return NextResponse.json({ success: true, tests: testList }, { status: 200 });
+        // Compute real attempt counts from MockTestAttempt collection
+        const attemptCounts = await MockTestAttempt.aggregate([
+            { $group: { _id: '$mockTestId', count: { $sum: 1 } } }
+        ]);
+        const countMap = {};
+        attemptCounts.forEach(a => { countMap[String(a._id)] = a.count; });
+
+        const testsWithCount = testList.map(t => ({
+            ...t,
+            attemptsCount: countMap[String(t._id)] || 0
+        }));
+
+        return NextResponse.json({ success: true, tests: testsWithCount }, { status: 200 });
 
     } catch (error) {
         console.error("Fetch Mock Tests Error:", error);
@@ -93,42 +187,28 @@ export async function GET(req) {
     }
 }
 
-export async function PUT(req) {
+
+export async function DELETE(req) {
     try {
         await connectToMongo();
-        const url = new URL(req.url);
-        const id = url.searchParams.get('id');
-        const { token, title, description, category, course, semester, difficulty, durationMinutes, totalQuestions } = await req.json();
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get('id');
+        const { token } = await req.json();
 
-        if (!token) return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+        if (!token || !id) return NextResponse.json({ success: false, message: "Unauthorized or missing ID" }, { status: 401 });
         const decoded = jwt.verify(token, process.env.AUTHTOKEN_SECRATE);
 
         const user = await Users.findById(decoded._id);
         const validRoles = ['admin', 'Admin', 'instructor', 'Instructor'];
         if (!user || !validRoles.includes(user.Role)) {
-            return NextResponse.json({ success: false, message: "Only Admin or Instructor can edit mock tests." }, { status: 403 });
+            return NextResponse.json({ success: false, message: "Unauthorized role" }, { status: 403 });
         }
 
-        const existingTest = await MockTest.findById(id);
-        if (!existingTest) {
-            return NextResponse.json({ success: false, message: "Test not found." }, { status: 404 });
-        }
-
-        // We only update the basic info here, questions are not re-generated for simplicity in this MVP edit form
-        existingTest.title = title || existingTest.title;
-        existingTest.description = description || existingTest.description;
-        existingTest.category = category || existingTest.category;
-        existingTest.course = course || existingTest.course;
-        existingTest.semester = semester || existingTest.semester;
-        existingTest.difficulty = difficulty || existingTest.difficulty;
-        existingTest.durationMinutes = durationMinutes || existingTest.durationMinutes;
-        existingTest.totalQuestions = totalQuestions || existingTest.totalQuestions;
-
-        await existingTest.save();
-        return NextResponse.json({ success: true, message: "Mock test updated successfully", test: existingTest }, { status: 200 });
+        await MockTest.findByIdAndDelete(id);
+        return NextResponse.json({ success: true, message: "Mock test deleted successfully" }, { status: 200 });
 
     } catch (error) {
-        console.error("Update Mock Test Error:", error);
-        return NextResponse.json({ success: false, message: "Failed to update mock test" }, { status: 500 });
+        console.error("Delete Mock Test Error:", error);
+        return NextResponse.json({ success: false, message: "Failed to delete test" }, { status: 500 });
     }
 }

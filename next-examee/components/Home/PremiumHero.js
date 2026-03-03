@@ -17,11 +17,11 @@ export default function PremiumHero({ token }) {
                         <div className="hero-content text-start mt-4">
                             <div className="d-inline-flex align-items-center bg-white shadow-sm border rounded-pill px-2 py-1 mb-4 animate-fade-in-up">
                                 <span className="badge bg-primary text-white rounded-pill me-2 py-1">New</span>
-                                <span className="small text-secondary fw-medium">Bharat's Most Trusted Learning Platform</span>
+                                <span className="small text-secondary fw-medium"> Student's Most Trusted Learning Platform</span>
                             </div>
 
                             <h1 className="hero-title mb-4 fw-black">
-                                Bharat's <span className="text-secondary-blue">Trusted &</span><br />
+                                Student's <span className="text-secondary-blue">Trusted &</span><br />
                                 <span className="text-secondary-blue">Affordable</span> Educational <br />
                                 <span className="text-primary-green">Platform</span>
                             </h1>
@@ -40,7 +40,7 @@ export default function PremiumHero({ token }) {
                                             <div key={i} className="avatar-circle border border-white bg-light rounded-circle overflow-hidden ms-n2 shadow-sm" style={{ width: '40px', height: '40px', background: `url(https://i.pravatar.cc/100?img=${i + 10}) center/cover` }}></div>
                                         ))}
                                     </div>
-                                    <span className="small text-muted fw-bold">10M+ Happy Students</span>
+                                    <span className="small text-muted fw-bold">1k+ Happy Students</span>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +61,7 @@ export default function PremiumHero({ token }) {
                                     <div className="d-flex align-items-center gap-2 px-3 py-2">
                                         <div className="bubble-icon bg-info text-white rounded-circle"><i className="fa-solid fa-book-open small"></i></div>
                                         <div className="bubble-text text-start">
-                                            <div className="fw-bold smaller-alt text-dark">500+ Notes</div>
+                                            <div className="fw-bold smaller-alt text-dark">100+ Notes</div>
                                             <div className="smaller-alt text-muted">A+ Resources</div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@ export default function PremiumHero({ token }) {
                                     <div className="d-flex align-items-center gap-2 px-3 py-2">
                                         <div className="bubble-icon bg-warning text-white rounded-circle"><i className="fa-solid fa-video small"></i></div>
                                         <div className="bubble-text text-start">
-                                            <div className="fw-bold smaller-alt text-dark">150+ Lectures</div>
+                                            <div className="fw-bold smaller-alt text-dark">50+ Lectures</div>
                                             <div className="smaller-alt text-muted">Expert Tutors</div>
                                         </div>
                                     </div>
@@ -101,10 +101,10 @@ export default function PremiumHero({ token }) {
 
                         <div className="row g-4 align-items-center text-center text-md-start">
                             {[
-                                { val: "Daily Live", label: "Interactive classes", icon: "video", color: "danger" },
-                                { val: "10 Million +", label: "Tests, sample papers & notes", icon: "file-lines", color: "primary" },
+                                { val: "Live Lectures", label: "Interactive classes", icon: "video", color: "danger" },
+                                { val: "1000 +", label: "Tests, sample papers & notes", icon: "file-lines", color: "primary" },
                                 { val: "24 x 7", label: "Doubt solving sessions", icon: "headset", color: "warning" },
-                                { val: "100 +", label: "Offline centres", icon: "building", color: "success" }
+                                { val: "1k+", label: "Happy Students", icon: "building", color: "success" }
                             ].map((stat, i) => (
                                 <div key={i} className={`col-md-3 ${i < 3 ? 'border-end-dotted' : ''}`}>
                                     <div className="d-flex flex-column flex-md-row align-items-center gap-3 px-2">

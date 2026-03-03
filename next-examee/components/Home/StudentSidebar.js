@@ -150,7 +150,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
                                             }
                                         }
                                     }}
-                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''} ${item.locked ? 'li-menu-item--locked' : ''}`}
+                                    className={`li-menu-item ${isActive(item.href) ? 'li-menu-item--active' : ''} ${item.locked && !isActive(item.href) ? 'li-menu-item--locked' : ''}`}
                                 >
                                     <span className="li-menu-icon" style={{ position: 'relative' }}>
                                         <i className={`fa-solid ${item.icon}`}></i>

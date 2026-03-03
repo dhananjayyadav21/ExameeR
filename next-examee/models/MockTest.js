@@ -18,6 +18,8 @@ const mockTestSchema = new mongoose.Schema({
     }],
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: true }, // Instructor or Admin ID
     isPublished: { type: Boolean, default: false },
+    isAI: { type: Boolean, default: false },
+    attemptsCount: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },
 });
 

@@ -31,6 +31,48 @@ export default function DashboardLayout({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [authError, setAuthError] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showSearchResults, setShowSearchResults] = useState(false);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.dl-search-input')?.focus();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    const handleSearch = async (query) => {
+        setSearchQuery(query);
+        if (query.trim().length > 2) {
+            setIsSearching(true);
+            setShowSearchResults(true);
+            try {
+                // Search across all types for comprehensive results
+                const types = ['notes', 'video', 'pyq', 'mocktest'];
+                let allResults = [];
+                for (const t of types) {
+                    const res = await fetch(`/api/content/search?search=${query}&type=${t}`);
+                    const data = await res.json();
+                    if (data.success) {
+                        allResults = [...allResults, ...data.results.slice(0, 3)];
+                    }
+                }
+                setSearchResults(allResults);
+            } catch (error) {
+                console.error("Search failed", error);
+            }
+            setIsSearching(false);
+        } else {
+            setShowSearchResults(false);
+            setSearchResults([]);
+        }
+    };
 
     const handleLogout = () => {
         localStorage.clear();
@@ -106,8 +148,71 @@ export default function DashboardLayout({ children }) {
 
                         <div className="dl-search-container d-none d-md-flex">
                             <i className="fa-solid fa-magnifying-glass dl-search-icon"></i>
-                            <input type="text" placeholder="Search materials..." className="dl-search-input" />
+                            <input
+                                type="text"
+                                placeholder="Search materials..."
+                                className="dl-search-input"
+                                value={searchQuery}
+                                onChange={(e) => handleSearch(e.target.value)}
+                                onFocus={() => searchQuery.length > 2 && setShowSearchResults(true)}
+                                onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
+                            />
                             <span className="dl-search-shortcut">⌘K</span>
+
+                            {showSearchResults && (
+                                <div className="dl-search-results animate-fade-in shadow-lg">
+                                    {isSearching && (
+                                        <div className="text-center py-3 text-muted">
+                                            <div className="spinner-border spinner-border-sm me-2" role="status"></div>
+                                            Searching...
+                                        </div>
+                                    )}
+                                    {searchResults.length > 0 ? (
+                                        <div className="py-2">
+                                            {searchResults.map((item, idx) => {
+                                                const getHref = () => {
+                                                    switch (item.type) {
+                                                        case 'note': return `/dashboard/notes#${item._id}`;
+                                                        case 'video': return `/dashboard/videos#${item._id}`;
+                                                        case 'pyq': return `/dashboard/pyq`;
+                                                        case 'mocktest': return `/dashboard/mock-tests`;
+                                                        default: return '#';
+                                                    }
+                                                };
+
+                                                return (
+                                                    <div
+                                                        key={idx}
+                                                        className="d-flex align-items-center gap-3 px-3 py-2 text-decoration-none hover-bg-light transition-all cursor-pointer"
+                                                        onMouseDown={(e) => {
+                                                            e.preventDefault();
+                                                            router.push(getHref());
+                                                            setShowSearchResults(false);
+                                                            setSearchQuery("");
+                                                        }}
+                                                    >
+                                                        <div className="bg-light rounded p-2" style={{ width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <i className={`fa-solid ${item.type === 'note' ? 'fa-file-lines text-primary' :
+                                                                    item.type === 'video' ? 'fa-play text-danger' :
+                                                                        item.type === 'mocktest' ? 'fa-vial text-success' :
+                                                                            'fa-file-pdf text-orange'
+                                                                }`}></i>
+                                                        </div>
+                                                        <div>
+                                                            <p className="mb-0 fw-bold fs-7 text-dark">{item.title}</p>
+                                                            <span className="smaller text-muted text-uppercase fw-semibold">{item.type}</span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ) : !isSearching && (
+                                        <div className="text-center py-4 text-muted fs-8">
+                                            No materials found matching "{searchQuery}"
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
 
