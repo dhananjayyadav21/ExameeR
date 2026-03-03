@@ -1,12 +1,12 @@
 "use client";
 import React, { useContext, useEffect, useState, Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
-import DriveUpload from "../../../utils/DriveUpload";
-import ContentContext from '../../../context/ContentContext';
+import DriveUpload from "@/utils/DriveUpload";
+import ContentContext from '@/context/ContentContext';
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import YoutubeUploader from '../../../components/dashboard/YoutubeUploader';
-import { academicOptions } from '../../../constants/academicOptions';
+import YoutubeUploader from '@/components/dashboard/YoutubeUploader';
+import { academicOptions } from '@/constants/academicOptions';
 
 const extractYouTubeID = (url) => {
     if (!url) return null;

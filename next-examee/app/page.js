@@ -2,23 +2,23 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import CourceIteam from '../components/Home/CourceIteam'
-import Team from '../components/Home/Team'
+import CourceIteam from '@/components/Home/CourceIteam'
+import Team from '@/components/Home/Team'
 import { ReactTyped } from "react-typed";
-import HowExameeWork from '../components/Home/HowExameeWork'
-import ContentContext from '../context/ContentContext';
-import * as GlobalUrls from "../utils/GlobalURL";
+import HowExameeWork from '@/components/Home/HowExameeWork'
+import ContentContext from '@/context/ContentContext';
+import * as GlobalUrls from "@/utils/GlobalURL";
 import { toast } from 'react-toastify'
 
 // New Premium Components
-import GlobalLoader from '../components/GlobalLoader'
-import PremiumHero from '../components/Home/PremiumHero'
-import PremiumFeatures from '../components/Home/PremiumFeatures'
-import PremiumExtra from '../components/Home/PremiumExtra'
-import FloatingContact from '../components/Home/FloatingContact'
-import LoggedInHome from '../components/Home/LoggedInHome'
+import GlobalLoader from '@/components/GlobalLoader'
+import PremiumHero from '@/components/Home/PremiumHero'
+import PremiumFeatures from '@/components/Home/PremiumFeatures'
+import PremiumExtra from '@/components/Home/PremiumExtra'
+import FloatingContact from '@/components/Home/FloatingContact'
+import LoggedInHome from '@/components/Home/LoggedInHome'
 import '../styles/home-premium.css';
-import { homeData } from '../constants/homeData';
+import { homeData } from '@/constants/homeData';
 
 export default function Home({ setProgress = () => { } }) {
   const { marqueeStats } = homeData;

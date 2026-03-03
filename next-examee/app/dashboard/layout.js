@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/dashboard/Sidebar";
-import MobileBar from "../../components/dashboard/MobileBar";
+import Sidebar from "@/components/dashboard/Sidebar";
+import MobileBar from "@/components/dashboard/MobileBar";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
-import ContentContext from "../../context/ContentContext";
-import GlobalLoader from "../../components/GlobalLoader";
+import ContentContext from "@/context/ContentContext";
+import GlobalLoader from "@/components/GlobalLoader";
 
-import hasUserRole from "../../utils/hasUserRole";
+import hasUserRole from "@/utils/hasUserRole";
 import "../../styles/dashboard-layout.css";
 
 const menuItems = [
@@ -193,9 +193,9 @@ export default function DashboardLayout({ children }) {
                                                     >
                                                         <div className="bg-light rounded p-2" style={{ width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                             <i className={`fa-solid ${item.type === 'note' ? 'fa-file-lines text-primary' :
-                                                                    item.type === 'video' ? 'fa-play text-danger' :
-                                                                        item.type === 'mocktest' ? 'fa-vial text-success' :
-                                                                            'fa-file-pdf text-orange'
+                                                                item.type === 'video' ? 'fa-play text-danger' :
+                                                                    item.type === 'mocktest' ? 'fa-vial text-success' :
+                                                                        'fa-file-pdf text-orange'
                                                                 }`}></i>
                                                         </div>
                                                         <div>
