@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const NO_FOOTER_PATHS = ['/notes', '/video', '/Q-paper', '/cource'];
+const NO_FOOTER_PATHS = ['/notes', '/video', '/q-paper', '/course'];
 
 const Footer = () => {
     const pathname = usePathname();
@@ -45,16 +45,16 @@ const Footer = () => {
                             <li className="mb-2"><Link href="/about" className="text-white-50 text-decoration-none transition-all">About Us</Link></li>
                             <li className="mb-2"><Link href="/notes" className="text-white-50 text-decoration-none transition-all">Study Notes</Link></li>
                             <li className="mb-2"><Link href="/video" className="text-white-50 text-decoration-none transition-all">Video Lectures</Link></li>
-                            <li className="mb-2"><Link href="/Q-paper" className="text-white-50 text-decoration-none transition-all">PQ-Papers</Link></li>
+                            <li className="mb-2"><Link href="/q-paper" className="text-white-50 text-decoration-none transition-all">PQ-Papers</Link></li>
                         </ul>
                     </div>
 
                     <div className="col-lg-2 col-md-6 col-6">
                         <h6 className="text-uppercase fw-bold mb-4 ls-wide">Categories</h6>
                         <ul className="list-unstyled footer-links">
-                            <li className="mb-2"><Link href="/cource" className="text-white-50 text-decoration-none transition-all">Sci-Tech</Link></li>
-                            <li className="mb-2"><Link href="/cource" className="text-white-50 text-decoration-none transition-all">Commerce</Link></li>
-                            <li className="mb-2"><Link href="/cource" className="text-white-50 text-decoration-none transition-all">Arts & Civils</Link></li>
+                            <li className="mb-2"><Link href="/course" className="text-white-50 text-decoration-none transition-all">Sci-Tech</Link></li>
+                            <li className="mb-2"><Link href="/course" className="text-white-50 text-decoration-none transition-all">Commerce</Link></li>
+                            <li className="mb-2"><Link href="/course" className="text-white-50 text-decoration-none transition-all">Arts & Civils</Link></li>
                             <li className="mb-2"><Link href="/contact" className="text-white-50 text-decoration-none transition-all">Support</Link></li>
                         </ul>
                     </div>

@@ -158,7 +158,7 @@ export default function Home({ setProgress = () => { } }) {
 
           {token && (
             <div className="text-center mt-5">
-              <button className="btn btn-outline-dark rounded-pill px-5 py-3 fw-bold border-2 transition-all hover-lift" onClick={() => router.push('/cource')}>
+              <button className="btn btn-outline-dark rounded-pill px-5 py-3 fw-bold border-2 transition-all hover-lift" onClick={() => router.push('/course')}>
                 Browse All Courses <i className="fa-solid fa-arrow-right ms-2"></i>
               </button>
             </div>

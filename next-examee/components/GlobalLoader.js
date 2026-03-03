@@ -20,9 +20,9 @@ const GlobalLoader = ({ contextLayout = 'root' }) => {
 
     const isDashboard = pathname.startsWith('/dashboard');
     const studentPaths = [
-        '/cource', '/myLearning', '/notes', '/Q-paper', '/video', '/pyq', '/profile',
-        '/performance', '/plans', '/mock-tests', '/certify', '/enrollmentcource',
-        '/WatchCourse', '/call-book', '/books', '/certificates', '/announcement',
+        '/course', '/mylearning', '/notes', '/q-paper', '/video', '/pyq', '/profile',
+        '/performance', '/plans', '/mock-tests', '/certify', '/enrollmentcourse',
+        '/watch-course', '/call-book', '/books', '/certificates', '/announcement',
         '/plan-detail', '/searchcontent'
     ];
 

@@ -118,7 +118,7 @@ const Navbar = ({ setProgress = () => { } }) => {
                                             <span className="dd-icon bg-success-subtle text-success"><i className="fa-solid fa-user-circle"></i></span>
                                             <span className="fw-semibold">Personal Profile</span>
                                         </Link>
-                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href="/myLearning">
+                                        <Link className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href="/mylearning">
                                             <span className="dd-icon bg-primary-subtle text-primary"><i className="fa-solid fa-graduation-cap"></i></span>
                                             <span className="fw-semibold">My Courses</span>
                                         </Link>
@@ -214,7 +214,7 @@ const Navbar = ({ setProgress = () => { } }) => {
                                         <div className="p-2">
                                             {[
                                                 { href: '/profile', label: 'Account Profile', icon: 'fa-user-gear', bg: '#f0fdf4', color: '#16a34a' },
-                                                { href: '/myLearning', label: 'My Learning Center', icon: 'fa-book-bookmark', bg: '#f0f9ff', color: '#0284c7' },
+                                                { href: '/mylearning', label: 'My Learning Center', icon: 'fa-book-bookmark', bg: '#f0f9ff', color: '#0284c7' },
                                                 { href: '/notes', label: 'Resource Library', icon: 'fa-folder-open', bg: '#fdf2f8', color: '#db2777' }
                                             ].map((item, idx) => (
                                                 <Link key={idx} className="dropdown-item rounded-3 py-2 px-3 d-flex align-items-center gap-3 profile-item mb-1" href={item.href}>

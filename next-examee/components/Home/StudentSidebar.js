@@ -22,14 +22,14 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             locked: !profileComplete,
             items: [
                 { label: "Notes", icon: "fa-file-lines", href: "/notes" },
-                { label: "PYQ", icon: "fa-circle-question", href: "/Q-paper" },
+                { label: "PYQ", icon: "fa-circle-question", href: "/q-paper" },
                 { label: "Video", icon: "fa-circle-play", href: "/video" },
             ]
         },
         {
             section: "STUDY PACKS",
             items: [
-                { label: "Course", icon: "fa-layer-group", href: "/cource" },
+                { label: "Course", icon: "fa-layer-group", href: "/course" },
                 { label: "Mock Test", icon: "fa-vial", href: "/mock-tests", premium: true },
                 { label: "Get Certified", icon: "fa-certificate", href: "/certify", premium: true },
             ]
@@ -45,7 +45,7 @@ const StudentSidebar = ({ userData, handleLogout, isSpecialUser, userProfile }) 
             section: "ACCOUNT",
             items: [
                 { label: "My Profile", icon: "fa-circle-user", href: "/profile" },
-                { label: "My Learning", icon: "fa-book-open", href: "/myLearning", locked: !profileComplete },
+                { label: "My Learning", icon: "fa-book-open", href: "/mylearning", locked: !profileComplete },
                 { label: "My Certificates", icon: "fa-award", href: "/certificates" },
                 { label: "My Performance", icon: "fa-chart-pie", href: "/performance" },
                 { label: "Plans & Pricing", icon: "fa-crown", href: "/plans" },
