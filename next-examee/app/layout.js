@@ -28,6 +28,8 @@ export const metadata = {
   description: "Access premium Notes, Previous Year Papers, and expert Video Lectures. Elevate your academic performance with Examee.",
 };
 
+import Script from "next/script";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -55,7 +57,7 @@ export default function RootLayout({ children }) {
             </ProfileSetupGate>
           </ContentState>
         </GoogleOAuthProvider>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" strategy="beforeInteractive" />
       </body>
     </html>
   );

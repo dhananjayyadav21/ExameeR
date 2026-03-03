@@ -309,14 +309,20 @@ export default function DashboardMockTests() {
                                         <div className="col-md-6 col-lg-3">
                                             <label className="dmt-label">Program</label>
                                             <select className="dmt-input" value={formData.course} onChange={e => setFormData({ ...formData, course: e.target.value })}>
-                                                <option>All Courses</option>
-                                                <option>B.Tech CS/IT</option>
-                                                <option>BCA</option>
-                                                <option>MCA</option>
-                                                <option>UPSC CSE</option>
-                                                <option>SSC CGL</option>
-                                                <option>JEE Mains</option>
-                                                <option>For All</option>
+                                                <option value="B.Tech CS/IT">B.Tech CS/IT</option>
+                                                <option value="BCA">BCA</option>
+                                                <option value="MCA">MCA</option>
+                                                <option value="B.Sc CS/IT">B.Sc CS/IT</option>
+                                                <option value="B.Com">B.Com</option>
+                                                <option value="BBA">BBA</option>
+                                                <option value="MBA">MBA</option>
+                                                <option value="Diploma Engg.">Diploma Engg.</option>
+                                                <option value="UPSC CSE">UPSC CSE</option>
+                                                <option value="SSC CGL">SSC CGL</option>
+                                                <option value="NEET">NEET</option>
+                                                <option value="JEE Mains">JEE Mains</option>
+                                                <option value="For All">For All</option>
+                                                <option value="Other / General">Other / General</option>
                                             </select>
                                         </div>
                                         <div className="col-md-6 col-lg-3">
@@ -397,8 +403,41 @@ export default function DashboardMockTests() {
                                     <div className="dmt-ai-success-banner">
                                         <i className="fa-solid fa-circle-check" style={{ color: '#04bd20', fontSize: '1.1rem' }}></i>
                                         <div>
-                                            <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a' }}>AI Generation Successful</div>
-                                            <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Review {previewQuestions.length} questions below. Click any option to mark as correct.</div>
+                                            <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a' }}>Assessment Details & Questions</div>
+                                            <div style={{ fontSize: '0.72rem', color: '#64748b' }}>Review questions and update target program if needed.</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Inline Metadata Edit Row */}
+                                    <div className="row g-2 mb-4 p-3 rounded-4" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                                        <div className="col-md-6">
+                                            <label className="dmt-label" style={{ fontSize: '0.55rem' }}>Update Program</label>
+                                            <select className="dmt-input py-1" style={{ fontSize: '0.75rem' }} value={formData.course} onChange={e => setFormData({ ...formData, course: e.target.value })}>
+                                                <option value="B.Tech CS/IT">B.Tech CS/IT</option>
+                                                <option value="BCA">BCA</option>
+                                                <option value="MCA">MCA</option>
+                                                <option value="B.Sc CS/IT">B.Sc CS/IT</option>
+                                                <option value="B.Com">B.Com</option>
+                                                <option value="BBA">BBA</option>
+                                                <option value="MBA">MBA</option>
+                                                <option value="Diploma Engg.">Diploma Engg.</option>
+                                                <option value="UPSC CSE">UPSC CSE</option>
+                                                <option value="SSC CGL">SSC CGL</option>
+                                                <option value="NEET">NEET</option>
+                                                <option value="JEE Mains">JEE Mains</option>
+                                                <option value="For All">For All</option>
+                                                <option value="Other / General">Other / General</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <label className="dmt-label" style={{ fontSize: '0.55rem' }}>Difficulty</label>
+                                            <select className="dmt-input py-1" style={{ fontSize: '0.75rem' }} value={formData.difficulty} onChange={e => setFormData({ ...formData, difficulty: e.target.value })}>
+                                                <option>Easy</option><option>Medium</option><option>Hard</option><option>Expert</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <label className="dmt-label" style={{ fontSize: '0.55rem' }}>Duration (m)</label>
+                                            <input type="number" className="dmt-input py-1" style={{ fontSize: '0.75rem' }} value={formData.durationMinutes} onChange={e => setFormData({ ...formData, durationMinutes: e.target.value })} />
                                         </div>
                                     </div>
 

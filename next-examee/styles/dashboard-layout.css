@@ -134,8 +134,8 @@
     padding: 0 16px;
     height: 72px;
     background: #ffffff !important;
-    border-bottom: 2px solid #e2e8f0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1050;

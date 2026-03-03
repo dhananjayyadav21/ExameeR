@@ -42,100 +42,107 @@ export default function CallBookPage() {
 
     return (
         <StudentLayout title="Mentorship Calls">
-            <div className="container-fluid px-0 pb-5 cb-container">
-                {/* Banners */}
-                <PageBanners page="call-book" />
+            <div className="cb-page-wrapper">
+                <div className="container-fluid px-0 pb-5 cb-container">
+                    {/* Banners */}
+                    <PageBanners page="call-book" />
 
-                <div className="cb-header mb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
-                    <div>
-                        <h1 className="cb-title mb-2">Examee Support & Mentorship</h1>
-                        <p className="cb-subtitle text-muted">Book a call with top mentors, educators, and career counselors.</p>
-                    </div>
-                    <div className="cb-usage-stats d-flex gap-2">
-                        <div className="cb-usage-pill">
-                            <span className="cb-usage-count">{remaining}</span>
-                            <span className="cb-usage-label">Remaining Calls</span>
+                    <div className="cb-header mb-5 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                        <div>
+                            <h1 className="cb-title mb-2">Examee Support & Mentorship</h1>
+                            <p className="cb-subtitle text-muted">Direct calls with educators and career counselors.</p>
                         </div>
-                        <div className="cb-usage-pill cb-usage-pill--active">
-                            <span className="cb-usage-count">{taken}</span>
-                            <span className="cb-usage-label">Taken This Month</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row g-4">
-                    {[
-                        { name: "Dr. Alok Sharma", role: "Physics Mentor", rating: 4.9, sessions: "1.2k", image: "https://i.pravatar.cc/150?u=alok" },
-                        { name: "Sarah Jenkins", role: "Career Counselor", rating: 4.8, sessions: "850", image: "https://i.pravatar.cc/150?u=sarah" },
-                        { name: "Vivek Gupta", role: "Mathematics Expert", rating: 4.9, sessions: "2k+", image: "https://i.pravatar.cc/150?u=vivek" },
-                        { name: "Ananya Iyer", role: "Biology Educator", rating: 4.7, sessions: "600", image: "https://i.pravatar.cc/150?u=ananya" }
-                    ].map((mentor, i) => (
-                        <div key={i} className="col-md-6 col-lg-3">
-                            <div className="cb-mentor-card">
-                                <div className="text-center mb-3">
-                                    <img src={mentor.image} alt={mentor.name} className="cb-mentor-img shadow-sm" />
-                                </div>
-                                <h3 className="cb-mentor-name mb-1">{mentor.name}</h3>
-                                <p className="cb-mentor-role text-muted small mb-3">{mentor.role}</p>
-
-                                <div className="d-flex justify-content-between mb-4 px-2">
-                                    <div className="text-center">
-                                        <p className="mb-0 fw-bold small text-dark">{mentor.rating}</p>
-                                        <p className="mb-0 smaller text-muted">Rating</p>
-                                    </div>
-                                    <div className="text-center">
-                                        <p className="mb-0 fw-bold small text-dark">{mentor.sessions}</p>
-                                        <p className="mb-0 smaller text-muted">Calls</p>
-                                    </div>
-                                </div>
-
-                                <button className="cb-call-btn" onClick={() => handleBookSession(mentor)}>
-                                    <i className="fa-solid fa-phone-volume me-2"></i> Book Session
-                                </button>
+                        <div className="cb-usage-stats d-flex gap-2 opacity-50">
+                            <div className="cb-usage-pill">
+                                <span className="cb-usage-count">{remaining}</span>
+                                <span className="cb-usage-label">Remaining</span>
+                            </div>
+                            <div className="cb-usage-pill">
+                                <span className="cb-usage-count">{taken}</span>
+                                <span className="cb-usage-label">Used</span>
                             </div>
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Coming Soon Section */}
+                    <div className="cb-status-card text-center py-5 px-4 rounded-5">
+                        <div className="cb-icon-blob mb-4 mx-auto">
+                            <i className="fa-solid fa-phone-slash"></i>
+                        </div>
+                        <h2 className="fw-900 mb-3" style={{ fontSize: '2rem', letterSpacing: '-0.03em' }}>
+                            Feature <span className="text-success">Coming Soon</span>
+                        </h2>
+                        <p className="text-muted mx-auto mb-4" style={{ maxWidth: '500px', fontSize: '1.1rem', lineHeight: '1.6' }}>
+                            We are currently building a professional mentorship network. Direct call booking is not available yet, but our team is working hard to bring top educators to your screen.
+                        </p>
+                        <div className="d-flex justify-content-center gap-3">
+                            <button className="btn btn-dark px-4 py-2 rounded-pill fw-bold" onClick={() => router.back()}>
+                                <i className="fa-solid fa-arrow-left me-2"></i>Go Back
+                            </button>
+                            <button className="btn btn-success px-4 py-2 rounded-pill fw-bold" onClick={() => router.push('/notes')}>
+                                Explore Notes
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <style jsx>{`
-                .cb-container { max-width: 1400px; margin: 0 auto; }
-                .cb-title { font-size: 1.8rem; font-weight: 700; color: #0f172a; letter-spacing: -0.02em; }
-                .cb-subtitle { font-size: 0.88rem; font-weight: 400; }
+                .cb-page-wrapper { min-height: 80vh; position: relative; overflow: hidden; }
+                .cb-container { max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+                .cb-title { font-size: 2rem; font-weight: 900; color: #0f172a; letter-spacing: -0.04em; }
+                .cb-subtitle { font-size: 1rem; font-weight: 500; }
 
-                .cb-mentor-card {
-                    background: #fff;
-                    border: 1px solid #f1f5f9;
-                    border-radius: 14px;
-                    padding: 24px;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                .cb-usage-pill { 
+                    background: #fff; 
+                    border: 1px solid #e2e8f0; 
+                    padding: 8px 16px; 
+                    border-radius: 12px; 
+                    display: flex; 
+                    flex-direction: column; 
+                    align-items: center; 
+                    min-width: 100px; 
+                    text-align: center; 
                 }
-                .cb-mentor-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.1); border-color: #e2e8f0; }
+                .cb-usage-count { font-size: 1.1rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
+                .cb-usage-label { font-size: 0.64rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
 
-                .cb-mentor-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #fff; }
-                .cb-mentor-name { font-size: 1rem; font-weight: 700; color: #0f172a; }
-                
-                .cb-usage-pill { background: #fff; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; min-width: 120px; text-align: center; }
-                .cb-usage-pill--active { background: #f0fdf4; border-color: #04bd20; }
-                .cb-usage-count { font-size: 1.1rem; font-weight: 700; color: #0f172a; line-height: 1.2; }
-                .cb-usage-label { font-size: 0.64rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
-
-                .cb-call-btn {
-                    width: 100%;
-                    background: #f8fafc;
-                    border: 1px solid #e2e8f0;
-                    padding: 10px;
-                    border-radius: 10px;
-                    font-size: 0.82rem;
-                    font-weight: 700;
-                    color: #0f172a;
-                    transition: all 0.2s;
+                .cb-status-card {
+                    background: rgba(255, 255, 255, 0.7);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255, 255, 255, 0.5);
+                    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+                    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
                 }
-                .cb-mentor-card:hover .cb-call-btn { background: #04bd20; color: #fff; border-color: #04bd20; }
-                
-                .smaller { font-size: 0.65rem; }
+
+                .cb-icon-blob {
+                    width: 80px;
+                    height: 80px;
+                    background: #f0fdf4;
+                    color: #04bd20;
+                    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    animation: morph 8s ease-in-out infinite;
+                }
+
+                @keyframes slideUp {
+                    from { transform: translateY(30px); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+
+                @keyframes morph {
+                    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+                    50% { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; }
+                    100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+                }
+
+                @media (max-width: 768px) {
+                    .cb-title { font-size: 1.5rem; }
+                    .cb-status-card { margin: 0 10px; }
+                }
             `}</style>
         </StudentLayout>
     );

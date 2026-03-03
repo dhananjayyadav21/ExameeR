@@ -7,7 +7,8 @@ import { getLimit } from '../../utils/planAccess';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-const TEST_CATEGORIES = ['All Tests'];
+// Categories will be dynamic based on matched tests
+const DEFAULT_CATEGORIES = ['All Tests'];
 
 export default function MockTestsPage() {
     const { userData, usage, getUsage } = React.useContext(ContentContext);
@@ -55,7 +56,27 @@ export default function MockTestsPage() {
     const taken = usage?.mockTestsTaken || 0;
     const remaining = limit === Infinity ? 'Unlimited' : Math.max(0, limit - taken);
 
-    const filteredTests = dbTests.filter(test =>
+    // Filter tests by profile (Strictly Match Course)
+    const profileMatchedTests = dbTests.filter(test => {
+        if (!userData) return true;
+
+        const userCourse = userData.Course?.toLowerCase().trim();
+        const testProgram = (test.course || test.category || '').toLowerCase().trim();
+
+        // Only match course (e.g. "B.Tech" matches "B.Tech CS/IT")
+        return userCourse && (testProgram.includes(userCourse) || userCourse.includes(testProgram));
+    });
+
+    // Dynamically derive categories from profile-matched tests
+    const dynamicCategories = React.useMemo(() => {
+        const cats = new Set(['All Tests']);
+        profileMatchedTests.forEach(t => {
+            if (t.category) cats.add(t.category);
+        });
+        return Array.from(cats);
+    }, [profileMatchedTests]);
+
+    const filteredTests = profileMatchedTests.filter(test =>
         activeCategory === 'All Tests' || test.category === activeCategory
     );
 
@@ -97,7 +118,7 @@ export default function MockTestsPage() {
                 {/* Categories */}
                 <div className="mt-nav-wrapper mb-4">
                     <div className="d-flex gap-2 overflow-auto pb-2" style={{ scrollbarWidth: 'none' }}>
-                        {TEST_CATEGORIES.map(cat => (
+                        {dynamicCategories.map(cat => (
                             <button
                                 key={cat}
                                 className={`mt-cat-btn ${activeCategory === cat ? 'active' : ''}`}
